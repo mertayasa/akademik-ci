@@ -3,6 +3,7 @@
 namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
+use CodeIgniter\I18n\Time;
 
 class UserSeeder extends Seeder
 {
@@ -17,6 +18,8 @@ class UserSeeder extends Seeder
                 'email'    => $faker->email(),
                 'password'    => password_hash('asdasdasd', PASSWORD_DEFAULT),
                 'level'    => $level[rand(0,3)],
+                'created_at'    => Time::now(),
+                'updated_at'    => Time::now(),
             ];
     
             $this->db->table('users')->insert($data);

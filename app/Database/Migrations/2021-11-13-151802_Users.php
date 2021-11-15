@@ -34,6 +34,14 @@ class Users extends Migration
                 'default' => 'siswa',
                 'null' => FALSE
             ],
+            'created_at' => [
+                'type' => 'DATETIME',
+                'null' => true
+            ],
+            'updated_at' => [
+                'type' => 'DATETIME',
+                'null' => true
+            ],
         ]);
 
         $this->forge->addKey('id', TRUE);
