@@ -6,7 +6,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="dashboard" class="nav-link">Home</a>
+                    <a href="<?= route_to('dashboard_index') ?>" class="nav-link">Home</a>
                 </li>
                 <!-- <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
@@ -127,7 +127,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-sm bg-danger" href="auth/logout">
+                    <a class="nav-link btn btn-sm bg-danger" href="<?= route_to('logout') ?>">
                         Logout
                     </a>
                 </li>

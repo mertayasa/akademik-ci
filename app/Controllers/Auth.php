@@ -10,11 +10,11 @@ class Auth extends BaseController
     public function index()
     {
         if(session()->get('logged_in')){
-            return redirect()->to('/dashboard');
+            return route_to('dashboard_index');
         }
 
         helper(['form']);
-        echo view('auth/login');
+        return view('auth/login');
     }
 
     public function login()
@@ -35,14 +35,14 @@ class Auth extends BaseController
                     'logged_in'     => TRUE
                 ];
                 $session->set($ses_data);
-                return redirect()->to('/dashboard');
+                return redirect()->to(route_to('dashboard_index'));
             }else{
                 $session->setFlashdata('error', 'Wrong Password');
-                return redirect()->to('/login');
+                return redirect()->to(route_to('login_form'));
             }
         }else{
             $session->setFlashdata('error', 'Email not Found');
-            return redirect()->to('/login');
+            return redirect()->to(route_to('login_form'));
         }
     }
  
@@ -50,6 +50,6 @@ class Auth extends BaseController
     {
         $session = session();
         $session->destroy();
-        return redirect()->to('/login');
+        return redirect()->to(route_to('login_form'));
     }
 }
