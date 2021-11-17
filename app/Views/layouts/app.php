@@ -24,8 +24,7 @@
     <link rel="stylesheet" href="<?=base_url('adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')?>">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="<?=base_url('adminlte/plugins/daterangepicker/daterangepicker.css')?>">
-    <!-- summernote -->
-    <link rel="stylesheet" href="<?=base_url('adminlte/plugins/summernote/summernote-bs4.min.css')?>">
+    <link rel="stylesheet" href="<?=base_url('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.css')?>">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -39,7 +38,10 @@
         <?= $this->include('layouts/navbar') ?>
         <?= $this->include('layouts/sidebar') ?>
 
-        <?= $this->renderSection('content') ?>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <?= $this->renderSection('content') ?>
+        </div>
 
 
         <!-- /.content-wrapper -->
@@ -60,7 +62,7 @@
     <!-- ./wrapper -->
 
     <!-- jQuery -->
-    <script src="<?=base_url('adminlte/plugins/jquery/jquery.min.js')?>"></script>
+    <script src="<?=base_url('adminlte/plugins/jquery/jquery.js')?>"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="<?=base_url('adminlte/plugins/jquery-ui/jquery-ui.min.js')?>"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -73,9 +75,6 @@
     <script src="<?=base_url('adminlte/plugins/chart.js/Chart.min.js')?>"></script>
     <!-- Sparkline -->
     <script src="<?=base_url('adminlte/plugins/sparklines/sparkline.js')?>"></script>
-    <!-- JQVMap -->
-    <script src="<?=base_url('adminlte/plugins/jqvmap/jquery.vmap.min.js')?>"></script>
-    <script src="<?=base_url('adminlte/plugins/jqvmap/maps/jquery.vmap.usa.js')?>"></script>
     <!-- jQuery Knob Chart -->
     <script src="<?=base_url('adminlte/plugins/jquery-knob/jquery.knob.min.js')?>"></script>
     <!-- daterangepicker -->
@@ -92,7 +91,20 @@
     <!-- AdminLTE for demo purposes -->
     <script src="<?=base_url('adminlte/dist/js/demo.js')?>"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="<?=base_url('adminlte/dist/js/pages/dashboard.js')?>"></script>
+    
+    <script src="<?=base_url('adminlte/plugins/datatables/jquery.dataTables.min.js')?>"></script>
+    <script src="<?=base_url('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')?>"></script>
+
+
+    <script>
+        function deleteModel(modelId){
+            console.log(modelId)
+        }
+    </script>
+
+
+    <?= $this->renderSection('scripts') ?>
+
 </body>
 
 </html>

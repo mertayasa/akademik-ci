@@ -19,12 +19,12 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>Admin</b>LTE</a>
+            <a href="#"><b>SI AKADEMIK</b></a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">Login</p>
 
                 <?php if (session()->getFlashdata('error')) : ?>
                     <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
@@ -58,17 +58,14 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
 
                 <p class="mb-1">
-                    <a href="forgot-password.html">I forgot my password</a>
-                </p>
-                <p class="mb-0">
-                    <a href="register.html" class="text-center">Register a new membership</a>
+                    <a href="forgot-password.html">Lupa Password</a>
                 </p>
             </div>
             <!-- /.login-card-body -->

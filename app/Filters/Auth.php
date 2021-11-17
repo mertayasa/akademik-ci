@@ -8,10 +8,11 @@ class Auth implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
+        // var_dump(session()->get('logged_in'));
         // jika user belum login
         if(! session()->get('logged_in')){
             // maka redirct ke halaman login
-            return route_to('login_form'); 
+            return redirect()->to(route_to('login_form')); 
         }
     }
  

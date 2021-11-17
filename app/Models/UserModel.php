@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
 
 class UserModel extends Model
 {
-    protected $DBGroup          = 'default';
+    // protected $DBGroup          = 'default';
     protected $table            = 'users';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -14,10 +15,10 @@ class UserModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['nama', 'email', 'password', 'level'];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -39,4 +40,23 @@ class UserModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getData($id = null)
+    {
+        if(!$id){
+            return $this->findAll();
+        }
+
+        return $this->find($id);
+    }
+
+    public function insertData($new_data)
+    {
+        return $this->insert($new_data);
+    }
+
+    public function updateData($id, $update_data)
+    {
+        return $this->update($id, $update_data);
+    }
 }

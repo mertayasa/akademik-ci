@@ -10,7 +10,7 @@ class Auth extends BaseController
     public function index()
     {
         if(session()->get('logged_in')){
-            return route_to('dashboard_index');
+            return redirect()->to(route_to('dashboard_index'));
         }
 
         helper(['form']);

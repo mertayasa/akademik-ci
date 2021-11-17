@@ -1,7 +1,7 @@
 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
     <li class="nav-item">
-        <a href="<?= route_to('dashboard_index') ?>" class="nav-link">
+        <a href="<?= route_to('dashboard_index') ?>" class="nav-link <?= isActive('dashboard') ?>">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
                 Dashboard 
@@ -11,7 +11,7 @@
     </li>
 
     <li class="nav-item">
-        <a href="<?= route_to('user_index') ?>" class="nav-link">
+        <a href="<?= route_to('user_index') ?>" class="nav-link <?= isActive('user') ?>">
             <i class="nav-icon fas fa-users"></i>
             <p>
                 Pengguna

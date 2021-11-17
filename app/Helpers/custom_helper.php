@@ -2,8 +2,18 @@
 
 if ( ! function_exists('isActive'))
 {
-    function isActive()
+    function isActive($param)
     {
-        return 'aseg';
+        $current_url = explode('/', uri_string());
+
+        if(is_array($param)){
+            foreach($param as $par){
+               if($current_url[0] == $par){
+                   return 'active';
+               } 
+            }
+        }else{
+            return $current_url[0] == $param ? 'active' : '';
+        }
     }
 }
