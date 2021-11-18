@@ -1,7 +1,7 @@
 <h6 class="text-primary text-bold">Authentikasi</h6>
 <small><sup>*</sup> <i>Mohon untuk mencatat Email dan Password yang akan digunakan pada saat login</i></small><br>
 <hr>
-
+<?= csrf_field() ?>
 <div class="row">
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Nama', 'namaUser') ?>

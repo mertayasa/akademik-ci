@@ -40,7 +40,7 @@ class User extends BaseController
                 $row[] = $list->level;
                 $row[] = "
                 <a href='". route_to('user_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
-                <button class='btn btn-sm btn-danger' onclick='deleteModel(". $list->id .")'>Hapus</button>";
+                <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('user_destroy', $list->id) ."`, `userDataTable`, `Aseg`)'>Hapus</button>";
                 $data[] = $row;
             }
 
@@ -48,10 +48,10 @@ class User extends BaseController
                 'draw' => $request->getPost('draw'),
                 'recordsTotal' => $datatable->countAll(),
                 'recordsFiltered' => $datatable->countFiltered(),
-                'data' => $data
+                'data' => $data,
             ];
 
-            echo json_encode($output);
+            return json_encode($output);
         }
     }
 
@@ -108,5 +108,21 @@ class User extends BaseController
             session()->setFlashdata('error', 'Gagal mengubah data user');
             return redirect()->back()->withInput();
         }
+    }
+
+    public function destroy($id){
+        try{
+            $this->user->delete($id);
+        }catch(\Exception $e){
+            return json_encode([
+                'code' => 0,
+                'message' => 'Gagal menghapus data pengguna'
+            ]);
+        }
+
+        return json_encode([
+            'code' => 1,
+            'message' => 'Berhasil menghapus data pengguna'
+        ]);
     }
 }

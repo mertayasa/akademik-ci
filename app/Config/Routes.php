@@ -50,6 +50,7 @@ $routes->group('user', ['filter' => 'auth'], function ($routes) {
     $routes->patch('update/(:num)', 'User::update/$1', ['as' => 'user_update']);
     $routes->get('create', 'User::create', ['as' => 'user_create']);
     $routes->post('insert', 'User::insert', ['as' => 'user_insert']);
+    $routes->get('destroy/(:num)', 'User::destroy/$1', ['as' => 'user_destroy']);
     $routes->get('datatables', 'User::datatables', ['as' => 'user_datatable']);
 });
 
