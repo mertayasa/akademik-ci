@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <a href="<?= route_to('user_create') ?>" class="btn btn-primary btn-sm float-right">Tambah User</a>
+                <a href="<?= route_to('user_create', $level) ?>" class="btn btn-primary btn-sm float-right">Tambah User</a>
             </div>
             <div class="card-body">
 
@@ -34,7 +34,7 @@
         "serverSide": true,
         "order": [],
         "ajax": {
-            "url": "<?php echo site_url('user/datatables') ?>",
+            "url": "<?= route_to('user_datatables', $level) ?>",
             "type": "POST",
             "data": {
                 "<?= csrf_token() ?>": "<?= csrf_hash() ?>"

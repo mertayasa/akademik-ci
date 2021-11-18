@@ -12,14 +12,16 @@ class UserDataTable extends Model
     protected $column_search = ['nama', 'email', 'leve;'];
     protected $order = ['id' => 'DESC'];
     protected $request;
+    protected $level;
     protected $db;
     protected $dt;
 
-    public function __construct(RequestInterface $request)
+    public function __construct(RequestInterface $request, $level)
     {
         parent::__construct();
         $this->db = db_connect();
         $this->request = $request;
+        $this->level = $level ?? ['admin', 'siswa', 'ortu', 'guru', 'kepsek'];
         $this->dt = $this->db->table($this->table);
 
     }
@@ -43,10 +45,10 @@ class UserDataTable extends Model
         }
 
         if ($this->request->getPost('order')) {
-            $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
+            $this->dt->whereIn('level', $this->level)->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
-            $this->dt->orderBy(key($order), $order[key($order)]);
+            $this->dt->whereIn('level', $this->level)->orderBy(key($order), $order[key($order)]);
         }
     }
 

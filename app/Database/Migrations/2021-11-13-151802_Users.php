@@ -30,7 +30,7 @@ class Users extends Migration
                 'unique' => TRUE
             ],
             'level' => [
-                'type' => 'ENUM("admin", "kepsek", "ortu", "siswa")',
+                'type' => 'ENUM("admin", "kepsek", "ortu", "siswa", "guru")',
                 'default' => 'siswa',
                 'null' => FALSE
             ],

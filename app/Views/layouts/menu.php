@@ -4,21 +4,51 @@
         <a href="<?= route_to('dashboard_index') ?>" class="nav-link <?= isActive('dashboard') ?>">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
-                Dashboard 
+                Dashboard
                 <!-- <span class="right badge badge-danger">New</span> -->
             </p>
         </a>
     </li>
-
-    <li class="nav-item">
-        <a href="<?= route_to('user_index') ?>" class="nav-link <?= isActive('user') ?>">
+    
+    <li class="nav-item <?= isActive('user') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+        <a href="#" class="nav-link <?= isActive('user') ?>">
             <i class="nav-icon fas fa-users"></i>
             <p>
                 Pengguna
+                <i class="fas fa-angle-left right"></i>
             </p>
         </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="<?= route_to('user_index', 'admin-kepsek') ?>" class="nav-link <?= isActive('admin-kepsek') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Admin & Kepsek</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="<?= route_to('user_index', 'guru') ?>" class="nav-link <?= isActive('guru') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Guru</p>
+                </a>
+            </li>
+            
+            <li class="nav-item">
+                <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActive('siswa') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Siswa</p>
+                </a>
+            </li>
+            
+            <li class="nav-item">
+                <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Ortu</p>
+                </a>
+            </li>
+        </ul>
     </li>
-    
+
     <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-edit"></i>
@@ -54,4 +84,5 @@
             </li>
         </ul>
     </li>
+
 </ul>

@@ -16,15 +16,19 @@ class User extends BaseController
         $this->user = new UserModel();
     }
 
-    public function index()
+    public function index($level)
     {
-        return view('user/index');
+        $data = [
+            'level' => $level
+        ];
+
+        return view('user/index', $data);
     }
 
-    public function datatables()
+    public function datatables($level)
     {
         $request = Services::request();
-        $datatable = new UserDataTable($request);
+        $datatable = new UserDataTable($request, explode('-', $level));
 
         if ($request->getMethod(true) === 'POST') {
             $lists = $datatable->getDatatables();
@@ -39,7 +43,7 @@ class User extends BaseController
                 $row[] = $list->email;
                 $row[] = $list->level;
                 $row[] = "
-                <a href='". route_to('user_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
+                <a href='". route_to('user_edit', $level, $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
                 <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('user_destroy', $list->id) ."`, `userDataTable`, `Aseg`)'>Hapus</button>";
                 $data[] = $row;
             }
@@ -55,14 +59,19 @@ class User extends BaseController
         }
     }
 
-    public function create()
+    public function create($level)
     {
+        // dd($level);
+        $data = [
+            'level' => $level
+        ];
+
         // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Aseg');
         // dd( $this->user->getData(1) );
-        return view('user/create');
+        return view('user/create', $data);
     }
 
-    public function insert()
+    public function insert($level)
     {
         try{
             $new_data = [
@@ -73,7 +82,7 @@ class User extends BaseController
 
             $this->user->insertData($new_data);
             session()->setFlashdata('success', 'Berhasil menambahkan data user');
-            return redirect()->to(route_to('user_index'));
+            return redirect()->to(route_to('user_index', $level));
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'Gagal menambahkan data user');
@@ -81,17 +90,18 @@ class User extends BaseController
         }
     }
 
-    public function edit($id)
+    public function edit($level, $id)
     {
         $user = $this->user->getData($id);
         $data = [
+            'level' => $level,
             'user' => $user
         ];
         
         return view('user/edit', $data);
     }
 
-    public function update($id)
+    public function update($level, $id)
     {
         try{
             $update_data = [
@@ -102,7 +112,7 @@ class User extends BaseController
 
             $this->user->updateData($id, $update_data);
             session()->setFlashdata('success', 'Berhasil mengubah data user');
-            return redirect()->to(route_to('user_index'));
+            return redirect()->to(route_to('user_index', $level));
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'Gagal mengubah data user');
