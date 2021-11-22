@@ -31,6 +31,7 @@
                 <?php endif; ?>
 
                 <form action="<?= route_to('login') ?>" method="post">
+                    <?= csrf_field() ?>
                     <div class="input-group mb-3">
                         <input type="email" name="email" class="form-control" placeholder="Email">
                         <div class="input-group-append">

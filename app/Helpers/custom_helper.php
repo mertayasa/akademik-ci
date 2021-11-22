@@ -16,4 +16,11 @@ if ( ! function_exists('isActive'))
             return $current_url[0] == $param || ($current_url[1] ?? '-') == $param ? 'active' : '';
         }
     }
+
+    function getLevelName($level = null)
+    {
+        if($level != null){
+            return ucwords(str_replace('_', ' ', $level));
+        }
+    }
 }

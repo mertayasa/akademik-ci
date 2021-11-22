@@ -49,7 +49,7 @@
         </ul>
     </li>
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-edit"></i>
             <p>
@@ -83,6 +83,6 @@
                 </a>
             </li>
         </ul>
-    </li>
+    </li> -->
 
 </ul>
