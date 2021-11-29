@@ -48,6 +48,24 @@
             </li>
         </ul>
     </li>
+    
+    <li class="nav-item <?= isActive('master') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+        <a href="#" class="nav-link <?= isActive('master') ?>">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+                Data Master
+                <i class="fas fa-angle-left right"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="<?= route_to('tahun_ajar_index') ?>" class="nav-link <?= isActive('tahunAjar') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Tahun Ajar</p>
+                </a>
+            </li>
+        </ul>
+    </li>
 
     <!-- <li class="nav-item">
         <a href="#" class="nav-link">

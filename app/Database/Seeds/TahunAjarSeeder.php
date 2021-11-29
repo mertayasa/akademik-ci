@@ -13,9 +13,9 @@ class TahunAjarSeeder extends Seeder
         for($i=0; $i<=3; $i++){
 
             $data = [
-                'nama' => 'Tahun Ajaran '.($tahun_start+1).' - '.($tahun_end+1),
                 'tahun_mulai' => $tahun_start+1,
-                'tahun_start' => $tahun_end+1,
+                'tahun_selesai' => $tahun_end+1,
+                'keterangan' => 'Tahun Ajaran '.($tahun_start+1).' - '.($tahun_end+1),
             ];
 
             $tahun_start = $tahun_start+1;

@@ -15,10 +15,14 @@ class UserSeeder extends Seeder
         $status_guru = ["bukan_guru", "honorer", "tetap"];
 
         for($i=0; $i<=100; $i++){
+            if($i == 0){
+                $selected_level = $level[0];
+            }
             $selected_level = $level[rand(0,4)];
+            
             $data = [
                 'nama' => $faker->name(),
-                'email' => $faker->email(),
+                'email' => $i == 0 ? 'admin@demo.com' : $faker->email(),
                 'nis' => $selected_level == 'siswa' ? '1000000000424'.rand(001, 450) : null,
                 'nip' => $selected_level == 'guru' ? '1000000000423'.rand(001, 450) : null,
                 'password' => password_hash('asdasdasd', PASSWORD_DEFAULT),
