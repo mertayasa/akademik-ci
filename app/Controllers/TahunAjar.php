@@ -9,16 +9,15 @@ use Config\Services;
 
 class TahunAjar extends BaseController
 {
-    protected $user;
+    protected $tahun_ajar;
     
     public function __construct()
     {
-        $this->user = new TahunAjarModel();
+        $this->tahun_ajar = new TahunAjarModel();
     }
 
     public function index()
     {
-        // dd('asdsda');
         return view('tahun_ajar/index');
     }
 
@@ -41,7 +40,7 @@ class TahunAjar extends BaseController
                 $row[] = $list->keterangan;
                 $row[] = "
                 <a href='". route_to('tahun_ajar_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
-                <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('tahun_ajar_destroy', $list->id) ."`, `tahunAjaranDataTable`, `Apakah anda yang menghapus data tahun ajaran ?`)'>Hapus</button>";
+                <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('tahun_ajar_destroy', $list->id) ."`, `tahunAjarDataTable`, `Apakah anda yang menghapus data tahun ajaran ?`)'>Hapus</button>";
                 $data[] = $row;
             }
 
@@ -58,26 +57,71 @@ class TahunAjar extends BaseController
 
     public function create()
     {
-        dd('asdds');
+        return view('tahun_ajar/create');
     }
 
     public function edit($id)
     {
-        
+        $tahun_ajar = $this->tahun_ajar->getData($id);
+        $data = [
+            'tahun_ajar' => $tahun_ajar
+        ];  
+
+        return view('tahun_ajar/edit', $data);
     }
 
-    public function store()
+    public function insert()
     {
-        
+        try{
+            $new_data = [
+                'tahun_mulai' => $this->request->getPost('tahun_mulai'),
+                'tahun_selesai' => $this->request->getPost('tahun_selesai'),
+                'keterangan' => $this->request->getPost('keterangan'),
+            ];
+
+            $this->tahun_ajar->insertData($new_data);
+            session()->setFlashdata('success', 'Berhasil menambahkan data tahun ajar');
+            return redirect()->to(route_to('tahun_ajar_index'));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            session()->setFlashdata('error', 'Gagal menambahkan data tahun ajar');
+            return redirect()->back()->withInput();
+        }
     }
 
-    public function udpate($id)
+    public function update($id)
     {
-        
+        try{
+            $update_data = [
+                'tahun_mulai' => $this->request->getPost('tahun_mulai'),
+                'tahun_selesai' => $this->request->getPost('tahun_selesai'),
+                'keterangan' => $this->request->getPost('keterangan'),
+            ];
+
+            $this->tahun_ajar->updateData($id, $update_data);
+            session()->setFlashdata('success', 'Berhasil mengubah data tahun ajar');
+            return redirect()->to(route_to('tahun_ajar_index'));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            session()->setFlashdata('error', 'Gagal mengubah data tahun ajar');
+            return redirect()->back()->withInput();
+        }
     }
 
     public function destroy($id)
     {
-        
+        try{
+            $this->tahun_ajar->delete($id);
+        }catch(\Exception $e){
+            return json_encode([
+                'code' => 0,
+                'message' => 'Gagal menghapus data tahun ajar'
+            ]);
+        }
+
+        return json_encode([
+            'code' => 1,
+            'message' => 'Berhasil menghapus data tahun ajar'
+        ]);
     }
 }

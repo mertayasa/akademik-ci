@@ -6,15 +6,19 @@ use CodeIgniter\Model;
 
 class TahunAjarModel extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'tahunajars';
+    // protected $DBGroup          = 'default';
+    protected $table            = 'tahun_ajar';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'tahun_mulai',
+        'tahun_selesai',
+        'keterangan'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -39,4 +43,24 @@ class TahunAjarModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    public function getData($id = null)
+    {
+        if(!$id){
+            return $this->findAll();
+        }
+
+        return $this->find($id);
+    }
+
+    public function insertData($new_data)
+    {
+        return $this->insert($new_data);
+    }
+
+    public function updateData($id, $update_data)
+    {
+        return $this->update($id, $update_data);
+    }
 }

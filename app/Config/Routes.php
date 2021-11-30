@@ -56,8 +56,8 @@ $routes->group('user', ['filter' => 'auth'], function ($routes) {
 
 $routes->group('tahunAjar', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'TahunAjar::index', ['as' => 'tahun_ajar_index']);
-    $routes->get('/(:num)/edit', 'TahunAjar::edit/$1', ['as' => 'tahun_ajar_edit']);
-    $routes->patch('update(:num)', 'TahunAjar::update/$1', ['as' => 'tahun_ajar_update']);
+    $routes->get('(:num)/edit', 'TahunAjar::edit/$1', ['as' => 'tahun_ajar_edit']);
+    $routes->patch('update/(:num)', 'TahunAjar::update/$1', ['as' => 'tahun_ajar_update']);
     $routes->get('create', 'TahunAjar::create', ['as' => 'tahun_ajar_create']);
     $routes->post('insert', 'TahunAjar::insert', ['as' => 'tahun_ajar_insert']);
     $routes->get('destroy/(:num)', 'TahunAjar::destroy/$1', ['as' => 'tahun_ajar_destroy']);

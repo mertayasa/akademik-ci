@@ -11,25 +11,25 @@
         ]) ?>
     </div>
     <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('Tahun Akhir', 'tahunAkhir') ?>
+        <?= form_label('Tahun Berakhir', 'tahunAkhir') ?>
         <?= form_input([
-            'type' => 'tahun_akhir',
-            'name' => 'tahun_akhir',
+            'type' => 'number',
+            'name' => 'tahun_selesai',
             'id' => 'tahunAkhir',
-            'value' => set_value('tahun_akhir') == false && isset($user) ? $user['tahun_akhir'] : set_value('tahun_akhir'),
+            'value' => set_value('tahun_selesai') == false && isset($tahun_ajar) ? $tahun_ajar['tahun_selesai'] : set_value('tahun_selesai'),
             'class' => 'form-control'
         ]) ?>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
+    <div class="col-12 col-md-6 pb-3 pb-md-0 mt-3">
         <?= form_label('Keterangan', 'keterangan') ?>
         <?= form_input([
             'type' => 'text',
             'name' => 'keterangan',
             'id' => 'keterangan',
-            'value' => set_value('keterangan') == false && isset($user) ? $user['keterangan'] : set_value('keterangan'),
+            'value' => set_value('keterangan') == false && isset($tahun_ajar) ? $tahun_ajar['keterangan'] : set_value('keterangan'),
             'class' => 'form-control'
         ]) ?>
     </div>

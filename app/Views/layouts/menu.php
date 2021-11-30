@@ -49,8 +49,13 @@
         </ul>
     </li>
     
-    <li class="nav-item <?= isActive('master') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
-        <a href="#" class="nav-link <?= isActive('master') ?>">
+    <?php
+        $data_master_sub = [
+            'tahunAjar'
+        ];
+    ?>
+    <li class="nav-item <?= isActive($data_master_sub) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+        <a href="#" class="nav-link <?= isActive($data_master_sub) ?>">
             <i class="nav-icon fas fa-users"></i>
             <p>
                 Data Master

@@ -61,13 +61,9 @@ class User extends BaseController
 
     public function create($level)
     {
-        // dd($level);
         $data = [
             'level' => $level
         ];
-
-        // throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound('Aseg');
-        // dd( $this->user->getData(1) );
         return view('user/create', $data);
     }
 
