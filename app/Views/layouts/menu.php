@@ -69,6 +69,12 @@
                     <p>Tahun Ajar</p>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="<?= route_to('mapel_index') ?>" class="nav-link <?= isActive('mapel') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Mata Pelajaran</p>
+                </a>
+            </li>
         </ul>
     </li>
 

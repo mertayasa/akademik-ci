@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         $level = ["admin", "kepsek", "ortu", "siswa", "guru"];
         $status_guru = ["bukan_guru", "honorer", "tetap"];
 
-        for($i=0; $i<=30; $i++){
+        for($i=0; $i<=31; $i++){
             if($i == 0){
                 $selected_level = $level[0];
             }

@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class AgendaModel extends Model
+class AgendaModel extends Generic
 {
-    protected $DBGroup          = 'default';
+    // protected $DBGroup          = 'default';
     protected $table            = 'agendas';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;

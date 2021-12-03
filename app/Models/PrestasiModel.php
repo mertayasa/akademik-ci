@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class PrestasiModel extends Model
+class PrestasiModel extends Generic
 {
-    protected $DBGroup          = 'default';
+    // protected $DBGroup          = 'default';
     protected $table            = 'prestasis';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;

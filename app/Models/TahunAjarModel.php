@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class TahunAjarModel extends Model
+class TahunAjarModel extends Generic
 {
     // protected $DBGroup          = 'default';
     protected $table            = 'tahun_ajar';
@@ -43,24 +44,4 @@ class TahunAjarModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-
-    public function getData($id = null)
-    {
-        if(!$id){
-            return $this->findAll();
-        }
-
-        return $this->find($id);
-    }
-
-    public function insertData($new_data)
-    {
-        return $this->insert($new_data);
-    }
-
-    public function updateData($id, $update_data)
-    {
-        return $this->update($id, $update_data);
-    }
 }

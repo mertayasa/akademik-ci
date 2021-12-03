@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class KelasModel extends Model
 {
-    protected $DBGroup          = 'default';
+    // protected $DBGroup          = 'default';
     protected $table            = 'kelas';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;

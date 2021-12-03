@@ -64,6 +64,16 @@ $routes->group('tahunAjar', ['filter' => 'auth'], function ($routes) {
     $routes->get('datatables', 'TahunAjar::datatables', ['as' => 'tahun_ajar_datatables']);
 });
 
+$routes->group('mapel', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'Mapel::index', ['as' => 'mapel_index']);
+    $routes->get('(:num)/edit', 'Mapel::edit/$1', ['as' => 'mapel_edit']);
+    $routes->patch('update/(:num)', 'Mapel::update/$1', ['as' => 'mapel_update']);
+    $routes->get('create', 'Mapel::create', ['as' => 'mapel_create']);
+    $routes->post('insert', 'Mapel::insert', ['as' => 'mapel_insert']);
+    $routes->get('destroy/(:num)', 'Mapel::destroy/$1', ['as' => 'mapel_destroy']);
+    $routes->get('datatables', 'Mapel::datatables', ['as' => 'mapel_datatables']);
+});
+
 $routes->get('test/(:any)', 'Test::index/$1');
 
 /*

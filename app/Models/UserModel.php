@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Generic\Generic;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class UserModel extends Generic
 {
     // protected $DBGroup          = 'default';
     protected $table            = 'users';
@@ -40,34 +41,4 @@ class UserModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function getData($id = null)
-    {
-        if(!$id){
-            return $this->findAll();
-        }
-
-        return $this->find($id);
-    }
-
-    public function updateOrInsert($check_array, $data)
-    {
-        $data_exists = $this->where($check_array[0], $check_array[1])->findAll();
-        if($data_exists){
-            return $this->update($data_exists[0]['id'], $data);
-        }
-
-        return $this->insert($data);
-
-    }
-
-    public function insertData($new_data)
-    {
-        return $this->insert($new_data);
-    }
-
-    public function updateData($id, $update_data)
-    {
-        return $this->update($id, $update_data);
-    }
 }

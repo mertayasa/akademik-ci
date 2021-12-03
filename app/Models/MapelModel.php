@@ -2,19 +2,23 @@
 
 namespace App\Models;
 
+use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class SemesterModel extends Model
+class MapelModel extends Generic
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'semesters';
+    // protected $DBGroup          = 'default';
+    protected $table            = 'mapel';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'nama',
+        'status',
+    ];
 
     // Dates
     protected $useTimestamps = false;
