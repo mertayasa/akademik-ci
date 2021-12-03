@@ -70,12 +70,12 @@ class User extends BaseController
     public function insert($level)
     {
         try{
-            $new_data = [
-                'nama' => $this->request->getPost('nama'),
-                'email' => $this->request->getPost('email'),
-                'password' => password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
-            ];
-
+            $allowed_level = ['admin', 'kepsek'];
+            
+            $new_data = $this->request->getPost();
+            $new_data['level'] = $level == 'admin-kepsek' && in_array($new_data['level'], $allowed_level) ? $new_data['level'] : $level;
+            $new_data['password'] = password_hash($new_data['password'], PASSWORD_BCRYPT);
+            
             $this->user->insertData($new_data);
             session()->setFlashdata('success', 'Berhasil menambahkan data user');
             return redirect()->to(route_to('user_index', $level));
@@ -100,12 +100,15 @@ class User extends BaseController
     public function update($level, $id)
     {
         try{
-            $update_data = [
-                'nama' => $this->request->getPost('nama'),
-                'email' => $this->request->getPost('email'),
-                'password' => password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
-            ];
+            $allowed_level = ['admin', 'kepsek'];
+            
+            $update_data = $this->request->getPost();
+            $update_data['level'] = $level == 'admin-kepsek' && in_array($update_data['level'], $allowed_level) ? $update_data['level'] : $level;
 
+            if($update_data['password'] != ''){
+                $update_data['password'] = password_hash($update_data['password'], PASSWORD_BCRYPT);
+            }
+            
             $this->user->updateData($id, $update_data);
             session()->setFlashdata('success', 'Berhasil mengubah data user');
             return redirect()->to(route_to('user_index', $level));

@@ -16,7 +16,22 @@ class UserModel extends Generic
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['nama', 'email', 'password', 'level'];
+    protected $allowedFields    = [
+        'nama',
+        'email',
+        'password',
+        'level',
+        'nip',
+        'nis',
+        'no_telp',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'status_guru',
+        'level',
+        'status',
+        'pekerjaan',
+        'alamat',
+    ];
 
     // Dates
     protected $useTimestamps = true;

@@ -23,4 +23,16 @@ if ( ! function_exists('isActive'))
             return ucwords(str_replace('_', ' ', $level));
         }
     }
+
+    function getStatusGuru($status = null)
+    {
+        if($status == null){
+            return [
+                'tetap' => 'Tetap',
+                'honorer' => 'Honorer'
+            ];
+        }
+
+        return ucfirst($status);
+    }
 }

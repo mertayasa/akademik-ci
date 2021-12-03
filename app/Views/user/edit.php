@@ -29,7 +29,7 @@
             <?= $this->include('layouts/flash') ;?>
             <?= form_open(route_to('user_update', $level, $user['id']), ['id' => 'updateForm']); ?>
 
-            <?= $this->include('user/form'); ?>
+                <?= $this->include('user/form_'.$level); ?>
                 <div class="row mt-3">
                     <div class="col-12">
                         <a href="<?= route_to('user_index', $level) ?>" class="btn btn-secondary">Kembali</a>
