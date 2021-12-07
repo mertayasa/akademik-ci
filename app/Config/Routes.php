@@ -74,6 +74,16 @@ $routes->group('mapel', ['filter' => 'auth'], function ($routes) {
     $routes->get('datatables', 'Mapel::datatables', ['as' => 'mapel_datatables']);
 });
 
+$routes->group('kelas', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'Kelas::index', ['as' => 'kelas_index']);
+    $routes->get('(:num)/edit', 'Kelas::edit/$1', ['as' => 'kelas_edit']);
+    $routes->patch('update/(:num)', 'Kelas::update/$1', ['as' => 'kelas_update']);
+    $routes->get('create', 'Kelas::create', ['as' => 'kelas_create']);
+    $routes->post('insert', 'Kelas::insert', ['as' => 'kelas_insert']);
+    $routes->get('destroy/(:num)', 'Kelas::destroy/$1', ['as' => 'kelas_destroy']);
+    $routes->get('datatables', 'Kelas::datatables', ['as' => 'kelas_datatables']);
+});
+
 $routes->get('test/(:any)', 'Test::index/$1');
 
 /*

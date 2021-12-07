@@ -15,7 +15,7 @@ class Kelas extends Migration
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE
             ],
-            'id_predikat' => [
+            'id_jenjang' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => TRUE,
@@ -41,7 +41,7 @@ class Kelas extends Migration
         ]);
         
         $this->forge->addKey('id', TRUE);
-        $this->forge->addForeignKey('id_predikat','predikat_kelas','id', 'RESTRICT','RESTRICT');
+        $this->forge->addForeignKey('id_jenjang','jenjang_kelas','id', 'RESTRICT','RESTRICT');
         $this->forge->addForeignKey('id_tahun_ajar','tahun_ajar','id', 'RESTRICT','RESTRICT');
         $this->forge->addForeignKey('id_guru_wali','users','id', 'RESTRICT','RESTRICT');
         $this->forge->createTable('kelas');

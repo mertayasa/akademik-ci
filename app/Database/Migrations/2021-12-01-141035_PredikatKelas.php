@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class PredikatKelas extends Migration
+class JenjangKelas extends Migration
 {
     public function up()
     {
@@ -27,11 +27,11 @@ class PredikatKelas extends Migration
         ]); 
 
         $this->forge->addKey('id', TRUE);
-        $this->forge->createTable('predikat_kelas');
+        $this->forge->createTable('jenjang_kelas');
     }
 
     public function down()
     {
-        $this->forge->dropTable('predikat_kelas');
+        $this->forge->dropTable('jenjang_kelas');
     }
 }

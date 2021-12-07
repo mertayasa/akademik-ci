@@ -63,18 +63,28 @@
             </p>
         </a>
         <ul class="nav nav-treeview">
+            
             <li class="nav-item">
                 <a href="<?= route_to('tahun_ajar_index') ?>" class="nav-link <?= isActive('tahunAjar') ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Tahun Ajar</p>
                 </a>
             </li>
+            
             <li class="nav-item">
                 <a href="<?= route_to('mapel_index') ?>" class="nav-link <?= isActive('mapel') ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Mata Pelajaran</p>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="<?= route_to('jenjang_index') ?>" class="nav-link <?= isActive('jenjang') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Jenjang Kelas</p>
+                </a>
+            </li>
+
         </ul>
     </li>
 
