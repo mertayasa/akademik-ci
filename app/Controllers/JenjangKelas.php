@@ -4,19 +4,22 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\KelasModel;
+use App\Models\TahunAjarModel;
 
 class JenjangKelas extends BaseController
 {
     protected $kelas;
+    protected $tahun_ajar;
     
     public function __construct()
     {
+        $this->tahun_ajar= new TahunAjarModel();
         $this->kelas = new KelasModel();
     }
 
     public function index()
     {
-        return view('kelas/index');
+        return view('jenjang_kelas/index');
     }
 
     public function datatables()
@@ -54,7 +57,18 @@ class JenjangKelas extends BaseController
 
     public function create()
     {
-        return view('kelas/create');
+        $tahun_ajar_raw = $this->tahun_ajar->getData();
+        $tahun_ajar = [];
+        foreach($tahun_ajar_raw as $ajar){
+            $tahun_ajar += [
+                $ajar['id'] => 'Tahun Ajar '.$ajar['tahun_mulai'].'/'.$ajar['tahun_selesai']
+            ];
+        }
+
+        $data = [
+            'tahun_ajar' => $tahun_ajar
+        ];
+        return view('jenjang_kelas/create', $data);
     }
 
     public function edit($id)
@@ -64,7 +78,7 @@ class JenjangKelas extends BaseController
             'kelas' => $kelas
         ];  
 
-        return view('kelas/edit', $data);
+        return view('jenjang_kelas/edit', $data);
     }
 
     public function insert()

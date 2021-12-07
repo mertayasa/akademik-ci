@@ -84,6 +84,16 @@ $routes->group('kelas', ['filter' => 'auth'], function ($routes) {
     $routes->get('datatables', 'Kelas::datatables', ['as' => 'kelas_datatables']);
 });
 
+$routes->group('jenjang_kelas', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'JenjangKelas::index', ['as' => 'jenjang_kelas_index']);
+    $routes->get('(:num)/edit', 'JenjangKelas::edit/$1', ['as' => 'jenjang_kelas_edit']);
+    $routes->patch('update/(:num)', 'JenjangKelas::update/$1', ['as' => 'jenjang_kelas_update']);
+    $routes->get('create', 'JenjangKelas::create', ['as' => 'jenjang_kelas_create']);
+    $routes->post('insert', 'JenjangKelas::insert', ['as' => 'jenjang_kelas_insert']);
+    $routes->get('destroy/(:num)', 'JenjangKelas::destroy/$1', ['as' => 'jenjang_kelas_destroy']);
+    $routes->get('datatables', 'JenjangKelas::datatables', ['as' => 'jenjang_kelas_datatables']);
+});
+
 $routes->get('test/(:any)', 'Test::index/$1');
 
 /*

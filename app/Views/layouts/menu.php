@@ -79,7 +79,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="<?= route_to('jenjang_index') ?>" class="nav-link <?= isActive('jenjang') ?>">
+                <a href="<?= route_to('jenjang_kelas_index') ?>" class="nav-link <?= isActive('jenjang_kelas') ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Jenjang Kelas</p>
                 </a>
