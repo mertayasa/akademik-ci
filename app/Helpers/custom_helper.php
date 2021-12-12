@@ -35,4 +35,28 @@ if ( ! function_exists('isActive'))
 
         return ucfirst($status);
     }
+
+    function convertRoman($number)
+    {
+        switch($number){
+            case 1:
+                return 'I';
+            break;
+            case 2:
+                return 'II';
+            break;
+            case 3:
+                return 'III';
+            break;
+            case 4:
+                return 'IV';
+            break;
+            case 5:
+                return 'V';
+            break;
+            case 6:
+                return 'IV';
+            break;
+        }
+    }
 }

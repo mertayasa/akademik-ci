@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class TahunAjarDataTable extends Model
 {
     protected $table = 'tahun_ajar';
-    protected $column_order = ['id', 'keterangan', 'tahun_mulai', 'tahun_berakhir'];
+    protected $column_order = ['id', 'status', 'tahun_mulai', 'tahun_berakhir'];
     protected $column_search = ['keterangan', 'tahun_mulai', 'tahun_berakhir'];
     protected $order = ['id' => 'DESC'];
     protected $request;

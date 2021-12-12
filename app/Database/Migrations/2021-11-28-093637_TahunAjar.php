@@ -15,11 +15,6 @@ class TahunAjar extends Migration
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE
             ],
-            'keterangan' => [
-                'type' => 'VARCHAR',
-                'constraint' => 50,
-                'null' => TRUE
-            ],
             'tahun_mulai' => [
                 'type' => 'VARCHAR',
                 'constraint' => 4,
@@ -27,6 +22,11 @@ class TahunAjar extends Migration
             'tahun_selesai' => [
                 'type' => 'VARCHAR',
                 'constraint' => 4,
+            ],
+            'status' => [
+                'type' => 'ENUM("aktif", "nonaktif")',
+                'default' => 'nonaktif',
+                'null' => FALSE,
             ],
         ]);
 

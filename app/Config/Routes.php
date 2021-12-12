@@ -57,6 +57,7 @@ $routes->group('user', ['filter' => 'auth'], function ($routes) {
 $routes->group('tahunAjar', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'TahunAjar::index', ['as' => 'tahun_ajar_index']);
     $routes->get('(:num)/edit', 'TahunAjar::edit/$1', ['as' => 'tahun_ajar_edit']);
+    $routes->get('(:num)/active', 'TahunAjar::setActive/$1', ['as' => 'tahun_ajar_set_active']);
     $routes->patch('update/(:num)', 'TahunAjar::update/$1', ['as' => 'tahun_ajar_update']);
     $routes->get('create', 'TahunAjar::create', ['as' => 'tahun_ajar_create']);
     $routes->post('insert', 'TahunAjar::insert', ['as' => 'tahun_ajar_insert']);
@@ -84,15 +85,13 @@ $routes->group('kelas', ['filter' => 'auth'], function ($routes) {
     $routes->post('datatables', 'Kelas::datatables', ['as' => 'kelas_datatables']);
 });
 
-// $routes->group('jenjangKelas', ['filter' => 'auth'], function ($routes) {
-//     $routes->get('/', 'JenjangKelas::index', ['as' => 'jenjang_kelas_index']);
-//     $routes->get('(:num)/edit', 'JenjangKelas::edit/$1', ['as' => 'jenjang_kelas_edit']);
-//     $routes->patch('update/(:num)', 'JenjangKelas::update/$1', ['as' => 'jenjang_kelas_update']);
-//     $routes->get('create', 'JenjangKelas::create', ['as' => 'jenjang_kelas_create']);
-//     $routes->post('insert', 'JenjangKelas::insert', ['as' => 'jenjang_kelas_insert']);
-//     $routes->get('destroy/(:num)', 'JenjangKelas::destroy/$1', ['as' => 'jenjang_kelas_destroy']);
-//     $routes->post('datatables', 'JenjangKelas::datatables', ['as' => 'jenjang_kelas_datatables']);
-// });
+$routes->group('akademik', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'Akademik::index', ['as' => 'akademik_index']);
+    $routes->get('search-tahun', 'Akademik::index', ['as' => 'akademik_search_tahun']);
+    $routes->get('(:num)/show-student', 'Akademik::showStudent/$1', ['as' => 'akademik_show_student']);
+    $routes->get('(:num)/show-schedule', 'Akademik::showSchedule/$1', ['as' => 'akademik_show_schedule']);
+    $routes->post('datatables', 'Akademik::datatables', ['as' => 'akademik_datatables']);
+});
 
 $routes->get('test/(:any)', 'Test::index/$1');
 

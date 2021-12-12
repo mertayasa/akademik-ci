@@ -11,9 +11,8 @@
                     <thead>
                         <tr>
                             <td>No</td>
-                            <td>Tahun Mulai</td>
-                            <td>Tahun Selesai</td>
-                            <td>Keterangan</td>
+                            <td>Tahun Ajar</td>
+                            <td>Status</td>
                             <td>Aksi</td>
                         </tr>
                     </thead>
@@ -32,7 +31,7 @@
     const table = $('#tahunAjarDataTable').DataTable({
         "processing": true,
         "serverSide": true,
-        "order": [1, 'DESC'],
+        "order": [2, 'DESC'],
         "ajax": {
             "url": "<?= route_to('tahun_ajar_datatables') ?>",
             "type": "POST",
@@ -41,9 +40,37 @@
             },
         },
         "columnDefs": [{
-            "targets": [0, 4],
+            "targets": [0, 3],
             "orderable": false,
         }],
     })
+
+    function setActive(url, tableId, prompt){
+        Swal.fire({
+            title: "Warning",
+            text: prompt,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#169b6b',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    "url": url,
+                    "dataType": "JSON",
+                    "headers": {
+                        "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+                    },
+                    "method": "get",
+                    success: function(data) {
+                        showToast(data.code, data.message)
+                        $('#' + tableId).DataTable().ajax.reload();
+                    }
+                })
+            }
+        })
+    }
 </script>
 <?= $this->endSection() ?>

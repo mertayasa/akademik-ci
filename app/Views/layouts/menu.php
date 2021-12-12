@@ -82,21 +82,21 @@
             <li class="nav-item">
                 <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Jenjang Kelas</p>
+                    <p>Kelas</p>
                 </a>
             </li>
 
         </ul>
     </li>
 
-    <!-- <li class="nav-item">
-        <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
+    <li class="nav-item">
+        <a href="<?= route_to('akademik_index') ?>" class="nav-link <?= isActive('akademik') ?>">
+            <i class="nav-icon fas fa-chalkboard-teacher"></i>
             <p>
-                Kelas
+                Akademik
             </p>
         </a>
-    </li> -->
+    </li>
 
     <!-- <li class="nav-item">
         <a href="#" class="nav-link">

@@ -21,16 +21,3 @@
         ]) ?>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-12 col-md-6 pb-3 pb-md-0 mt-3">
-        <?= form_label('Keterangan', 'keterangan') ?>
-        <?= form_input([
-            'type' => 'text',
-            'name' => 'keterangan',
-            'id' => 'keterangan',
-            'value' => set_value('keterangan') == false && isset($tahun_ajar) ? $tahun_ajar['keterangan'] : set_value('keterangan'),
-            'class' => 'form-control'
-        ]) ?>
-    </div>
-</div>

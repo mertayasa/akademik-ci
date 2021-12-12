@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\DataTables\TahunAjarDataTable;
 use App\Models\TahunAjarModel;
 use Config\Services;
+use Exception;
 
 class TahunAjar extends BaseController
 {
@@ -35,12 +36,12 @@ class TahunAjar extends BaseController
                 $no++;
                 $row = [];
                 $row[] = $no;
-                $row[] = $list->tahun_mulai;
-                $row[] = $list->tahun_selesai;
-                $row[] = $list->keterangan;
+                $row[] = $list->tahun_mulai.'/'.$list->tahun_selesai;
+                $row[] = ucfirst(str_replace('_', ' ', $list->status));
                 $row[] = "
+                <button class='btn btn-sm btn-info' onclick='setActive(`". route_to('tahun_ajar_set_active', $list->id) ."`, `tahunAjarDataTable`, `Apakah anda yakin mengaktifkan tahun ajaran ?, tahun ajaran lain akan otomatis non aktif`)'>Set Aktif</button>
                 <a href='". route_to('tahun_ajar_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
-                <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('tahun_ajar_destroy', $list->id) ."`, `tahunAjarDataTable`, `Apakah anda yang menghapus data tahun ajaran ?`)'>Hapus</button>";
+                <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('tahun_ajar_destroy', $list->id) ."`, `tahunAjarDataTable`, `Apakah anda yakin menghapus data tahun ajaran ?`)'>Hapus</button>";
                 $data[] = $row;
             }
 
@@ -76,7 +77,6 @@ class TahunAjar extends BaseController
             $new_data = [
                 'tahun_mulai' => $this->request->getPost('tahun_mulai'),
                 'tahun_selesai' => $this->request->getPost('tahun_selesai'),
-                'keterangan' => $this->request->getPost('keterangan'),
             ];
 
             $this->tahun_ajar->insertData($new_data);
@@ -95,7 +95,6 @@ class TahunAjar extends BaseController
             $update_data = [
                 'tahun_mulai' => $this->request->getPost('tahun_mulai'),
                 'tahun_selesai' => $this->request->getPost('tahun_selesai'),
-                'keterangan' => $this->request->getPost('keterangan'),
             ];
 
             $this->tahun_ajar->updateData($id, $update_data);
@@ -106,6 +105,39 @@ class TahunAjar extends BaseController
             session()->setFlashdata('error', 'Gagal mengubah data tahun ajar');
             return redirect()->back()->withInput();
         }
+    }
+
+    public function setActive($id)
+    {
+        try{
+            $this->tahun_ajar->transStart();
+                $setnonactive = $this->tahun_ajar->whereNotIn('id', [$id])->findAll();
+                foreach($setnonactive as $setnon){
+                    $updatenon = [
+                        'status' => 'nonaktif',
+                    ];
+
+                    $this->tahun_ajar->updateData($setnon['id'], $updatenon);
+                }
+
+                $update_data = [
+                    'status' => 'aktif',
+                ];
+        
+                $this->tahun_ajar->updateData($id, $update_data);
+            $this->tahun_ajar->transComplete();
+        }catch(\Exception $e){
+            log_message('error', $e->getMessage());
+            return json_encode([
+                'code' => 0,
+                'message' => 'Gagal mengaktifkan tahun ajaran',
+            ]);
+        }
+
+        return json_encode([
+            'code' => 1,
+            'message' => 'Berhasil mengaktifkan tahun ajaran'
+        ]);
     }
 
     public function destroy($id)

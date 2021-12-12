@@ -5,10 +5,10 @@ namespace App\Models;
 use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class TahunAjarModel extends Generic
+class WaliKelasModel extends Generic
 {
     // protected $DBGroup          = 'default';
-    protected $table            = 'tahun_ajar';
+    protected $table            = 'wali_kelas';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -16,8 +16,7 @@ class TahunAjarModel extends Generic
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'tahun_mulai',
-        'tahun_selesai',
+        'nama',
         'status',
     ];
 
