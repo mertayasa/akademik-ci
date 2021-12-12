@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class KelasModel extends Model
+class KelasModel extends Generic
 {
     // protected $DBGroup          = 'default';
     protected $table            = 'kelas';
@@ -14,7 +15,10 @@ class KelasModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'jenjang',
+        'kode'
+    ];
 
     // Dates
     protected $useTimestamps = false;

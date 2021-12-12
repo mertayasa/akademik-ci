@@ -52,7 +52,7 @@
         $data_master_sub = [
             'tahunAjar',
             'mapel',
-            'jenjangKelas',
+            'kelas',
         ];
     ?>
     <li class="nav-item <?= isActive($data_master_sub) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
@@ -80,7 +80,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="<?= route_to('jenjang_kelas_index') ?>" class="nav-link <?= isActive('jenjangKelas') ?>">
+                <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Jenjang Kelas</p>
                 </a>
@@ -89,14 +89,14 @@
         </ul>
     </li>
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
                 Kelas
             </p>
         </a>
-    </li>
+    </li> -->
 
     <!-- <li class="nav-item">
         <a href="#" class="nav-link">

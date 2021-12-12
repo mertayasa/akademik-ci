@@ -5,9 +5,9 @@ namespace App\Models\DataTables;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
 
-class JenjangKelasDataTable extends Model
+class KelasDataTable extends Model
 {
-    protected $table = 'jenjang_kelas';
+    protected $table = 'kelas';
     protected $column_order = ['id', 'kode', 'jenjang'];
     protected $column_search = ['kode', 'jenjang'];
     protected $order = ['id' => 'DESC'];

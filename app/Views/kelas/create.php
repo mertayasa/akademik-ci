@@ -5,12 +5,12 @@
   <div class="container-fluid">
       <div class="row mb-2">
           <div class="col-sm-6">
-              <h1>Tambah Jenjang Kelas</h1>
+              <h1>Tambah Kelas</h1>
           </div>
           <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="<?= route_to('dashboard') ?>">Dashboard</a></li>
-                  <li class="breadcrumb-item active"><a href="<?= route_to('jenjang_kelas_index') ?>">Jenjang Kelas</a></li>
+                  <li class="breadcrumb-item active"><a href="<?= route_to('kelas_index') ?>">Kelas</a></li>
                   <li class="breadcrumb-item active">Tambah</li>
               </ol>
           </div>
@@ -23,16 +23,16 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header d-flex justify-content-between">
-              <h3 class="card-title">Tambah Jenjang Kelas</h3>
+              <h3 class="card-title">Tambah Kelas</h3>
           </div>
           <div class="card-body">
             <?= $this->include('layouts/flash') ;?>
-            <?= form_open(route_to('jenjang_kelas_insert'), ['id' => 'storeForm']); ?>
+            <?= form_open(route_to('kelas_insert'), ['id' => 'storeForm']); ?>
             
-            <?= $this->include('jenjang_kelas/form'); ?>
+            <?= $this->include('kelas/form'); ?>
                 <div class="row mt-3">
                     <div class="col-12">
-                        <a href="<?= route_to('jenjang_kelas_index') ?>" class="btn btn-secondary">Kembali</a>
+                        <a href="<?= route_to('kelas_index') ?>" class="btn btn-secondary">Kembali</a>
                         <button class="btn btn-primary ml-3" type="submit">Simpan</button>
                     </div>
                 </div>

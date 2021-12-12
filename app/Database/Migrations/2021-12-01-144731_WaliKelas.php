@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Kelas extends Migration
+class WaliKelas extends Migration
 {
     public function up()
     {
@@ -15,7 +15,7 @@ class Kelas extends Migration
                 'unsigned' => TRUE,
                 'auto_increment' => TRUE
             ],
-            'id_jenjang' => [
+            'id_kelas' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => TRUE,
@@ -33,22 +33,17 @@ class Kelas extends Migration
                 'unsigned' => TRUE,
                 'null' => FALSE
             ],
-            'status' => [
-                'type' => 'ENUM("aktif", "nonaktif")',
-                'default' => 'aktif',
-                'null' => FALSE,
-            ],
         ]);
         
         $this->forge->addKey('id', TRUE);
-        $this->forge->addForeignKey('id_jenjang','jenjang_kelas','id', 'RESTRICT','RESTRICT');
+        $this->forge->addForeignKey('id_kelas','kelas','id', 'RESTRICT','RESTRICT');
         $this->forge->addForeignKey('id_tahun_ajar','tahun_ajar','id', 'RESTRICT','RESTRICT');
         $this->forge->addForeignKey('id_guru_wali','users','id', 'RESTRICT','RESTRICT');
-        $this->forge->createTable('kelas');
+        $this->forge->createTable('wali_kelas');
     }
 
     public function down()
     {
-        $this->forge->dropTable('kelas');
+        $this->forge->dropTable('wali_kelas');
     }
 }

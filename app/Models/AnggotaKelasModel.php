@@ -2,23 +2,19 @@
 
 namespace App\Models;
 
-use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class JenjangKelasModel extends Generic
+class AnggotaKelasModel extends Model
 {
     // protected $DBGroup          = 'default';
-    protected $table            = 'jenjang_kelas';
+    protected $table            = 'anggota_kelas';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [
-        'jenjang',
-        'kode'
-    ];
+    protected $allowedFields    = [];
 
     // Dates
     protected $useTimestamps = false;
