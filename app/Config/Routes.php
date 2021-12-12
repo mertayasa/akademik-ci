@@ -51,7 +51,7 @@ $routes->group('user', ['filter' => 'auth'], function ($routes) {
     $routes->get('(:segment)/create', 'User::create/$1', ['as' => 'user_create']);
     $routes->post('insert/(:segment)', 'User::insert/$1', ['as' => 'user_insert']);
     $routes->get('destroy/(:num)', 'User::destroy/$1', ['as' => 'user_destroy']);
-    $routes->get('datatables/(:segment)', 'User::datatables/$1', ['as' => 'user_datatables']);
+    $routes->post('datatables/(:segment)', 'User::datatables/$1', ['as' => 'user_datatables']);
 });
 
 $routes->group('tahunAjar', ['filter' => 'auth'], function ($routes) {
@@ -61,7 +61,7 @@ $routes->group('tahunAjar', ['filter' => 'auth'], function ($routes) {
     $routes->get('create', 'TahunAjar::create', ['as' => 'tahun_ajar_create']);
     $routes->post('insert', 'TahunAjar::insert', ['as' => 'tahun_ajar_insert']);
     $routes->get('destroy/(:num)', 'TahunAjar::destroy/$1', ['as' => 'tahun_ajar_destroy']);
-    $routes->get('datatables', 'TahunAjar::datatables', ['as' => 'tahun_ajar_datatables']);
+    $routes->post('datatables', 'TahunAjar::datatables', ['as' => 'tahun_ajar_datatables']);
 });
 
 $routes->group('mapel', ['filter' => 'auth'], function ($routes) {
@@ -71,7 +71,7 @@ $routes->group('mapel', ['filter' => 'auth'], function ($routes) {
     $routes->get('create', 'Mapel::create', ['as' => 'mapel_create']);
     $routes->post('insert', 'Mapel::insert', ['as' => 'mapel_insert']);
     $routes->get('destroy/(:num)', 'Mapel::destroy/$1', ['as' => 'mapel_destroy']);
-    $routes->get('datatables', 'Mapel::datatables', ['as' => 'mapel_datatables']);
+    $routes->post('datatables', 'Mapel::datatables', ['as' => 'mapel_datatables']);
 });
 
 $routes->group('kelas', ['filter' => 'auth'], function ($routes) {
@@ -81,17 +81,17 @@ $routes->group('kelas', ['filter' => 'auth'], function ($routes) {
     $routes->get('create', 'Kelas::create', ['as' => 'kelas_create']);
     $routes->post('insert', 'Kelas::insert', ['as' => 'kelas_insert']);
     $routes->get('destroy/(:num)', 'Kelas::destroy/$1', ['as' => 'kelas_destroy']);
-    $routes->get('datatables', 'Kelas::datatables', ['as' => 'kelas_datatables']);
+    $routes->post('datatables', 'Kelas::datatables', ['as' => 'kelas_datatables']);
 });
 
-$routes->group('jenjang_kelas', ['filter' => 'auth'], function ($routes) {
+$routes->group('jenjangKelas', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'JenjangKelas::index', ['as' => 'jenjang_kelas_index']);
     $routes->get('(:num)/edit', 'JenjangKelas::edit/$1', ['as' => 'jenjang_kelas_edit']);
     $routes->patch('update/(:num)', 'JenjangKelas::update/$1', ['as' => 'jenjang_kelas_update']);
     $routes->get('create', 'JenjangKelas::create', ['as' => 'jenjang_kelas_create']);
     $routes->post('insert', 'JenjangKelas::insert', ['as' => 'jenjang_kelas_insert']);
     $routes->get('destroy/(:num)', 'JenjangKelas::destroy/$1', ['as' => 'jenjang_kelas_destroy']);
-    $routes->get('datatables', 'JenjangKelas::datatables', ['as' => 'jenjang_kelas_datatables']);
+    $routes->post('datatables', 'JenjangKelas::datatables', ['as' => 'jenjang_kelas_datatables']);
 });
 
 $routes->get('test/(:any)', 'Test::index/$1');

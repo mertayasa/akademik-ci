@@ -3,19 +3,34 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\JenjangKelasModel;
 use App\Models\KelasModel;
 
 class Kelas extends BaseController
 {
     protected $kelas;
+    protected $jenjang_kelas;
     
     public function __construct()
     {
         $this->kelas = new KelasModel();
+        $this->jenjang_kelas = new JenjangKelasModel();
     }
 
     public function index()
     {
+        // $jenjang_kelas = $this->jenjang_kelas->getData();
+        $jenjang_kelas = $this->jenjang_kelas->groupBy('jenjang')->get();
+        dd($jenjang_kelas->last_query());
+        echo "<pre>";
+		print_r($jenjang_kelas->getResult());
+
+        $data = [
+            'jenjang_kelas' => $jenjang_kelas
+        ];
+
+        dd($data);
+
         return view('kelas/index');
     }
 

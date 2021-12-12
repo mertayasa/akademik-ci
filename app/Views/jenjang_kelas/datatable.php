@@ -11,9 +11,8 @@
                     <thead>
                         <tr>
                             <td>No</td>
-                            <td>Tahun Mulai</td>
-                            <td>Tahun Selesai</td>
-                            <td>Keterangan</td>
+                            <td>Kelas</td>
+                            <td>Kode</td>
                             <td>Aksi</td>
                         </tr>
                     </thead>
@@ -28,22 +27,22 @@
 </div>
 
 <?= $this->section('scripts') ?>
-<!-- <script type="text/javascript">
+<script type="text/javascript">
     const table = $('#jenjangKelasDataTable').DataTable({
         "processing": true,
         "serverSide": true,
         "order": [1, 'DESC'],
         "ajax": {
-            "url": "<?= route_to('tahun_ajar_datatables') ?>",
+            "url": "<?= route_to('jenjang_kelas_datatables') ?>",
             "type": "POST",
             "data": {
                 "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
             },
         },
         "columnDefs": [{
-            "targets": [0, 4],
+            "targets": [0, 3],
             "orderable": false,
         }],
     })
-</script> -->
+</script>
 <?= $this->endSection() ?>

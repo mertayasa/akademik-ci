@@ -5,7 +5,6 @@
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
                 Dashboard
-                <!-- <span class="right badge badge-danger">New</span> -->
             </p>
         </a>
     </li>
@@ -51,12 +50,14 @@
     
     <?php
         $data_master_sub = [
-            'tahunAjar'
+            'tahunAjar',
+            'mapel',
+            'jenjangKelas',
         ];
     ?>
     <li class="nav-item <?= isActive($data_master_sub) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
         <a href="#" class="nav-link <?= isActive($data_master_sub) ?>">
-            <i class="nav-icon fas fa-users"></i>
+        <i class="nav-icon fas fa-database"></i>
             <p>
                 Data Master
                 <i class="fas fa-angle-left right"></i>
@@ -79,13 +80,22 @@
             </li>
 
             <li class="nav-item">
-                <a href="<?= route_to('jenjang_kelas_index') ?>" class="nav-link <?= isActive('jenjang_kelas') ?>">
+                <a href="<?= route_to('jenjang_kelas_index') ?>" class="nav-link <?= isActive('jenjangKelas') ?>">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Jenjang Kelas</p>
                 </a>
             </li>
 
         </ul>
+    </li>
+
+    <li class="nav-item">
+        <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+                Kelas
+            </p>
+        </a>
     </li>
 
     <!-- <li class="nav-item">

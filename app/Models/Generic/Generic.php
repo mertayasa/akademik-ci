@@ -9,6 +9,8 @@ class Generic extends Model
     function __construct()
     {
         parent::__construct();
+        $db = db_connect();
+        $db->query("SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));");
     }
 
     public function getData($id = null)

@@ -19,7 +19,7 @@ class JenjangKelas extends Migration
                 'type' => 'INTEGER',
                 'null' => false
             ],
-            'predikat' => [
+            'kode' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
                 'null' => false

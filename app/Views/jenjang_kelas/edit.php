@@ -5,12 +5,12 @@
   <div class="container-fluid">
       <div class="row mb-2">
           <div class="col-sm-6">
-              <h1>Edit Tahun Ajar</h1>
+              <h1>Edit Jenjang Kelas</h1>
           </div>
           <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="<?= route_to('dashboard') ?>">Dashboard</a></li>
-                  <li class="breadcrumb-item active"><a href="<?= route_to('tahun_ajar_index') ?>">Tahun Ajar</a></li>
+                  <li class="breadcrumb-item active"><a href="<?= route_to('jenjang_kelas_index') ?>">Jenjang Kelas</a></li>
                   <li class="breadcrumb-item active">Edit</li>
               </ol>
           </div>
@@ -27,12 +27,12 @@
           </div>
           <div class="card-body">
             <?= $this->include('layouts/flash') ;?>
-            <?= form_open(route_to('tahun_ajar_update', $tahun_ajar['id']), ['id' => 'updateForm']); ?>
+            <?= form_open(route_to('jenjang_kelas_update', $jenjang_kelas['id']), ['id' => 'updateForm']); ?>
 
-            <?= $this->include('tahun_ajar/form'); ?>
+            <?= $this->include('jenjang_kelas/form'); ?>
                 <div class="row mt-3">
                     <div class="col-12">
-                        <a href="<?= route_to('tahun_ajar_index') ?>" class="btn btn-secondary">Kembali</a>
+                        <a href="<?= route_to('jenjang_kelas_index') ?>" class="btn btn-secondary">Kembali</a>
                         <button class="btn btn-primary ml-3" type="submit">Simpan</button>
                     </div>
                 </div>
