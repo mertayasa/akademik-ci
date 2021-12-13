@@ -27,6 +27,12 @@ class AnggotaKelas extends Migration
                 'unsigned' => TRUE,
                 'null' => FALSE
             ],
+            'id_tahun_ajar' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => TRUE,
+                'null' => FALSE
+            ],
             'status' => [
                 'type' => 'ENUM("aktif", "nonaktif")',
                 'default' => 'aktif',
@@ -36,6 +42,7 @@ class AnggotaKelas extends Migration
         
         $this->forge->addKey('id', TRUE);
         $this->forge->addForeignKey('id_siswa','users','id', 'RESTRICT','RESTRICT');
+        $this->forge->addForeignKey('id_tahun_ajar','tahun_ajar','id', 'RESTRICT','RESTRICT');
         $this->forge->addForeignKey('id_kelas','kelas','id', 'RESTRICT','RESTRICT');
         $this->forge->createTable('anggota_kelas');
     }

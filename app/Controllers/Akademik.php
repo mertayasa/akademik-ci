@@ -49,6 +49,8 @@ class Akademik extends BaseController
             $tahun_ajar[$raw['id']] = $raw['tahun_mulai'].'/'.$raw['tahun_selesai'];
         }
 
+        // echo '<pre>';
+        // print_r($kelas);
         // dd($kelas);
 
         $data = [
@@ -61,39 +63,30 @@ class Akademik extends BaseController
     }
 
     private function getJenjang($id_tahun){
-        // dd($id_tahun);
         $jenjang   = array();
         $data   = $this->kelas->getData();
 
-        foreach( $data as $key => $each ){
-            // $query = $this->kelas->query("SELECT
-            //     kelas.id,
-            //     kelas.jenjang,
-            //     kelas.kode,
-            //     wali_kelas.id_tahun_ajar,
-            //     users.nama as nama_guru,
-            //     COUNT(anggota_kelas.id) AS jumlah_siswa
-            // FROM kelas
-            //     LEFT JOIN anggota_kelas ON anggota_kelas.id_kelas = kelas.id
-            //     LEFT JOIN wali_kelas ON wali_kelas.id_kelas = kelas.id
-            //     LEFT JOIN users ON wali_kelas.id_guru_wali = users.id
-            //     WHERE kelas.jenjang = ".$each['jenjang']." OR wali_kelas.id_tahun_ajar = ".$id_tahun."
-            //     GROUP BY kelas.id"
-            // );
-
-            $jenjang[$each['jenjang']]['kelas'] = $this->kelas->where('jenjang', $each['jenjang'])->findAll(); 
-            // $jenjang[$each['jenjang']]['kelas'] = $this->removeDuplicateClass($each['jenjang'], $query->getResultArray()); 
+        foreach( $data as $each ){
+            $jenjang[$each['jenjang']]['kelas'] = $this->assignTeacherAndCountStudent($this->kelas->where('jenjang', $each['jenjang'])->findAll(), $id_tahun, $each['jenjang']); 
         }
         return $jenjang;
     }
-
-    private function removeDuplicateClass($jenjang, $array)
+    
+    public function assignTeacherAndCountStudent($array, $id_tahun)
     {
         $new_class = [];
-        foreach($array as $key => $data){
-            if($data['jenjang'] == $jenjang){
-                array_push($new_class, $data);
-            }
+        foreach($array as $data){
+            $data['nama_guru'] = $this->wali_kelas
+                                    ->select('users.nama as nama_guru, wali_kelas.id_kelas, wali_kelas.id_tahun_ajar')
+                                    ->join('users', 'wali_kelas.id_guru_wali = users.id')
+                                    ->where(['id_kelas' => $data['id'], 'id_tahun_ajar' => $id_tahun])
+                                    ->findAll()[0]['nama_guru'] ?? null;
+
+            $data['jumlah_siswa'] = $this->anggota_kelas
+                                    ->where(['id_kelas' => $data['id'], 'id_tahun_ajar' => $id_tahun])
+                                    ->countAllResults() ?? null;
+
+            array_push($new_class, $data);
         }
 
         return $new_class;

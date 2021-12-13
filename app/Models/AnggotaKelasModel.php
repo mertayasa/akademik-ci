@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class AnggotaKelasModel extends Model
+class AnggotaKelasModel extends Generic
 {
     // protected $DBGroup          = 'default';
     protected $table            = 'anggota_kelas';
@@ -16,7 +17,8 @@ class AnggotaKelasModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_kelas',
-        'id_siswa'
+        'id_siswa',
+        'id_tahun_ajar',
     ];
 
     // Dates

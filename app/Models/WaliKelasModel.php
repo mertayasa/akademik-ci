@@ -16,8 +16,9 @@ class WaliKelasModel extends Generic
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nama',
-        'status',
+        'id_kelas',
+        'id_guru_wali',
+        'id_tahun_ajar'
     ];
 
     // Dates

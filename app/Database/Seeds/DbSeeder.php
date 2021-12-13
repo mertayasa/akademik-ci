@@ -10,5 +10,8 @@ class DbSeeder extends Seeder
     {
         $this->call('UserSeeder');
         $this->call('TahunAjarSeeder');
+        $this->call('KelasSeeder');
+        $this->call('WaliKelasSeeder');
+        $this->call('AnggotaKelasSeeder');
     }
 }

@@ -34,7 +34,7 @@ class Generic extends Model
 
     public function updateOrInsert($check_array, $data)
     {
-        $data_exists = $this->where($check_array[0], $check_array[1])->findAll();
+        $data_exists = $this->where($check_array)->findAll();
         if($data_exists){
             return $this->update($data_exists[0]['id'], $data);
         }
