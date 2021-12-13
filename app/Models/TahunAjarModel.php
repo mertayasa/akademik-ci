@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Generic\Generic;
+use Carbon\Carbon;
 use CodeIgniter\Model;
 
 class TahunAjarModel extends Generic
@@ -44,4 +45,16 @@ class TahunAjarModel extends Generic
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getActiveId()
+    {
+        $active_tahun_ajar = $this->where('status', 'aktif')->findAll();
+        if(!$active_tahun_ajar){
+            $set_active = $this->where('tahun_mulai', Carbon::now()->year)->findAll();
+            $this->updateData($set_active[0]['id'], ['status' => 'aktif']);
+            return $set_active[0]['id'];
+        }
+
+        return $active_tahun_ajar[0]['id'];
+    }
 }

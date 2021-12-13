@@ -4,7 +4,6 @@
         <div class="card">
             <div class="card-header">
                 <?= form_open(route_to('akademik_search_tahun'), ['id' => 'storeForm']); ?>
-                <?= csrf_field() ?>
                     <div class="row align-items-end">
                         <div class="col-12 col-md-3 pb-3 pb-md-0">
                             <?= form_label('Filter Tahun Ajar', 'tahunAjar') ?>

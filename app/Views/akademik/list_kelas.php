@@ -14,11 +14,11 @@
                         <table width="100%">
                             <tr style="vertical-align: top;">
                                 <td width="35%">Siswa</td>
-                                <td>300</td>
+                                <td><?= $kode_kelas['jumlah_siswa']  ?></td>
                             </tr>
                             <tr style="vertical-align: top;">
                                 <td width="35%">Guru Wali</td>
-                                <td>Nyoman Anjay asdhashj asdjh</td>
+                                <td><?= $kode_kelas['nama_guru'] ?? 'Guru Belum Ditentukan'  ?></td>
                             </tr>
                         </table>
                         <hr>

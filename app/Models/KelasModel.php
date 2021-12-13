@@ -43,4 +43,13 @@ class KelasModel extends Generic
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getaseg()
+    {
+        return $this->select('*')
+                ->from('lists')
+                ->join('anggota_kelas', 'anggota_kelas.id = kelas.id')
+                ->where('kelas.jenjang', 1)
+                ->get();
+    }
 }
