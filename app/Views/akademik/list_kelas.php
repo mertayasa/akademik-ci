@@ -22,7 +22,7 @@
                             </tr>
                         </table>
                         <hr>
-                        <a href="#" class="btn btn-info">Siswa</a>
+                        <a href="<?= route_to('akademik_show_student', $tahun_ajar_selected, $kode_kelas['id']) ?>" class="btn btn-info">Siswa</a>
                         <a href="#" class="btn btn-primary">Jadwal</a>
                         <a href="#" class="btn btn-warning">Wali</a>
                     </div>

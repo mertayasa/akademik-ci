@@ -49,10 +49,6 @@ class Akademik extends BaseController
             $tahun_ajar[$raw['id']] = $raw['tahun_mulai'].'/'.$raw['tahun_selesai'];
         }
 
-        // echo '<pre>';
-        // print_r($kelas);
-        // dd($kelas);
-
         $data = [
             'kelas' => $kelas,
             'tahun_ajar' => $tahun_ajar,
@@ -90,5 +86,18 @@ class Akademik extends BaseController
         }
 
         return $new_class;
+    }
+
+    public function showStudent($id_tahun, $id_kelas)
+    {
+        $tahun_ajar = $this->tahun_ajar->getData($id_tahun);
+        $kelas = $this->kelas->getData($id_kelas);
+
+        $data = [
+            'tahun_ajar' => $tahun_ajar,
+            'kelas' => $kelas,
+        ];
+
+        return view('akademik/student/index', $data);
     }
 }
