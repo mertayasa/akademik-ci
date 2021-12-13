@@ -49,7 +49,7 @@ class Akademik extends BaseController
             $tahun_ajar[$raw['id']] = $raw['tahun_mulai'].'/'.$raw['tahun_selesai'];
         }
 
-        dd($kelas);
+        // dd($kelas);
 
         $data = [
             'kelas' => $kelas,
@@ -66,22 +66,23 @@ class Akademik extends BaseController
         $data   = $this->kelas->getData();
 
         foreach( $data as $key => $each ){
-            $query = $this->kelas->query("SELECT
-                kelas.id,
-                kelas.jenjang,
-                kelas.kode,
-                wali_kelas.id_tahun_ajar,
-                users.nama as nama_guru,
-                COUNT(anggota_kelas.id) AS jumlah_siswa
-            FROM kelas
-                LEFT JOIN anggota_kelas ON anggota_kelas.id_kelas = kelas.id
-                LEFT JOIN wali_kelas ON wali_kelas.id_kelas = kelas.id
-                LEFT JOIN users ON wali_kelas.id_guru_wali = users.id
-                WHERE kelas.jenjang = ".$each['jenjang']." OR wali_kelas.id_tahun_ajar = ".$id_tahun."
-                GROUP BY kelas.id"
-            );
+            // $query = $this->kelas->query("SELECT
+            //     kelas.id,
+            //     kelas.jenjang,
+            //     kelas.kode,
+            //     wali_kelas.id_tahun_ajar,
+            //     users.nama as nama_guru,
+            //     COUNT(anggota_kelas.id) AS jumlah_siswa
+            // FROM kelas
+            //     LEFT JOIN anggota_kelas ON anggota_kelas.id_kelas = kelas.id
+            //     LEFT JOIN wali_kelas ON wali_kelas.id_kelas = kelas.id
+            //     LEFT JOIN users ON wali_kelas.id_guru_wali = users.id
+            //     WHERE kelas.jenjang = ".$each['jenjang']." OR wali_kelas.id_tahun_ajar = ".$id_tahun."
+            //     GROUP BY kelas.id"
+            // );
 
-            $jenjang[$each['jenjang']]['kelas'] = $this->removeDuplicateClass($each['jenjang'], $query->getResultArray()); 
+            $jenjang[$each['jenjang']]['kelas'] = $this->kelas->where('jenjang', $each['jenjang'])->findAll(); 
+            // $jenjang[$each['jenjang']]['kelas'] = $this->removeDuplicateClass($each['jenjang'], $query->getResultArray()); 
         }
         return $jenjang;
     }

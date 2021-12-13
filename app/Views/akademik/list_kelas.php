@@ -14,7 +14,7 @@
                         <table width="100%">
                             <tr style="vertical-align: top;">
                                 <td width="35%">Siswa</td>
-                                <td><?= $kode_kelas['jumlah_siswa']  ?></td>
+                                <td><?= $kode_kelas['jumlah_siswa'] ?? '0'  ?></td>
                             </tr>
                             <tr style="vertical-align: top;">
                                 <td width="35%">Guru Wali</td>
