@@ -46,6 +46,12 @@ class Jadwal extends Migration
                 'constraint' => 10,
                 'null' => FALSE
             ],
+            'id_tahun_ajar' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => TRUE,
+                'null' => FALSE
+            ],
             'status' => [
                 'type' => 'ENUM("aktif", "nonaktif")',
                 'default' => 'aktif',
@@ -54,6 +60,7 @@ class Jadwal extends Migration
         ]);
         
         $this->forge->addKey('id', TRUE);
+        $this->forge->addForeignKey('id_tahun_ajar','tahun_ajar','id', 'RESTRICT','RESTRICT');
         $this->forge->addForeignKey('id_kelas','kelas','id', 'RESTRICT','RESTRICT');
         $this->forge->addForeignKey('id_mapel','mapel','id', 'RESTRICT','RESTRICT');   
         $this->forge->addForeignKey('id_guru','users','id', 'RESTRICT','RESTRICT');

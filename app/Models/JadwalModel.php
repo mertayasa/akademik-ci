@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class JadwalModel extends Model
+class JadwalModel extends Generic
 {
     // protected $DBGroup          = 'default';
     protected $table            = 'jadwal';
@@ -14,7 +15,16 @@ class JadwalModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_kelas',
+        'id_guru', 
+        'id_mapel', 
+        'jam_mulai', 
+        'jam_selesai', 
+        'hari',
+        'status',
+        'id_tahun_ajar'
+    ];
 
     // Dates
     protected $useTimestamps = false;

@@ -59,4 +59,17 @@ if ( ! function_exists('isActive'))
             break;
         }
     }
+
+    function getHari()
+    {
+        return [
+            'Senin',
+            'Selasa',
+            'Rabu',
+            'Kamis',
+            'Jumat',
+            'Sabtu',
+            'Minggu',
+        ];
+    }
 }
