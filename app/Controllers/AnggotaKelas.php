@@ -5,16 +5,20 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\AnggotaKelasModel;
 use App\Models\KelasModel;
+use App\Models\DataTables\SiswaDataTable;
+use Config\Services;
 
 class AnggotaKelas extends BaseController
 {
     protected $kelas;
     protected $jenjang_kelas;
-    
+    protected $db;
+
     public function __construct()
     {
         $this->kelas = new KelasModel();
         $this->jenjang_kelas = new AnggotaKelasModel();
+        $this->db = db_connect();
     }
 
     public function index()
@@ -28,47 +32,49 @@ class AnggotaKelas extends BaseController
         return view('kelas/index', $data);
     }
 
-    private function getJenjang(){
+    private function getJenjang()
+    {
         $jenjang   = array();
         $data   = $this->jenjang_kelas->getData();
 
-        foreach( $data as $key => $each ){
+        foreach ($data as $key => $each) {
             $jenjang[$each['jenjang']]['kelas'] = $this->jenjang_kelas->where('jenjang', $each['jenjang'])->findAll();
         }
         return $jenjang;
     }
 
-    public function datatables()
+    public function datatables($tahun_ajar, $kelas)
     {
-        // $request = Services::request();
-        // $datatable = new kelasDataTable($request);
+        $request = Services::request();
+        $datatable = new SiswaDataTable($request, $tahun_ajar, $kelas);
 
-        // if ($request->getMethod(true) === 'POST') {
-        //     $lists = $datatable->getDatatables();
-        //     $data = [];
-        //     $no = $request->getPost('start');
+        if ($request->getMethod(true) === 'POST') {
+            $lists = $datatable->getDatatables($tahun_ajar, $kelas);
+            $data = [];
+            $no = $request->getPost('start');
 
-        //     foreach ($lists as $list) {
-        //         $no++;
-        //         $row = [];
-        //         $row[] = $no;
-        //         $row[] = $list->nama;
-        //         $row[] = $list->status;
-        //         $row[] = "
-        //         <a href='". route_to('kelas_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
-        //         <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('kelas_destroy', $list->id) ."`, `kelasDataTable`, `Apakah anda yang menghapus data mata pelajaran ?`)'>Hapus</button>";
-        //         $data[] = $row;
-        //     }
+            foreach ($lists as $list) {
+                $no++;
+                $row = [];
+                $row[] = $no;
+                $row[] = $list->nama;
+                $row[] = $list->nis;
+                // $row[] = $list->level;
+                $row[] = "
+                <a href='" . route_to('kelas_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
+                <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('kelas_destroy', $list->id) . "`, `kelasDataTable`, `Apakah anda yang menghapus data mata pelajaran ?`)'>Hapus</button>";
+                $data[] = $row;
+            }
 
-        //     $output = [
-        //         'draw' => $request->getPost('draw'),
-        //         'recordsTotal' => $datatable->countAll(),
-        //         'recordsFiltered' => $datatable->countFiltered(),
-        //         'data' => $data,
-        //     ];
+            $output = [
+                'draw' => $request->getPost('draw'),
+                'recordsTotal' => $datatable->countAll(),
+                'recordsFiltered' => $datatable->countFiltered(),
+                'data' => $data,
+            ];
 
-        //     return json_encode($output);
-        // }
+            return json_encode($output);
+        }
     }
 
     public function create()
@@ -81,14 +87,14 @@ class AnggotaKelas extends BaseController
         $kelas = $this->kelas->getData($id);
         $data = [
             'kelas' => $kelas
-        ];  
+        ];
 
         return view('kelas/edit', $data);
     }
 
     public function insert()
     {
-        try{
+        try {
             $new_data = [
                 'nama' => $this->request->getPost('nama'),
                 'status' => $this->request->getPost('status'),
@@ -106,7 +112,7 @@ class AnggotaKelas extends BaseController
 
     public function update($id)
     {
-        try{
+        try {
             $update_data = [
                 'nama' => $this->request->getPost('nama'),
                 'status' => $this->request->getPost('status'),
@@ -124,9 +130,9 @@ class AnggotaKelas extends BaseController
 
     public function destroy($id)
     {
-        try{
+        try {
             $this->kelas->delete($id);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return json_encode([
                 'code' => 0,
                 'message' => 'Gagal menghapus data mata pelajaran'

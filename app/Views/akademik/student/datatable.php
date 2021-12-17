@@ -12,6 +12,7 @@
                         <tr>
                             <td>No</td>
                             <td>Nama</td>
+                            <td>NIS</td>
                             <td>Aksi</td>
                         </tr>
                     </thead>
@@ -32,7 +33,7 @@
         "serverSide": true,
         "order": [1, 'DESC'],
         "ajax": {
-            "url": "<?= ''//route_to('kelas_datatables') ?>",
+            "url": "<?= route_to('siswa_datatables', $tahun_ajar['id'], $kelas['id']) ?>",
             "type": "POST",
             "data": {
                 "<?= csrf_token() ?>": "<?= csrf_hash() ?>"

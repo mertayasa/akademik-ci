@@ -31,7 +31,7 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', function(){
+$routes->get('/', function () {
     return redirect()->to(route_to('login_form'));
 });
 
@@ -111,6 +111,7 @@ $routes->group('akademik', ['filter' => 'auth'], function ($routes) {
     $routes->get('(:num)/(:num)/show-student', 'Akademik::showStudent/$1/$2', ['as' => 'akademik_show_student']);
     $routes->get('(:num)/show-schedule', 'Akademik::showSchedule/$1', ['as' => 'akademik_show_schedule']);
     $routes->post('datatables', 'Akademik::datatables', ['as' => 'akademik_datatables']);
+    $routes->post('(:num)/(:num)/siswa_datatables', 'AnggotaKelas::datatables/$1/$2', ['as' => 'siswa_datatables']);
 });
 
 $routes->get('test/(:any)', 'Test::index/$1');
