@@ -64,34 +64,32 @@ class Nilai extends BaseController
                             ->select('users.nama')
                             ->join('users', 'wali_kelas.id_guru_wali = users.id')
                             ->where([
-                                'id_kelas' => $anggota_kelas['id_kelas'],
-                                'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'],
+                                'id_kelas' => $anggota_kelas['id_kelas'] ?? '-',
+                                'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'] ?? '-',
                             ])
                             ->findAll()[0]['nama'] ?? '-';
 
-        $jadwal = $this->nilai
-                            ->select('
-                                kelas.id as id_kelas, kelas.jenjang as jenjang_kelas, 
-                                users.nama as nama_guru, jadwal.id as id_jadwal, 
-                                mapel.id as id_mapel, mapel.nama as nama_mapel,
-                                jadwal.jam_mulai, jadwal.jam_selesai, jadwal.hari'
-                            )->join('kelas', 'jadwal.id_kelas = kelas.id')
+        $nilai = $this->nilai
+                            ->select(
+                                'mapel.nama as nama_mapel, tugas, uts, uas'
+                            )->join('kelas', 'nilai.id_kelas = kelas.id')
+                            ->join('jadwal', 'nilai.id_jadwal = jadwal.id')
                             ->join('mapel', 'jadwal.id_mapel = mapel.id')
-                            ->join('users', 'jadwal.id_guru = users.id')
+                            ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')
                             ->where([
-                                'id_kelas' => $anggota_kelas['id_kelas'],
-                                'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'],
+                                'nilai.id_kelas' => $anggota_kelas['id_kelas'] ?? '-',
+                                'nilai.id_anggota_kelas' => $anggota_kelas['id'] ?? '-',
+                                'jadwal.id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'] ?? '-',
                             ])
                             ->findAll() ?? [];
 
         $data = [
-            'jadwal' => $jadwal,
             'anggota_kelas' => $anggota_kelas,
             'wali_kelas' => $wali_kelas,
-            'nilai' => [],
+            'nilai' => $nilai,
         ];
 
-        dd($data);
+        // dd($data);
 
         return view('nilai/siswa/index', $data);
     }

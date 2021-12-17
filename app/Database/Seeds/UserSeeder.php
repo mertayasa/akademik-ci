@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             $this->user->updateOrInsert(['email' => $data['email']], $data);
         }
 
-        for($i=0; $i<=50; $i++){            
+        for($i=0; $i <=10; $i++){            
             $data = [
                 'nama' => $faker->name(),
                 'email' => $faker->email(),

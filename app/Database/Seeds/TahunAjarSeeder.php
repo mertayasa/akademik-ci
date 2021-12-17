@@ -10,7 +10,7 @@ class TahunAjarSeeder extends Seeder
     {
         $tahun_start = 2019;
         $tahun_end = 2020;
-        for($i=0; $i<=3; $i++){
+        for($i=0; $i<=6; $i++){
 
             $data = [
                 'tahun_mulai' => $tahun_start+1,

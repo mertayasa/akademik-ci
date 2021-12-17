@@ -25,18 +25,36 @@ class AnggotaKelasSeeder extends Seeder
 
     public function run()
     {
-        $kelas = $this->kelas->getData();
-        foreach($kelas as $kel){
+        // $kelas = $this->kelas->getData();
+        // foreach($kelas as $kel){
+        //     $tahun_ajar = $this->tahun_ajar->getData();
+        //     foreach($tahun_ajar as $tahun){
+        //         for($i=0; $i<=10; $i++){
+        //             $data = [
+        //                 'id_kelas' => $kel['id'],
+        //                 'id_siswa' => $this->user->where('level', 'siswa')->orderBy('id', 'RANDOM')->findAll()[0]['id'],
+        //                 'id_tahun_ajar' => $tahun['id'],
+        //                 'status' => 'aktif'
+        //             ];
+        
+        //             $this->anggota_kelas->updateOrInsert(['id_kelas' => $data['id_kelas'], 'id_siswa' => $data['id_siswa'], 'id_tahun_ajar' => $data['id_tahun_ajar']], $data);
+        //         }
+        //     }
+        // }
+
+        $users = $this->user->where('level', 'siswa')->findAll();
+        foreach($users as $key => $user){
             $tahun_ajar = $this->tahun_ajar->getData();
-            foreach($tahun_ajar as $tahun){
-                for($i=0; $i<=10; $i++){
+            foreach($tahun_ajar as $th => $tahun){
+                $kelas = $this->kelas->where('jenjang', $th+1)->orderBy('id', 'RANDOM')->findAll()[0]['id'] ?? '';
+                if($kelas){
                     $data = [
-                        'id_kelas' => $kel['id'],
-                        'id_siswa' => $this->user->where('level', 'siswa')->orderBy('id', 'RANDOM')->findAll()[0]['id'],
+                        'id_kelas' => $kelas,
+                        'id_siswa' => $user['id'],
                         'id_tahun_ajar' => $tahun['id'],
                         'status' => 'aktif'
                     ];
-        
+    
                     $this->anggota_kelas->updateOrInsert(['id_kelas' => $data['id_kelas'], 'id_siswa' => $data['id_siswa'], 'id_tahun_ajar' => $data['id_tahun_ajar']], $data);
                 }
             }

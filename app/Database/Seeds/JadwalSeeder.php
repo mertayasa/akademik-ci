@@ -33,7 +33,7 @@ class JadwalSeeder extends Seeder
         foreach($kelas as $kel){
             $tahun_ajar = $this->tahun_ajar->getData();
             foreach($tahun_ajar as $tahun){
-                for($i=0; $i<=10; $i++){
+                for($i=0; $i<10; $i++){
                     $data = [
                         'id_kelas' => $kel['id'],
                         'id_guru' => $this->user->where('level', 'guru')->orderBy('id', 'RANDOM')->findAll()[0]['id'],
@@ -45,7 +45,7 @@ class JadwalSeeder extends Seeder
                         'hari' => $this->getHari()[rand(0,6)],
                     ];
         
-                    $this->jadwal->updateOrInsert(['id_kelas' => $data['id_kelas'], 'id_tahun_ajar' => $data['id_tahun_ajar']], $data);
+                    $this->jadwal->insert($data);
                 }
             }
         }

@@ -56,6 +56,7 @@ class Jadwal extends BaseController
                                 ])
                                 ->orderBy('id_kelas', 'DESC')
                                 ->findAll()[0] ?? [];
+        // dd($angg)
                                 
         $wali_kelas = $this->wali_kelas
                             ->select('users.nama')
