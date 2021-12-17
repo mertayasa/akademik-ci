@@ -11,7 +11,7 @@ use Config\Services;
 class Kelas extends BaseController
 {
     protected $kelas;
-    
+
     public function __construct()
     {
         $this->kelas = new KelasModel();
@@ -36,11 +36,11 @@ class Kelas extends BaseController
                 $no++;
                 $row = [];
                 $row[] = $no;
-                $row[] = 'Kelas '.$list->jenjang;
-                $row[] = $list->kode;
+                $row[] = 'Kelas ' . $list->jenjang;
+                // $row[] = $list->kode;
                 $row[] = "
-                <a href='". route_to('kelas_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
-                <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('kelas_destroy', $list->id) ."`, `kelasDataTable`, `Apakah anda yang menghapus data jenjang kelas ?`)'>Hapus</button>";
+                <a href='" . route_to('kelas_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
+                <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('kelas_destroy', $list->id) . "`, `kelasDataTable`, `Apakah anda yang menghapus data jenjang kelas ?`)'>Hapus</button>";
                 $data[] = $row;
             }
 
@@ -96,7 +96,7 @@ class Kelas extends BaseController
 
     public function insert()
     {
-        try{
+        try {
             $new_data = [
                 'kode' => $this->request->getPost('kode'),
                 'jenjang' => $this->request->getPost('jenjang'),
@@ -115,7 +115,7 @@ class Kelas extends BaseController
 
     public function update($id)
     {
-        try{
+        try {
             $update_data = [
                 'kode' => $this->request->getPost('kode'),
                 'jenjang' => $this->request->getPost('jenjang'),
@@ -133,9 +133,9 @@ class Kelas extends BaseController
 
     public function destroy($id)
     {
-        try{
+        try {
             $this->kelas->delete($id);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return json_encode([
                 'code' => 0,
                 'message' => 'Gagal menghapus data jenjang kelas'
