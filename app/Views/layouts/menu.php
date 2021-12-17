@@ -9,94 +9,113 @@
         </a>
     </li>
     
-    <li class="nav-item <?= isActive('user') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
-        <a href="#" class="nav-link <?= isActive('user') ?>">
-            <i class="nav-icon fas fa-users"></i>
-            <p>
-                Pengguna
-                <i class="fas fa-angle-left right"></i>
-            </p>
-        </a>
-        <ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a href="<?= route_to('user_index', 'admin-kepsek') ?>" class="nav-link <?= isActive('admin-kepsek') ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Admin & Kepsek</p>
-                </a>
-            </li>
+    <?php if (session()->get('level') == 'admin'): ?>
+        <li class="nav-item <?= isActive('user') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+            <a href="#" class="nav-link <?= isActive('user') ?>">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                    Pengguna
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'admin-kepsek') ?>" class="nav-link <?= isActive('admin-kepsek') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Admin & Kepsek</p>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a href="<?= route_to('user_index', 'guru') ?>" class="nav-link <?= isActive('guru') ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Guru</p>
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActive('siswa') ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Siswa</p>
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Ortu</p>
-                </a>
-            </li>
-        </ul>
-    </li>
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'guru') ?>" class="nav-link <?= isActive('guru') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Guru</p>
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActive('siswa') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Siswa</p>
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Ortu</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    <?php endif; ?>
     
-    <?php
-        $data_master_sub = [
-            'tahunAjar',
-            'mapel',
-            'kelas',
-        ];
-    ?>
-    <li class="nav-item <?= isActive($data_master_sub) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
-        <a href="#" class="nav-link <?= isActive($data_master_sub) ?>">
-        <i class="nav-icon fas fa-database"></i>
-            <p>
-                Data Master
-                <i class="fas fa-angle-left right"></i>
-            </p>
+    <?php if (session()->get('level') == 'admin'): ?>
+        <?php
+            $data_master_sub = [
+                'tahunAjar',
+                'mapel',
+                'kelas',
+            ];
+        ?>
+        <li class="nav-item <?= isActive($data_master_sub) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+            <a href="#" class="nav-link <?= isActive($data_master_sub) ?>">
+            <i class="nav-icon fas fa-database"></i>
+                <p>
+                    Data Master
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                
+                <li class="nav-item">
+                    <a href="<?= route_to('tahun_ajar_index') ?>" class="nav-link <?= isActive('tahunAjar') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Tahun Ajar</p>
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="<?= route_to('mapel_index') ?>" class="nav-link <?= isActive('mapel') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Mata Pelajaran</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Kelas</p>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a href="<?= route_to('akademik_index') ?>" class="nav-link <?= isActive('akademik') ?>">
+                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                <p>
+                    Akademik
+                </p>
+            </a>
+        </li>
+    <?php endif; ?>
+
+    <li class="nav-item">
+        <a href="<?= route_to('jadwal_index') ?>" class="nav-link <?= isActive('jadwal') ?>">
+            <i class="nav-icon fas fa-calendar"></i>
+            <p>Jadwal</p>
         </a>
-        <ul class="nav nav-treeview">
-            
-            <li class="nav-item">
-                <a href="<?= route_to('tahun_ajar_index') ?>" class="nav-link <?= isActive('tahunAjar') ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Tahun Ajar</p>
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a href="<?= route_to('mapel_index') ?>" class="nav-link <?= isActive('mapel') ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Mata Pelajaran</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Kelas</p>
-                </a>
-            </li>
-
-        </ul>
     </li>
 
     <li class="nav-item">
-        <a href="<?= route_to('akademik_index') ?>" class="nav-link <?= isActive('akademik') ?>">
-            <i class="nav-icon fas fa-chalkboard-teacher"></i>
-            <p>
-                Akademik
-            </p>
+        <a href="<?= route_to('nilai_index') ?>" class="nav-link <?= isActive('nilai') ?>">
+            <i class="nav-icon fas fa-clipboard-list"></i>
+            <p>Nilai</p>
         </a>
     </li>
+    
 
     <!-- <li class="nav-item">
         <a href="#" class="nav-link">
