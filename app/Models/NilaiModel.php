@@ -5,10 +5,10 @@ namespace App\Models;
 use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class JadwalModel extends Generic
+class NilaiModel extends Generic
 {
     // protected $DBGroup          = 'default';
-    protected $table            = 'jadwal';
+    protected $table            = 'nilai';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -17,13 +17,11 @@ class JadwalModel extends Generic
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_kelas',
-        'id_guru', 
-        'id_mapel', 
-        'jam_mulai', 
-        'jam_selesai', 
-        'hari',
-        'status',
-        'id_tahun_ajar'
+        'id_jadwal', 
+        'id_anggota_kelas', 
+        'tugas', 
+        'uts', 
+        'uas'
     ];
 
     // Dates

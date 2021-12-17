@@ -85,6 +85,26 @@ $routes->group('kelas', ['filter' => 'auth'], function ($routes) {
     $routes->post('datatables', 'Kelas::datatables', ['as' => 'kelas_datatables']);
 });
 
+$routes->group('jadwal', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'Jadwal::index', ['as' => 'jadwal_index']);
+    $routes->get('(:num)/edit', 'Jadwal::edit/$1', ['as' => 'jadwal_edit']);
+    $routes->patch('update/(:num)', 'Jadwal::update/$1', ['as' => 'jadwal_update']);
+    $routes->get('create', 'Jadwal::create', ['as' => 'jadwal_create']);
+    $routes->post('insert', 'Jadwal::insert', ['as' => 'jadwal_insert']);
+    $routes->get('destroy/(:num)', 'Jadwal::destroy/$1', ['as' => 'jadwal_destroy']);
+    $routes->post('datatables', 'Jadwal::datatables', ['as' => 'jadwal_datatables']);
+});
+
+$routes->group('nilai', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'Nilai::index', ['as' => 'nilai_index']);
+    $routes->get('(:num)/edit', 'Nilai::edit/$1', ['as' => 'nilai_edit']);
+    $routes->patch('update/(:num)', 'Nilai::update/$1', ['as' => 'nilai_update']);
+    $routes->get('create', 'Nilai::create', ['as' => 'nilai_create']);
+    $routes->post('insert', 'Nilai::insert', ['as' => 'nilai_insert']);
+    $routes->get('destroy/(:num)', 'Nilai::destroy/$1', ['as' => 'nilai_destroy']);
+    $routes->post('datatables', 'Nilai::datatables', ['as' => 'nilai_datatables']);
+});
+
 $routes->group('akademik', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Akademik::index', ['as' => 'akademik_index']);
     $routes->post('search-tahun', 'Akademik::index', ['as' => 'akademik_search_tahun']);
