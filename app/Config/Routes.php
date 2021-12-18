@@ -97,13 +97,16 @@ $routes->group('jadwal', ['filter' => 'auth'], function ($routes) {
 
 $routes->group('nilai', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Nilai::index', ['as' => 'nilai_index']);
-    $routes->get('historyNilai', 'Nilai::history', ['as' => 'nilai_history']);
     $routes->get('(:num)/edit', 'Nilai::edit/$1', ['as' => 'nilai_edit']);
     $routes->patch('update/(:num)', 'Nilai::update/$1', ['as' => 'nilai_update']);
     $routes->get('create', 'Nilai::create', ['as' => 'nilai_create']);
     $routes->post('insert', 'Nilai::insert', ['as' => 'nilai_insert']);
     $routes->get('destroy/(:num)', 'Nilai::destroy/$1', ['as' => 'nilai_destroy']);
     $routes->post('datatables', 'Nilai::datatables', ['as' => 'nilai_datatables']);
+});
+
+$routes->group('history', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'Nilai::history', ['as' => 'nilai_history']);
 });
 
 $routes->group('akademik', ['filter' => 'auth'], function ($routes) {

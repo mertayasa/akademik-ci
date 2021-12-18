@@ -118,7 +118,7 @@
         </li>
 
         <li class="nav-item">
-            <a href="<?= route_to('nilai_history') ?>" class="nav-link <?= isActive('historyNilai') ?>">
+            <a href="<?= route_to('nilai_history') ?>" class="nav-link <?= isActive('history') ?>">
                 <i class="nav-icon fas fa-clipboard-list"></i>
                 <p>Riwayat Nilai</p>
             </a>

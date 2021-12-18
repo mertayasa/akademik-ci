@@ -109,41 +109,54 @@ class Nilai extends BaseController
                                 ->join('tahun_ajar', 'anggota_kelas.id_tahun_ajar = tahun_ajar.id')
                                 ->where([
                                     'id_siswa' => session()->get('id'),
-                                    'id_tahun_ajar' => $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'],
                                 ])
-                                ->orderBy('id_kelas', 'DESC')
-                                ->findAll()[0] ?? [];
-                                
-        $wali_kelas = $this->wali_kelas
-                            ->select('users.nama')
-                            ->join('users', 'wali_kelas.id_guru_wali = users.id')
-                            ->where([
-                                'id_kelas' => $anggota_kelas['id_kelas'] ?? '-',
-                                'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'] ?? '-',
-                            ])
-                            ->findAll()[0]['nama'] ?? '-';
+                                ->orderBy('id_kelas', 'ASC')
+                                ->findAll() ?? [];
+        
+        // dd($anggota_kelas);
+                           
+        $new_nilai = [];
+        foreach($anggota_kelas as $anggota){
+            $wali_kelas = $this->wali_kelas
+                    ->select('users.nama')
+                    ->join('users', 'wali_kelas.id_guru_wali = users.id')
+                    ->where([
+                        'id_kelas' => $anggota['id_kelas'] ?? '-',
+                        'id_tahun_ajar' => $anggota['id_tahun_ajar'] ?? '-',
+                    ])
+                    ->findAll()[0]['nama'] ?? '-';
 
-        $nilai = $this->nilai
-                            ->select(
-                                'mapel.nama as nama_mapel, tugas, uts, uas'
-                            )->join('kelas', 'nilai.id_kelas = kelas.id')
-                            ->join('jadwal', 'nilai.id_jadwal = jadwal.id')
-                            ->join('mapel', 'jadwal.id_mapel = mapel.id')
-                            ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')
-                            ->where([
-                                'nilai.id_kelas' => $anggota_kelas['id_kelas'] ?? '-',
-                                'nilai.id_anggota_kelas' => $anggota_kelas['id'] ?? '-',
-                            ])
-                            ->findAll() ?? [];
+            $nilai = $this->nilai
+                                ->select(
+                                    'mapel.nama as nama_mapel, tugas, uts, uas'
+                                )->join('kelas', 'nilai.id_kelas = kelas.id')
+                                ->join('jadwal', 'nilai.id_jadwal = jadwal.id')
+                                ->join('mapel', 'jadwal.id_mapel = mapel.id')
+                                ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')
+                                ->where([
+                                    'nilai.id_kelas' => $anggota['id_kelas'] ?? '-',
+                                    'nilai.id_anggota_kelas' => $anggota['id'] ?? '-',
+                                    'jadwal.id_tahun_ajar' => $anggota['id_tahun_ajar'] ?? '-',
+                                ])
+                                ->findAll();
+
+            array_push($new_nilai, [
+                'kelas' => convertRoman($anggota['jenjang']).$anggota['kode'],
+                'tahun_ajar' => $anggota['tahun_mulai'].'/'.$anggota['tahun_selesai'],
+                'wali_kelas' => $wali_kelas,
+                'nilai' => $nilai
+            ]);
+        }
+
+        // dd($new_nilai);
 
         $data = [
-            'anggota_kelas' => $anggota_kelas,
-            'wali_kelas' => $wali_kelas,
-            'nilai' => $nilai,
+            // 'anggota_kelas' => $anggota_kelas,
+            'history_nilai' => $new_nilai,
         ];
 
-        dd($data);
+        // dd($data);
 
-        return view('nilai/siswa/index', $data);
+        return view('nilai/history/index', $data);
     }
 }
