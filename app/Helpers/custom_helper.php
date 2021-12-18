@@ -5,6 +5,7 @@ if ( ! function_exists('isActive'))
     function isActive($param)
     {
         $current_url = explode('/', uri_string());
+        // dd($current_url);
 
         if(is_array($param)){
             foreach($param as $par){
@@ -13,7 +14,7 @@ if ( ! function_exists('isActive'))
                } 
             }
         }else{
-            return $current_url[0] == $param || ($current_url[1] ?? '-') == $param ? 'active' : '';
+            return $current_url[0] === $param || ($current_url[1] ?? '-') === $param ? 'active' : '';
         }
     }
 

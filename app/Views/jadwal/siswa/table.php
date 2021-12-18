@@ -38,9 +38,12 @@
                     </thead>
                     <tbody>
                         <?php if (count($jadwal) > 0): ?>
+                            <?php
+                                $index = 1;
+                            ?>
                             <?php foreach ($jadwal as $key => $value):?>
                                 <tr>
-                                    <td><?= $key+ $key++ ?></td>
+                                    <td><?= $index++ ?></td>
                                     <td><?= $value['nama_mapel'] ?></td>
                                     <td><?= $value['nama_guru'] ?></td>
                                     <td><?= $value['hari'] ?></td>

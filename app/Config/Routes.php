@@ -105,6 +105,10 @@ $routes->group('nilai', ['filter' => 'auth'], function ($routes) {
     $routes->post('datatables', 'Nilai::datatables', ['as' => 'nilai_datatables']);
 });
 
+$routes->group('history', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'Nilai::history', ['as' => 'nilai_history']);
+});
+
 $routes->group('akademik', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Akademik::index', ['as' => 'akademik_index']);
     $routes->post('search-tahun', 'Akademik::index', ['as' => 'akademik_search_tahun']);

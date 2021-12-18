@@ -71,7 +71,7 @@
                             </tr>
                         <?php else: ?>
                             <tr>
-                                <td colspan="5" class="text-center"> Tidak Ada Data </td>
+                                <td colspan="6" class="text-center"> Tidak Ada Data </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
