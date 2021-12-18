@@ -73,4 +73,50 @@ if ( ! function_exists('isActive'))
             'Minggu',
         ];
     }
+
+    function getKategoriPrestasi($kategori, $with_html = false)
+    {
+        if($with_html){
+            switch($kategori){
+                case 'guru':
+                    return '<span class="badge badge-primary">'. ucfirst($kategori) .'</span>';
+                break;
+                case 'siswa':
+                    return '<span class="badge badge-info">'. ucfirst($kategori) .'</span>';
+                break;
+                case 'pegawai':
+                    return '<span class="badge badge-success">'. ucfirst($kategori) .'</span>';
+                break;
+            }
+        }
+        return ucfirst($kategori);
+    }
+
+    function getTingkatPrestasi($tingkat, $with_html = false)
+    {
+        // "kec", "kab", "prov", "nas", "kota", "inter", "antar_sekolah"
+        switch($tingkat){
+            case 'kec':
+                return $with_html ? '<span class="badge badge-warning">Kecamatan</span>' : 'Kecamatan';
+            break;
+            case 'kab':
+                return $with_html ? '<span class="badge badge-info">Kabupaten</span>' : 'Kabupaten';
+            break;
+            case 'prov':
+                return $with_html ? '<span class="badge badge-info">Provinsi</span>' : 'Provinsi';
+            break;
+            case 'nas':
+                return $with_html ? '<span class="badge badge-success">Nasional</span>' : 'Nasional';
+            break;
+            case 'kota':
+                return $with_html ? '<span class="badge badge-info">Kota</span>' : 'Kota';
+            break;
+            case 'inter':
+                return $with_html ? '<span class="badge badge-success">Internasional</span>' : 'Internasional';
+            break;
+            case 'antar_sekolah':
+                return $with_html ? '<span class="badge badge-warning">Antar Sekola</span>' : 'Antar Sekola';
+            break;
+        }
+    }
 }

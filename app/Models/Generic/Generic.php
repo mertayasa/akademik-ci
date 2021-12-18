@@ -13,10 +13,14 @@ class Generic extends Model
         $db->query("SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));");
     }
 
-    public function getData($id = null)
+    public function getData($id = null, $orderBy = null)
     {
         if(!$id){
-            return $this->findAll();
+            if($orderBy){
+                return $this->orderBy($orderBy)->findAll();
+            }else{
+                return $this->findAll();
+            }
         }
 
         return $this->find($id);

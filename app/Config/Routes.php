@@ -105,6 +105,17 @@ $routes->group('nilai', ['filter' => 'auth'], function ($routes) {
     $routes->post('datatables', 'Nilai::datatables', ['as' => 'nilai_datatables']);
 });
 
+$routes->group('prestasi', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'Prestasi::index', ['as' => 'prestasi_index']);
+    $routes->get('(:num)/edit', 'Prestasi::edit/$1', ['as' => 'prestasi_edit']);
+    $routes->patch('update/(:num)', 'Prestasi::update/$1', ['as' => 'prestasi_update']);
+    $routes->get('create', 'Prestasi::create', ['as' => 'prestasi_create']);
+    $routes->get('detail/(:num)', 'Prestasi::detail/$1', ['as' => 'prestasi_detail']);
+    $routes->post('insert', 'Prestasi::insert', ['as' => 'prestasi_insert']);
+    $routes->get('destroy/(:num)', 'Prestasi::destroy/$1', ['as' => 'prestasi_destroy']);
+    $routes->post('datatables', 'Prestasi::datatables', ['as' => 'prestasi_datatables']);
+});
+
 $routes->group('history', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Nilai::history', ['as' => 'nilai_history']);
 });

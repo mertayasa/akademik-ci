@@ -8,17 +8,26 @@ use CodeIgniter\Model;
 class PrestasiModel extends Generic
 {
     // protected $DBGroup          = 'default';
-    protected $table            = 'prestasis';
+    protected $table            = 'prestasi_akademik';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'nama',
+        'kategori',
+        'tingkat',
+        'thumbnail',
+        'deskripsi',
+        'konten',
+        'created_at',
+        'updated_at',
+    ];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';

@@ -124,6 +124,13 @@
             </a>
         </li>
     <?php endif; ?>
+
+    <li class="nav-item">
+        <a href="<?= route_to('prestasi_index') ?>" class="nav-link <?= isActive('prestasi') ?>">
+            <i class="nav-icon fas fa-award"></i>
+            <p>Prestasi Akademik</p>
+        </a>
+    </li>
     
 
     <!-- <li class="nav-item">

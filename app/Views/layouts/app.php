@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/sweetalert2/sweetalert2.css') ?>">
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/toastr/toastr.css') ?>">
     <meta name="csrf-token" content="<?= csrf_hash() ?>" />
+    <?= $this->renderSection('styles') ?>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

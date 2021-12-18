@@ -20,6 +20,11 @@ class PrestasiAkademik extends Migration
                 'constraint' => 100,
                 'null' => FALSE,
             ],
+            'thumbnail' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => TRUE,
+            ],
             'kategori' => [
                 'type' => 'ENUM("siswa", "guru", "pegawai")',
                 'null' => TRUE,
@@ -28,10 +33,22 @@ class PrestasiAkademik extends Migration
                 'type' => 'ENUM("kec", "kab", "prov", "nas", "kota", "inter", "antar_sekolah")',
                 'null' => TRUE,
             ],
-            'keterangan' => [
+            'deskripsi' => [
+                'type' => 'TEXT',
+                'null' => TRUE
+            ],
+            'konten' => [
                 'type' => 'LONGTEXT',
-                'null' => FALSE
-            ]
+                'null' => TRUE
+            ],
+            'created_at' => [
+                'type' => 'DATETIME',
+                'null' => TRUE
+            ],
+            'updated_at' => [
+                'type' => 'DATETIME',
+                'null' => TRUE
+            ],
         ]);
         
         $this->forge->addKey('id', TRUE);

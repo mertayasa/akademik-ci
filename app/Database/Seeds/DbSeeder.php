@@ -16,5 +16,6 @@ class DbSeeder extends Seeder
         $this->call('MapelSeeder');
         $this->call('JadwalSeeder');
         $this->call('NilaiSeeder');
+        $this->call('PrestasiSeeder');
     }
 }
