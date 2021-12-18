@@ -102,19 +102,28 @@
         </li>
     <?php endif; ?>
 
-    <li class="nav-item">
-        <a href="<?= route_to('jadwal_index') ?>" class="nav-link <?= isActive('jadwal') ?>">
-            <i class="nav-icon fas fa-calendar"></i>
-            <p>Jadwal</p>
-        </a>
-    </li>
+    <?php if (session()->get('level') == 'siswa'): ?>
+        <li class="nav-item">
+            <a href="<?= route_to('jadwal_index') ?>" class="nav-link <?= isActive('jadwal') ?>">
+                <i class="nav-icon fas fa-calendar"></i>
+                <p>Jadwal</p>
+            </a>
+        </li>
 
-    <li class="nav-item">
-        <a href="<?= route_to('nilai_index') ?>" class="nav-link <?= isActive('nilai') ?>">
-            <i class="nav-icon fas fa-clipboard-list"></i>
-            <p>Nilai</p>
-        </a>
-    </li>
+        <li class="nav-item">
+            <a href="<?= route_to('nilai_index') ?>" class="nav-link <?= isActive('nilai') ?>">
+                <i class="nav-icon fas fa-clipboard-list"></i>
+                <p>Nilai</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="<?= route_to('nilai_history') ?>" class="nav-link <?= isActive('historyNilai') ?>">
+                <i class="nav-icon fas fa-clipboard-list"></i>
+                <p>Riwayat Nilai</p>
+            </a>
+        </li>
+    <?php endif; ?>
     
 
     <!-- <li class="nav-item">

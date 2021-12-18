@@ -97,6 +97,7 @@ $routes->group('jadwal', ['filter' => 'auth'], function ($routes) {
 
 $routes->group('nilai', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Nilai::index', ['as' => 'nilai_index']);
+    $routes->get('historyNilai', 'Nilai::history', ['as' => 'nilai_history']);
     $routes->get('(:num)/edit', 'Nilai::edit/$1', ['as' => 'nilai_edit']);
     $routes->patch('update/(:num)', 'Nilai::update/$1', ['as' => 'nilai_update']);
     $routes->get('create', 'Nilai::create', ['as' => 'nilai_create']);

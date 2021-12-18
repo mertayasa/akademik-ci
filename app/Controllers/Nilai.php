@@ -89,8 +89,6 @@ class Nilai extends BaseController
             'nilai' => $nilai,
         ];
 
-        // dd($data);
-
         return view('nilai/siswa/index', $data);
     }
 
@@ -102,5 +100,50 @@ class Nilai extends BaseController
     private function indexOrtu()
     {
         
+    }
+
+    public function history()
+    {
+        $anggota_kelas = $this->anggota_kelas
+                                ->join('kelas', 'anggota_kelas.id_kelas = kelas.id')
+                                ->join('tahun_ajar', 'anggota_kelas.id_tahun_ajar = tahun_ajar.id')
+                                ->where([
+                                    'id_siswa' => session()->get('id'),
+                                    'id_tahun_ajar' => $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'],
+                                ])
+                                ->orderBy('id_kelas', 'DESC')
+                                ->findAll()[0] ?? [];
+                                
+        $wali_kelas = $this->wali_kelas
+                            ->select('users.nama')
+                            ->join('users', 'wali_kelas.id_guru_wali = users.id')
+                            ->where([
+                                'id_kelas' => $anggota_kelas['id_kelas'] ?? '-',
+                                'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'] ?? '-',
+                            ])
+                            ->findAll()[0]['nama'] ?? '-';
+
+        $nilai = $this->nilai
+                            ->select(
+                                'mapel.nama as nama_mapel, tugas, uts, uas'
+                            )->join('kelas', 'nilai.id_kelas = kelas.id')
+                            ->join('jadwal', 'nilai.id_jadwal = jadwal.id')
+                            ->join('mapel', 'jadwal.id_mapel = mapel.id')
+                            ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')
+                            ->where([
+                                'nilai.id_kelas' => $anggota_kelas['id_kelas'] ?? '-',
+                                'nilai.id_anggota_kelas' => $anggota_kelas['id'] ?? '-',
+                            ])
+                            ->findAll() ?? [];
+
+        $data = [
+            'anggota_kelas' => $anggota_kelas,
+            'wali_kelas' => $wali_kelas,
+            'nilai' => $nilai,
+        ];
+
+        dd($data);
+
+        return view('nilai/siswa/index', $data);
     }
 }

@@ -33,7 +33,7 @@
                                 <p>Jumlah Siswa</p>
                             </div>
                             <div class="icon">
-                                <i class="">100</i>
+                                <i class="fas fa-user"></i>
                             </div>
                             <a href="<?= route_to('user_index', 'siswa') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
