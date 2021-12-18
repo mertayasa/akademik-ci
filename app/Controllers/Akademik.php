@@ -7,6 +7,7 @@ use App\Models\AnggotaKelasModel;
 use App\Models\KelasModel;
 use App\Models\TahunAjarModel;
 use App\Models\WaliKelasModel;
+use App\Models\JadwalModel;
 use Carbon\Carbon;
 
 class Akademik extends BaseController
@@ -15,6 +16,7 @@ class Akademik extends BaseController
     protected $anggota_kelas;
     protected $wali_kelas;
     protected $tahun_ajar;
+    protected $jadwal;
     protected $db;
 
     public function __construct()
@@ -92,13 +94,37 @@ class Akademik extends BaseController
     {
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun);
         $kelas = $this->kelas->getData($id_kelas);
+        $include = 'akademik/student/datatable';
 
         $data = [
-            'tahun_ajar' => $tahun_ajar,
-            'kelas' => $kelas,
+            'tahun_ajar'   => $tahun_ajar,
+            'kelas'        => $kelas,
+            'breadcrumb'   => 'Daftar Siswa',
+            'include_view' => $include
         ];
-        // $tahun_ajar;
 
+        return view('akademik/student/index', $data);
+    }
+
+    public function showSchedule($id_kelas, $id_tahun_ajar)
+    {
+        $this->jadwal = new JadwalModel;
+        $jadwal_kelas = $this->jadwal->get_jadwal_by_id($id_kelas, $id_tahun_ajar);
+        $jadwal_hari = $this->jadwal->get_hari($id_kelas, $id_tahun_ajar);
+        $kelas = $this->kelas->getData($id_kelas);
+        $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
+        $include = 'akademik/student/jadwal';
+
+        $data = [
+            'jadwal'       => $jadwal_kelas,
+            'hari'         => $jadwal_hari,
+            'kelas'        => $kelas,
+            'tahun_ajar'   => $tahun_ajar,
+            'breadcrumb'   => 'Daftar Jadwal',
+            'include_view' => $include
+        ];
+
+        // dd($jadwal_kelas);
         return view('akademik/student/index', $data);
     }
 }
