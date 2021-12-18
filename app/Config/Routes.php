@@ -124,7 +124,7 @@ $routes->group('akademik', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Akademik::index', ['as' => 'akademik_index']);
     $routes->post('search-tahun', 'Akademik::index', ['as' => 'akademik_search_tahun']);
     $routes->get('(:num)/(:num)/show-student', 'Akademik::showStudent/$1/$2', ['as' => 'akademik_show_student']);
-    $routes->get('(:num)/show-schedule', 'Akademik::showSchedule/$1', ['as' => 'akademik_show_schedule']);
+    $routes->get('(:num)/(:num)/show-schedule', 'Akademik::showSchedule/$1/$2', ['as' => 'akademik_show_schedule']);
     $routes->post('datatables', 'Akademik::datatables', ['as' => 'akademik_datatables']);
     $routes->post('(:num)/(:num)/siswa_datatables', 'AnggotaKelas::datatables/$1/$2', ['as' => 'siswa_datatables']);
 });
