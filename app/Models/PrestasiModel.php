@@ -49,4 +49,20 @@ class PrestasiModel extends Generic
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    static $kategori = [
+        'guru' => 'Guru',
+        'siswa' => 'Siswa',
+        'pegawai' => 'Pegawai',
+    ];
+
+    static $tingkat = [
+        'kec' => 'Kecamatan',
+        'kab' => 'Kabupaten',
+        'prov' => 'Provinsi',
+        'nas' => 'Nasional',
+        'kota' => 'Kota',
+        'inter' => 'Internasional',
+        'antar_sekolah' => 'Antar Sekolah',
+    ];
 }
