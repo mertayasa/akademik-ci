@@ -115,7 +115,7 @@ if ( ! function_exists('isActive'))
                 return $with_html ? '<span class="badge badge-success">Internasional</span>' : 'Internasional';
             break;
             case 'antar_sekolah':
-                return $with_html ? '<span class="badge badge-warning">Antar Sekola</span>' : 'Antar Sekola';
+                return $with_html ? '<span class="badge badge-warning">Antar Sekola</span>' : 'Antar Sekolah';
             break;
         }
     }

@@ -8,6 +8,12 @@
 <?= $this->endSection() ?>
 
 <div class="row">
+    <?php if (session()->get('level') == 'admin') : ?>
+        <div class="d-flex justify-content-end col-12">
+            <a href="<?= route_to('prestasi_create') ?>" class="btn btn-primary btn-sm">Tambah Prestasi</a>
+        </div>
+    <?php endif; ?>
+
     <?php foreach ($prestasi as $key => $pres):?>
         <div class="col-12 mt-3">
             <div class="card">
@@ -25,7 +31,7 @@
                             
                             <?php if (session()->get('level') == 'admin') : ?>
                                 <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                                <a href="#" class="btn btn-sm btn-danger">Hapus</a>
+                                <a onclick="deletePrestasi(this)" data-url="<?= route_to('prestasi_destroy', $pres['id']) ?>" class="btn btn-sm btn-danger">Hapus</a>
                             <?php endif; ?>
 
                         </div>
@@ -38,3 +44,7 @@
         <?= $pager->links('default','bs4') ?>
     </div>
 </div>
+
+<?= $this->section('scripts') ?>
+    <?= $this->include('prestasi/confirm_del') ?>
+<?= $this->endSection() ?>
