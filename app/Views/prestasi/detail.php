@@ -41,15 +41,16 @@
                                     <?= getTingkatPrestasi($prestasi['tingkat'], true) ?>
                                 </div>
 
-                                <div class="content mt-3 px-3">
-                                    <?= $prestasi['konten'] ?>
-                                </div>
+                            </div>
+                            
+                            <div class="content mt-3 px-2">
+                                <?= $prestasi['konten'] ?>
                             </div>
                             
                             <?php if (session()->get('level') == 'admin') : ?>
                                 <div class="px-2">
                                     <a href="<?= route_to('prestasi_index') ?>" class="btn btn-sm btn-secondary">Kembali</a>
-                                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="<?= route_to('prestasi_edit', $prestasi['id']) ?>" class="btn btn-sm btn-warning">Edit</a>
                                     <a onclick="deletePrestasi(this)" data-url="<?= route_to('prestasi_destroy', $prestasi['id']) ?>" class="btn btn-sm btn-danger">Hapus</a>
                                 </div>
                             <?php endif; ?>

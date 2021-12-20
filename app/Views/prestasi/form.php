@@ -1,5 +1,6 @@
 <?= $this->section('styles'); ?>
     <link rel="stylesheet" href="<?= base_url('plugin/filepond/dist/filepond.css') ?>">
+    <link href="<?= base_url('plugin/filepond/dist/image-preview/filepond-plugin-image-preview.css') ?>" rel="stylesheet" />
 <?= $this->endSection() ?>
 
 <?= csrf_field() ?>
@@ -10,7 +11,7 @@
             'type' => 'text',
             'name' => 'nama',
             'id' => 'namaPres',
-            'value' => set_value('nama') == false && isset($mapel) ? $mapel['nama'] : set_value('nama'),
+            'value' => set_value('nama') == false && isset($prestasi) ? $prestasi['nama'] : set_value('nama'),
             'class' => 'form-control'
         ]) ?>
     </div>
@@ -20,7 +21,7 @@
             'type' => 'text',
             'name' => 'deskripsi',
             'id' => 'deskripsiPres',
-            'value' => set_value('deskripsi') == false && isset($mapel) ? $mapel['deskripsi'] : set_value('deskripsi'),
+            'value' => set_value('deskripsi') == false && isset($prestasi) ? $prestasi['deskripsi'] : set_value('deskripsi'),
             'class' => 'form-control'
         ]) ?>
     </div>
@@ -32,7 +33,7 @@
         <?= form_dropdown(
                 'kategori',
                 ['' => 'Pilih Kategori'] + $kategori,
-                set_value('kategori') == false && isset($mapel) ? $mapel['kategori'] : set_value('kategori'),
+                set_value('kategori') == false && isset($prestasi) ? $prestasi['kategori'] : set_value('kategori'),
                 ['class' => 'form-control', 'id' => 'kategoriPres']
             );
         ?>
@@ -42,7 +43,7 @@
         <?= form_dropdown(
                 'tingkat',
                 ['' => 'Pilih Tingkat'] + $tingkat,
-                set_value('tingkat') == false && isset($mapel) ? $mapel['tingkat'] : set_value('tingkat'),
+                set_value('tingkat') == false && isset($prestasi) ? $prestasi['tingkat'] : set_value('tingkat'),
                 ['class' => 'form-control', 'id' => 'tingkatPres']
             );
         ?>
@@ -56,7 +57,7 @@
             'type' => 'text',
             'name' => 'konten',
             'id' => 'kontenPres',
-            'value' => set_value('konten') == false && isset($mapel) ? $mapel['konten'] : set_value('konten'),
+            'value' => set_value('konten') == false && isset($prestasi) ? $prestasi['konten'] : set_value('konten'),
             'class' => 'form-control'
         ]) ?>
     </div>
@@ -66,6 +67,7 @@
             'type' => 'file',
             'name' => 'thumbnail',
             'id' => 'thumbPres',
+            'data-thumbnail' => isset($prestasi) ? base_url($prestasi['thumbnail']) : ''
         ]) ?>
     </div>
 </div>
@@ -73,19 +75,46 @@
 <?= $this->section('scripts') ?>
     <script src="<?= base_url('plugin/filepond/dist/filepond.js') ?>"></script>
     <script src="<?= base_url('plugin/tinymce/js/tinymce/tinymce.min.js') ?>"></script>
+    <script src="<?= base_url('plugin/filepond/dist/file-encode/filepond-plugin-file-encode.js') ?>"></script>
+    <script src="<?= base_url('plugin/filepond/dist/image-preview/filepond-plugin-image-preview.js') ?>"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            FilePond.create(
-                document.getElementById('thumbPres'), {
+            FilePond.registerPlugin(
+                FilePondPluginFileEncode,
+                FilePondPluginImagePreview
+            )
+
+            let options
+            let imageUrl
+            const url = window.location
+
+            if (url.pathname.includes('edit')) {
+                imageUrl = document.getElementById('thumbPres').getAttribute('data-thumbnail')
+                options = {
+                    acceptedFileTypes: ['image/png', 'image/jng', 'image/jpeg'],
+                    maxFileSize: '500KB',
+                    files: [{
+                        source: imageUrl,
+                        options:{
+                            type: 'remote'
+                        }
+                    }]
+                }
+            }else{
+                options = {
                     acceptedFileTypes: ['image/png', 'image/jng', 'image/jpeg'],
                     maxFileSize: '500KB'
                 }
+            }
+
+            FilePond.create(
+                document.getElementById('thumbPres'), options
             );
 
             tinymce.init({
                 selector: '#kontenPres',
                 height: "450",
-                images_upload_url: "route_to('tiny-upload')",
+                images_upload_url: "<?= route_to('tiny_upload') ?>",
                 relative_urls: false,
                 remove_script_host: false,
                 convert_urls: true,

@@ -65,6 +65,65 @@ class Prestasi extends BaseController
         return view('prestasi/edit', $data);
     }
 
+    public function insert()
+    {
+        try{
+            $base_64_foto = json_decode($this->request->getPost('thumbnail'), true);
+            $upload_image = uploadFile($base_64_foto, 'prestasi');
+
+            if ($upload_image === 0) {
+                session()->setFlashdata('error', 'Gagal mengupload gambar');
+                return redirect()->back()->withInput();
+            }
+
+            $new_data = [
+                'nama' => $this->request->getPost('nama'),
+                'konten' => $this->request->getPost('konten'),
+                'tingkat' => $this->request->getPost('tingkat'),
+                'kategori' => $this->request->getPost('kategori'),
+                'deskripsi' => $this->request->getPost('deskripsi'),
+                'thumbnail' => $upload_image,
+            ];
+
+            $this->prestasi->insertData($new_data);
+            session()->setFlashdata('success', 'Berhasil menyimpan data prestasi');
+            return redirect()->to(route_to('prestasi_index'));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            session()->setFlashdata('error', 'Gagal menyimpan data prestasi');
+            return redirect()->back()->withInput();
+        }
+    }
+
+    public function update($id)
+    {
+        try{
+            $base_64_foto = json_decode($this->request->getPost('thumbnail'), true);
+            $upload_image = uploadFile($base_64_foto, 'prestasi');
+
+            if ($upload_image === 0) {
+                session()->setFlashdata('error', 'Gagal mengupload gambar');
+                return redirect()->back()->withInput();
+            }
+
+            $new_data = [
+                'nama' => $this->request->getPost('nama'),
+                'konten' => $this->request->getPost('konten'),
+                'tingkat' => $this->request->getPost('tingkat'),
+                'kategori' => $this->request->getPost('kategori'),
+                'deskripsi' => $this->request->getPost('deskripsi'),
+                'thumbnail' => $upload_image,
+            ];
+
+            $this->prestasi->updateData($id, $new_data);
+            session()->setFlashdata('success', 'Berhasil mengubah data prestasi');
+            return redirect()->to(route_to('prestasi_index'));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            session()->setFlashdata('error', 'Gagal mengubah data prestasi');
+            return redirect()->back()->withInput();
+        }
+    }
 
     public function destroy($id)
     {

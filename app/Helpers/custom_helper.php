@@ -119,4 +119,32 @@ if ( ! function_exists('isActive'))
             break;
         }
     }
+
+    function uploadFile($base_64_foto, $folder)
+    {
+        try {
+            $foto = base64_decode($base_64_foto['data']);
+            $folderName = 'images/' . $folder;
+    
+            $formatted_file_name = str_replace(' ', '-', $base_64_foto['name']);
+    
+            if (file_exists($folderName . '/' . $formatted_file_name)) {
+                return 'images/' . $folder . '/' . $formatted_file_name;
+            };
+    
+            if (!file_exists($folderName)) {
+                mkdir($folderName, 0755, true);
+            }
+    
+            $safeName = time() . $formatted_file_name;
+            $inventoriePath =  $folderName;
+            file_put_contents($inventoriePath . '/' . $safeName, $foto);
+
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            return 0;
+        }
+    
+        return 'images/' . $folder . '/' . $safeName;
+    }
 }

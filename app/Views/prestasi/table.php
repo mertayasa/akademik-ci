@@ -30,7 +30,7 @@
                             <a href="<?= route_to('prestasi_detail', $pres['id']) ?>" class="btn btn-sm btn-primary">Detail</a>
                             
                             <?php if (session()->get('level') == 'admin') : ?>
-                                <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="<?= route_to('prestasi_edit', $pres['id']) ?>" class="btn btn-sm btn-warning">Edit</a>
                                 <a onclick="deletePrestasi(this)" data-url="<?= route_to('prestasi_destroy', $pres['id']) ?>" class="btn btn-sm btn-danger">Hapus</a>
                             <?php endif; ?>
 
