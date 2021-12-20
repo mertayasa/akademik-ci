@@ -8,6 +8,8 @@ use App\Models\KelasModel;
 use App\Models\TahunAjarModel;
 use App\Models\WaliKelasModel;
 use App\Models\JadwalModel;
+use App\Models\UserModel;
+use App\Models\MapelModel;
 use Carbon\Carbon;
 
 class Akademik extends BaseController
@@ -17,7 +19,11 @@ class Akademik extends BaseController
     protected $wali_kelas;
     protected $tahun_ajar;
     protected $jadwal;
+    protected $mapel;
+    protected $users;
     protected $db;
+    protected $request;
+    protected $session;
 
     public function __construct()
     {
@@ -25,6 +31,8 @@ class Akademik extends BaseController
         $this->anggota_kelas = new AnggotaKelasModel();
         $this->wali_kelas = new WaliKelasModel();
         $this->tahun_ajar = new TahunAjarModel();
+        $this->request = \Config\Services::request();
+        $this->session = \Config\Services::session();
         $this->db = db_connect();
     }
 
@@ -109,8 +117,12 @@ class Akademik extends BaseController
     public function showSchedule($id_kelas, $id_tahun_ajar)
     {
         $this->jadwal = new JadwalModel;
+        $this->users = new UserModel;
+        $this->mapel = new MapelModel;
         $jadwal_kelas = $this->jadwal->get_jadwal_by_id($id_kelas, $id_tahun_ajar);
         $jadwal_hari = $this->jadwal->get_hari($id_kelas, $id_tahun_ajar);
+        $guru = $this->users->where('level', 'guru')->get()->getResultObject();
+        $mapel = $this->mapel->findAll();
         $kelas = $this->kelas->getData($id_kelas);
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
         $include = 'akademik/student/jadwal';
@@ -119,12 +131,53 @@ class Akademik extends BaseController
             'jadwal'       => $jadwal_kelas,
             'hari'         => $jadwal_hari,
             'kelas'        => $kelas,
+            'mapel'        => $mapel,
             'tahun_ajar'   => $tahun_ajar,
             'breadcrumb'   => 'Daftar Jadwal',
+            'guru'         => $guru,
             'include_view' => $include
         ];
 
-        // dd($jadwal_kelas);
+        // dd($mapel);
         return view('akademik/student/index', $data);
+    }
+    public function update()
+    {
+        $this->jadwal = new JadwalModel;
+        $id = $this->request->getVar('id_jadwal');
+        $id_kelas = $this->request->getPost('id_kelas_post');
+        // dd($id);
+        $id_tahun_ajar = $this->request->getPost('id_tahun_ajar_post');
+        $data = [
+            'id_mapel'  => $this->request->getPost('nama_mapel'),
+            'id_guru'   => $this->request->getPost('nama_guru'),
+            'jam_mulai' => $this->request->getPost('jam_mulai'),
+            'jam_selesai' => $this->request->getPost('jam_selesai')
+        ];
+
+        try {
+            $this->jadwal->updateData($id, $data);
+            $this->session->setFlashdata('success', 'Update Successful');
+            return redirect()->to(route_to('akademik_show_schedule', $id_kelas, $id_tahun_ajar));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            $this->session->setFlashdata('error', 'Update Failed');
+            return redirect()->back()->withInput();
+        }
+    }
+    public function set_status($id, $id_kelas, $id_tahun_ajar)
+    {
+        $this->jadwal = new JadwalModel;
+
+        $data = ['status' => 'nonaktif'];
+        try {
+            $this->jadwal->updateData($id, $data);
+            $this->session->setFlashdata('success', 'delete Successful');
+            return redirect()->to(route_to('akademik_show_schedule', $id_kelas, $id_tahun_ajar));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            $this->session->setFlashdata('error', 'delete Failed');
+            return redirect()->back()->withInput();
+        }
     }
 }
