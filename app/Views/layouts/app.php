@@ -134,6 +134,7 @@
                         },
                         "method": "get",
                         success: function(data) {
+                            console.log('delete ')
                             showToast(data.code, data.message)
                             $('#' + tableId).DataTable().ajax.reload();
                         }

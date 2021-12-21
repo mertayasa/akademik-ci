@@ -11,6 +11,7 @@ use App\Models\JadwalModel;
 use App\Models\UserModel;
 use App\Models\MapelModel;
 use Carbon\Carbon;
+use phpDocumentor\Reflection\Types\This;
 
 class Akademik extends BaseController
 {
@@ -178,6 +179,80 @@ class Akademik extends BaseController
             log_message('error', $e->getMessage());
             $this->session->setFlashdata('error', 'delete Failed');
             return redirect()->back()->withInput();
+        }
+    }
+
+    public function waliPerkelas($id_kelas, $id_tahun_ajar)
+    {
+        $this->users = new UserModel;
+        $this->wali_kelas = new WaliKelasModel;
+        $guru_list = $this->users->where('level', 'guru')->get()->getResultObject();
+        $wali = $this->wali_kelas->get_wali_kelas_by_id($id_kelas, $id_tahun_ajar);
+        $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
+        $kelas = $this->kelas->getData($id_kelas);
+        $iinclude = 'akademik/wali_kelas';
+
+        $data = [
+            'wali_kelas'    => $wali,
+            'guru'          => $guru_list,
+            'kelas'         => $kelas,
+            'tahun_ajar'    => $tahun_ajar,
+            'id_kelas'      => $id_kelas,
+            'id_tahun_ajar' => $id_tahun_ajar,
+            'include_view'  => $iinclude,
+            'breadcrumb'    => 'Wali Kelas',
+            'no'            => 1
+        ];
+
+        return view('akademik/student/index', $data);
+    }
+    public function insertWaliPerkelas($id_kelas, $id_tahun_ajar)
+    {
+        $wali = $this->request->getPost('nama_guru');
+        $data = [
+            'id_guru_wali'  => $wali,
+            'id_kelas'      => $id_kelas,
+            'id_tahun_ajar' => $id_tahun_ajar
+        ];
+
+        try {
+            $this->wali_kelas->save($data);
+            $this->session->setFlashdata('success', 'Wali Kelas Berhasil Ditambahkan');
+            return redirect()->to(route_to('show_wali', $id_kelas, $id_tahun_ajar));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            $this->session->setFlashdata('error', 'Gagal Menambahkan Wali');
+            return redirect()->back()->withInput();
+        }
+    }
+    public function updateWali($id_kelas, $id_tahun_ajar)
+    {
+        $id = $this->request->getPost('id');
+        $id_guru = $this->request->getPost('nama_guru');
+
+        $data = [
+            'id'           => $id,
+            'id_guru_wali' => $id_guru
+        ];
+        try {
+            $this->wali_kelas->updateData($id, $data);
+            $this->session->setFlashdata('success', 'Wali Kelas Berhasil Diedit');
+            return redirect()->to(route_to('show_wali', $id_kelas, $id_tahun_ajar));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            $this->session->setFlashdata('error', 'Gagal Menedit Wali');
+            return redirect()->back();
+        }
+    }
+    public function destroyWali($id_wali, $id_kelas, $id_tahun_ajar)
+    {
+        try {
+            $this->wali_kelas->delete($id_wali);
+            $this->session->setFlashdata('success', 'Wali Kelas Berhasil Dihapus');
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            $this->session->setFlashdata('error', 'Gagal Menghapus Wali');
+            return redirect()->back();
         }
     }
 }

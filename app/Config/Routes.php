@@ -133,6 +133,10 @@ $routes->group('akademik', ['filter' => 'auth'], function ($routes) {
     $routes->get('delete/(:num)/(:num)/(:num)', 'Akademik::set_status/$1/$2/$3', ['as' => 'akademik_delete_schedule']);
     $routes->post('datatables', 'Akademik::datatables', ['as' => 'akademik_datatables']);
     $routes->post('(:num)/(:num)/siswa_datatables', 'AnggotaKelas::datatables/$1/$2', ['as' => 'siswa_datatables']);
+    $routes->post('waliperkelas/(:num)/(:num)', 'Akademik::waliPerkelas/$1/$2', ['as' => 'show_wali']);
+    $routes->post('insert/(:num)/(:num)', 'Akademik::insertWaliPerkelas/$1/$2', ['as' => 'akademik_save_wali']);
+    $routes->get('destroy/(:num)/(:num)/(:num)', 'Akademik::destroyWali/$1/$2/$3', ['as' => 'akademik_destroy_wali']);
+    $routes->post('update_wali/(:num)/(:num)', 'Akademik::updateWali/$1/$2', ['as' => 'akademik_update_wali']);
 });
 
 $routes->get('test/(:any)', 'Test::index/$1');
