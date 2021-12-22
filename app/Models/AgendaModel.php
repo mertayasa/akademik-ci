@@ -8,17 +8,22 @@ use CodeIgniter\Model;
 class AgendaModel extends Generic
 {
     // protected $DBGroup          = 'default';
-    protected $table            = 'agendas';
+    protected $table            = 'agenda_kegiatan';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'file',
+        'status',
+        'created_at',
+        'updated_at'
+    ];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
@@ -40,4 +45,7 @@ class AgendaModel extends Generic
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    static $nonaktif = 'nonaktif';
+    static $aktif = 'aktif';
 }

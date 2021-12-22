@@ -28,6 +28,13 @@
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/sweetalert2/sweetalert2.css') ?>">
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/toastr/toastr.css') ?>">
     <meta name="csrf-token" content="<?= csrf_hash() ?>" />
+
+    <style>
+        td{
+            vertical-align: middle !important;
+        }
+    </style>
+
     <?= $this->renderSection('styles') ?>
 </head>
 
@@ -117,7 +124,7 @@
         function deleteModel(deleteUrl, tableId, target = '') {
             Swal.fire({
                 title: "Warning",
-                text: `Yakin menghapus data ${target}? Proses ini tidak dapat diulang`,
+                text: `Yakin menghapus data ${target} Proses ini tidak dapat diulang`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#169b6b',

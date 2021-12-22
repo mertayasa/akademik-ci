@@ -116,6 +116,18 @@ $routes->group('prestasi', ['filter' => 'auth'], function ($routes) {
     $routes->post('datatables', 'Prestasi::datatables', ['as' => 'prestasi_datatables']);
 });
 
+$routes->group('agenda', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'Agenda::index', ['as' => 'agenda_index']);
+    $routes->get('(:num)/edit', 'Agenda::edit/$1', ['as' => 'agenda_edit']);
+    $routes->patch('update/(:num)', 'Agenda::update/$1', ['as' => 'agenda_update']);
+    $routes->get('(:num)/active', 'Agenda::setActive/$1', ['as' => 'agenda_set_active']);
+    $routes->get('create', 'Agenda::create', ['as' => 'agenda_create']);
+    $routes->get('detail/(:num)', 'Agenda::detail/$1', ['as' => 'agenda_detail']);
+    $routes->post('insert', 'Agenda::insert', ['as' => 'agenda_insert']);
+    $routes->get('destroy/(:num)', 'Agenda::destroy/$1', ['as' => 'agenda_destroy']);
+    $routes->post('datatables', 'Agenda::datatables', ['as' => 'agenda_datatables']);
+});
+
 $routes->group('history', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Nilai::history', ['as' => 'nilai_history']);
 });
