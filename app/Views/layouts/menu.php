@@ -19,10 +19,18 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
+
                 <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'admin-kepsek') ?>" class="nav-link <?= isActive('admin-kepsek') ?>">
+                    <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActive('admin') ?>">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Admin & Kepsek</p>
+                        <p>Admin</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'kepsek') ?>" class="nav-link <?= isActive('kepsek') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Kepala Sekolah</p>
                     </a>
                 </li>
 

@@ -52,6 +52,10 @@ $routes->group('user', ['filter' => 'auth'], function ($routes) {
     $routes->post('insert/(:segment)', 'User::insert/$1', ['as' => 'user_insert']);
     $routes->get('destroy/(:num)', 'User::destroy/$1', ['as' => 'user_destroy']);
     $routes->post('datatables/(:segment)', 'User::datatables/$1', ['as' => 'user_datatables']);
+    $routes->get('kepsek-edit/(:num)', 'User::kepsekEdit/$1', ['as' => 'kepsek_edit']);
+    $routes->patch('kepsekUpdate/(:num)', 'User::kepsekUpdate/$1', ['as' => 'kepsek_update']);
+    $routes->get('kepsekCreate/', 'User::kepsekCreate', ['as' => 'kepsek_create']);
+    $routes->get('kepsekInsert/', 'User::kepsekInsert', ['as' => 'kepsek_insert']);
 });
 
 $routes->group('tahunAjar', ['filter' => 'auth'], function ($routes) {

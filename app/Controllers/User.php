@@ -18,9 +18,22 @@ class User extends BaseController
 
     public function index($level)
     {
+
+        if($level == 'kepsek'){
+            $kepsek = $this->user->where('level', 'kepsek')->findAll()[0] ?? [];
+            if($kepsek){
+                $kepsek['foto'] = $this->user->getFoto($kepsek['id']);
+            }
+        }else{
+            $kepsek = [];
+        }
+
         $data = [
+            'kepsek' => $kepsek,
             'level' => $level
         ];
+
+        // dd($data);
 
         return view('user/index', $data);
     }
@@ -74,6 +87,10 @@ class User extends BaseController
             
             $new_data = $this->request->getPost();
             $new_data['level'] = $level == 'admin-kepsek' && in_array($new_data['level'], $allowed_level) ? $new_data['level'] : $level;
+            if(!$new_data['password']){
+                session()->setFlashdata('error', 'Password belum diisi');
+                return redirect()->back()->withInput();
+            }
             $new_data['password'] = password_hash($new_data['password'], PASSWORD_BCRYPT);
             
             $this->user->insertData($new_data);
@@ -133,5 +150,95 @@ class User extends BaseController
             'code' => 1,
             'message' => 'Berhasil menghapus data pengguna'
         ]);
+    }
+
+    public function kepsekCreate()
+    {
+        $data = [
+            'level' => 'kepsek'
+        ];
+        return view('user/kepsek/create', $data);
+    }
+
+    public function kepsekInsert()
+    {
+        try{        
+            $new_data = $this->request->getPost();
+
+            if($this->request->getPost('foto')){
+                $base_64_foto = json_decode($this->request->getPost('foto'), true);
+                $upload_image = uploadFile($base_64_foto, 'avatar');
+    
+                if ($upload_image === 0) {
+                    session()->setFlashdata('error', 'Gagal mengupload gambar');
+                    return redirect()->back()->withInput();
+                }
+
+                $new_data['foto'] = $upload_image;
+            }
+
+            if(!$new_data['password']){
+                session()->setFlashdata('error', 'Password belum diisi');
+                return redirect()->back()->withInput();
+            }
+            
+            $new_data['level'] = 'kepsek';
+            $new_data['password'] = password_hash($new_data['password'], PASSWORD_BCRYPT);
+            
+            $this->user->insertData($new_data);
+            session()->setFlashdata('success', 'Berhasil menambahkan profil kepala sekolah');
+            return redirect()->to(route_to('user_index', 'kepsek'));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            session()->setFlashdata('error', 'Gagal menambahkan profil kepala sekolah');
+            return redirect()->back()->withInput();
+        }
+    }
+
+    public function kepsekEdit($id)
+    {
+        $kepsek = $this->user->getData($id);
+        if($kepsek){
+            $kepsek['foto'] = $this->user->getFoto($kepsek['id']);
+        }else{
+            $kepsek = [];
+        }
+
+        $data = [
+            'kepsek' => $kepsek
+        ];
+
+        return view('user/kepsek/edit', $data);
+    }
+
+    public function kepsekUpdate($id)
+    {
+        try{        
+            $update_data = $this->request->getPost();
+
+            if($this->request->getPost('foto')){
+                $base_64_foto = json_decode($this->request->getPost('foto'), true);
+                $upload_image = uploadFile($base_64_foto, 'avatar');
+    
+                if ($upload_image === 0) {
+                    session()->setFlashdata('error', 'Gagal mengupload gambar');
+                    return redirect()->back()->withInput();
+                }
+
+                $update_data['foto'] = $upload_image;
+            }
+
+            if($update_data['password'] != ''){
+                $update_data['password'] = password_hash($update_data['password'], PASSWORD_BCRYPT);
+            }
+            
+            $this->user->updateData($id, $update_data);
+            session()->setFlashdata('success', 'Berhasil mengubah profil kepala sekolah');
+            return redirect()->to(route_to('user_index', 'kepsek'));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            session()->setFlashdata('error', 'Gagal mengubah profil kepala sekolah');
+            return redirect()->back()->withInput();
+        }
     }
 }

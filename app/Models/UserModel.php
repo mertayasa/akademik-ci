@@ -31,6 +31,8 @@ class UserModel extends Generic
         'status',
         'pekerjaan',
         'alamat',
+        'foto',
+        'bio'
     ];
 
     // Dates
@@ -56,4 +58,16 @@ class UserModel extends Generic
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getFoto($id)
+    {
+        $user = $this->getData($id);
+        if($user){
+            if(file_exists($user['foto'])){
+                return $user['foto'];
+            }else{
+                return 'default/avatar.png';
+            }
+        }
+    }
 }

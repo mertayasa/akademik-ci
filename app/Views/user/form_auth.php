@@ -1,5 +1,9 @@
+<?php
+    if(isset($kepsek)){
+        $user = $kepsek;
+    }
+?>
 
-<hr>
 <h6 class="text-primary text-bold">Authentikasi</h6>
 <small><sup>*</sup> <i>Mohon untuk mencatat Email dan Password yang akan digunakan pada saat login</i></small><br>
 <div class="row">

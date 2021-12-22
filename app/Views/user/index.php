@@ -25,7 +25,11 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <?= $this->include('user/datatable') ?>
+                <?php if($level != 'kepsek'): ?>
+                    <?= $this->include('user/datatable') ?>
+                <?php else: ?>
+                    <?= $this->include('user/kepsek-profile'); ?>
+                <?php endif; ?>
             </div>
         </section>
         <!-- /.content -->
