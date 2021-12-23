@@ -33,8 +33,6 @@ class User extends BaseController
             'level' => $level
         ];
 
-        // dd($data);
-
         return view('user/index', $data);
     }
 
@@ -55,6 +53,7 @@ class User extends BaseController
                 $row[] = $list->nama;
                 $row[] = $list->email;
                 $row[] = $list->level;
+                $row[] = ucfirst($list->status);
                 $row[] = "
                 <a href='". route_to('user_edit', $level, $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
                 <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('user_destroy', $list->id) ."`, `userDataTable`, `Aseg`)'>Hapus</button>";
@@ -74,9 +73,17 @@ class User extends BaseController
 
     public function create($level)
     {
+        if($level == 'siswa'){
+            $ortu = $this->user->select('id, nama')->where('level', 'ortu')->where('status', 'aktif')->findAll();
+        }else{
+            $ortu = [];
+        }
+
         $data = [
-            'level' => $level
+            'level' => $level,
+            'ortu' => $ortu
         ];
+
         return view('user/create', $data);
     }
 
@@ -105,10 +112,17 @@ class User extends BaseController
 
     public function edit($level, $id)
     {
+        if($level == 'siswa'){
+            $ortu = $this->user->select('id, nama')->where('level', 'ortu')->findAll();
+        }else{
+            $ortu = [];
+        }
+
         $user = $this->user->getData($id);
         $data = [
             'level' => $level,
-            'user' => $user
+            'user' => $user,
+            'ortu' => $ortu
         ];
         
         return view('user/edit', $data);

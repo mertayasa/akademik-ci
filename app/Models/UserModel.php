@@ -32,7 +32,8 @@ class UserModel extends Generic
         'pekerjaan',
         'alamat',
         'foto',
-        'bio'
+        'bio',
+        'id_ortu'
     ];
 
     // Dates

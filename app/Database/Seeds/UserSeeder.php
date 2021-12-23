@@ -45,28 +45,6 @@ class UserSeeder extends Seeder
             $this->user->updateOrInsert(['email' => $data['email']], $data);
         }
 
-        for($i=0; $i <=10; $i++){            
-            $data = [
-                'nama' => $faker->name(),
-                'email' => $faker->email(),
-                'nis' => '100'.rand(100, 999).'0000956'.rand(100, 999),
-                'nip' => null,
-                'password' => password_hash('asdasdasd', PASSWORD_DEFAULT),
-                'tanggal_lahir' => $faker->dateTimeBetween(Carbon::now()->subYears(45)->format('d-m-Y'), Carbon::now()->subYears(10)->format('d-m-Y'))->format('d-m-Y'),
-                'tempat_lahir' => $faker->address(),
-                'status_guru' => 'bukan_guru',
-                'pekerjaan' => null,
-                'no_telp' => $faker->e164PhoneNumber(),
-                'alamat' => $faker->address(),
-                'status' => 'aktif',
-                'level' => 'siswa',
-                'created_at' => Time::now(),
-                'updated_at' => Time::now(),
-            ];
-            
-            $this->user->updateOrInsert(['email' => $data['email']], $data);
-        }
-
         for($i=0; $i<=10; $i++){            
             $data = [
                 'nama' => $faker->name(),
@@ -89,6 +67,29 @@ class UserSeeder extends Seeder
             $this->user->updateOrInsert(['email' => $data['email']], $data);
         }
 
+        for($i=0; $i <=10; $i++){            
+            $data = [
+                'nama' => $faker->name(),
+                'email' => $faker->email(),
+                'nis' => '100'.rand(100, 999).'0000956'.rand(100, 999),
+                'nip' => null,
+                'password' => password_hash('asdasdasd', PASSWORD_DEFAULT),
+                'tanggal_lahir' => $faker->dateTimeBetween(Carbon::now()->subYears(45)->format('d-m-Y'), Carbon::now()->subYears(10)->format('d-m-Y'))->format('d-m-Y'),
+                'tempat_lahir' => $faker->address(),
+                'status_guru' => 'bukan_guru',
+                'pekerjaan' => null,
+                'no_telp' => $faker->e164PhoneNumber(),
+                'alamat' => $faker->address(),
+                'status' => 'aktif',
+                'level' => 'siswa',
+                'id_ortu' => $this->user->where('level', 'ortu')->orderBy('id', 'RANDOM')->findAll()[0]['id'],
+                'created_at' => Time::now(),
+                'updated_at' => Time::now(),
+            ];
+            
+            $this->user->updateOrInsert(['email' => $data['email']], $data);
+        }
+
         $siswa = [
             'nama' => $faker->name(),
             'email' => 'siswa@demo.com',
@@ -103,6 +104,7 @@ class UserSeeder extends Seeder
             'alamat' => $faker->address(),
             'status' => 'aktif',
             'level' => 'siswa',
+            'id_ortu' => $this->user->where('level', 'ortu')->orderBy('id', 'RANDOM')->findAll()[0]['id'],
             'created_at' => Time::now(),
             'updated_at' => Time::now(),
         ];

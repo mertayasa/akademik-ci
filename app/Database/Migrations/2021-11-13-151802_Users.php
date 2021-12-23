@@ -81,6 +81,12 @@ class Users extends Migration
                 'type' => 'LONGTEXT',
                 'null' => TRUE
             ],
+            'id_ortu' => [
+                'type' => 'INT',
+                'constraint' => 11,
+                'unsigned' => TRUE,
+                'null' => TRUE
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => TRUE
