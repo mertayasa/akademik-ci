@@ -13,6 +13,7 @@
                             <td>No</td>
                             <td>Nama</td>
                             <td>NIS</td>
+                            <td>Status</td>
                             <td>Aksi</td>
                         </tr>
                     </thead>
@@ -44,5 +45,35 @@
             "orderable": false,
         }],
     })
+
+    function updateStatus(url, tableId, text){
+        Swal.fire({
+            title: "Warning",
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#169b6b',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    "url": url,
+                    "dataType": "JSON",
+                    "headers": {
+                        "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+                    },
+                    "method": "get",
+                    success: function(data) {
+                        console.log(data)
+                        showToast(data.code, data.message)
+                        $('#' + tableId).DataTable().ajax.reload();
+                    }
+                })
+            }
+        })
+    }
+
 </script>
 <?= $this->endSection() ?>

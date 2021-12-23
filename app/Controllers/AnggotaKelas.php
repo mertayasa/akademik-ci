@@ -7,40 +7,19 @@ use App\Models\AnggotaKelasModel;
 use App\Models\KelasModel;
 use App\Models\DataTables\SiswaDataTable;
 use Config\Services;
+use Exception;
 
 class AnggotaKelas extends BaseController
 {
     protected $kelas;
-    protected $jenjang_kelas;
+    protected $anggota_kelas;
     protected $db;
 
     public function __construct()
     {
         $this->kelas = new KelasModel();
-        $this->jenjang_kelas = new AnggotaKelasModel();
+        $this->anggota_kelas = new AnggotaKelasModel();
         $this->db = db_connect();
-    }
-
-    public function index()
-    {
-        $jenjang_kelas = $this->getJenjang();
-
-        $data = [
-            'jenjang_kelas' => $jenjang_kelas
-        ];
-
-        return view('kelas/index', $data);
-    }
-
-    private function getJenjang()
-    {
-        $jenjang   = array();
-        $data   = $this->jenjang_kelas->getData();
-
-        foreach ($data as $key => $each) {
-            $jenjang[$each['jenjang']]['kelas'] = $this->jenjang_kelas->where('jenjang', $each['jenjang'])->findAll();
-        }
-        return $jenjang;
     }
 
     public function datatables($tahun_ajar, $kelas)
@@ -50,6 +29,7 @@ class AnggotaKelas extends BaseController
 
         if ($request->getMethod(true) === 'POST') {
             $lists = $datatable->getDatatables($tahun_ajar, $kelas);
+            log_message('info', json_encode($lists));
             $data = [];
             $no = $request->getPost('start');
 
@@ -59,10 +39,10 @@ class AnggotaKelas extends BaseController
                 $row[] = $no;
                 $row[] = $list->nama;
                 $row[] = $list->nis;
-                // $row[] = $list->level;
+                $row[] = ucfirst($list->status);
                 $row[] = "
-                <a href='" . route_to('kelas_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
-                <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('kelas_destroy', $list->id) . "`, `kelasDataTable`, `Apakah anda yang menghapus data mata pelajaran ?`)'>Hapus</button>";
+                    <a href='" . route_to('nilai_edit', $list->id, $list->id_tahun_ajar) . "' class='btn btn-sm btn-info'>Nilai</a>
+                    <button class='btn btn-sm btn-danger' onclick='updateStatus(`" . route_to('anggota_kelas_update_status', $list->id) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi ". ($list->status == 'aktif' ? 'Non Aktif' : 'Aktif') ." ?`)'>". ($list->status == 'aktif' ? 'Set Non Aktif' : 'Set Aktif') ."</button>";
                 $data[] = $row;
             }
 
@@ -75,6 +55,20 @@ class AnggotaKelas extends BaseController
 
             return json_encode($output);
         }
+    }
+
+    public function updateStatus($id)
+    {
+        try{
+            $anggota_kelas = $this->anggota_kelas->getData($id);
+            $status = $anggota_kelas['status'] == 'aktif' ? 'nonaktif' : 'aktif';
+            $this->anggota_kelas->updateData($anggota_kelas['id'], ['status' => $status]);
+        }catch(Exception $e){
+            log_message('error', $e->getMessage());
+            return json_encode(['code' => 0, 'message' => 'Gagal mengubah status siswa']);
+        }
+
+        return json_encode(['code' => 1, 'message' => 'Berhasil mengubah status siswa']);
     }
 
     public function create()

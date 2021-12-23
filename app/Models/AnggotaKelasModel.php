@@ -19,6 +19,7 @@ class AnggotaKelasModel extends Generic
         'id_kelas',
         'id_siswa',
         'id_tahun_ajar',
+        'status'
     ];
 
     // Dates

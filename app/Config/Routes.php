@@ -155,6 +155,10 @@ $routes->group('akademik', ['filter' => 'auth'], function ($routes) {
     $routes->post('update_wali/(:num)/(:num)', 'Akademik::updateWali/$1/$2', ['as' => 'akademik_update_wali']);
 });
 
+$routes->group('anggota_kelas', ['filter' => 'auth'], function ($routes) {
+    $routes->get('(:num)/update-status', 'AnggotaKelas::updateStatus/$1', ['as' => 'anggota_kelas_update_status']);
+});
+
 $routes->get('test/(:any)', 'Test::index/$1');
 
 /*
