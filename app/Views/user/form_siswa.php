@@ -1,4 +1,7 @@
 <?= csrf_field() ?>
+<?= $this->include('user/form_auth') ?>
+<hr>
+
 <div class="row">
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Nama', 'namaUser') ?>
@@ -69,4 +72,26 @@
     </div>
 </div>
 
-<?= $this->include('user/form_auth') ?>
+<div class="row mt-3">
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Orang Tua', 'idOrtu') ?>
+        <select name="id_ortu" id="idOrtu" class="form-control">
+            <?php  
+                $selected = set_value('id_ortu') == false && isset($user) ? $user['id_ortu'] : set_value('id_ortu');
+            ?>
+            <?php foreach($ortu as $or): ?>
+                <option value="<?= $or['id'] ?>" <?= $selected == $or['id'] ? 'selected' : '' ?> ><?= $or['nama'] ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Status', 'statusUser') ?>
+        <?= form_dropdown(
+                'status',
+                ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
+                set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
+                ['class' => 'form-control', 'id' => 'statusUser']
+            );
+        ?>
+    </div>
+</div>

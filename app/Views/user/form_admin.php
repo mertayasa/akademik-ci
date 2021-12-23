@@ -1,4 +1,6 @@
 <?= csrf_field() ?>
+<?= $this->include('user/form_auth') ?>
+<hr>
 <div class="row">
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Nama', 'namaUser') ?>
@@ -34,5 +36,3 @@
         ?>
     </div>
 </div>
-
-<?= $this->include('user/form_auth') ?>

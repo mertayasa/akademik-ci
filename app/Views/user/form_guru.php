@@ -1,4 +1,7 @@
 <?= csrf_field() ?>
+<?= $this->include('user/form_auth') ?>
+<hr>
+
 <div class="row">
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Nama', 'namaUser') ?>
@@ -23,7 +26,7 @@
 </div>
 
 <div class="row mt-3">
-    <div class="col-12 col-md-3 pb-3 pb-md-0">
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('NIP', 'nip') ?>
         <?= form_input([
             'type' => 'text',
@@ -32,16 +35,6 @@
             'value' => set_value('nip') == false && isset($user) ? $user['nip'] : set_value('nip'),
             'class' => 'form-control'
         ]) ?>
-    </div>
-    <div class="col-12 col-md-3 pb-3 pb-md-0">
-        <?= form_label('Status Guru', 'statusGuru') ?>
-        <?= form_dropdown(
-                'status_guru',
-                getStatusGuru(),
-                set_value('status_guru') == false && isset($mapel) ? $mapel['status_guru'] : set_value('status_guru'),
-                ['class' => 'form-control', 'id' => 'statusGuru']
-            );
-        ?>
     </div>
 
     <div class="col-12 col-md-6 pb-3 pb-md-0">
@@ -79,4 +72,25 @@
     </div>
 </div>
 
-<?= $this->include('user/form_auth') ?>
+<div class="row mt-3">
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Status Guru', 'statusGuru') ?>
+        <?= form_dropdown(
+                'status_guru',
+                getStatusGuru(),
+                set_value('status_guru') == false && isset($user) ? $user['status_guru'] : set_value('status_guru'),
+                ['class' => 'form-control', 'id' => 'statusGuru']
+            );
+        ?>
+    </div>
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Status', 'statusUser') ?>
+        <?= form_dropdown(
+                'status',
+                ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
+                set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
+                ['class' => 'form-control', 'id' => 'statusUser']
+            );
+        ?>
+    </div>
+</div>

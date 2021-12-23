@@ -1,4 +1,7 @@
 <?= csrf_field() ?>
+<?= $this->include('user/form_auth') ?>
+<hr>
+
 <div class="row">
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Nama', 'namaUser') ?>
@@ -10,7 +13,7 @@
             'class' => 'form-control'
         ]) ?>
     </div>
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
+    <div class="col-12 col-md-3 pb-3 pb-md-0">
         <?= form_label('No Telpon', 'noTelp') ?>
         <?= form_input([
             'type' => 'text',
@@ -19,6 +22,16 @@
             'value' => set_value('no_telp') == false && isset($user) ? $user['no_telp'] : set_value('no_telp'),
             'class' => 'form-control'
         ]) ?>
+    </div>
+    <div class="col-12 col-md-3 pb-3 pb-md-0">
+        <?= form_label('Status', 'statusUser') ?>
+        <?= form_dropdown(
+                'status',
+                ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
+                set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
+                ['class' => 'form-control', 'id' => 'statusUser']
+            );
+        ?>
     </div>
 </div>
 
@@ -45,5 +58,3 @@
         ]) ?>
     </div>
 </div>
-
-<?= $this->include('user/form_auth') ?>

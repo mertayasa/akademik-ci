@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <a href="<?= route_to('user_create', $level) ?>" class="btn btn-primary btn-sm float-right">Tambah User</a>
+                <a href="<?= route_to('user_create', $level) ?>" class="btn btn-primary btn-sm float-right">Tambah <?= ucfirst($level) ?></a>
             </div>
             <div class="card-body">
 
@@ -14,6 +14,7 @@
                             <td>Nama</td>
                             <td>Email</td>
                             <td>Level</td>
+                            <td>Status</td>
                             <td>Aksi</td>
                         </tr>
                     </thead>
