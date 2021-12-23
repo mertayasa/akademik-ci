@@ -163,6 +163,12 @@ class User extends BaseController
     public function kepsekInsert()
     {
         try{        
+            $check_kepsek = $this->user->where('level', 'kepsek')->findAll();
+            if(count($check_kepsek) > 0){
+                session()->setFlashdata('error', 'Akun Kepala Sekolah Sudah Ada');
+                return redirect()->back()->withInput();
+            }
+            
             $new_data = $this->request->getPost();
 
             if($this->request->getPost('foto')){

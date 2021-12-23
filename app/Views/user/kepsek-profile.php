@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <?php if (!$kepsek) : ?>
+            <?php if (!$kepsek && session()->get('level') == 'admin') : ?>
                 <div class="card-header">
                     <a href="<?= route_to('kepsek_create') ?>" class="btn btn-primary btn-sm float-right">Tambah Kepala Sekolah</a>
                 </div>
