@@ -38,11 +38,33 @@ class Jadwal extends BaseController
         if($level == 'siswa'){
             return $this->indexSiswa();
         }
+
+        if($level == 'guru'){
+            return $this->indexGuru();
+        }
+
+        if($level == 'ortu'){
+            return $this->indexOrtu();
+        }
     }
 
     private function indexGuru()
     {
-        
+        $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
+        $guru = $this->user->getData(session()->get('id'));
+        $jadwal = $this->jadwal->where([
+            'id_guru', session()->get('id'),
+            'id_tahun_ajar', $id_tahun_ajar,
+        ])->findAll();
+
+        $data = [
+            'jadwal' => $jadwal,
+            'guru' => $guru,
+        ];
+
+        dd($data);
+
+        return view('jadwal/siswa/index', $data);
     }
 
     private function indexSiswa()
@@ -56,8 +78,7 @@ class Jadwal extends BaseController
                                 ])
                                 ->orderBy('id_kelas', 'DESC')
                                 ->findAll()[0] ?? [];
-        // dd($angg)
-                                
+   
         $wali_kelas = $this->wali_kelas
                             ->select('users.nama')
                             ->join('users', 'wali_kelas.id_guru_wali = users.id')
@@ -98,6 +119,18 @@ class Jadwal extends BaseController
 
     private function indexOrtu()
     {
-        
+        $anak = $this->user->where('id_ortu', session()->get('id'))->findAll();
+        $jadwal = [];
+        $wali_kelas = [];
+
+        $data = [
+            'anak' => $anak,
+            'jadwal' => $jadwal,
+            'wali_kelas' => $wali_kelas,
+        ];
+
+        dd($data);
+
+        return view('jadwal/ortu/index', $data);
     }
 }

@@ -110,7 +110,7 @@
         </li>
     <?php endif; ?>
 
-    <?php if (session()->get('level') == 'siswa'): ?>
+    <?php if (session()->get('level') == 'siswa' or session()->get('level') == 'ortu'): ?>
         <li class="nav-item">
             <a href="<?= route_to('jadwal_index') ?>" class="nav-link <?= isActive('jadwal') ?>">
                 <i class="nav-icon fas fa-calendar"></i>

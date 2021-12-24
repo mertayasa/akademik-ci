@@ -27,14 +27,14 @@ class WaliKelasSeeder extends Seeder
     {
         $kelas = $this->kelas->getData();
         foreach($kelas as $kel){
-            $tahun_ajar = $this->tahun_ajar->orderBy('id', 'RANDOM')->findAll()[0];
-            for($i=0; $i<=10; $i++){
+            $tahun_ajar = $this->tahun_ajar->getData();
+            foreach($tahun_ajar as $tahun){
                 $data = [
                     'id_kelas' => $kel['id'],
                     'id_guru_wali' => $this->user->where('level', 'guru')->orderBy('id', 'RANDOM')->findAll()[0]['id'],
-                    'id_tahun_ajar' => $tahun_ajar['id'],
+                    'id_tahun_ajar' => $tahun['id'],
                 ];
-
+    
                 $this->wali_kelas->updateOrInsert(['id_kelas' => $data['id_kelas'], 'id_guru_wali' => $data['id_guru_wali'], 'id_tahun_ajar' => $data['id_tahun_ajar']], $data);
             }
         }
