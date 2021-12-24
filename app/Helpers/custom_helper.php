@@ -56,7 +56,7 @@ if ( ! function_exists('isActive'))
                 return 'V';
             break;
             case 6:
-                return 'IV';
+                return 'VI';
             break;
         }
     }

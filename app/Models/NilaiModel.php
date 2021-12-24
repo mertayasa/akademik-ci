@@ -17,7 +17,7 @@ class NilaiModel extends Generic
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_kelas',
-        'id_jadwal', 
+        'id_mapel', 
         'id_anggota_kelas', 
         'tugas', 
         'uts', 

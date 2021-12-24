@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\AnggotaKelasModel;
-use App\Models\JadwalModel;
 use App\Models\KelasModel;
 use App\Models\MapelModel;
 use App\Models\NilaiModel;
@@ -16,7 +15,6 @@ class Nilai extends BaseController
 {
     protected $kelas;
     protected $tahun_ajar;
-    protected $jadwal;
     protected $user;
     protected $anggota_kelas;
     protected $mapel;
@@ -27,7 +25,6 @@ class Nilai extends BaseController
     {
         $this->kelas = new KelasModel();
         $this->tahun_ajar = new TahunAjarModel();
-        $this->jadwal = new JadwalModel();
         $this->user = new UserModel();
         $this->anggota_kelas = new AnggotaKelasModel();
         $this->mapel = new MapelModel();
@@ -69,19 +66,20 @@ class Nilai extends BaseController
                             ])
                             ->findAll()[0]['nama'] ?? '-';
 
+
         $nilai = $this->nilai
                             ->select(
-                                'mapel.nama as nama_mapel, tugas, uts, uas'
+                                'mapel.nama as nama_mapel, tugas, uts, uas, nilai.id_kelas as id_kelas, nilai.id_anggota_kelas as id_anggota'
                             )->join('kelas', 'nilai.id_kelas = kelas.id')
-                            ->join('jadwal', 'nilai.id_jadwal = jadwal.id')
-                            ->join('mapel', 'jadwal.id_mapel = mapel.id')
+                            ->join('mapel', 'nilai.id_mapel = mapel.id')
                             ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')
                             ->where([
-                                'nilai.id_kelas' => $anggota_kelas['id_kelas'] ?? '-',
+                                // 'nilai.id_kelas' => $anggota_kelas['id_kelas'] ?? '-',
                                 'nilai.id_anggota_kelas' => $anggota_kelas['id'] ?? '-',
-                                'jadwal.id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'] ?? '-',
                             ])
                             ->findAll() ?? [];
+                    // dd($anggota_kelas);
+                    // dd($nilai);
 
         $data = [
             'anggota_kelas' => $anggota_kelas,
@@ -130,13 +128,12 @@ class Nilai extends BaseController
                                 ->select(
                                     'mapel.nama as nama_mapel, tugas, uts, uas'
                                 )->join('kelas', 'nilai.id_kelas = kelas.id')
-                                ->join('jadwal', 'nilai.id_jadwal = jadwal.id')
-                                ->join('mapel', 'jadwal.id_mapel = mapel.id')
+                                ->join('mapel', 'nilai.id_mapel = mapel.id')
                                 ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')
                                 ->where([
-                                    'nilai.id_kelas' => $anggota['id_kelas'] ?? '-',
+                                    // 'nilai.id_kelas' => $anggota['id_kelas'] ?? '-',
                                     'nilai.id_anggota_kelas' => $anggota['id'] ?? '-',
-                                    'jadwal.id_tahun_ajar' => $anggota['id_tahun_ajar'] ?? '-',
+                                    // 'anggota_kelas.id_tahun_ajar' => $anggota['id_tahun_ajar'] ?? '-',
                                 ])
                                 ->findAll();
 

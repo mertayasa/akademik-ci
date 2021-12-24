@@ -25,21 +25,21 @@ class NilaiSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create('id_ID');
-        $anggota_kelas = $this->anggota_kelas->getData();
+        $anggota_kelas = $this->anggota_kelas->findAll();
         foreach($anggota_kelas as $anggota){
-            $jadwal = $this->jadwal->where('id_kelas', $anggota['id_kelas'])->findAll();
+            $jadwal = $this->jadwal->select('DISTINCT(id_mapel)')->where('id_kelas', $anggota['id_kelas'])->where('id_tahun_ajar', $anggota['id_tahun_ajar'])->findAll();
             foreach($jadwal as $jad){
                 $nilai = [
-                    'id_kelas' => $jad['id_kelas'],
-                    'id_jadwal' => $jad['id'], 
+                    'id_kelas' => $anggota['id_kelas'],
+                    'id_mapel' => $jad['id_mapel'], 
                     'id_anggota_kelas' => $anggota['id'], 
                     'tugas' => rand(50, 99), 
                     'uts' => rand(50, 99), 
                     'uas' => rand(50, 99)
                 ];
-
-                $this->nilai->updateOrInsert(['id_kelas' => $nilai['id_kelas'], 'id_jadwal' => $nilai['id_jadwal'], 'id_anggota_kelas' => $nilai['id_anggota_kelas']], $nilai);
+                $this->nilai->updateOrInsert(['id_kelas' => $nilai['id_kelas'], 'id_mapel' => $nilai['id_mapel'], 'id_anggota_kelas' => $nilai['id_anggota_kelas']], $nilai);
             }
         }
+
     }
 }

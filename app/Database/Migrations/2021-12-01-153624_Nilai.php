@@ -21,7 +21,7 @@ class Nilai extends Migration
                 'unsigned' => TRUE,
                 'null' => FALSE
             ],
-            'id_jadwal' => [
+            'id_mapel' => [
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => TRUE,
@@ -52,7 +52,7 @@ class Nilai extends Migration
         
         $this->forge->addKey('id', TRUE);
         $this->forge->addForeignKey('id_kelas','kelas','id', 'RESTRICT','RESTRICT');
-        $this->forge->addForeignKey('id_jadwal','jadwal','id', 'RESTRICT','RESTRICT');
+        $this->forge->addForeignKey('id_mapel','mapel','id', 'RESTRICT','RESTRICT');
         $this->forge->addForeignKey('id_anggota_kelas','anggota_kelas','id', 'RESTRICT','RESTRICT');
         $this->forge->createTable('nilai');
     }

@@ -42,22 +42,41 @@ class AnggotaKelasSeeder extends Seeder
         //     }
         // }
 
+        // $users = $this->user->where('level', 'siswa')->findAll();
+        // $tahun_ajar = $this->tahun_ajar->getData();
+        // foreach($tahun_ajar as $th => $tahun){
+        //     foreach($users as $key => $user){
+        //         $kelas = $this->kelas->where('jenjang', $th+1)->orderBy('id', 'RANDOM')->findAll()[0]['id'] ?? '';
+        //         if($kelas){
+        //             $data = [
+        //                 'id_kelas' => $kelas,
+        //                 'id_siswa' => $user['id'],
+        //                 'id_tahun_ajar' => $tahun['id'],
+        //                 'status' => 'aktif'
+        //             ];
+    
+        //             $this->anggota_kelas->updateOrInsert(['id_kelas' => $data['id_kelas'], 'id_siswa' => $data['id_siswa'], 'id_tahun_ajar' => $data['id_tahun_ajar']], $data);
+        //         }
+        //     }
+        // }
         $users = $this->user->where('level', 'siswa')->findAll();
-        foreach($users as $key => $user){
-            $tahun_ajar = $this->tahun_ajar->getData();
-            foreach($tahun_ajar as $th => $tahun){
-                $kelas = $this->kelas->where('jenjang', $th+1)->orderBy('id', 'RANDOM')->findAll()[0]['id'] ?? '';
-                if($kelas){
+        $tahun_ajar = $this->tahun_ajar->getData();
+        foreach($tahun_ajar as $th => $tahun){
+            foreach($users as $key => $user){
+                if($th+1 <= 6){
+                    $kelas = $this->kelas->where('jenjang', $th+1)->orderBy('id', 'RANDOM')->findAll()[0] ?? '';
                     $data = [
-                        'id_kelas' => $kelas,
+                        'id_kelas' => $kelas['id'],
+                        'jenjang' => $kelas['jenjang'],
                         'id_siswa' => $user['id'],
                         'id_tahun_ajar' => $tahun['id'],
                         'status' => 'aktif'
                     ];
-    
-                    $this->anggota_kelas->updateOrInsert(['id_kelas' => $data['id_kelas'], 'id_siswa' => $data['id_siswa'], 'id_tahun_ajar' => $data['id_tahun_ajar']], $data);
+
+                    $this->anggota_kelas->insert($data);
                 }
             }
+
         }
     }
 }
