@@ -22,6 +22,7 @@ class JadwalModel extends Generic
         'jam_mulai',
         'jam_selesai',
         'hari',
+        'kode_hari',
         'status',
         'id_tahun_ajar'
     ];
@@ -80,7 +81,7 @@ class JadwalModel extends Generic
         $this->dt->where('id_kelas', $id_kelas);
         $this->dt->where('id_tahun_ajar', $id_tahun_ajar);
         $this->dt->groupBy('hari');
-        // $this->dt->orderBy('id', 'ASC');
+        $this->dt->orderBy('kode_hari', 'ASC');
         $query = $this->dt->get()->getResultObject();
         return $query;
     }

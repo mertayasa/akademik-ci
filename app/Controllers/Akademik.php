@@ -139,7 +139,7 @@ class Akademik extends BaseController
             'include_view' => $include
         ];
 
-        // dd($mapel);
+        // dd($data);
         return view('akademik/student/index', $data);
     }
     public function update()

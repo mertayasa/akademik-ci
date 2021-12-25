@@ -87,24 +87,13 @@ class Jadwal extends BaseController
                                 'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'],
                             ])
                             ->findAll()[0]['nama'] ?? '-';
-
-        $jadwal = $this->jadwal
-                            ->select('
-                                kelas.id as id_kelas, kelas.jenjang as jenjang_kelas, 
-                                users.nama as nama_guru, jadwal.id as id_jadwal, 
-                                mapel.id as id_mapel, mapel.nama as nama_mapel,
-                                jadwal.jam_mulai, jadwal.jam_selesai, jadwal.hari'
-                            )->join('kelas', 'jadwal.id_kelas = kelas.id')
-                            ->join('mapel', 'jadwal.id_mapel = mapel.id')
-                            ->join('users', 'jadwal.id_guru = users.id')
-                            ->where([
-                                'id_kelas' => $anggota_kelas['id_kelas'],
-                                'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'],
-                            ])
-                            ->findAll() ?? [];
+                            
+        $jadwal = $this->jadwal->get_jadwal_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']) ?? [];
+        $hari = $this->jadwal->get_hari($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']) ?? [];
 
         $data = [
             'jadwal' => $jadwal,
+            'hari' => $hari,
             'anggota_kelas' => $anggota_kelas,
             'wali_kelas' => $wali_kelas,
         ];
@@ -119,17 +108,54 @@ class Jadwal extends BaseController
 
     private function indexOrtu()
     {
-        $anak = $this->user->where('id_ortu', session()->get('id'))->findAll();
-        $jadwal = [];
-        $wali_kelas = [];
+        $id_siswa = $_GET['id_siswa'] ?? null;
+
+        $siswa = $this->user->where('id_ortu', session()->get('id'))->findAll();
+        if(isset($siswa[0]['id'])){
+            $anggota_kelas = $this->anggota_kelas
+                            ->join('kelas', 'anggota_kelas.id_kelas = kelas.id')
+                            ->join('tahun_ajar', 'anggota_kelas.id_tahun_ajar = tahun_ajar.id')
+                            ->where([
+                                'id_siswa' => $id_siswa ?? $siswa[0]['id'],
+                                'id_tahun_ajar' => $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'],
+                            ])
+                            ->orderBy('id_kelas', 'DESC')
+                            ->findAll()[0] ?? [];
+        }else{
+            $anggota_kelas = [];
+        }
+
+        if(isset($anggota_kelas)){
+            $wali_kelas = $this->wali_kelas
+                        ->select('users.nama')
+                        ->join('users', 'wali_kelas.id_guru_wali = users.id')
+                        ->where([
+                            'id_kelas' => $anggota_kelas['id_kelas'],
+                            'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'],
+                        ])
+                        ->findAll()[0]['nama'] ?? '-';
+        }else{
+            $wali_kelas = [];
+        }
+
+        if(isset($anggota_kelas)){
+            $jadwal = $this->jadwal->get_jadwal_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']) ?? [];
+        }else{
+            $jadwal = [];
+        }
+
+        $hari = $this->jadwal->get_hari($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']) ?? [];
 
         $data = [
-            'anak' => $anak,
+            'id_siswa' => $id_siswa ?? ($anggota_kelas[0]['id'] ?? null),
+            'siswa' => $siswa,
+            'anggota_kelas' => $anggota_kelas,
             'jadwal' => $jadwal,
+            'hari' => $hari,
             'wali_kelas' => $wali_kelas,
         ];
 
-        dd($data);
+        // dd($data);
 
         return view('jadwal/ortu/index', $data);
     }

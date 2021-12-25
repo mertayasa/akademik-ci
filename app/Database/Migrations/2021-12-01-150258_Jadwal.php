@@ -41,6 +41,10 @@ class Jadwal extends Migration
                 'type' => 'TIME',
                 'null' => FALSE
             ],
+            'kode_hari' => [
+                'type' => 'INT',
+                'null' => FALSE
+            ],
             'hari' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
