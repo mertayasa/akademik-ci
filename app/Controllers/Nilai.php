@@ -38,6 +38,10 @@ class Nilai extends BaseController
         if($level == 'siswa'){
             return $this->indexSiswa();
         }
+
+        if($level == 'ortu'){
+            return $this->indexOrtu();
+        }
     }
 
     private function indexGuru()
@@ -47,39 +51,10 @@ class Nilai extends BaseController
 
     private function indexSiswa()
     {
-        $anggota_kelas = $this->anggota_kelas
-                                ->join('kelas', 'anggota_kelas.id_kelas = kelas.id')
-                                ->join('tahun_ajar', 'anggota_kelas.id_tahun_ajar = tahun_ajar.id')
-                                ->where([
-                                    'id_siswa' => session()->get('id'),
-                                    'id_tahun_ajar' => $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'],
-                                ])
-                                ->orderBy('id_kelas', 'DESC')
-                                ->findAll()[0] ?? [];
-                                
-        $wali_kelas = $this->wali_kelas
-                            ->select('users.nama')
-                            ->join('users', 'wali_kelas.id_guru_wali = users.id')
-                            ->where([
-                                'id_kelas' => $anggota_kelas['id_kelas'] ?? '-',
-                                'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'] ?? '-',
-                            ])
-                            ->findAll()[0]['nama'] ?? '-';
-
-
-        $nilai = $this->nilai
-                            ->select(
-                                'mapel.nama as nama_mapel, tugas, uts, uas, nilai.id_kelas as id_kelas, nilai.id_anggota_kelas as id_anggota'
-                            )->join('kelas', 'nilai.id_kelas = kelas.id')
-                            ->join('mapel', 'nilai.id_mapel = mapel.id')
-                            ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')
-                            ->where([
-                                // 'nilai.id_kelas' => $anggota_kelas['id_kelas'] ?? '-',
-                                'nilai.id_anggota_kelas' => $anggota_kelas['id'] ?? '-',
-                            ])
-                            ->findAll() ?? [];
-                    // dd($anggota_kelas);
-                    // dd($nilai);
+        $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
+        $anggota_kelas = $this->anggota_kelas->get_anggota_by_id((session()->get('id')), $id_tahun_ajar)[0] ?? [];
+        $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
+        $nilai = $this->nilai->get_nilai_by_anggota($anggota_kelas['id']) ?? [];
 
         $data = [
             'anggota_kelas' => $anggota_kelas,
@@ -97,7 +72,37 @@ class Nilai extends BaseController
 
     private function indexOrtu()
     {
+        $id_siswa = $_GET['id_siswa'] ?? null;
+        $siswa = $this->user->where('id_ortu', session()->get('id'))->findAll();
+        $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
         
+        if(isset($siswa[0]['id'])){
+            $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($id_siswa ?? $siswa[0]['id'], $id_tahun_ajar)[0] ?? [];
+        }else{
+            $anggota_kelas = [];
+        }
+
+        if(isset($anggota_kelas)){
+            $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
+        }else{
+            $wali_kelas = [];
+        }
+
+        if(isset($anggota_kelas)){
+            $nilai = $this->nilai->get_nilai_by_anggota($anggota_kelas['id']) ?? [];
+        }else{
+            $nilai = [];
+        }
+
+        $data = [
+            'id_siswa' => $id_siswa ?? ($anggota_kelas[0]['id'] ?? null),
+            'siswa' => $siswa,
+            'anggota_kelas' => $anggota_kelas,
+            'wali_kelas' => $wali_kelas,
+            'nilai' => $nilai,
+        ];
+
+        return view('nilai/ortu/index', $data);
     }
 
     public function history()
