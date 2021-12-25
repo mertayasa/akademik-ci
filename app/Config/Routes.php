@@ -133,7 +133,7 @@ $routes->group('agenda', ['filter' => 'auth'], function ($routes) {
 });
 
 $routes->group('history', ['filter' => 'auth'], function ($routes) {
-    $routes->get('/', 'Nilai::history', ['as' => 'nilai_history']);
+    $routes->get('/', 'HistoryNilai::index', ['as' => 'nilai_history']);
 });
 
 $routes->group('tiny-upload', ['filter' => 'auth'], function ($routes) {
