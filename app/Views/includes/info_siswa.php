@@ -2,11 +2,13 @@
     <div class="card">
         <div class="card-header">
             <table>
-                <tr>
-                    <td>Nama Siswa</td>
-                    <td class="px-2">:</td>
-                    <td><?= $anggota_kelas['nama_anggota_kelas'] ?></td>
-                </tr>
+                <?php if (session()->get('level') == 'admin') : ?>
+                    <tr>
+                        <td>Nama Siswa</td>
+                        <td class="px-2">:</td>
+                        <td><?= $anggota_kelas['nama_anggota_kelas'] ?></td>
+                    </tr>
+                <?php endif; ?>
                 <tr>
                     <td>Kelas</td>
                     <td class="px-2">:</td>
