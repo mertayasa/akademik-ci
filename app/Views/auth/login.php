@@ -19,7 +19,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>SI AKADEMIK</b></a>
+            <a href="#"><b>SIAMON</b></a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -49,14 +49,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-8">
+                        <!-- <div class="col-8">
                             <div class="icheck-primary">
                                 <input type="checkbox" id="remember">
                                 <label for="remember">
                                     Remember Me
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">Login</button>

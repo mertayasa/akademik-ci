@@ -4,7 +4,7 @@
     <!-- Brand Logo -->
     <a href="<?= site_url('dashboard') ?>" class="brand-link text-center">
         <!-- <img src="<?= base_url('adminlte/dist/img/AdminLTELogo.png') ?>" alt="Aseg" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-        <span class="brand-text font-weight-bold">SI Akademik</span>
+        <span class="brand-text font-weight-bold">SIAMON</span>
     </a>
 
     <!-- Sidebar -->
