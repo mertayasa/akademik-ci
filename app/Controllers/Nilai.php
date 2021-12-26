@@ -111,11 +111,12 @@ class Nilai extends BaseController
         $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($id, $id_tahun_ajar)[0] ?? [];
         $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
         $nilai = $this->nilai->get_nilai_by_anggota($anggota_kelas['id']) ?? [];
-        // dd($nilai);
+        $id_siswa = $this->request->uri->getSegment(2);
         $data = [
             'anggota_kelas' => $anggota_kelas,
             'wali_kelas' => $wali_kelas,
             'nilai' => $nilai,
+            'id_siswa' => $id_siswa
         ];
 
         return view('nilai/siswa/index', $data);
@@ -126,7 +127,7 @@ class Nilai extends BaseController
         $tugas = $this->request->getPost('tugas');
         $uts = $this->request->getPost('uts');
         $uas = $this->request->getPost('uas');
-        $id_siswa = $this->request->uri->getSegment(2);
+        $id_siswa = $this->request->getPost('id_siswa');
 
         $data = [
             'tugas' => $tugas,

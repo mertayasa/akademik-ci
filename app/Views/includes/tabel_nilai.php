@@ -81,6 +81,12 @@
                         'id' => 'id_nilai',
                         'value' => ''
                     ]); ?>
+                    <?= form_input([
+                        'type' => 'hidden',
+                        'name' => 'id_siswa',
+                        'id' => 'id_siswa',
+                        'value' => $id_siswa
+                    ]); ?>
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nama_guru">Mata Pelajaran</label>

@@ -48,22 +48,23 @@ class AnggotaKelasModel extends Generic
 
     public function get_anggota_by_id($id_siswa, $id_tahun_ajar = null)
     {
-        if(isset($id_tahun_ajar)){
+        if (isset($id_tahun_ajar)) {
             $filter = [
                 'id_siswa' => $id_siswa,
                 'id_tahun_ajar' => $id_tahun_ajar,
             ];
-        }else{
+        } else {
             $filter = [
                 'id_siswa' => $id_siswa,
             ];
         }
 
-        return $this->select($this->table . '.*, tahun_ajar.tahun_mulai as tahun_mulai, tahun_ajar.tahun_selesai as tahun_selesai, kelas.kode as kode, kelas.jenjang as jenjang')
-                ->join('kelas', 'anggota_kelas.id_kelas = kelas.id')
-                ->join('tahun_ajar', 'anggota_kelas.id_tahun_ajar = tahun_ajar.id')
-                ->where($filter)
-                ->orderBy('anggota_kelas.id', 'DESC')
-                ->findAll();
+        return $this->select($this->table . '.*, tahun_ajar.tahun_mulai as tahun_mulai, tahun_ajar.tahun_selesai as tahun_selesai, kelas.kode as kode, kelas.jenjang as jenjang, users.nama as nama_anggota_kelas')
+            ->join('kelas', 'anggota_kelas.id_kelas = kelas.id')
+            ->join('tahun_ajar', 'anggota_kelas.id_tahun_ajar = tahun_ajar.id')
+            ->join('users', 'anggota_kelas.id_siswa = users.id')
+            ->where($filter)
+            ->orderBy('anggota_kelas.id', 'DESC')
+            ->findAll();
     }
 }

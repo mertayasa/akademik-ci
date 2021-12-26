@@ -3,9 +3,14 @@
         <div class="card-header">
             <table>
                 <tr>
+                    <td>Nama Siswa</td>
+                    <td class="px-2">:</td>
+                    <td><?= $anggota_kelas['nama_anggota_kelas'] ?></td>
+                </tr>
+                <tr>
                     <td>Kelas</td>
                     <td class="px-2">:</td>
-                    <td><?= isset($anggota_kelas) ? convertRoman($anggota_kelas['jenjang']).''.$anggota_kelas['kode'] : '-' ?></td>
+                    <td><?= isset($anggota_kelas) ? convertRoman($anggota_kelas['jenjang']) . '' . $anggota_kelas['kode'] : '-' ?></td>
                 </tr>
                 <tr>
                     <td>Wali Kelas</td>
@@ -15,7 +20,7 @@
                 <tr>
                     <td>Tahun Ajaran</td>
                     <td class="px-2">:</td>
-                    <td><?= isset($anggota_kelas) ? $anggota_kelas['tahun_mulai'].'/'.$anggota_kelas['tahun_selesai'] : '-' ?> </td>
+                    <td><?= isset($anggota_kelas) ? $anggota_kelas['tahun_mulai'] . '/' . $anggota_kelas['tahun_selesai'] : '-' ?> </td>
                 </tr>
             </table>
         </div>
