@@ -10,6 +10,9 @@ use App\Models\NilaiModel;
 use App\Models\TahunAjarModel;
 use App\Models\UserModel;
 use App\Models\WaliKelasModel;
+use Exception;
+
+use function PHPUnit\Framework\returnSelf;
 
 class Nilai extends BaseController
 {
@@ -35,22 +38,21 @@ class Nilai extends BaseController
     public function index()
     {
         $level = session()->get('level');
-        if($level == 'siswa'){
+        if ($level == 'siswa') {
             return $this->indexSiswa();
         }
 
-        if($level == 'ortu'){
+        if ($level == 'ortu') {
             return $this->indexOrtu();
         }
 
-        if($level == 'guru'){
+        if ($level == 'guru') {
             return $this->indexGuru();
         }
     }
 
     private function indexGuru()
     {
-        
     }
 
     private function indexSiswa()
@@ -74,22 +76,22 @@ class Nilai extends BaseController
         $id_siswa = $_GET['id_siswa'] ?? null;
         $siswa = $this->user->where('id_ortu', session()->get('id'))->findAll();
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
-        
-        if(isset($siswa[0]['id'])){
+
+        if (isset($siswa[0]['id'])) {
             $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($id_siswa ?? $siswa[0]['id'], $id_tahun_ajar)[0] ?? [];
-        }else{
+        } else {
             $anggota_kelas = [];
         }
 
-        if(isset($anggota_kelas)){
+        if (isset($anggota_kelas)) {
             $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
-        }else{
+        } else {
             $wali_kelas = [];
         }
 
-        if(isset($anggota_kelas)){
+        if (isset($anggota_kelas)) {
             $nilai = $this->nilai->get_nilai_by_anggota($anggota_kelas['id']) ?? [];
-        }else{
+        } else {
             $nilai = [];
         }
 
@@ -103,5 +105,42 @@ class Nilai extends BaseController
 
         return view('nilai/ortu/index', $data);
     }
+    public function edit($id)
+    {
+        $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
+        $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($id, $id_tahun_ajar)[0] ?? [];
+        $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
+        $nilai = $this->nilai->get_nilai_by_anggota($anggota_kelas['id']) ?? [];
+        // dd($nilai);
+        $data = [
+            'anggota_kelas' => $anggota_kelas,
+            'wali_kelas' => $wali_kelas,
+            'nilai' => $nilai,
+        ];
 
+        return view('nilai/siswa/index', $data);
+    }
+    public function update()
+    {
+        $id = $this->request->getPost('id_nilai');
+        $tugas = $this->request->getPost('tugas');
+        $uts = $this->request->getPost('uts');
+        $uas = $this->request->getPost('uas');
+        $id_siswa = $this->request->uri->getSegment(2);
+
+        $data = [
+            'tugas' => $tugas,
+            'uts'   => $uts,
+            'uas'   => $uas
+        ];
+        try {
+            $this->nilai->updateData($id, $data);
+            session()->setFlashdata('success', 'Data nilai berhasil diupdate');
+            return redirect()->to(route_to('nilai_edit', $id_siswa));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            session()->setFlashdata('error', 'Update gagal');
+            return redirect()->back()->withInput();
+        }
+    }
 }
