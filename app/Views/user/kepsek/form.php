@@ -1,8 +1,3 @@
-<?= $this->section('styles'); ?>
-    <link rel="stylesheet" href="<?= base_url('plugin/filepond/dist/filepond.css') ?>">
-    <link href="<?= base_url('plugin/filepond/dist/image-preview/filepond-plugin-image-preview.css') ?>" rel="stylesheet" />
-<?= $this->endSection() ?>
-
 <?= csrf_field() ?>
 <?= $this->include('user/form_auth') ?>
 <hr>
@@ -42,11 +37,11 @@
         </div>
 
         <div class="mt-3">
-            <?= form_label('Foto Profil', 'fotoKepsek') ?> <br>
+            <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
             <?= form_upload([
                 'type' => 'file',
                 'name' => 'foto',
-                'id' => 'fotoKepsek',
+                'id' => 'filePondUpload',
                 'data-foto' => isset($kepsek) ? base_url($kepsek['foto']) : ''
             ]) ?>
         </div>
@@ -67,46 +62,4 @@
     </div>
 </div>
 
-<?= $this->section('scripts') ?>
-    <script src="<?= base_url('plugin/filepond/dist/filepond.js') ?>"></script>
-    <script src="<?= base_url('plugin/tinymce/js/tinymce/tinymce.min.js') ?>"></script>
-    <script src="<?= base_url('plugin/filepond/dist/file-encode/filepond-plugin-file-encode.js') ?>"></script>
-    <script src="<?= base_url('plugin/filepond/dist/validate-type/filepond-plugin-file-validate-type.js') ?>"></script>
-    <script src="<?= base_url('plugin/filepond/dist/image-preview/filepond-plugin-image-preview.js') ?>"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            FilePond.registerPlugin(
-                FilePondPluginFileEncode,
-                FilePondPluginImagePreview,
-                FilePondPluginFileValidateType
-            )
-
-            let options
-            let imageUrl
-            const url = window.location
-
-            if (url.pathname.includes('edit')) {
-                imageUrl = document.getElementById('fotoKepsek').getAttribute('data-foto')
-                options = {
-                    acceptedFileTypes: ['image/png', 'image/jng', 'image/jpeg'],
-                    maxFileSize: '500KB',
-                    files: [{
-                        source: imageUrl,
-                        options:{
-                            type: 'remote'
-                        }
-                    }]
-                }
-            }else{
-                options = {
-                    acceptedFileTypes: ['image/png', 'image/jng', 'image/jpeg'],
-                    maxFileSize: '500KB'
-                }
-            }
-
-            FilePond.create(
-                document.getElementById('fotoKepsek'), options
-            );
-        })
-    </script>
-<?= $this->endSection() ?>
+<?= $this->include('layouts/filepond') ?>

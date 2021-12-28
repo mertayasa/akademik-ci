@@ -13,6 +13,11 @@ class Generic extends Model
         $db->query("SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));");
     }
 
+    public function getActive()
+    {
+        return $this->where('status', 'aktif');
+    }
+
     public function getData($id = null, $orderBy = null)
     {
         if(!$id){

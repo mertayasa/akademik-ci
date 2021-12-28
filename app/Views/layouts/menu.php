@@ -9,7 +9,6 @@
         </a>
     </li>
     
-    <?php if (session()->get('level') == 'admin'): ?>
         <li class="nav-item <?= isActive('user') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
             <a href="#" class="nav-link <?= isActive('user') ?>">
                 <i class="nav-icon fas fa-users"></i>
@@ -19,7 +18,7 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
-
+                
                 <li class="nav-item">
                     <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActive('admin') ?>">
                         <i class="far fa-circle nav-icon"></i>
@@ -47,18 +46,20 @@
                         <p>Siswa</p>
                     </a>
                 </li>
+
+                <?php if (isAdmin() or isGuru() or isKepsek()): ?>
+                    <li class="nav-item">
+                        <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Ortu</p>
+                        </a>
+                    </li>
+                <?php endif; ?>
                 
-                <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Ortu</p>
-                    </a>
-                </li>
             </ul>
         </li>
-    <?php endif; ?>
     
-    <?php if (session()->get('level') == 'admin'): ?>
+    <?php if (isAdmin()): ?>
         <?php
             $data_master_sub = [
                 'tahunAjar',
@@ -110,7 +111,7 @@
         </li>
     <?php endif; ?>
 
-    <?php if (session()->get('level') == 'siswa' or session()->get('level') == 'ortu'): ?>
+    <?php if (isSiswa() or isOrtu()): ?>
         <li class="nav-item">
             <a href="<?= route_to('jadwal_index') ?>" class="nav-link <?= isActive('jadwal') ?>">
                 <i class="nav-icon fas fa-calendar"></i>
