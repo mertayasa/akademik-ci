@@ -19,12 +19,14 @@
             </a>
             <ul class="nav nav-treeview">
                 
-                <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActive('admin') ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Admin</p>
-                    </a>
-                </li>
+                <?php if (isAdmin()): ?>
+                    <li class="nav-item">
+                        <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActive('admin') ?>">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Admin</p>
+                        </a>
+                    </li>
+                <?php endif; ?>
 
                 <li class="nav-item">
                     <a href="<?= route_to('user_index', 'kepsek') ?>" class="nav-link <?= isActive('kepsek') ?>">

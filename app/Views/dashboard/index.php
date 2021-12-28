@@ -69,20 +69,22 @@
                         </div>
                     </div>
                     <!-- ./col -->
-                    <div class="col-lg-3 col-6">
-                        <!-- small box -->
-                        <div class="small-box bg-danger">
-                            <div class="inner">
-                                <h3><?= $count['admin'] ?></h3>
+                    <?php if(isAdmin()): ?>
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-danger">
+                                <div class="inner">
+                                    <h3><?= $count['admin'] ?></h3>
 
-                                <p>Jumlah Admin</p>
+                                    <p>Jumlah Admin</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-pie-graph"></i>
+                                </div>
+                                <a href="<?= route_to('user_index', 'admin-kepsek') ?>" class="small-box-footer">Lihat Data <i class="fas fa-arrow-circle-right"></i></a>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
-                            </div>
-                            <a href="<?= route_to('user_index', 'admin-kepsek') ?>" class="small-box-footer">Lihat Data <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                    </div>
+                    <?php endif; ?>
                     <!-- ./col -->
                 </div>
                 <!-- /.row -->
