@@ -30,6 +30,7 @@
                                             <td class="jam"><?= \Carbon\Carbon::parse($value->jam_mulai)->format('H:i') . ' - ' . \Carbon\Carbon::parse($value->jam_selesai)->format('H:i') ?></td>
                                             <td data-guru="<?= $value->id_guru; ?>" class="nama-guru"><?= "$value->jenjang_kelas" .
                                                                                                             "$value->kode_kelas"; ?></td>
+                                            <td> <a href="#" class="btn btn-info">Lihat Siswa</a> </td>
                                         </tr>
                                     <?php endif; ?>
                                 <?php endforeach; ?>

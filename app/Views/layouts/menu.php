@@ -8,7 +8,7 @@
             </p>
         </a>
     </li>
-    <?php if (session()->get('level') == 'admin') : ?>
+    <?php //if (session()->get('level') == 'admin') : ?>
         <li class="nav-item <?= isActive('user') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
             <a href="#" class="nav-link <?= isActive('user') ?>">
                 <i class="nav-icon fas fa-users"></i>
@@ -57,7 +57,7 @@
                 </li>
             </ul>
         </li>
-    <?php endif; ?>
+    <?php //endif; ?>
 
     <?php if (session()->get('level') == 'admin') : ?>
         <?php
@@ -133,11 +133,21 @@
             </a>
         </li>
     <?php endif; ?>
-    <?php if (session()->get('level') == 'guru') : ?>
+    
+    <?php if (isGuru()) : ?>
         <li class="nav-item">
-            <a href="<?= route_to('jadwal_guru') ?>" class="nav-link <?= isActive('prestasi') ?>">
+            <a href="<?= route_to('jadwal_guru') ?>" class="nav-link <?= isActive('jadwal') ?>">
                 <i class="nav-icon fas fa-award"></i>
                 <p>Jadwal</p>
+            </a>
+        </li>
+    <?php endif; ?>
+
+    <?php if (isGuru() and session()->get('is_wali')) : ?>
+        <li class="nav-item">
+            <a href="<?= route_to('panel_wali_index') ?>" class="nav-link <?= isActive('panel_wali') ?>">
+                <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                <p>Panel Wali</p>
             </a>
         </li>
     <?php endif; ?>
@@ -155,42 +165,4 @@
             <p>Agenda Kegiatan</p>
         </a>
     </li>
-
-
-    <!-- <li class="nav-item">
-        <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-edit"></i>
-            <p>
-                Forms
-                <i class="fas fa-angle-left right"></i>
-            </p>
-        </a>
-        <ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>General Elements</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Advanced Elements</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/forms/editors.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Editors</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/forms/validation.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Validation</p>
-                </a>
-            </li>
-        </ul>
-    </li> -->
-
 </ul>

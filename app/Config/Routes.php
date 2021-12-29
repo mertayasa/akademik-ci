@@ -106,6 +106,10 @@ $routes->group('jadwal', ['filter' => 'auth'], function ($routes) {
     $routes->get('jadwal-guru', 'Jadwal::ShowjadwalGuru', ['as' => 'jadwal_guru']);
 });
 
+$routes->group('panel_wali', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'PanelWali::index', ['as' => 'panel_wali_index']);
+});
+
 $routes->group('nilai', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Nilai::index', ['as' => 'nilai_index']);
     $routes->get('(:num)/edit', 'Nilai::edit/$1', ['as' => 'nilai_edit']);

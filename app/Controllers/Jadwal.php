@@ -132,7 +132,6 @@ class Jadwal extends BaseController
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
         $jadwal = $this->jadwal->get_jadwal_guru(session()->get('id'), $id_tahun_ajar);
         $hari = $this->jadwal->get_hari_jadwal_guru(session()->get('id'), $id_tahun_ajar);
-        // dd($hari);
         $data = [
             'jadwal'    => $jadwal,
             'hari'      => $hari
