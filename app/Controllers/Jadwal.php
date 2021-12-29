@@ -35,15 +35,15 @@ class Jadwal extends BaseController
     public function index()
     {
         $level = session()->get('level');
-        if($level == 'siswa'){
+        if ($level == 'siswa') {
             return $this->indexSiswa();
         }
 
-        if($level == 'guru'){
+        if ($level == 'guru') {
             return $this->indexGuru();
         }
 
-        if($level == 'ortu'){
+        if ($level == 'ortu') {
             return $this->indexOrtu();
         }
     }
@@ -71,7 +71,7 @@ class Jadwal extends BaseController
     {
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'] ?? null;
         $anggota_kelas = $this->anggota_kelas->get_anggota_by_id((session()->get('id')), $id_tahun_ajar)[0] ?? [];
-        $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';              
+        $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
         $jadwal = $this->jadwal->get_jadwal_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']) ?? [];
         $hari = $this->jadwal->get_hari($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']) ?? [];
 
@@ -87,7 +87,6 @@ class Jadwal extends BaseController
 
     private function indexAdmin()
     {
-        
     }
 
     private function indexOrtu()
@@ -97,21 +96,21 @@ class Jadwal extends BaseController
         $siswa = $this->user->where('id_ortu', session()->get('id'))->findAll();
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'] ?? null;
 
-        if(isset($siswa[0]['id'])){
+        if (isset($siswa[0]['id'])) {
             $anggota_kelas = $this->anggota_kelas->get_anggota_by_id(($id_siswa ?? $siswa[0]['id']), $id_tahun_ajar)[0] ?? [];
-        }else{
+        } else {
             $anggota_kelas = [];
         }
 
-        if(isset($anggota_kelas)){
+        if (isset($anggota_kelas)) {
             $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
-        }else{
+        } else {
             $wali_kelas = [];
         }
 
-        if(isset($anggota_kelas)){
+        if (isset($anggota_kelas)) {
             $jadwal = $this->jadwal->get_jadwal_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']) ?? [];
-        }else{
+        } else {
             $jadwal = [];
         }
 
@@ -127,5 +126,17 @@ class Jadwal extends BaseController
         ];
 
         return view('jadwal/ortu/index', $data);
+    }
+    public function ShowJadwalGuru()
+    {
+        $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
+        $jadwal = $this->jadwal->get_jadwal_guru(session()->get('id'), $id_tahun_ajar);
+        $hari = $this->jadwal->get_hari_jadwal_guru(session()->get('id'), $id_tahun_ajar);
+        // dd($hari);
+        $data = [
+            'jadwal'    => $jadwal,
+            'hari'      => $hari
+        ];
+        return view('jadwal/guru/index', $data);
     }
 }

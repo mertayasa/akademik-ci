@@ -97,6 +97,7 @@ $routes->group('jadwal', ['filter' => 'auth'], function ($routes) {
     $routes->post('insert', 'Jadwal::insert', ['as' => 'jadwal_insert']);
     $routes->get('destroy/(:num)', 'Jadwal::destroy/$1', ['as' => 'jadwal_destroy']);
     $routes->post('datatables', 'Jadwal::datatables', ['as' => 'jadwal_datatables']);
+    $routes->get('jadwal-guru', 'Jadwal::ShowjadwalGuru', ['as' => 'jadwal_guru']);
 });
 
 $routes->group('nilai', ['filter' => 'auth'], function ($routes) {

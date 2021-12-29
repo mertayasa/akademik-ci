@@ -85,4 +85,28 @@ class JadwalModel extends Generic
         $query = $this->dt->get()->getResultObject();
         return $query;
     }
+
+    public function get_jadwal_guru($id_guru, $id_tahun_ajar)
+    {
+        $this->dt->select($this->table . '.*, kelas.jenjang as jenjang_kelas, kelas.kode as kode_kelas, mapel.nama as nama_mapel, users.nama as nama_guru, users.level');
+        $this->dt->join('kelas', 'kelas.id=jadwal.id_kelas');
+        $this->dt->join('mapel', 'mapel.id=jadwal.id_mapel');
+        $this->dt->join('users', 'users.id=jadwal.id_guru');
+        $this->dt->where('id_guru', $id_guru);
+        $this->dt->where('id_tahun_ajar', $id_tahun_ajar);
+        $this->dt->where($this->table . '.status', 'aktif');
+        $this->dt->orderBy('hari', 'desc');
+        $query = $this->dt->get()->getResultObject();
+        return $query;
+    }
+    public function get_hari_jadwal_guru($id_guru, $id_tahun_ajar)
+    {
+        $this->dt->select('hari');
+        $this->dt->where('id_guru', $id_guru);
+        $this->dt->where('id_tahun_ajar', $id_tahun_ajar);
+        $this->dt->groupBy('hari');
+        $this->dt->orderBy('kode_hari', 'ASC');
+        $query = $this->dt->get()->getResultObject();
+        return $query;
+    }
 }
