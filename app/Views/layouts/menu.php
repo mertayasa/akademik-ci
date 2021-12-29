@@ -8,12 +8,7 @@
             </p>
         </a>
     </li>
-<<<<<<< HEAD
-
     <?php if (session()->get('level') == 'admin') : ?>
-=======
-    
->>>>>>> 11350a84a189ba1a5bfa716f6e9866212d0ee159
         <li class="nav-item <?= isActive('user') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
             <a href="#" class="nav-link <?= isActive('user') ?>">
                 <i class="nav-icon fas fa-users"></i>
@@ -23,8 +18,8 @@
                 </p>
             </a>
             <ul class="nav nav-treeview">
-                
-                <?php if (isAdmin()): ?>
+
+                <?php if (isAdmin()) : ?>
                     <li class="nav-item">
                         <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActive('admin') ?>">
                             <i class="far fa-circle nav-icon"></i>
@@ -54,7 +49,6 @@
                     </a>
                 </li>
 
-<<<<<<< HEAD
                 <li class="nav-item">
                     <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
                         <i class="far fa-circle nav-icon"></i>
@@ -66,21 +60,6 @@
     <?php endif; ?>
 
     <?php if (session()->get('level') == 'admin') : ?>
-=======
-                <?php if (isAdmin() or isGuru() or isKepsek()): ?>
-                    <li class="nav-item">
-                        <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Ortu</p>
-                        </a>
-                    </li>
-                <?php endif; ?>
-                
-            </ul>
-        </li>
-    
-    <?php if (isAdmin()): ?>
->>>>>>> 11350a84a189ba1a5bfa716f6e9866212d0ee159
         <?php
         $data_master_sub = [
             'tahunAjar',
@@ -132,11 +111,7 @@
         </li>
     <?php endif; ?>
 
-<<<<<<< HEAD
-    <?php if (session()->get('level') == 'siswa' or session()->get('level') == 'ortu') : ?>
-=======
-    <?php if (isSiswa() or isOrtu()): ?>
->>>>>>> 11350a84a189ba1a5bfa716f6e9866212d0ee159
+    <?php if (isSiswa() or isOrtu()) : ?>
         <li class="nav-item">
             <a href="<?= route_to('jadwal_index') ?>" class="nav-link <?= isActive('jadwal') ?>">
                 <i class="nav-icon fas fa-calendar"></i>

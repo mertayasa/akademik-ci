@@ -30,7 +30,7 @@
     <meta name="csrf-token" content="<?= csrf_hash() ?>" />
 
     <style>
-        td{
+        td {
             vertical-align: middle !important;
         }
     </style>

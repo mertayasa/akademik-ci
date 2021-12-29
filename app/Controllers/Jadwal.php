@@ -62,7 +62,7 @@ class Jadwal extends BaseController
             'guru' => $guru,
         ];
 
-        dd($data);
+        // dd($data);
 
         return view('jadwal/siswa/index', $data);
     }
