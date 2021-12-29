@@ -23,16 +23,3 @@
         ]) ?>
     </div>
 </div>
-
-<div class="row mt-3">
-    <div class="col-12 col-md-3 pb-3 pb-md-0">
-        <?= form_label('Level', 'level') ?>
-        <?= form_dropdown(
-                'level',
-                ['admin' => 'Admin', 'kepsek' => 'Kepsek'],
-                set_value('level') == false && isset($mapel) ? $mapel['level'] : set_value('level'),
-                ['class' => 'form-control', 'id' => 'statusGuru']
-            );
-        ?>
-    </div>
-</div>

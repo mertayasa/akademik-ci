@@ -2,18 +2,22 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">
-                <a href="<?= route_to('user_create', $level) ?>" class="btn btn-primary btn-sm float-right">Tambah <?= ucfirst($level) ?></a>
-            </div>
+            <?php if(isAdmin()): ?>
+                <div class="card-header">
+                    <a href="<?= route_to('user_create', $level) ?>" class="btn btn-primary btn-sm float-right">Tambah <?= ucfirst($level) ?></a>
+                </div>
+            <?php endif; ?>
             <div class="card-body">
 
                 <table id="userDataTable" class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <td>No</td>
+                            <?php if($level != 'admin'): ?>
+                                <td>Avatar</td>
+                            <?php endif; ?>
                             <td>Nama</td>
                             <td>Email</td>
-                            <td>Level</td>
                             <td>Status</td>
                             <td>Aksi</td>
                         </tr>

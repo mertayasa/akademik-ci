@@ -50,13 +50,26 @@ class User extends BaseController
                 $no++;
                 $row = [];
                 $row[] = $no;
+                if($list->level != 'admin'){
+                    $row[] = "
+                    <a target='_blank' href='". base_url($this->user->getFoto($list->id)) ."'>
+                        <img src='". base_url($this->user->getFoto($list->id)) ."' width='100px'>
+                    </a>";
+                }
                 $row[] = $list->nama;
                 $row[] = $list->email;
-                $row[] = $list->level;
+                // $row[] = $list->level;
                 $row[] = ucfirst($list->status);
-                $row[] = "
-                <a href='". route_to('user_edit', $level, $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
-                <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('user_destroy', $list->id) ."`, `userDataTable`, `Aseg`)'>Hapus</button>";
+                
+                if(isAdmin()){
+                    $row[] = "
+                    <a href='". route_to('profile_show', $list->id) ."' class='btn btn-sm btn-primary'>Profil</a>
+                    <a href='". route_to('user_edit', $level, $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
+                    <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('user_destroy', $list->id) ."`, `userDataTable`, `Aseg`)'>Hapus</button>";
+                }else{
+                    $row[] = "<a href='". route_to('profile_show', $list->id) ."' class='btn btn-sm btn-primary'>Profil</a>";
+                }
+
                 $data[] = $row;
             }
 
@@ -99,6 +112,18 @@ class User extends BaseController
                 return redirect()->back()->withInput();
             }
             $new_data['password'] = password_hash($new_data['password'], PASSWORD_BCRYPT);
+
+            if($this->request->getPost('foto')){
+                $base_64_foto = json_decode($this->request->getPost('foto'), true);
+                $upload_image = uploadFile($base_64_foto, 'avatar');
+    
+                if ($upload_image === 0) {
+                    session()->setFlashdata('error', 'Gagal mengupload gambar');
+                    return redirect()->back()->withInput();
+                }
+
+                $new_data['foto'] = $upload_image;
+            }
             
             $this->user->insertData($new_data);
             session()->setFlashdata('success', 'Berhasil menambahkan data user');
@@ -131,17 +156,28 @@ class User extends BaseController
     public function update($level, $id)
     {
         try{
-            $allowed_level = ['admin', 'kepsek'];
-            
             $update_data = $this->request->getPost();
-            $update_data['level'] = $level == 'admin-kepsek' && in_array($update_data['level'], $allowed_level) ? $update_data['level'] : $level;
-
             if($update_data['password'] != ''){
                 $update_data['password'] = password_hash($update_data['password'], PASSWORD_BCRYPT);
+            }else{
+                unset($update_data['password']);
+                unset($update_data['password_confirmation']);
             }
-            
+
+            if($this->request->getPost('foto')){
+                $base_64_foto = json_decode($this->request->getPost('foto'), true);
+                $upload_image = uploadFile($base_64_foto, 'avatar');
+    
+                if ($upload_image === 0) {
+                    session()->setFlashdata('error', 'Gagal mengupload gambar');
+                    return redirect()->back()->withInput();
+                }
+
+                $update_data['foto'] = $upload_image;
+            }
+
             $this->user->updateData($id, $update_data);
-            session()->setFlashdata('success', 'Berhasil mengubah data user');
+            session()->setFlashdata('success', 'Berhasil mengubah data '.$level);
             return redirect()->to(route_to('user_index', $level));
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());

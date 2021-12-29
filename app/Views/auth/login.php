@@ -65,9 +65,9 @@
                     </div>
                 </form>
 
-                <p class="mb-1">
+                <!-- <p class="mb-1">
                     <a href="forgot-password.html">Lupa Password</a>
-                </p>
+                </p> -->
             </div>
             <!-- /.login-card-body -->
         </div>

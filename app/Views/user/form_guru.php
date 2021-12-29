@@ -72,6 +72,7 @@
     </div>
 </div>
 
+<?php if(isAdmin()): ?>
 <div class="row mt-3">
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Status Guru', 'statusGuru') ?>
@@ -94,3 +95,20 @@
         ?>
     </div>
 </div>
+<?php endif; ?>
+
+<div class="row mt-3">
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <div class="mt-3">
+            <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
+            <?= form_upload([
+                'type' => 'file',
+                'name' => 'foto',
+                'id' => 'filePondUpload',
+                'data-foto' => isset($user) ? base_url($user['foto']) : ''
+            ]) ?>
+        </div>
+    </div>
+</div>
+
+<?= $this->include('layouts/filepond') ?>

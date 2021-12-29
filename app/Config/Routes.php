@@ -58,6 +58,12 @@ $routes->group('user', ['filter' => 'auth'], function ($routes) {
     $routes->post('insert/new/kepsek', 'User::kepsekInsert', ['as' => 'kepsek_insert']);
 });
 
+$routes->group('profile', ['filter' => 'auth'], function ($routes) {
+    $routes->get('(:num)/show', 'Profile::show/$1', ['as' => 'profile_show']);
+    $routes->get('edit', 'Profile::edit', ['as' => 'profile_edit']);
+    $routes->patch('update', 'Profile::update', ['as' => 'profile_update']);
+});
+
 $routes->group('tahunAjar', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'TahunAjar::index', ['as' => 'tahun_ajar_index']);
     $routes->get('(:num)/edit', 'TahunAjar::edit/$1', ['as' => 'tahun_ajar_edit']);

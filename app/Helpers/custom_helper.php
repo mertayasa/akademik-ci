@@ -5,7 +5,6 @@ if ( ! function_exists('isActive'))
     function isActive($param)
     {
         $current_url = explode('/', uri_string());
-        // dd($current_url);
 
         if(is_array($param)){
             foreach($param as $par){
@@ -23,6 +22,51 @@ if ( ! function_exists('isActive'))
         if($level != null){
             return ucwords(str_replace('_', ' ', $level));
         }
+    }
+
+    function isAdmin()
+    {
+        if(session()->get('level') == 'admin'){
+            return true;
+        }
+
+        return false;
+    }
+
+    function isSiswa()
+    {
+        if(session()->get('level') == 'siswa'){
+            return true;
+        }
+
+        return false;
+    }
+
+    function isGuru()
+    {
+        if(session()->get('level') == 'guru'){
+            return true;
+        }
+
+        return false;
+    }
+
+    function isKepsek()
+    {
+        if(session()->get('level') == 'kepsek'){
+            return true;
+        }
+
+        return false;
+    }
+
+    function isOrtu()
+    {
+        if(session()->get('level') == 'ortu'){
+            return true;
+        }
+
+        return false;
     }
 
     function getStatusGuru($status = null)

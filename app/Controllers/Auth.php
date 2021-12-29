@@ -25,26 +25,31 @@ class Auth extends BaseController
         $password = $this->request->getVar('password');
         $data = $model->where('email', $email)->first();
         if($data){
-            $pass = $data['password'];
-            $verify_pass = password_verify($password, $pass);
-            if($verify_pass){
-                $ses_data = [
-                    'id'       => $data['id'],
-                    'nama'     => $data['nama'],
-                    'level'     => $data['level'],
-                    'email'    => $data['email'],
-                    'logged_in'     => TRUE
-                ];
-                $session->set($ses_data);
-                return redirect()->to(route_to('dashboard_index'));
-            }else{
-                $session->setFlashdata('error', 'Wrong Password');
-                return redirect()->to(route_to('login_form'));
+            if($data['status'] == 'aktif'){
+                $pass = $data['password'];
+                $verify_pass = password_verify($password, $pass);
+                if($verify_pass){
+                    $ses_data = [
+                        'id'       => $data['id'],
+                        'nama'     => $data['nama'],
+                        'level'     => $data['level'],
+                        'email'    => $data['email'],
+                        'logged_in'     => TRUE
+                    ];
+                    $session->set($ses_data);
+                    return redirect()->to(route_to('dashboard_index'));
+                }else{
+                    $session->setFlashdata('error', 'Password yang anda masukkan salah');
+                    return redirect()->to(route_to('login_form'));
+                }
             }
+
+            $session->setFlashdata('error', 'Akun anda sudah tidak aktif');
         }else{
-            $session->setFlashdata('error', 'Email not Found');
-            return redirect()->to(route_to('login_form'));
+            $session->setFlashdata('error', 'Akun tidak ditemukan');
         }
+
+        return redirect()->to(route_to('login_form'));
     }
  
     public function logout()

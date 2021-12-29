@@ -170,32 +170,5 @@ class UserSeeder extends Seeder
         ];
         
         $this->user->updateOrInsert(['email' => $kepsek['email']], $kepsek);
-
-        // for($i=0; $i<=100; $i++){
-        //     if($i == 0){
-        //         $selected_level = $level[0];
-        //     }
-        //     $selected_level = $level[rand(0,4)];
-            
-        //     $data = [
-        //         'nama' => $faker->name(),
-        //         'email' => $i == 0 ? 'admin@demo.com' : $faker->email(),
-        //         'nis' => $selected_level == 'siswa' ? '1000'.rand(100, 999).'000123'.rand(100, 999) : null,
-        //         'nip' => $selected_level == 'guru' ? '100'.rand(100, 999).'0000956'.rand(100, 999) : null,
-        //         'password' => password_hash('asdasdasd', PASSWORD_DEFAULT),
-        //         'tanggal_lahir' => $faker->dateTimeBetween(Carbon::now()->subYears(45)->format('d-m-Y'), Carbon::now()->subYears(10)->format('d-m-Y'))->format('d-m-Y'),
-        //         'tempat_lahir' => $faker->address(),
-        //         'status_guru' => $selected_level == 'guru' ? $status_guru[rand(1,2)] : 'bukan_guru',
-        //         'pekerjaan' => $selected_level == 'ortu' ? $faker->jobTitle() : null,
-        //         'no_telp' => $faker->e164PhoneNumber(),
-        //         'alamat' => $faker->address(),
-        //         'status' => 'aktif',
-        //         'level' => $selected_level,
-        //         'created_at' => Time::now(),
-        //         'updated_at' => Time::now(),
-        //     ];
-            
-        //     $this->user->updateOrInsert(['email' => $data['email']], $data);
-        // }
     }
 }
