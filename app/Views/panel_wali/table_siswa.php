@@ -1,6 +1,6 @@
 <!-- Content -->
 
-<table id="daftarSiswaDatatable<?= rand(1231, 234234) ?>" class="table table-striped table-hover">
+<table id="daftarSiswaDatatable<?= $key ?>" class="table table-striped table-hover">
     <thead>
         <tr>
             <td>No</td>
@@ -21,7 +21,8 @@
     //     "serverSide": true,
     //     "order": [1, 'DESC'],
     //     "ajax": {
-    //         "url": "<?= 'asd' //route_to('siswa_datatables', $id_tahun_ajar, $kel['id_kelas']) ?>",
+    //         "url": "<?= 'asd' //route_to('siswa_datatables', $id_tahun_ajar, $kel['id_kelas']) 
+                        ?>",
     //         "type": "POST",
     //         "data": {
     //             "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
@@ -32,5 +33,21 @@
     //         "orderable": false,
     //     }],
     // })
+    $('#daftarSiswaDatatable<?= $key ?>').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "order": [1, 'DESC'],
+        "ajax": {
+            "url": "<?= route_to('siswa_datatables', $tahun_ajar, $kelas) ?>",
+            "type": "POST",
+            "data": {
+                "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+            },
+        },
+        "columnDefs": [{
+            "targets": [0, 2],
+            "orderable": false,
+        }],
+    })
 </script>
 <?= $this->endSection() ?>

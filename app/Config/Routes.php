@@ -107,7 +107,7 @@ $routes->group('jadwal', ['filter' => 'auth'], function ($routes) {
 });
 
 $routes->group('panel_wali', ['filter' => 'auth'], function ($routes) {
-    $routes->get('/', 'PanelWali::index', ['as' => 'panel_wali_index']);
+    $routes->add('/', 'PanelWali::index', ['as' => 'panel_wali_index']);
 });
 
 $routes->group('nilai', ['filter' => 'auth'], function ($routes) {
