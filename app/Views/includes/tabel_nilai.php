@@ -10,7 +10,7 @@
                         <td>UTS</td>
                         <td>UAS</td>
                         <td>Rata-Rata</td>
-                        <?php if (session()->get('level') == "admin") : ?>
+                        <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
                             <td>Action</td>
                         <?php endif; ?>
                     </tr>
@@ -31,7 +31,7 @@
                                 <td><?= $value['uts'] ?></td>
                                 <td><?= $value['uas'] ?></td>
                                 <td><?= round(($value['tugas'] + $value['uts'] + $value['uas']) / 3) ?></td>
-                                <?php if (session()->get('level') == "admin") : ?>
+                                <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
                                     <td><button data-toggle="modal" data-target="#modal_edit_nilai" data-id="<?= $value["id_nilai"]; ?>" class="btn btn-sm btn-warning action-edit">Edit </button></td>
                                 <?php endif; ?>
 
@@ -61,7 +61,7 @@
         </div>
     </div>
 </div>
-<?php if (session()->get('level') == 'admin') : ?>
+<?php if (session()->get('level') == 'admin' || session()->get('is_wali')) : ?>
     <?= $this->include('includes/modal_edit_nilai'); ?>
 <?php endif; ?>
 
