@@ -31,7 +31,7 @@
                     </nav>
                     <div class="tab-content" id="nav-tabContent<?= $key ?>">
                         <div class="tab-pane fade show active" id="list-siswa<?= $key ?>" role="tabpanel" aria-labelledby="list-siswa-tab<?= $key ?>"> <?= view_cell('\App\Libraries\Widget::tabSiswa', ['key' => $key, 'tahun_ajar' => $tahun_ajar['id'], 'kelas' => $kel['id_kelas']]) ?> </div>
-                        <div class="tab-pane fade" id="list-jadwal<?= $key ?>" role="tabpanel" aria-labelledby="list-jadwal-tab<?= $key ?>"> <?= view_cell('\App\Libraries\Widget::tabJadwal', ['hari' => $kel['hari'], 'jadwal' => $kel['jadwal']]) ?> </div>
+                        <div class="tab-pane fade" id="list-jadwal<?= $key ?>" role="tabpanel" aria-labelledby="list-jadwal-tab<?= $key ?>"> <?= view_cell('\App\Libraries\Widget::tabJadwal', ['hari' => $kel['hari'], 'jadwal' => $kel['jadwal'], 'absen' => $kel['absen']]) ?> </div>
                     </div>
                 </div>
 
@@ -39,6 +39,7 @@
         </div>
     </div>
 <?php endforeach; ?>
+
 
 <?= $this->section('scripts') ?>
 <!-- <script>
@@ -48,7 +49,7 @@
             });
         })
     </script> -->
-<script>
+<!-- <script>
     $('#list-jadwal-tab' + <?= $key; ?>).on('click', function() {
         var key = $(this).data('key')
         console.log('asd')
@@ -60,9 +61,9 @@
                 'id_kelas': 22
             },
             success: function() {
-                console.log('jancok')
+                // console.log('jancok')
             }
         })
     })
-</script>
+</script> -->
 <?= $this->endSection() ?>
