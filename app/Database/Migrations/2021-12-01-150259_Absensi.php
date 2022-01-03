@@ -27,15 +27,18 @@ class Absensi extends Migration
                 'unsigned' => TRUE,
                 'null' => FALSE
             ],
-            'id_jadwal' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => TRUE,
+            'tanggal' => [
+                'type' => 'DATE',
                 'null' => FALSE
             ],
             'kehadiran' => [
-                'type' => 'ENUM("hadir", "tidak_hadir")',
-                'default' => "tidak_hadir",
+                'type' => 'ENUM("hadir", "sakit", "ijin", "tanpa_keterangan")',
+                'default' => "hadir",
+                'null' => FALSE
+            ],
+            'semester' => [
+                'type' => 'ENUM("ganjil", "genap")',
+                'default' => "ganjil",
                 'null' => FALSE
             ],
         ]);
@@ -43,7 +46,6 @@ class Absensi extends Migration
         $this->forge->addKey('id', TRUE);
         $this->forge->addForeignKey('id_anggota_kelas','anggota_kelas','id', 'RESTRICT','RESTRICT');
         $this->forge->addForeignKey('id_kelas','kelas','id', 'RESTRICT','RESTRICT');
-        $this->forge->addForeignKey('id_jadwal','jadwal','id', 'RESTRICT','RESTRICT');
         $this->forge->createTable('absensi');
     }
 
