@@ -19,28 +19,28 @@
 </section>
 
 <section class="section px-3">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header d-flex justify-content-between">
-              <h3 class="card-title">Edit Pengguna</h3>
-          </div>
-          <div class="card-body">
-            <?= $this->include('layouts/flash') ;?>
-            <?= form_open(route_to('user_update', $level, $user['id']), ['id' => 'updateForm']); ?>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between">
+            <h3 class="card-title">Edit Pengguna</h3>
+        </div>
+        <div class="card-body">
+          <?= $this->include('layouts/flash') ;?>
+          <?= form_open(route_to('user_update', $level, $user['id']), ['id' => 'updateForm']); ?>
 
-                <?= $this->include('user/form_'.$level); ?>
-                <div class="row mt-3">
-                    <div class="col-12">
-                        <a href="<?= route_to('user_index', $level) ?>" class="btn btn-secondary">Kembali</a>
-                        <button class="btn btn-primary ml-3" type="submit">Simpan</button>
-                    </div>
-                </div>
-            <?= form_close() ?>
+              <?= $this->include('user/form_'.$level); ?>
+              <div class="row mt-3">
+                  <div class="col-12">
+                      <a href="<?= route_to('user_index', $level) ?>" class="btn btn-secondary">Kembali</a>
+                      <button class="btn btn-primary ml-3" type="submit">Simpan</button>
+                  </div>
+              </div>
+          <?= form_close() ?>
 
-          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 <?= $this->endSection(); ?>
