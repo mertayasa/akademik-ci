@@ -45,4 +45,11 @@ class AbsensiModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->db = db_connect();
+        $this->dt = $this->db->table($this->table);
+    }
 }

@@ -3,11 +3,13 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Database\Migrations\Absensi;
 use App\Models\AnggotaKelasModel;
 use App\Models\TahunAjarModel;
 use App\Models\UserModel;
 use App\Models\WaliKelasModel;
 use App\Models\JadwalModel;
+use App\Models\AbsensiModel;
 
 class PanelWali extends BaseController
 {
@@ -18,6 +20,7 @@ class PanelWali extends BaseController
     protected $tahun_ajar;
     protected $jadwal;
     protected $request;
+    protected $absensi;
 
     public function __construct()
     {
@@ -26,6 +29,7 @@ class PanelWali extends BaseController
         $this->anggota_kelas = new AnggotaKelasModel();
         $this->tahun_ajar = new TahunAjarModel();
         $this->jadwal = new JadwalModel;
+        $this->absensi = new AbsensiModel;
         $this->request = \Config\Services::request();
     }
 
@@ -57,7 +61,7 @@ class PanelWali extends BaseController
                     'id_tahun_ajar' => $each['id_tahun_ajar']
                 ])->findAll();
         }
-        // dd($kelas[$key]['jadwal']);
+        // dd($kelas[$key]['absen']);
 
         $data = [
             'tahun_ajar' => $tahun_ajar,
@@ -74,20 +78,51 @@ class PanelWali extends BaseController
             ->where(['id_kelas' => $array['id_kelas'], 'id_tahun_ajar' => $id_tahun])
             ->countAllResults() ?? null;
     }
-    public function absensi($id_kelas, $id_tahun_ajar, $id_jadwal)
-    {
-        $absensi = $this->anggota_kelas
-            ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, users.nama as siswa_nama, ')
-            ->join('users', 'anggota_kelas.id_siswa=users.id')
-            ->where([
-                'id_kelas' => $id_kelas,
-                'id_tahun_ajar' => $id_tahun_ajar
-            ])->findAll();
-        $data = [
-            'absensi' => $absensi,
-            'id_jadwal' => $id_jadwal
-        ];
+    // public function absensi($id_kelas, $id_tahun_ajar, $id_jadwal)
+    // {
+    //     $absensi = $this->anggota_kelas
+    //         ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, users.nama as siswa_nama, ')
+    //         ->join('users', 'anggota_kelas.id_siswa=users.id')
+    //         ->where([
+    //             'id_kelas' => $id_kelas,
+    //             'id_tahun_ajar' => $id_tahun_ajar
+    //         ])->findAll();
+    //     $data = [
+    //         'absensi' => $absensi,
+    //         'id_jadwal' => $id_jadwal
+    //     ];
 
-        return view('panel_wali/index_absensi', $data);
+    //     return view('panel_wali/index_absensi', $data);
+    // }
+    public function insertAbsensi()
+    {
+        $id_anggota_kelas = $_POST['id_anggota_kelas'];
+        $id_kelas = $_POST['id_kelas'];
+        $tanggal = date('Y-m-d');
+        $kehadiran = $_POST['absensi'];
+        $semester = $this->request->getPost('semester');
+        $data = array();
+        $index = 0;
+
+        foreach ($id_anggota_kelas as $value) {
+            array_push($data, array(
+                'id_anggota_kelas' => $value,
+                'id_kelas' => $id_kelas[$index],
+                'tanggal' => $tanggal,
+                'kehadiran' => $kehadiran[$index],
+                'semester' => $semester
+            ));
+            $index++;
+        }
+        // dd($tanggal);
+        try {
+            $this->absensi->dt->insertBatch($data);
+            session()->setFlashdata('success', 'Berhasil melakukan absensi');
+            return redirect()->to(route_to('panel_wali_index'));
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            session()->setFlashdata('error', 'gagal melakukan absensi');
+            return redirect()->back()->withInput();
+        }
     }
 }
