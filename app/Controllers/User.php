@@ -142,14 +142,15 @@ class User extends BaseController
         }else{
             $ortu = [];
         }
-
+        
         $user = $this->user->getData($id);
+        $user['foto'] = $this->user->getFoto($user['id']);
         $data = [
             'level' => $level,
             'user' => $user,
             'ortu' => $ortu
         ];
-        
+
         return view('user/edit', $data);
     }
 
