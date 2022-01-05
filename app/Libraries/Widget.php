@@ -12,4 +12,8 @@ class Widget
     {
         return view('panel_wali/jadwal', $param);
     }
+    public function tabAbsen(array $param)
+    {
+        return view('panel_wali/absen', $param);
+    }
 }

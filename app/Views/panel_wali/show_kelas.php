@@ -27,11 +27,13 @@
                         <div class="nav nav-tabs" id="nav-tab<?= $key ?>" role="tablist">
                             <a class="nav-link active" id="list-siswa-tab<?= $key ?>" data-toggle="tab" href="#list-siswa<?= $key ?>" role="tab" aria-controls="list-siswa<?= $key ?>" aria-selected="true">Siswa</a>
                             <a class="nav-link" id="list-jadwal-tab<?= $key ?>" data-toggle="tab" href="#list-jadwal<?= $key ?>" role="tab" aria-controls="list-jadwal<?= $key ?>" aria-selected="false" data-key="<?= $key; ?>">Jadwal</a>
+                            <a class="nav-link" id="list-absen-tab<?= $key ?>" data-toggle="tab" href="#list-absen<?= $key ?>" role="tab" aria-controls="list-absen<?= $key ?>" aria-selected="false" data-key="<?= $key; ?>">Absen</a>
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent<?= $key ?>">
                         <div class="tab-pane fade show active" id="list-siswa<?= $key ?>" role="tabpanel" aria-labelledby="list-siswa-tab<?= $key ?>"> <?= view_cell('\App\Libraries\Widget::tabSiswa', ['key' => $key, 'tahun_ajar' => $tahun_ajar['id'], 'kelas' => $kel['id_kelas']]) ?> </div>
                         <div class="tab-pane fade" id="list-jadwal<?= $key ?>" role="tabpanel" aria-labelledby="list-jadwal-tab<?= $key ?>"> <?= view_cell('\App\Libraries\Widget::tabJadwal', ['hari' => $kel['hari'], 'jadwal' => $kel['jadwal'], 'absen' => $kel['absen']]) ?> </div>
+                        <div class="tab-pane fade" id="list-absen<?= $key ?>" role="tabpanel" aria-labelledby="list-absen-tab<?= $key ?>"> <?= view_cell('\App\Libraries\Widget::tabAbsen', ['absen' => $kel['absen']]) ?> </div>
                     </div>
                 </div>
 
