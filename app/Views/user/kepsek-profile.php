@@ -64,11 +64,13 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <a class="btn btn-info " target="__blank" href="<?= route_to('kepsek_edit', $kepsek['id']) ?>">Edit</a>
+                                        <?php if(isAdmin() or isKepsek()): ?>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <a class="btn btn-info " target="__blank" href="<?= route_to('kepsek_edit', $kepsek['id']) ?>">Edit</a>
+                                                </div>
                                             </div>
-                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
 

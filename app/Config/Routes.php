@@ -104,6 +104,7 @@ $routes->group('jadwal', ['filter' => 'auth'], function ($routes) {
     $routes->get('destroy/(:num)', 'Jadwal::destroy/$1', ['as' => 'jadwal_destroy']);
     $routes->post('datatables', 'Jadwal::datatables', ['as' => 'jadwal_datatables']);
     $routes->get('jadwal-guru', 'Jadwal::ShowjadwalGuru', ['as' => 'jadwal_guru']);
+    $routes->get('jadwal-print-pdf/(:num)/(:num)', 'Jadwal::printJadwal/$1/$2', ['as' => 'jadwal_pdf']);
 });
 
 $routes->group('panel_wali', ['filter' => 'auth'], function ($routes) {

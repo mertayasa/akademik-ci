@@ -80,6 +80,8 @@ class Jadwal extends BaseController
             'hari' => $hari,
             'anggota_kelas' => $anggota_kelas,
             'wali_kelas' => $wali_kelas,
+            'id_tahun_ajar' => $id_tahun_ajar,
+            'id_kelas' => $anggota_kelas['id_kelas'],
         ];
 
         return view('jadwal/siswa/index', $data);
@@ -101,7 +103,7 @@ class Jadwal extends BaseController
         } else {
             $anggota_kelas = [];
         }
-
+        
         if (isset($anggota_kelas)) {
             $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
         } else {
@@ -123,6 +125,8 @@ class Jadwal extends BaseController
             'jadwal' => $jadwal,
             'hari' => $hari,
             'wali_kelas' => $wali_kelas,
+            'id_tahun_ajar' => $id_tahun_ajar,
+            'id_kelas' => $anggota_kelas['id_kelas'],
         ];
 
         return view('jadwal/ortu/index', $data);
@@ -137,5 +141,26 @@ class Jadwal extends BaseController
             'hari'      => $hari
         ];
         return view('jadwal/guru/index', $data);
+    }
+
+    public function printJadwal($id_kelas, $id_tahun_ajar)
+    {
+        $dompdf = new \Dompdf\Dompdf();
+        $jadwal = $this->jadwal->get_jadwal_by_id($id_kelas, $id_tahun_ajar);
+        $hari = $this->jadwal->get_hari($id_kelas, $id_tahun_ajar);
+        
+        if(count($jadwal) > 0){
+            $data = [
+                'jadwal'    => $jadwal,
+                'hari'      => $hari
+            ];
+    
+            $dompdf->loadHtml(view('jadwal/print/pdf', $data));
+            $dompdf->setPaper('A4', 'portrait'); //ukuran kertas dan orientasi
+            $dompdf->render();
+            return $dompdf->stream("jadwal.pdf");
+        }
+
+        // return view('jadwal/print/pdf', $data);
     }
 }

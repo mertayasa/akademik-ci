@@ -15,6 +15,9 @@
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
+                <div class="d-flex justify-content-end">
+                    <a href="<?= route_to('jadwal_pdf', $id_kelas, $id_tahun_ajar) ?>" class="btn btn-primary">Cetak Jadwal</a>
+                </div>
                 
                 <?= $this->include('layouts/flash') ;?>
             

@@ -19,10 +19,10 @@ class Agenda extends BaseController
 
     public function index()
     {
-        if (session()->get('level') == 'siswa'){
-            $agenda = $this->agenda->where('status', $this->agenda::$aktif)->findAll()[0] ?? [];
-        }else{
+        if (session()->get('level') == 'admin'){
             $agenda = [];
+        }else{
+            $agenda = $this->agenda->where('status', $this->agenda::$aktif)->findAll()[0] ?? [];
         }
 
         $data = [
