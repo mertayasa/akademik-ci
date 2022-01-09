@@ -111,6 +111,7 @@ $routes->group('panel_wali', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'PanelWali::index', ['as' => 'panel_wali_index']);
     $routes->get('absen/(:num)/(:num)/(:num)', 'PanelWali::absensi/$1/$2/$3', ['as' => 'panel_wali_absensi']);
     $routes->post('insert', 'PanelWali::InsertAbsensi', ['as' => 'panel_wali_insert_absensi']);
+    $routes->post('getAbsensi', 'PanelWali::getAbsensi', ['as' => 'cek_absensi']);
 });
 
 $routes->group('nilai', ['filter' => 'auth'], function ($routes) {

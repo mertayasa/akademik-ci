@@ -8,56 +8,58 @@
             </p>
         </a>
     </li>
-    <?php //if (session()->get('level') == 'admin') : ?>
-        <li class="nav-item <?= isActive('user') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
-            <a href="#" class="nav-link <?= isActive('user') ?>">
-                <i class="nav-icon fas fa-users"></i>
-                <p>
-                    Pengguna
-                    <i class="fas fa-angle-left right"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
+    <?php //if (session()->get('level') == 'admin') : 
+    ?>
+    <li class="nav-item <?= isActive('user') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+        <a href="#" class="nav-link <?= isActive('user') ?>">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+                Pengguna
+                <i class="fas fa-angle-left right"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
 
-                <?php if (isAdmin()) : ?>
-                    <li class="nav-item">
-                        <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActive('admin') ?>">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Admin</p>
-                        </a>
-                    </li>
-                <?php endif; ?>
-
+            <?php if (isAdmin()) : ?>
                 <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'kepsek') ?>" class="nav-link <?= isActive('kepsek') ?>">
+                    <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActive('admin') ?>">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Kepala Sekolah</p>
+                        <p>Admin</p>
                     </a>
                 </li>
+            <?php endif; ?>
 
-                <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'guru') ?>" class="nav-link <?= isActive('guru') ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Guru</p>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a href="<?= route_to('user_index', 'kepsek') ?>" class="nav-link <?= isActive('kepsek') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Kepala Sekolah</p>
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActive('siswa') ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Siswa</p>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a href="<?= route_to('user_index', 'guru') ?>" class="nav-link <?= isActive('guru') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Guru</p>
+                </a>
+            </li>
 
-                <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Ortu</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-    <?php //endif; ?>
+            <li class="nav-item">
+                <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActive('siswa') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Siswa</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Ortu</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <?php //endif; 
+    ?>
 
     <?php if (session()->get('level') == 'admin') : ?>
         <?php
@@ -133,7 +135,7 @@
             </a>
         </li>
     <?php endif; ?>
-    
+
     <?php if (isGuru()) : ?>
         <li class="nav-item">
             <a href="<?= route_to('jadwal_guru') ?>" class="nav-link <?= isActive('jadwal') ?>">

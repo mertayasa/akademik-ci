@@ -10,6 +10,8 @@ use App\Models\UserModel;
 use App\Models\WaliKelasModel;
 use App\Models\JadwalModel;
 use App\Models\AbsensiModel;
+use PHPUnit\Util\Json;
+use Sabberworm\CSS\Value\Value;
 
 class PanelWali extends BaseController
 {
@@ -39,8 +41,9 @@ class PanelWali extends BaseController
         $id_tahun_ajar = $this->tahun_ajar->getActiveId();
         $id_kelas = $this->request->getVar('id_kelas');
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
-        $absensi =
-            $kelas = $this->wali_kelas
+        $tanggal_absensi = $this->request->getVar('tanggal');
+        // dd($tanggal_absensi);
+        $kelas = $this->wali_kelas
             ->join('kelas', 'wali_kelas.id_kelas = kelas.id')
             ->join('users', 'wali_kelas.id_guru_wali = users.id')
             ->join('tahun_ajar', 'wali_kelas.id_tahun_ajar = tahun_ajar.id')
@@ -66,6 +69,8 @@ class PanelWali extends BaseController
         $data = [
             'tahun_ajar' => $tahun_ajar,
             'kelas' => $kelas,
+            'tanggal_absensi' => $tanggal_absensi,
+            'data_absensi' => null
         ];
 
 
@@ -94,31 +99,59 @@ class PanelWali extends BaseController
 
     //     return view('panel_wali/index_absensi', $data);
     // }
+    public function getAbsensi()
+    {
+        $tanggal_input = $this->request->getVar('tanggal');
+        $data['tanggal'] = date('Y-m-d', strtotime($tanggal_input));
+        $data['absensi'] = $this->absensi->where('tanggal', $data['tanggal'])->findAll();
+        return json_encode($data);
+    }
     public function insertAbsensi()
     {
         $id_anggota_kelas = $_POST['id_anggota_kelas'];
+        $id_absensi = $_POST['id_absensi'];
         $id_kelas = $_POST['id_kelas'];
-        $tanggal = date('Y-m-d');
+        $tanggal = $_POST['tanggal_input'];
+        $tanggal_input = date('Y-m-d', strtotime($tanggal));
+        $data_absensi = $this->absensi->where(['tanggal' => $tanggal_input, 'id_kelas' => $id_kelas[0]])->findAll();
+        // dd($data_absensi[0]['id']);
         $kehadiran = $_POST['absensi'];
         $semester = $this->request->getPost('semester');
+        $data_update = array();
         $data = array();
         $index = 0;
 
-        foreach ($id_anggota_kelas as $value) {
-            array_push($data, array(
-                'id_anggota_kelas' => $value,
-                'id_kelas' => $id_kelas[$index],
-                'tanggal' => $tanggal,
-                'kehadiran' => $kehadiran[$index],
-                'semester' => $semester
-            ));
-            $index++;
-        }
-        // dd($tanggal);
         try {
-            $this->absensi->dt->insertBatch($data);
-            session()->setFlashdata('success', 'Berhasil melakukan absensi');
-            return redirect()->to(route_to('panel_wali_index'));
+            if ($tanggal_input <= date('Y-m-d')) {
+                if (count($data_absensi) > 0) {
+                    foreach ($data_absensi as $key => $value) {
+                        array_push($data_update, array(
+                            'id' => $value['id'],
+                            'tanggal' => $tanggal_input,
+                            'kehadiran' => $kehadiran[$key],
+                            'semester' => $semester
+                        ));
+                    }
+                    $this->absensi->dt->updateBatch($data_update, 'id');
+                } else {
+                    foreach ($id_anggota_kelas as $value) {
+                        array_push($data, array(
+                            'id_anggota_kelas' => $value,
+                            'id_kelas' => $id_kelas[$index],
+                            'tanggal' => $tanggal_input,
+                            'kehadiran' => $kehadiran[$index],
+                            'semester' => $semester
+                        ));
+                        $index++;
+                    }
+                    $this->absensi->dt->insertBatch($data);
+                }
+                session()->setFlashdata('success', 'Berhasil melakukan absensi');
+                return redirect()->to(route_to('panel_wali_index'));
+            } else {
+                session()->setFlashdata('error', 'Tanggal Absen tidak boleh melebihi tanggal sekarang');
+                return redirect()->to(route_to('panel_wali_index'));
+            }
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'gagal melakukan absensi');
