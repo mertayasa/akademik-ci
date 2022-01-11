@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Users extends Migration
+class GuruKepsek extends Migration
 {
     public function up()
     {
@@ -13,39 +13,47 @@ class Users extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => TRUE,
-                'auto_increment' => TRUE
+                'auto_increment' => TRUE,
             ],
             'nama' => [
                 'type' => 'VARCHAR',
                 'constraint' => 50,
-                'null' => TRUE
+                'null' => TRUE,
+            ],
+            'email' => [
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+                'unique' => TRUE,
             ],
             'password' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
             ],
-            'email' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'unique' => TRUE
+            'level' => [
+                'type' => 'ENUM("kepsek", "guru")',
+                'default' => 'guru',
+                'null' => FALSE
             ],
             'nip' => [
                 'type' => 'VARCHAR',
-                'constraint' => 20,
-                'unique' => true,
-                'null' => TRUE
+                'constraint' => 18,
+                'unique' => TRUE,
+                'null' => TRUE,
             ],
-            'nis' => [
-                'type' => 'VARCHAR',
-                'constraint' => 20,
-                'unique' => true,
+            'alamat' => [
+                'type' => 'LONGTEXT',
                 'null' => TRUE
             ],
             'no_telp' => [
                 'type' => 'VARCHAR',
                 'constraint' => 16,
                 'unique' => true,
-                'null' => TRUE
+                'null' => TRUE,
+            ],
+            'status_guru' => [
+                'type' => 'ENUM("tetap","honorer", "bukan_guru")',
+                'default' => 'tetap',
+                'null' => FALSE
             ],
             'tempat_lahir' => [
                 'type' => 'VARCHAR',
@@ -53,38 +61,13 @@ class Users extends Migration
                 'unique' => true,
                 'null' => TRUE
             ],
-            'tanggal_lahir' => [
-                'type' => 'DATE',
-                'null' => TRUE
-            ],
-            'status_guru' => [
-                'type' => 'ENUM("bukan_guru", "tetap", "honorer")',
-                'default' => 'bukan_guru',
-                'null' => FALSE,
-            ],
-            'level' => [
-                'type' => 'ENUM("admin", "kepsek", "ortu", "siswa", "guru")',
-                'default' => 'siswa',
-                'null' => FALSE
-            ],
             'status' => [
                 'type' => 'ENUM("aktif", "nonaktif")',
                 'default' => 'aktif',
                 'null' => FALSE
             ],
-            'pekerjaan' => [
-                'type' => 'VARCHAR',
-                'constraint' => 100,
-                'null' => TRUE
-            ],
-            'alamat' => [
+            'bio' => [
                 'type' => 'LONGTEXT',
-                'null' => TRUE
-            ],
-            'id_ortu' => [
-                'type' => 'INT',
-                'constraint' => 11,
-                'unsigned' => TRUE,
                 'null' => TRUE
             ],
             'created_at' => [
@@ -94,15 +77,14 @@ class Users extends Migration
             'updated_at' => [
                 'type' => 'DATETIME',
                 'null' => TRUE
-            ],
+            ]
         ]);
-
         $this->forge->addKey('id', TRUE);
-        $this->forge->createTable('users', TRUE);
+        $this->forge->createTable('guru_kepsek', TRUE);
     }
 
     public function down()
     {
-        $this->forge->dropTable('users');
+        $this->forge->dropTable('guru_kepsek');
     }
 }
