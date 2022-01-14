@@ -58,7 +58,15 @@ class Siswa extends Migration
                 'type' => 'ENUM("aktif", "nonaktif")',
                 'default' => 'aktif',
                 'null' => FALSE
-            ]
+            ],
+            'created_at' => [
+                'type' => 'DATETIME',
+                'null' => TRUE
+            ],
+            'updated_at' => [
+                'type' => 'DATETIME',
+                'null' => TRUE
+            ],
         ]);
         $this->forge->addKey('id', TRUE);
         $this->forge->addForeignKey('id_ortu', 'ortu', 'id', 'RESTRICT', 'RESTRICT');
