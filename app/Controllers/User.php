@@ -3,28 +3,46 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\DataTables\UserDataTable;
-use App\Models\UserModel;
+use App\Models\AdminModel;
+use App\Models\DataTables\AdminDataTable;
+use App\Models\DataTables\GuruKepsekDataTable;
+use App\Models\DataTables\SiswaDataTable;
+use App\Models\DataTables\OrtuDataTable;
+use App\Models\DataTables\SiswaAllDataTable;
+// use App\Models\DataTables\UserDataTable;
+use App\Models\GuruKepsekModel;
+use App\Models\OrtuModel;
+use App\Models\SiswaModel;
 use Config\Services;
 
 class User extends BaseController
 {
     protected $user;
-    
+    protected $siswa;
+    protected $ortu;
+    protected $guru;
+    protected $level;
+    protected $admin;
+
     public function __construct()
     {
-        $this->user = new UserModel();
+        // $this->user = new UserModel();
+        $this->siswa = new SiswaModel();
+        $this->ortu = new OrtuModel();
+        $this->guru = new GuruKepsekModel();
+        $this->admin = new AdminModel();
+        $this->level = session()->get('level');
     }
 
     public function index($level)
     {
 
-        if($level == 'kepsek'){
-            $kepsek = $this->user->where('level', 'kepsek')->findAll()[0] ?? [];
-            if($kepsek){
-                $kepsek['foto'] = $this->user->getFoto($kepsek['id']);
+        if ($level == 'kepsek') {
+            $kepsek = $this->guru->where('level', 'kepsek')->findAll()[0] ?? [];
+            if ($kepsek) {
+                $kepsek['foto'] = $this->guru->getFoto($kepsek['id']);
             }
-        }else{
+        } else {
             $kepsek = [];
         }
 
@@ -38,8 +56,26 @@ class User extends BaseController
 
     public function datatables($level)
     {
+
         $request = Services::request();
-        $datatable = new UserDataTable($request, explode('-', $level));
+        switch ($level) {
+            case 'kepsek':
+                $datatable = new GuruKepsekModel($request, $level);
+                break;
+            case 'ortu':
+                $datatable = new OrtuDataTable($request, $level);
+                break;
+            case 'guru':
+                $datatable = new GuruKepsekDataTable($request, $level);
+                break;
+            case 'siswa':
+                $datatable = new SiswaAllDataTable($request, $level);
+                break;
+            default:
+                $datatable = new AdminDataTable($request, $level);
+                break;
+        }
+        // $datatable = new OrtuDataTable($request, $level);
 
         if ($request->getMethod(true) === 'POST') {
             $lists = $datatable->getDatatables();
@@ -50,24 +86,41 @@ class User extends BaseController
                 $no++;
                 $row = [];
                 $row[] = $no;
-                if($list->level != 'admin'){
-                    $row[] = "
-                    <a target='_blank' href='". base_url($this->user->getFoto($list->id)) ."'>
-                        <img src='". base_url($this->user->getFoto($list->id)) ."' width='100px'>
-                    </a>";
+                if ($level != 'admin') {
+                    if ($level == 'siswa') {
+                        $row[] = "
+                        <a target='_blank' href='" . base_url($this->siswa->getFoto($list->id)) . "'>
+                            <img src='" . base_url($this->siswa->getFoto($list->id)) . "' width='100px'>
+                        </a>";
+                    } elseif ($level == 'guru' || $level == 'kepsek') {
+                        $row[] = "
+                        <a target='_blank' href='" . base_url($this->guru->getFoto($list->id)) . "'>
+                            <img src='" . base_url($this->guru->getFoto($list->id)) . "' width='100px'>
+                        </a>";
+                    } elseif ($level == 'ortu') {
+                        $row[] = "
+                        <a target='_blank' href='" . base_url($this->ortu->getFoto($list->id)) . "'>
+                            <img src='" . base_url($this->ortu->getFoto($list->id)) . "' width='100px'>
+                        </a>";
+                    } else {
+                        $row[] = "
+                        <a target='_blank' href='" . base_url($this->admin->getFoto($list->id)) . "'>
+                            <img src='" . base_url($this->admin->getFoto($list->id)) . "' width='100px'>
+                        </a>";
+                    }
                 }
                 $row[] = $list->nama;
                 $row[] = $list->email;
                 // $row[] = $list->level;
                 $row[] = ucfirst($list->status);
-                
-                if(isAdmin()){
+
+                if (isAdmin()) {
                     $row[] = "
-                    <a href='". route_to('profile_show', $list->id) ."' class='btn btn-sm btn-primary'>Profil</a>
-                    <a href='". route_to('user_edit', $level, $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
-                    <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('user_destroy', $list->id) ."`, `userDataTable`, `Aseg`)'>Hapus</button>";
-                }else{
-                    $row[] = "<a href='". route_to('profile_show', $list->id) ."' class='btn btn-sm btn-primary'>Profil</a>";
+                    <a href='" . route_to('profile_show', $list->id) . "' class='btn btn-sm btn-primary'>Profil</a>
+                    <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
+                    <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('user_destroy', $list->id) . "`, `userDataTable`, `Aseg`)'>Hapus</button>";
+                } else {
+                    $row[] = "<a href='" . route_to('profile_show', $list->id) . "' class='btn btn-sm btn-primary'>Profil</a>";
                 }
 
                 $data[] = $row;
@@ -86,9 +139,9 @@ class User extends BaseController
 
     public function create($level)
     {
-        if($level == 'siswa'){
-            $ortu = $this->user->select('id, nama')->where('level', 'ortu')->where('status', 'aktif')->findAll();
-        }else{
+        if ($level == 'siswa') {
+            $ortu = $this->siswa->select('id, nama')->where('level', 'ortu')->where('status', 'aktif')->findAll();
+        } else {
             $ortu = [];
         }
 
@@ -102,21 +155,21 @@ class User extends BaseController
 
     public function insert($level)
     {
-        try{
+        try {
             $allowed_level = ['admin', 'kepsek'];
-            
+
             $new_data = $this->request->getPost();
             $new_data['level'] = $level == 'admin-kepsek' && in_array($new_data['level'], $allowed_level) ? $new_data['level'] : $level;
-            if(!$new_data['password']){
+            if (!$new_data['password']) {
                 session()->setFlashdata('error', 'Password belum diisi');
                 return redirect()->back()->withInput();
             }
             $new_data['password'] = password_hash($new_data['password'], PASSWORD_BCRYPT);
 
-            if($this->request->getPost('foto')){
+            if ($this->request->getPost('foto')) {
                 $base_64_foto = json_decode($this->request->getPost('foto'), true);
                 $upload_image = uploadFile($base_64_foto, 'avatar');
-    
+
                 if ($upload_image === 0) {
                     session()->setFlashdata('error', 'Gagal mengupload gambar');
                     return redirect()->back()->withInput();
@@ -124,8 +177,8 @@ class User extends BaseController
 
                 $new_data['foto'] = $upload_image;
             }
-            
-            $this->user->insertData($new_data);
+
+            $this->level->insertData($new_data);
             session()->setFlashdata('success', 'Berhasil menambahkan data user');
             return redirect()->to(route_to('user_index', $level));
         } catch (\Exception $e) {
@@ -137,14 +190,14 @@ class User extends BaseController
 
     public function edit($level, $id)
     {
-        if($level == 'siswa'){
-            $ortu = $this->user->select('id, nama')->where('level', 'ortu')->findAll();
-        }else{
+        if ($level == 'siswa') {
+            $ortu = $this->ortu->select('id, nama')->findAll();
+        } else {
             $ortu = [];
         }
-        
-        $user = $this->user->getData($id);
-        $user['foto'] = $this->user->getFoto($user['id']);
+
+        $user = $this->siswa->getData($id);
+        $user['foto'] = $this->siswa->getFoto($user['id']);
         $data = [
             'level' => $level,
             'user' => $user,
@@ -156,19 +209,19 @@ class User extends BaseController
 
     public function update($level, $id)
     {
-        try{
+        try {
             $update_data = $this->request->getPost();
-            if($update_data['password'] != ''){
+            if ($update_data['password'] != '') {
                 $update_data['password'] = password_hash($update_data['password'], PASSWORD_BCRYPT);
-            }else{
+            } else {
                 unset($update_data['password']);
                 unset($update_data['password_confirmation']);
             }
 
-            if($this->request->getPost('foto')){
+            if ($this->request->getPost('foto')) {
                 $base_64_foto = json_decode($this->request->getPost('foto'), true);
                 $upload_image = uploadFile($base_64_foto, 'avatar');
-    
+
                 if ($upload_image === 0) {
                     session()->setFlashdata('error', 'Gagal mengupload gambar');
                     return redirect()->back()->withInput();
@@ -177,8 +230,8 @@ class User extends BaseController
                 $update_data['foto'] = $upload_image;
             }
 
-            $this->user->updateData($id, $update_data);
-            session()->setFlashdata('success', 'Berhasil mengubah data '.$level);
+            $this->level->updateData($id, $update_data);
+            session()->setFlashdata('success', 'Berhasil mengubah data ' . $level);
             return redirect()->to(route_to('user_index', $level));
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
@@ -187,10 +240,11 @@ class User extends BaseController
         }
     }
 
-    public function destroy($id){
-        try{
-            $this->user->delete($id);
-        }catch(\Exception $e){
+    public function destroy($id)
+    {
+        try {
+            $this->level->delete($id);
+        } catch (\Exception $e) {
             return json_encode([
                 'code' => 0,
                 'message' => 'Gagal menghapus data pengguna'
@@ -213,19 +267,19 @@ class User extends BaseController
 
     public function kepsekInsert()
     {
-        try{        
-            $check_kepsek = $this->user->where('level', 'kepsek')->findAll();
-            if(count($check_kepsek) > 0){
+        try {
+            $check_kepsek = $this->guru->where('level', 'kepsek')->findAll();
+            if (count($check_kepsek) > 0) {
                 session()->setFlashdata('error', 'Akun Kepala Sekolah Sudah Ada');
                 return redirect()->back()->withInput();
             }
-            
+
             $new_data = $this->request->getPost();
 
-            if($this->request->getPost('foto')){
+            if ($this->request->getPost('foto')) {
                 $base_64_foto = json_decode($this->request->getPost('foto'), true);
                 $upload_image = uploadFile($base_64_foto, 'avatar');
-    
+
                 if ($upload_image === 0) {
                     session()->setFlashdata('error', 'Gagal mengupload gambar');
                     return redirect()->back()->withInput();
@@ -234,15 +288,15 @@ class User extends BaseController
                 $new_data['foto'] = $upload_image;
             }
 
-            if(!$new_data['password']){
+            if (!$new_data['password']) {
                 session()->setFlashdata('error', 'Password belum diisi');
                 return redirect()->back()->withInput();
             }
-            
+
             $new_data['level'] = 'kepsek';
             $new_data['password'] = password_hash($new_data['password'], PASSWORD_BCRYPT);
-            
-            $this->user->insertData($new_data);
+
+            $this->guru->insertData($new_data);
             session()->setFlashdata('success', 'Berhasil menambahkan profil kepala sekolah');
             return redirect()->to(route_to('user_index', 'kepsek'));
         } catch (\Exception $e) {
@@ -254,10 +308,10 @@ class User extends BaseController
 
     public function kepsekEdit($id)
     {
-        $kepsek = $this->user->getData($id);
-        if($kepsek){
-            $kepsek['foto'] = $this->user->getFoto($kepsek['id']);
-        }else{
+        $kepsek = $this->guru->getData($id);
+        if ($kepsek) {
+            $kepsek['foto'] = $this->guru->getFoto($kepsek['id']);
+        } else {
             $kepsek = [];
         }
 
@@ -270,13 +324,13 @@ class User extends BaseController
 
     public function kepsekUpdate($id)
     {
-        try{        
+        try {
             $update_data = $this->request->getPost();
 
-            if($this->request->getPost('foto')){
+            if ($this->request->getPost('foto')) {
                 $base_64_foto = json_decode($this->request->getPost('foto'), true);
                 $upload_image = uploadFile($base_64_foto, 'avatar');
-    
+
                 if ($upload_image === 0) {
                     session()->setFlashdata('error', 'Gagal mengupload gambar');
                     return redirect()->back()->withInput();
@@ -285,11 +339,11 @@ class User extends BaseController
                 $update_data['foto'] = $upload_image;
             }
 
-            if($update_data['password'] != ''){
+            if ($update_data['password'] != '') {
                 $update_data['password'] = password_hash($update_data['password'], PASSWORD_BCRYPT);
             }
-            
-            $this->user->updateData($id, $update_data);
+
+            $this->guru->updateData($id, $update_data);
             session()->setFlashdata('success', 'Berhasil mengubah profil kepala sekolah');
             return redirect()->to(route_to('user_index', 'kepsek'));
         } catch (\Exception $e) {

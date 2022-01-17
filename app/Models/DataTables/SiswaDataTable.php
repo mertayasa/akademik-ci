@@ -48,13 +48,13 @@ class SiswaDataTable extends Model
         if ($this->request->getPost('order')) {
             $this->dt->where('id_kelas', $this->kelas);
             $this->dt->where('id_tahun_ajar', $this->tahun_ajar);
-            $this->dt->join('users', 'users.id=' . $this->table . '.id_siswa');
+            $this->dt->join('siswa', 'siswa.id=' . $this->table . '.id_siswa');
             $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
             $this->dt->where('id_kelas', $this->kelas);
             $this->dt->where('id_tahun_ajar', $this->tahun_ajar);
-            $this->dt->join('users', 'users.id=' . $this->table . '.id_siswa');
+            $this->dt->join('siswa', 'siswa.id=' . $this->table . '.id_siswa');
             $this->dt->orderBy(key($order), $order[key($order)]);
         }
     }

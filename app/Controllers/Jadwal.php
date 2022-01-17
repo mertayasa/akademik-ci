@@ -4,11 +4,12 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\AnggotaKelasModel;
+use App\Models\GuruKepsekModel;
 use App\Models\JadwalModel;
 use App\Models\KelasModel;
 use App\Models\MapelModel;
+use App\Models\SiswaModel;
 use App\Models\TahunAjarModel;
-use App\Models\UserModel;
 use App\Models\WaliKelasModel;
 
 class Jadwal extends BaseController
@@ -17,6 +18,7 @@ class Jadwal extends BaseController
     protected $tahun_ajar;
     protected $jadwal;
     protected $user;
+    protected $guru;
     protected $anggota_kelas;
     protected $mapel;
     protected $wali_kelas;
@@ -26,7 +28,9 @@ class Jadwal extends BaseController
         $this->kelas = new KelasModel();
         $this->tahun_ajar = new TahunAjarModel();
         $this->jadwal = new JadwalModel();
-        $this->user = new UserModel();
+        // $this->user = new UserModel();
+        $this->guru = new GuruKepsekModel();
+        $this->siswa = new SiswaModel();
         $this->anggota_kelas = new AnggotaKelasModel();
         $this->mapel = new MapelModel();
         $this->wali_kelas = new WaliKelasModel();
@@ -51,7 +55,7 @@ class Jadwal extends BaseController
     private function indexGuru()
     {
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
-        $guru = $this->user->getData(session()->get('id'));
+        $guru = $this->guru->getData(session()->get('id'));
         $jadwal = $this->jadwal->where([
             'id_guru', session()->get('id'),
             'id_tahun_ajar', $id_tahun_ajar,
@@ -95,7 +99,7 @@ class Jadwal extends BaseController
     {
         $id_siswa = $_GET['id_siswa'] ?? null;
 
-        $siswa = $this->user->where('id_ortu', session()->get('id'))->findAll();
+        $siswa = $this->siswa->where('id_ortu', session()->get('id'))->findAll();
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'] ?? null;
 
         if (isset($siswa[0]['id'])) {
@@ -103,7 +107,7 @@ class Jadwal extends BaseController
         } else {
             $anggota_kelas = [];
         }
-        
+
         if (isset($anggota_kelas)) {
             $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
         } else {
@@ -148,13 +152,13 @@ class Jadwal extends BaseController
         $dompdf = new \Dompdf\Dompdf();
         $jadwal = $this->jadwal->get_jadwal_by_id($id_kelas, $id_tahun_ajar);
         $hari = $this->jadwal->get_hari($id_kelas, $id_tahun_ajar);
-        
-        if(count($jadwal) > 0){
+
+        if (count($jadwal) > 0) {
             $data = [
                 'jadwal'    => $jadwal,
                 'hari'      => $hari
             ];
-    
+
             $dompdf->loadHtml(view('jadwal/print/pdf', $data));
             $dompdf->setPaper('A4', 'portrait'); //ukuran kertas dan orientasi
             $dompdf->render();

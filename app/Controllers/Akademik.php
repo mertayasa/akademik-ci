@@ -8,8 +8,10 @@ use App\Models\KelasModel;
 use App\Models\TahunAjarModel;
 use App\Models\WaliKelasModel;
 use App\Models\JadwalModel;
-use App\Models\UserModel;
 use App\Models\MapelModel;
+use App\Models\SiswaModel;
+use App\Models\GuruKepsekModel;
+use App\Models\OrtuModel;
 use Carbon\Carbon;
 use phpDocumentor\Reflection\Types\This;
 
@@ -21,7 +23,9 @@ class Akademik extends BaseController
     protected $tahun_ajar;
     protected $jadwal;
     protected $mapel;
-    protected $users;
+    protected $guru;
+    protected $ortu;
+    protected $siswa;
     protected $db;
     protected $request;
     protected $session;
@@ -32,6 +36,9 @@ class Akademik extends BaseController
         $this->anggota_kelas = new AnggotaKelasModel();
         $this->wali_kelas = new WaliKelasModel();
         $this->tahun_ajar = new TahunAjarModel();
+        $this->guru = new GuruKepsekModel();
+        $this->ortu = new OrtuModel();
+        $this->siswa = new SiswaModel();
         $this->request = \Config\Services::request();
         $this->session = \Config\Services::session();
         $this->db = db_connect();
@@ -84,8 +91,8 @@ class Akademik extends BaseController
         $new_class = [];
         foreach ($array as $data) {
             $data['nama_guru'] = $this->wali_kelas
-                ->select('users.nama as nama_guru, wali_kelas.id_kelas, wali_kelas.id_tahun_ajar')
-                ->join('users', 'wali_kelas.id_guru_wali = users.id')
+                ->select('guru_kepsek.nama as nama_guru, wali_kelas.id_kelas, wali_kelas.id_tahun_ajar')
+                ->join('guru_kepsek', 'wali_kelas.id_guru_wali = guru_kepsek.id')
                 ->where(['id_kelas' => $data['id'], 'id_tahun_ajar' => $id_tahun])
                 ->findAll()[0]['nama_guru'] ?? null;
 
@@ -118,11 +125,11 @@ class Akademik extends BaseController
     public function showSchedule($id_kelas, $id_tahun_ajar)
     {
         $this->jadwal = new JadwalModel;
-        $this->users = new UserModel;
+        $this->guru = new GuruKepsekModel;
         $this->mapel = new MapelModel;
         $jadwal_kelas = $this->jadwal->get_jadwal_by_id($id_kelas, $id_tahun_ajar);
         $jadwal_hari = $this->jadwal->get_hari($id_kelas, $id_tahun_ajar);
-        $guru = $this->users->where('level', 'guru')->get()->getResultObject();
+        $guru = $this->guru->where('level', 'guru')->get()->getResultObject();
         $mapel = $this->mapel->findAll();
         $kelas = $this->kelas->getData($id_kelas);
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
@@ -184,9 +191,9 @@ class Akademik extends BaseController
 
     public function waliPerkelas($id_kelas, $id_tahun_ajar)
     {
-        $this->users = new UserModel;
+        $this->guru = new GuruKepsekModel;
         $this->wali_kelas = new WaliKelasModel;
-        $guru_list = $this->users->where('level', 'guru')->get()->getResultObject();
+        $guru_list = $this->guru->where('level', 'guru')->get()->getResultObject();
         $wali = $this->wali_kelas->get_wali_kelas_by_id($id_kelas, $id_tahun_ajar);
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
         $kelas = $this->kelas->getData($id_kelas);

@@ -34,11 +34,11 @@ class WaliKelas extends Migration
                 'null' => FALSE
             ],
         ]);
-        
+
         $this->forge->addKey('id', TRUE);
-        $this->forge->addForeignKey('id_kelas','kelas','id', 'RESTRICT','RESTRICT');
-        $this->forge->addForeignKey('id_tahun_ajar','tahun_ajar','id', 'RESTRICT','RESTRICT');
-        $this->forge->addForeignKey('id_guru_wali','users','id', 'RESTRICT','RESTRICT');
+        $this->forge->addForeignKey('id_kelas', 'kelas', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('id_tahun_ajar', 'tahun_ajar', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('id_guru_wali', 'guru_kepsek', 'id', 'RESTRICT', 'RESTRICT');
         $this->forge->createTable('wali_kelas');
     }
 

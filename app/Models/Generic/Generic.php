@@ -20,10 +20,10 @@ class Generic extends Model
 
     public function getData($id = null, $orderBy = null)
     {
-        if(!$id){
-            if($orderBy){
+        if (!$id) {
+            if ($orderBy) {
                 return $this->orderBy($orderBy)->findAll();
-            }else{
+            } else {
                 return $this->findAll();
             }
         }
@@ -44,11 +44,21 @@ class Generic extends Model
     public function updateOrInsert($check_array, $data)
     {
         $data_exists = $this->where($check_array)->findAll();
-        if(isset($data_exists[0])){
+        if (isset($data_exists[0])) {
             return $this->update($data_exists[0]['id'], $data);
         }
 
         return $this->insert($data);
-
+    }
+    public function getFoto($id)
+    {
+        $user = $this->getData($id);
+        if ($user) {
+            if (file_exists($user['foto'])) {
+                return $user['foto'];
+            } else {
+                return 'default/avatar.png';
+            }
+        }
     }
 }

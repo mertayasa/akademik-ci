@@ -39,11 +39,11 @@ class AnggotaKelas extends Migration
                 'null' => FALSE,
             ],
         ]);
-        
+
         $this->forge->addKey('id', TRUE);
-        $this->forge->addForeignKey('id_siswa','users','id', 'RESTRICT','RESTRICT');
-        $this->forge->addForeignKey('id_tahun_ajar','tahun_ajar','id', 'RESTRICT','RESTRICT');
-        $this->forge->addForeignKey('id_kelas','kelas','id', 'RESTRICT','RESTRICT');
+        $this->forge->addForeignKey('id_siswa', 'siswa', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('id_tahun_ajar', 'tahun_ajar', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('id_kelas', 'kelas', 'id', 'RESTRICT', 'RESTRICT');
         $this->forge->createTable('anggota_kelas');
     }
 

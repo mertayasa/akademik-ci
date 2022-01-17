@@ -5,7 +5,7 @@ namespace App\Models\DataTables;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
 
-class UserDataTable extends Model
+class GuruKepsekDataTable extends Model
 {
     protected $table = 'guru_kepsek';
     protected $column_order = ['id', 'nama', 'email', 'level'];

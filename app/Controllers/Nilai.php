@@ -7,8 +7,8 @@ use App\Models\AnggotaKelasModel;
 use App\Models\KelasModel;
 use App\Models\MapelModel;
 use App\Models\NilaiModel;
+use App\Models\SiswaModel;
 use App\Models\TahunAjarModel;
-use App\Models\UserModel;
 use App\Models\WaliKelasModel;
 use Exception;
 
@@ -19,6 +19,7 @@ class Nilai extends BaseController
     protected $kelas;
     protected $tahun_ajar;
     protected $user;
+    protected $siswa;
     protected $anggota_kelas;
     protected $mapel;
     protected $wali_kelas;
@@ -28,7 +29,8 @@ class Nilai extends BaseController
     {
         $this->kelas = new KelasModel();
         $this->tahun_ajar = new TahunAjarModel();
-        $this->user = new UserModel();
+        // $this->user = new UserModel();
+        $this->siswa = new SiswaModel();
         $this->anggota_kelas = new AnggotaKelasModel();
         $this->mapel = new MapelModel();
         $this->wali_kelas = new WaliKelasModel();
@@ -74,7 +76,7 @@ class Nilai extends BaseController
     private function indexOrtu()
     {
         $id_siswa = $_GET['id_siswa'] ?? null;
-        $siswa = $this->user->where('id_ortu', session()->get('id'))->findAll();
+        $siswa = $this->siswa->where('id_ortu', session()->get('id'))->findAll();
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
 
         if (isset($siswa[0]['id'])) {

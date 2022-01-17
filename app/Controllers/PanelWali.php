@@ -6,10 +6,11 @@ use App\Controllers\BaseController;
 use App\Database\Migrations\Absensi;
 use App\Models\AnggotaKelasModel;
 use App\Models\TahunAjarModel;
-use App\Models\UserModel;
 use App\Models\WaliKelasModel;
 use App\Models\JadwalModel;
 use App\Models\AbsensiModel;
+use App\Models\GuruKepsekModel;
+use App\Models\SiswaModel;
 use PHPUnit\Util\Json;
 use Sabberworm\CSS\Value\Value;
 
@@ -17,6 +18,8 @@ class PanelWali extends BaseController
 {
 
     protected $user;
+    protected $guru;
+    protected $siswa;
     protected $wali_kelas;
     protected $anggota_kelas;
     protected $tahun_ajar;
@@ -26,7 +29,9 @@ class PanelWali extends BaseController
 
     public function __construct()
     {
-        $this->user = new UserModel();
+        // $this->user = new UserModel();
+        $this->guru = new GuruKepsekModel();
+        $this->siswa = new SiswaModel();
         $this->wali_kelas = new WaliKelasModel();
         $this->anggota_kelas = new AnggotaKelasModel();
         $this->tahun_ajar = new TahunAjarModel();
@@ -37,7 +42,7 @@ class PanelWali extends BaseController
 
     public function index()
     {
-        $user = $this->user->getData(session()->get('id'));
+        $user = $this->guru->getData(session()->get('id'));
         $id_tahun_ajar = $this->tahun_ajar->getActiveId();
         $id_kelas = $this->request->getVar('id_kelas');
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
@@ -45,7 +50,7 @@ class PanelWali extends BaseController
         // dd($tanggal_absensi);
         $kelas = $this->wali_kelas
             ->join('kelas', 'wali_kelas.id_kelas = kelas.id')
-            ->join('users', 'wali_kelas.id_guru_wali = users.id')
+            ->join('guru_kepsek', 'wali_kelas.id_guru_wali = guru_kepsek.id')
             ->join('tahun_ajar', 'wali_kelas.id_tahun_ajar = tahun_ajar.id')
             ->where([
                 'id_guru_wali' => $user['id'],
@@ -57,8 +62,8 @@ class PanelWali extends BaseController
             $kelas[$key]['hari'] = $this->jadwal->get_hari($each['id_kelas'], $each['id_tahun_ajar']);
             $kelas[$key]['jadwal'] = $this->jadwal->get_jadwal_by_id($each['id_kelas'], $each['id_tahun_ajar']);
             $kelas[$key]['absen'] = $this->anggota_kelas
-                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, users.nama as siswa_nama, ')
-                ->join('users', 'anggota_kelas.id_siswa=users.id')
+                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, ')
+                ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
                 ->where([
                     'id_kelas' => $each['id_kelas'],
                     'id_tahun_ajar' => $each['id_tahun_ajar']

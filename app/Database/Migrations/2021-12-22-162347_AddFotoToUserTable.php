@@ -8,19 +8,19 @@ class AddFotoToUserTable extends Migration
 {
     public function up()
     {
-        $fields = [
-            'foto' => [
-                'type' => 'VARCHAR',
-                'constraint' => 250,
-                'null' => TRUE
-            ],
-        ];
+        //     $fields = [
+        //         'foto' => [
+        //             'type' => 'VARCHAR',
+        //             'constraint' => 250,
+        //             'null' => TRUE
+        //         ],
+        //     ];
 
-        $this->forge->addColumn('users', $fields);
+        //     $this->forge->addColumn('', $fields);
     }
 
     public function down()
     {
-        $this->forge->dropColumn('users', 'foto');
+        // $this->forge->dropColumn('users', 'foto');
     }
 }

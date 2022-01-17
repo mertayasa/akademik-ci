@@ -62,12 +62,12 @@ class Jadwal extends Migration
                 'null' => FALSE,
             ],
         ]);
-        
+
         $this->forge->addKey('id', TRUE);
-        $this->forge->addForeignKey('id_tahun_ajar','tahun_ajar','id', 'RESTRICT','RESTRICT');
-        $this->forge->addForeignKey('id_kelas','kelas','id', 'RESTRICT','RESTRICT');
-        $this->forge->addForeignKey('id_mapel','mapel','id', 'RESTRICT','RESTRICT');   
-        $this->forge->addForeignKey('id_guru','users','id', 'RESTRICT','RESTRICT');
+        $this->forge->addForeignKey('id_tahun_ajar', 'tahun_ajar', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('id_kelas', 'kelas', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('id_mapel', 'mapel', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('id_guru', 'guru_kepsek', 'id', 'RESTRICT', 'RESTRICT');
         $this->forge->createTable('jadwal');
     }
 

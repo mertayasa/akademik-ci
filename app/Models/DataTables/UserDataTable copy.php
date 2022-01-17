@@ -7,9 +7,9 @@ use CodeIgniter\Model;
 
 class UserDataTable extends Model
 {
-    protected $table = 'guru_kepsek';
-    protected $column_order = ['id', 'nama', 'email', 'level'];
-    protected $column_search = ['nama', 'email', 'level'];
+    protected $table = 'ortu';
+    protected $column_order = ['id', 'nama', 'email'];
+    protected $column_search = ['nama', 'email'];
     protected $order = ['id' => 'DESC'];
     protected $request;
     protected $level;
@@ -44,10 +44,10 @@ class UserDataTable extends Model
         }
 
         if ($this->request->getPost('order')) {
-            $this->dt->whereIn('level', $this->level)->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
+            $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
-            $this->dt->whereIn('level', $this->level)->orderBy(key($order), $order[key($order)]);
+            $this->dt->orderBy(key($order), $order[key($order)]);
         }
     }
 
