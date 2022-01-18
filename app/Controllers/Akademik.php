@@ -9,11 +9,9 @@ use App\Models\TahunAjarModel;
 use App\Models\WaliKelasModel;
 use App\Models\JadwalModel;
 use App\Models\MapelModel;
-use App\Models\SiswaModel;
 use App\Models\GuruKepsekModel;
-use App\Models\OrtuModel;
-use Carbon\Carbon;
-use phpDocumentor\Reflection\Types\This;
+// use Carbon\Carbon;
+// use phpDocumentor\Reflection\Types\This;
 
 class Akademik extends BaseController
 {
@@ -24,21 +22,18 @@ class Akademik extends BaseController
     protected $jadwal;
     protected $mapel;
     protected $guru;
-    protected $ortu;
-    protected $siswa;
     protected $db;
     protected $request;
     protected $session;
 
     public function __construct()
     {
-        $this->kelas = new KelasModel();
-        $this->anggota_kelas = new AnggotaKelasModel();
-        $this->wali_kelas = new WaliKelasModel();
+        // $this->kelas = new KelasModel();
+        // $this->anggota_kelas = new AnggotaKelasModel();
+        // $this->wali_kelas = new WaliKelasModel();
         $this->tahun_ajar = new TahunAjarModel();
-        $this->guru = new GuruKepsekModel();
-        $this->ortu = new OrtuModel();
-        $this->siswa = new SiswaModel();
+        // $this->ortu = new OrtuModel();
+        // $this->siswa = new SiswaModel();
         $this->request = \Config\Services::request();
         $this->session = \Config\Services::session();
         $this->db = db_connect();
@@ -46,6 +41,7 @@ class Akademik extends BaseController
 
     public function index()
     {
+        $this->kelas = new KelasModel();
         if (!$this->tahun_ajar->getData()) {
             return route_to('dashboard_index');
         }
@@ -77,6 +73,7 @@ class Akademik extends BaseController
 
     private function getJenjang($id_tahun)
     {
+        $this->kelas = new KelasModel();
         $jenjang   = array();
         $data   = $this->kelas->getData();
 
@@ -88,6 +85,10 @@ class Akademik extends BaseController
 
     public function assignTeacherAndCountStudent($array, $id_tahun)
     {
+        $this->kelas = new KelasModel();
+        $this->anggota_kelas = new AnggotaKelasModel();
+        $this->wali_kelas = new WaliKelasModel();
+        $this->guru = new GuruKepsekModel();
         $new_class = [];
         foreach ($array as $data) {
             $data['nama_guru'] = $this->wali_kelas
@@ -108,6 +109,7 @@ class Akademik extends BaseController
 
     public function showStudent($id_tahun, $id_kelas)
     {
+        $this->kelas = new KelasModel();
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun);
         $kelas = $this->kelas->getData($id_kelas);
         $include = 'akademik/student/datatable';
@@ -127,6 +129,7 @@ class Akademik extends BaseController
         $this->jadwal = new JadwalModel;
         $this->guru = new GuruKepsekModel;
         $this->mapel = new MapelModel;
+        $this->kelas = new KelasModel();
         $jadwal_kelas = $this->jadwal->get_jadwal_by_id($id_kelas, $id_tahun_ajar);
         $jadwal_hari = $this->jadwal->get_hari($id_kelas, $id_tahun_ajar);
         $guru = $this->guru->where('level', 'guru')->get()->getResultObject();
@@ -191,6 +194,7 @@ class Akademik extends BaseController
 
     public function waliPerkelas($id_kelas, $id_tahun_ajar)
     {
+        $this->kelas = new KelasModel();
         $this->guru = new GuruKepsekModel;
         $this->wali_kelas = new WaliKelasModel;
         $guru_list = $this->guru->where('level', 'guru')->get()->getResultObject();
@@ -215,6 +219,7 @@ class Akademik extends BaseController
     }
     public function insertWaliPerkelas($id_kelas, $id_tahun_ajar)
     {
+        $this->wali_kelas = new WaliKelasModel();
         $wali = $this->request->getPost('nama_guru');
         $data = [
             'id_guru_wali'  => $wali,
@@ -234,6 +239,7 @@ class Akademik extends BaseController
     }
     public function updateWali($id_kelas, $id_tahun_ajar)
     {
+        $this->wali_kelas = new WaliKelasModel();
         $id = $this->request->getPost('id');
         $id_guru = $this->request->getPost('nama_guru');
 
@@ -253,6 +259,7 @@ class Akademik extends BaseController
     }
     public function destroyWali($id_wali, $id_kelas, $id_tahun_ajar)
     {
+        $this->wali_kelas = new WaliKelasModel();
         try {
             $this->wali_kelas->delete($id_wali);
             $this->session->setFlashdata('success', 'Wali Kelas Berhasil Dihapus');
