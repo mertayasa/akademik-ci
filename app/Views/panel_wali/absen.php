@@ -18,7 +18,7 @@
                         <?php else : ?>
                             <?php $key_ganjil = 0 ?>
                             <?php foreach ($absen_ganjil as $key_abs => $tgl_ganjil) : ?>
-                                <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" style="cursor: pointer;" title="<?= $tgl_ganjil['tanggal'] ?>"><?= $key_ganjil = $key_abs+1 ?> <br> <small> <?= $tgl_ganjil['tanggal'] ?></small></td>
+                                <td class="text-center px-1" data-bs-toggle="tooltip" data-bs-placement="top" style="cursor: pointer;" title="<?= $tgl_ganjil['tanggal'] ?>"><?= $key_ganjil = $key_abs+1 ?> <br> <small> <?= $tgl_ganjil['tanggal'] ?></small></td>
                             <?php endforeach; ?>
                         <?php endif; ?>
 
@@ -27,7 +27,7 @@
                         <?php else : ?>
                             <?php $key_genap = 0 ?>
                             <?php foreach ($absen_genap as $key_abs => $tgl_genap) : ?>
-                                <td class="text-center" data-bs-toggle="tooltip" data-bs-placement="top" style="cursor: pointer;" title="<?= $tgl_genap['tanggal'] ?>"><?= $key_genap = $key_abs+1 ?> <br> <small> <?= $tgl_genap['tanggal'] ?></small></td>
+                                <td class="text-center px-1" data-bs-toggle="tooltip" data-bs-placement="top" style="cursor: pointer;" title="<?= $tgl_genap['tanggal'] ?>"><?= $key_genap = $key_abs+1 ?> <br> <small> <?= $tgl_genap['tanggal'] ?></small></td>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </tr>
@@ -44,7 +44,7 @@
                                                 <td class="text-center"></td>
                                             <?php else: ?>
                                                 <?php foreach ($absen_ganjil as $key_abs => $tgl_ganjil) : ?>
-                                                    <td class="text-center"><?= getAbsensiByDate($tgl_ganjil, $value['anggota_kelas_id']) ?></td>
+                                                    <td class="text-center px-1"><?= getAbsensiByDate($tgl_ganjil, $value['anggota_kelas_id']) ?></td>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
 
@@ -52,7 +52,7 @@
                                                 <td class="text-center"></td>
                                             <?php else: ?>
                                                 <?php foreach ($absen_genap as $key_abs => $tgl) : ?>
-                                                    <td class="text-center"><?= getAbsensiByDate($tgl, $value['anggota_kelas_id']) ?></td>
+                                                    <td class="text-center px-1"><?= getAbsensiByDate($tgl, $value['anggota_kelas_id']) ?></td>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                     </tr>

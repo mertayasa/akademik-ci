@@ -55,16 +55,6 @@ class PanelWali extends BaseController
                 'id_tahun_ajar' => $id_tahun_ajar
             ])->findAll();
 
-            // $absensi = $this->absensi
-            // ->select('absensi.tanggal')
-            // ->distinct('absensi.tanggal')
-            // ->join('anggota_kelas', 'absensi.id_anggota_kelas = anggota_kelas.id')
-            // ->where([
-            //     'absensi.id_kelas' => $kelas[0]['id_kelas'],
-            //     'id_tahun_ajar' => $id_tahun_ajar
-            // ])->countAllResults();
-            //     dd($absensi);
-
         foreach ($kelas as $key => $each) {
             $kelas[$key]['jumlah_siswa'] = $this->assignStudentCount($each, $id_tahun_ajar);
             $kelas[$key]['hari'] = $this->jadwal->get_hari($each['id_kelas'], $each['id_tahun_ajar']);
@@ -77,45 +67,9 @@ class PanelWali extends BaseController
                     'id_tahun_ajar' => $each['id_tahun_ajar']
                 ])->findAll();
 
-            $absensi = $this->absensi
-                ->select('absensi.tanggal')
-                ->distinct('absensi.tanggal')
-                ->join('anggota_kelas', 'absensi.id_anggota_kelas = anggota_kelas.id')
-                ->where([
-                    'absensi.id_kelas' => $each['id_kelas'],
-                    'id_tahun_ajar' => $id_tahun_ajar
-                ])->findAll();
-
-            $kelas[$key]['count_absen'] = $this->absensi
-                ->select('absensi.tanggal')
-                ->distinct('absensi.tanggal')
-                ->join('anggota_kelas', 'absensi.id_anggota_kelas = anggota_kelas.id')
-                ->where([
-                    'absensi.id_kelas' => $each['id_kelas'],
-                    'id_tahun_ajar' => $id_tahun_ajar
-                ])->countAllResults();
-
-            $kelas[$key]['absen_ganjil'] = $this->absensi
-                ->select('absensi.tanggal')
-                ->distinct('absensi.tanggal')
-                ->join('anggota_kelas', 'absensi.id_anggota_kelas = anggota_kelas.id')
-                ->where([
-                    'absensi.id_kelas' => $each['id_kelas'],
-                    'id_tahun_ajar' => $id_tahun_ajar
-                ])
-                ->where('absensi.semester','ganjil')
-                ->orderBy('absensi.tanggal', 'ASC')->findAll();
-            
-            $kelas[$key]['absen_genap'] = $this->absensi
-                ->select('absensi.tanggal')
-                ->distinct('absensi.tanggal')
-                ->join('anggota_kelas', 'absensi.id_anggota_kelas = anggota_kelas.id')
-                ->where([
-                    'absensi.id_kelas' => $each['id_kelas'],
-                    'id_tahun_ajar' => $id_tahun_ajar
-                ])
-                ->where('absensi.semester','genap')
-                ->orderBy('absensi.tanggal', 'ASC')->findAll();
+            $kelas[$key]['count_absen'] = $this->absensi->queryAbsensi($each['id_kelas'], $id_tahun_ajar)->countAllResults();
+            $kelas[$key]['absen_ganjil'] = $this->absensi->queryAbsensi($each['id_kelas'], $id_tahun_ajar, 'ganjil')->orderBy('absensi.tanggal', 'ASC')->findAll();
+            $kelas[$key]['absen_genap'] = $this->absensi->queryAbsensi($each['id_kelas'], $id_tahun_ajar, 'genap')->orderBy('absensi.tanggal', 'ASC')->findAll();
         }
 
         $data = [

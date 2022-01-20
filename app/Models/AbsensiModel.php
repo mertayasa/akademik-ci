@@ -53,4 +53,20 @@ class AbsensiModel extends Generic
         $this->db = db_connect();
         $this->dt = $this->db->table($this->table);
     }
+
+    public function queryAbsensi($id_kelas, $id_tahun_ajar, $semester = null)
+    {
+        $query = $this->select('absensi.tanggal')
+            ->distinct('absensi.tanggal')
+            ->join('anggota_kelas', 'absensi.id_anggota_kelas = anggota_kelas.id')
+            ->where([
+                'absensi.id_kelas' => $id_kelas,
+                'id_tahun_ajar' => $id_tahun_ajar
+            ]);
+        if($semester != null){
+            return $query->where('absensi.semester', $semester);
+        }
+
+        return $query;
+    }
 }
