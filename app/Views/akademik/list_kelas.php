@@ -22,9 +22,10 @@
                             </tr>
                         </table>
                         <hr>
-                        <a href="<?= route_to('akademik_show_student', $tahun_ajar_selected, $kode_kelas['id']) ?>" class="btn btn-info">Siswa</a>
-                        <a href="<?= route_to('akademik_show_schedule', $kode_kelas['id'], $tahun_ajar_selected); ?>" class="btn btn-primary">Jadwal</a>
-                        <a href="<?= route_to('show_wali', $kode_kelas['id'], $tahun_ajar_selected); ?>" class="btn btn-warning">Wali</a>
+                        <a href="<?= route_to('akademik_show_student', $tahun_ajar_selected, $kode_kelas['id']) ?>" class="btn btn-sm btn-info">Siswa</a>
+                        <a href="<?= route_to('akademik_show_schedule', $kode_kelas['id'], $tahun_ajar_selected); ?>" class="btn btn-sm btn-primary">Jadwal</a>
+                        <a href="<?= route_to('show_wali', $kode_kelas['id'], $tahun_ajar_selected); ?>" class="btn btn-sm btn-warning">Wali</a>
+                        <a href="<?= route_to('akademik_show_absensi', $kode_kelas['id'], $tahun_ajar_selected); ?>" class="btn btn-sm btn-secondary">Absensi</a>
                     </div>
                 </div>
             </div>

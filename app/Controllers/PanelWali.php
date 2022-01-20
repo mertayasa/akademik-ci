@@ -144,15 +144,16 @@ class PanelWali extends BaseController
                 }
 
                 session()->setFlashdata('success', 'Berhasil melakukan absensi');
-                return redirect()->to(route_to('panel_wali_index'));
+                // return redirect()->to(route_to('panel_wali_index'));
             } else {
                 session()->setFlashdata('error', 'Tanggal Absen tidak boleh melebihi tanggal sekarang');
-                return redirect()->to(route_to('panel_wali_index'));
+                // return redirect()->to(route_to('panel_wali_index'));
             }
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'gagal melakukan absensi');
-            return redirect()->back()->withInput();
         }
+
+        return redirect()->back()->withInput();
     }
 }

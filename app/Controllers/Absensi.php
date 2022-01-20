@@ -103,8 +103,6 @@ class Absensi extends BaseController
             'absen' => $absen,
         ];
 
-        // dd($data);
-
         return view('absensi/siswa/index', $data);
     }
 
