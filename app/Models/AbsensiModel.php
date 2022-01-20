@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use App\Models\Generic\Generic;
 
-class AbsensiModel extends Model
+class AbsensiModel extends Generic
 {
     // protected $DBGroup          = 'default';
     protected $table            = 'absensi';

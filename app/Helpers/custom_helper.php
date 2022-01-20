@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\AbsensiModel;
+
 if ( ! function_exists('isActive'))
 {
     function isActive($param)
@@ -190,5 +192,34 @@ if ( ! function_exists('isActive'))
         }
     
         return 'images/' . $folder . '/' . $safeName;
+    }
+
+    function getAbsensiByDate($tgl, $id_anggota_kelas)
+    {
+        $absensi = new AbsensiModel;
+        $check_absensi = $absensi->where([
+            'tanggal' => $tgl,
+            'id_anggota_kelas' => $id_anggota_kelas
+        ])->findAll();
+        
+        return isset($check_absensi[0]) && ($check_absensi[0]['kehadiran'] != '' || $check_absensi[0]['kehadiran'] != null) ? getAbsenceCode($check_absensi[0]['kehadiran']) : '-';
+    }
+
+    function getAbsenceCode($kehadiran)
+    {
+        switch($kehadiran){
+            case 'hadir':
+                return 'H';
+            break;
+            case 'sakit':
+                return 'S';
+            break;
+            case 'ijin':
+                return 'I';
+            break;
+            case 'tanpa_keterangan':
+                return 'A';
+            break;
+        }
     }
 }

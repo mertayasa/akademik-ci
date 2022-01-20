@@ -1,18 +1,20 @@
 <!-- Content -->
 
-<table id="daftarSiswaDatatable<?= $key ?>" class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <td>No</td>
-            <td>Nama</td>
-            <td>NIS</td>
-            <td>Status</td>
-            <td>Aksi</td>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+<div class="mt-3">
+    <table id="daftarSiswaDatatable<?= $key ?>" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <td>No</td>
+                <td>Nama</td>
+                <td>NIS</td>
+                <td>Status</td>
+                <td>Aksi</td>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
 
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
