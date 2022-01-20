@@ -28,7 +28,6 @@ class Jadwal extends BaseController
         $this->kelas = new KelasModel();
         $this->tahun_ajar = new TahunAjarModel();
         $this->jadwal = new JadwalModel();
-        // $this->user = new UserModel();
         $this->guru = new GuruKepsekModel();
         $this->siswa = new SiswaModel();
         $this->anggota_kelas = new AnggotaKelasModel();
@@ -108,13 +107,13 @@ class Jadwal extends BaseController
             $anggota_kelas = [];
         }
 
-        if (isset($anggota_kelas)) {
+        if (isset($anggota_kelas) && count($anggota_kelas) != 0) {
             $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
         } else {
-            $wali_kelas = [];
+            $wali_kelas = '';
         }
 
-        if (isset($anggota_kelas)) {
+        if (isset($anggota_kelas) && count($anggota_kelas) != 0) {
             $jadwal = $this->jadwal->get_jadwal_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']) ?? [];
         } else {
             $jadwal = [];
