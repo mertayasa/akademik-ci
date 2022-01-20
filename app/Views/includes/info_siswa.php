@@ -24,6 +24,13 @@
                     <td class="px-2">:</td>
                     <td><?= isset($anggota_kelas) ? $anggota_kelas['tahun_mulai'] . '/' . $anggota_kelas['tahun_selesai'] : '-' ?> </td>
                 </tr>
+                <?php if (isset($semester)) : ?>
+                    <tr>
+                        <td>Tahun Ajaran</td>
+                        <td class="px-2">:</td>
+                        <td><?= $semester; ?> </td>
+                    </tr>
+                <?php endif; ?>
             </table>
         </div>
     </div>
