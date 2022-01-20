@@ -13,7 +13,7 @@
                                             <img src="<?= base_url($user['foto']) ?>" style="object-fit:cover" alt="Admin" class="rounded-circle border border-secondary" width="150" height="150">
                                             <div class="mt-3">
                                                 <h4><?= $user['nama'] ?></h4>
-                                                <p class="text-secondary mb-1"><?= ucfirst($user['level']) ?></p>
+                                                <p class="text-secondary mb-1"><?= ucfirst($level) ?></p>
                                                 <p class="text-muted font-size-sm">SDN Nama Sekolah</p>
                                             </div>
                                         </div>
@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="card-body">
 
-                                        <?php if($level == 'guru' or $level == 'siswa'): ?>
+                                        <?php if ($level == 'guru' or $level == 'siswa') : ?>
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <h6 class="mb-0"><?= $level == 'guru' ? 'NIP' : 'NIS' ?></h6>
@@ -56,7 +56,7 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <?php if($level != 'admin'): ?>
+                                        <?php if ($level != 'admin') : ?>
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <h6 class="mb-0">Alamat</h6>
@@ -69,7 +69,7 @@
                                         <?php endif; ?>
 
 
-                                        <?= $this->include('profile/show_include/'.$level.'.php'); ?>
+                                        <?= $this->include('profile/show_include/' . $level . '.php'); ?>
 
                                     </div>
                                 </div>

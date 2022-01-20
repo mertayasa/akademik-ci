@@ -44,10 +44,10 @@ class GuruKepsekDataTable extends Model
         }
 
         if ($this->request->getPost('order')) {
-            $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
+            $this->dt->where('level', $this->level)->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
-            $this->dt->orderBy(key($order), $order[key($order)]);
+            $this->dt->where('level', $this->level)->orderBy(key($order), $order[key($order)]);
         }
     }
 

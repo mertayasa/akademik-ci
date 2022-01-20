@@ -59,7 +59,7 @@ $routes->group('user', ['filter' => 'auth'], function ($routes) {
 });
 
 $routes->group('profile', ['filter' => 'auth'], function ($routes) {
-    $routes->get('(:num)/show', 'Profile::show/$1', ['as' => 'profile_show']);
+    $routes->get('(:segment)/(:num)/show', 'Profile::show/$1/$2', ['as' => 'profile_show']);
     $routes->get('edit', 'Profile::edit', ['as' => 'profile_edit']);
     $routes->patch('update', 'Profile::update', ['as' => 'profile_update']);
 });

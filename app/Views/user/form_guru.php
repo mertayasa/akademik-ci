@@ -51,16 +51,6 @@
 
 <div class="row mt-3">
     <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('Tanggal Lahir', 'tglLahir') ?>
-        <?= form_input([
-            'type' => 'date',
-            'name' => 'tanggal_lahir',
-            'id' => 'tglLahir',
-            'value' => set_value('tanggal_lahir') == false && isset($user) ? $user['tanggal_lahir'] : set_value('tanggal_lahir'),
-            'class' => 'form-control'
-        ]) ?>
-    </div>
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Tempat Lahir', 'tempatLahir') ?>
         <?= form_input([
             'type' => 'text',
@@ -72,29 +62,29 @@
     </div>
 </div>
 
-<?php if(isAdmin()): ?>
-<div class="row mt-3">
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('Status Guru', 'statusGuru') ?>
-        <?= form_dropdown(
+<?php if (isAdmin()) : ?>
+    <div class="row mt-3">
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('Status Guru', 'statusGuru') ?>
+            <?= form_dropdown(
                 'status_guru',
                 getStatusGuru(),
                 set_value('status_guru') == false && isset($user) ? $user['status_guru'] : set_value('status_guru'),
                 ['class' => 'form-control', 'id' => 'statusGuru']
             );
-        ?>
-    </div>
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('Status', 'statusUser') ?>
-        <?= form_dropdown(
+            ?>
+        </div>
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('Status', 'statusUser') ?>
+            <?= form_dropdown(
                 'status',
                 ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
                 set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
                 ['class' => 'form-control', 'id' => 'statusUser']
             );
-        ?>
+            ?>
+        </div>
     </div>
-</div>
 <?php endif; ?>
 
 <div class="row mt-3">

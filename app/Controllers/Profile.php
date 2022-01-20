@@ -27,65 +27,48 @@ class Profile extends BaseController
         $this->ortu = new OrtuModel();
     }
 
-    public function show($id)
+    public function show($level, $id)
     {
-        // $user = $this->user->getData($id);
-        // if($user){
-        //     $user['foto'] = $this->user->getFoto($user['id']);
-        //     if(($user['level'] == 'siswa' or $user['level'] == 'admin') and $user['id_ortu'] != null){
-        //         $ortu = $this->user->getData($user['id_ortu']);
-        //     }else{
-        //         $ortu = [];
-        //     }
-
-        //     if(($user['level'] == 'ortu' or $user['level'] == 'admin')){
-        //         $siswa = $this->user->where('id_ortu', $user['id'])->findAll();
-        //         $nama_siswa = array_map(function($siswa)
-        //         {
-        //             return $siswa['nama'];
-        //         }, $siswa);
-        //     }else{
-        //         $nama_siswa = [];
-        //     }
-
-
-        //     $data = [
-        //         'user' => $user,
-        //         'ortu' => $ortu,
-        //         'nama_siswa' => implode(', ', $nama_siswa),
-        //         'level' => $user['level'],
-        //     ];
-        //     return view('profile/show', $data);
-        // }
-        $user = [];
-        if (session()->get('level') == 'admin') {
-            $user = $this->admin->getData($id);
-            if ($user) {
+        if ($level != null) {
+            if ($level == 'siswa') {
+                $user = $this->siswa->getData($id);
+                $user['foto'] = $this->siswa->getFoto($user['id']);
+                $ortu = $this->siswa->getData($user['id_ortu']);
+            } elseif ($level == 'admin') {
+                $user = $this->admin->getData($id);
                 $user['foto'] = $this->admin->getFoto($user['id']);
                 $ortu = [];
+            } elseif ($level == 'ortu') {
+                $user = $this->ortu->getData($id);
+                $user['foto'] = $this->ortu->getFoto($user['id']);
+                $ortu = [];
+            } else {
+                $user = $this->guru->getData($id);
+                $user['foto'] = $this->guru->getFoto($user['id']);
+                $ortu = [];
             }
-        } elseif (session()->get('level') == 'siswa') {
-            $user = $this->siswa->getFoto($user['id']);
-            $ortu = $this->ortu->getData($user['id_ortu']);
-        } elseif (session()->get('level') == 'ortu') {
-            $siswa = $this->siswa->where('id_ortu', $user['id'])->findAll();
-            $nama_siswa = array_map(function ($siswa) {
-                return $siswa['nama'];
-            }, $siswa);
-        } else {
-            $user = $this->admin->getData(session()->get('id'));
+
+            if (($level == 'ortu' or $level == 'admin')) {
+                $siswa = $this->siswa->where('id_ortu', $user['id'])->findAll();
+                $nama_siswa = array_map(function ($siswa) {
+                    return $siswa['nama'];
+                }, $siswa);
+            } else {
+                $nama_siswa = [];
+            }
+
+
+            $data = [
+                'user' => $user,
+                'ortu' => $ortu,
+                'nama_siswa' => implode(', ', $nama_siswa),
+                'level' => $level,
+            ];
+            return view('profile/show', $data);
         }
 
-        $data = [
-            'user' => $user,
-            'ortu' => $ortu,
-            'nama_siswa' => implode(', ', $nama_siswa),
-            'level' => $user['level'],
-        ];
-        return view('profile/show', $data);
-
-        // session()->setFlashdata('error', 'Akun pengguna tidak ditemukan');
-        // return redirect()->back();
+        session()->setFlashdata('error', 'Akun pengguna tidak ditemukan');
+        return redirect()->back();
     }
 
     public function edit()
