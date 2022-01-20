@@ -107,17 +107,18 @@ class Nilai extends BaseController
 
         return view('nilai/ortu/index', $data);
     }
-    public function edit($id)
+    public function edit($id, $semester)
     {
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
         $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($id, $id_tahun_ajar)[0] ?? [];
         $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
-        $nilai = $this->nilai->get_nilai_by_anggota($anggota_kelas['id']) ?? [];
+        $nilai = $this->nilai->get_nilai_by_semester($anggota_kelas['id'], $semester) ?? [];
         $id_siswa = $this->request->uri->getSegment(2);
         $data = [
             'anggota_kelas' => $anggota_kelas,
             'wali_kelas' => $wali_kelas,
             'nilai' => $nilai,
+            'semester' => $semester,
             'id_siswa' => $id_siswa
         ];
 

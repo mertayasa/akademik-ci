@@ -44,7 +44,8 @@ class AnggotaKelas extends BaseController
                 $row[] = $list->nis;
                 $row[] = ucfirst($list->status);
                 $row[] = "
-                    <a href='" . route_to('nilai_edit', $list->id, $list->id_tahun_ajar) . "' class='btn btn-sm btn-info'>Nilai</a>
+                    <a href='" . route_to('nilai_edit_ganjil', $list->id, 'ganjil') . "' class='btn btn-sm btn-info'>Nilai Smt Ganjil</a>
+                    <a href='" . route_to('nilai_edit_genap', $list->id, 'genap') . "' class='btn btn-sm btn-info'>Nilai Smt Genap</a>
                     <button class='btn btn-sm " . ($list->status == 'aktif' ? 'btn-danger' : 'btn-warning') . "'onclick='updateStatus(`" . route_to('anggota_kelas_update_status', $list->id) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi " . ($list->status == 'aktif' ? 'Non Aktif' : 'Aktif') . " ?`)'>" . ($list->status == 'aktif' ? 'Set Non Aktif' : 'Set Aktif') . "</button>";
                 $data[] = $row;
             }
