@@ -79,7 +79,7 @@ class PanelWali extends BaseController
             'data_absensi' => null,
         ];
 
-        dd($data);
+        // dd($data);
 
         return view('panel_wali/index', $data);
     }
@@ -153,7 +153,7 @@ class PanelWali extends BaseController
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'gagal melakukan absensi');
         }
-        
+
         return redirect()->back()->withInput();
     }
 }
