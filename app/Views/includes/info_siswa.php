@@ -26,9 +26,9 @@
                 </tr>
                 <?php if (isset($semester)) : ?>
                     <tr>
-                        <td>Tahun Ajaran</td>
+                        <td>Semester</td>
                         <td class="px-2">:</td>
-                        <td><?= $semester; ?> </td>
+                        <td><?= ucwords($semester); ?> </td>
                     </tr>
                 <?php endif; ?>
             </table>
