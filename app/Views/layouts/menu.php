@@ -122,6 +122,13 @@
         </li>
 
         <li class="nav-item">
+            <a href="<?= route_to('absensi_index') ?>" class="nav-link <?= isActive('absensi') ?>">
+                <i class="nav-icon far fa-calendar-check"></i>
+                <p>Absensi</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a href="<?= route_to('nilai_index') ?>" class="nav-link <?= isActive('nilai') ?>">
                 <i class="nav-icon fas fa-clipboard-list"></i>
                 <p>Nilai</p>
