@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\AbsensiModel;
 use App\Models\AnggotaKelasModel;
 use App\Models\KelasModel;
 use App\Models\TahunAjarModel;
@@ -20,6 +21,7 @@ class Akademik extends BaseController
     protected $wali_kelas;
     protected $tahun_ajar;
     protected $jadwal;
+    protected $absensi;
     protected $mapel;
     protected $guru;
     protected $db;
@@ -28,12 +30,10 @@ class Akademik extends BaseController
 
     public function __construct()
     {
-        // $this->kelas = new KelasModel();
-        // $this->anggota_kelas = new AnggotaKelasModel();
-        // $this->wali_kelas = new WaliKelasModel();
         $this->tahun_ajar = new TahunAjarModel();
-        // $this->ortu = new OrtuModel();
-        // $this->siswa = new SiswaModel();
+        $this->kelas = new KelasModel();
+        $this->anggota_kelas = new AnggotaKelasModel();
+        $this->absensi = new AbsensiModel();
         $this->request = \Config\Services::request();
         $this->session = \Config\Services::session();
         $this->db = db_connect();
@@ -122,6 +122,38 @@ class Akademik extends BaseController
         ];
 
         return view('akademik/student/index', $data);
+    }
+    
+    public function showAbsensi($id_kelas, $id_tahun_ajar)
+    {
+        $kelas = $this->kelas->find($id_kelas);
+        $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
+        $absen = $this->anggota_kelas
+        ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, ')
+        ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
+        ->where([
+            'id_kelas' => $id_kelas,
+            'id_tahun_ajar' => $id_tahun_ajar
+        ])->findAll();
+
+        $count_absen = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar)->countAllResults();
+        $absen_ganjil = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar, 'ganjil')->orderBy('absensi.tanggal', 'ASC')->findAll();
+        $absen_genap = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar, 'genap')->orderBy('absensi.tanggal', 'ASC')->findAll();
+
+        $data = [
+            'absen' => $absen,
+            'count_absen' => $count_absen,
+            'absen_ganjil' => $absen_ganjil,
+            'absen_genap' => $absen_genap,
+            'breadcrumb'   => 'Absensi',
+            'kelas_raw' => $kelas,
+            'tahun_ajar' => $tahun_ajar,
+            'kelas' => $kelas['jenjang'] . '' . $kelas['kode']
+        ];
+
+        // dd($data);
+
+        return view('akademik/absensi/index', $data);
     }
 
     public function showSchedule($id_kelas, $id_tahun_ajar)

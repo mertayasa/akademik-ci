@@ -164,6 +164,7 @@ $routes->group('akademik', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Akademik::index', ['as' => 'akademik_index']);
     $routes->post('search-tahun', 'Akademik::index', ['as' => 'akademik_search_tahun']);
     $routes->get('(:num)/(:num)/show-student', 'Akademik::showStudent/$1/$2', ['as' => 'akademik_show_student']);
+    $routes->get('(:num)/(:num)/show-absensi', 'Akademik::showAbsensi/$1/$2', ['as' => 'akademik_show_absensi']);
     $routes->get('(:num)/(:num)/show-schedule', 'Akademik::showSchedule/$1/$2', ['as' => 'akademik_show_schedule']);
     $routes->patch('update', 'Akademik::update', ['as' => 'akademik_update_schedule']);
     $routes->get('delete/(:num)/(:num)/(:num)', 'Akademik::set_status/$1/$2/$3', ['as' => 'akademik_delete_schedule']);
