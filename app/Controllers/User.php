@@ -116,11 +116,11 @@ class User extends BaseController
 
                 if (isAdmin()) {
                     $row[] = "
-                    <a href='" . route_to('profile_show', $list->id) . "' class='btn btn-sm btn-primary'>Profil</a>
+                    <a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary'>Profil</a>
                     <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
                     <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('user_destroy', $list->id) . "`, `userDataTable`, `Aseg`)'>Hapus</button>";
                 } else {
-                    $row[] = "<a href='" . route_to('profile_show', $list->id) . "' class='btn btn-sm btn-primary'>Profil</a>";
+                    $row[] = "<a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary'>Profil</a>";
                 }
 
                 $data[] = $row;
@@ -192,12 +192,26 @@ class User extends BaseController
     {
         if ($level == 'siswa') {
             $ortu = $this->ortu->select('id, nama')->findAll();
+            $user = $this->siswa->getData($id);
+            $user['foto'] = $this->siswa->getFoto($id);
+        } elseif ($level == "ortu") {
+            $ortu = [];
+            $user = $this->ortu->getData($id);
+            $user['foto'] = $this->ortu->getFoto($id);
+        } elseif ($level == "guru") {
+            $ortu = [];
+            $user = $this->guru->getData($id);
+            $user['foto'] = $this->guru->getFoto($id);
+        } elseif ($level == "kepsek") {
+            $ortu = [];
+            $user = $this->guru->getData($id);
+            $user['foto'] = $this->guru->getFoto($id);
         } else {
             $ortu = [];
+            $user = $this->admin->getData($id);
+            $user['foto'] = $this->admin->getFoto($id);
         }
 
-        $user = $this->siswa->getData($id);
-        $user['foto'] = $this->siswa->getFoto($user['id']);
         $data = [
             'level' => $level,
             'user' => $user,
@@ -229,8 +243,17 @@ class User extends BaseController
 
                 $update_data['foto'] = $upload_image;
             }
-
-            $this->level->updateData($id, $update_data);
+            if ($level == "siswa") {
+                $this->siswa->updateData($id, $update_data);
+            } elseif ($level == "admin") {
+                $this->admin->updateData($id, $update_data);
+            } elseif ($level == "ortu") {
+                $this->ortu->updateData($id, $update_data);
+            } elseif ($level == "kepsek") {
+                $this->guru->updateData($id, $update_data);
+            } else {
+                $this->guru->updateData($id, $update_data);
+            }
             session()->setFlashdata('success', 'Berhasil mengubah data ' . $level);
             return redirect()->to(route_to('user_index', $level));
         } catch (\Exception $e) {

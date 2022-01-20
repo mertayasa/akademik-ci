@@ -13,16 +13,7 @@
             'class' => 'form-control'
         ]) ?>
     </div>
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('No Telpon', 'noTelp') ?>
-        <?= form_input([
-            'type' => 'text',
-            'name' => 'no_telp',
-            'id' => 'noTelp',
-            'value' => set_value('no_telp') == false && isset($user) ? $user['no_telp'] : set_value('no_telp'),
-            'class' => 'form-control'
-        ]) ?>
-    </div>
+
 </div>
 
 <div class="row mt-3">
@@ -37,16 +28,6 @@
         ]) ?>
     </div>
 
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('Alamat', 'alamat') ?>
-        <?= form_input([
-            'type' => 'text',
-            'name' => 'alamat',
-            'id' => 'alamat',
-            'value' => set_value('alamat') == false && isset($user) ? $user['alamat'] : set_value('alamat'),
-            'class' => 'form-control'
-        ]) ?>
-    </div>
 </div>
 
 <div class="row mt-3">
@@ -76,22 +57,22 @@
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Orang Tua', 'idOrtu') ?>
         <select name="id_ortu" id="idOrtu" class="form-control">
-            <?php  
-                $selected = set_value('id_ortu') == false && isset($user) ? $user['id_ortu'] : set_value('id_ortu');
+            <?php
+            $selected = set_value('id_ortu') == false && isset($user) ? $user['id_ortu'] : set_value('id_ortu');
             ?>
-            <?php foreach($ortu as $or): ?>
-                <option value="<?= $or['id'] ?>" <?= $selected == $or['id'] ? 'selected' : '' ?> ><?= $or['nama'] ?></option>
+            <?php foreach ($ortu as $or) : ?>
+                <option value="<?= $or['id'] ?>" <?= $selected == $or['id'] ? 'selected' : '' ?>><?= $or['nama'] ?></option>
             <?php endforeach; ?>
         </select>
     </div>
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Status', 'statusUser') ?>
         <?= form_dropdown(
-                'status',
-                ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
-                set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
-                ['class' => 'form-control', 'id' => 'statusUser']
-            );
+            'status',
+            ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
+            set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
+            ['class' => 'form-control', 'id' => 'statusUser']
+        );
         ?>
     </div>
 </div>

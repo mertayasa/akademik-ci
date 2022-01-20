@@ -13,13 +13,6 @@
         ]) ?>
     </div>
     <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('No Telpon', 'noTelp') ?>
-        <?= form_input([
-            'type' => 'text',
-            'name' => 'no_telp',
-            'id' => 'noTelp',
-            'value' => set_value('no_telp') == false && isset($user) ? $user['no_telp'] : set_value('no_telp'),
-            'class' => 'form-control'
-        ]) ?>
+
     </div>
 </div>
