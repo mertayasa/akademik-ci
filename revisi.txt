@@ -1,0 +1,9 @@
+ABSENSI :
+- Tampilan ortu dan siswa sesuaikan dengan gambar yg dkirim nurul (dicoba dlu)
+- Form inputan diatas table absensi
+- Pisahkan semester
+- Aksi hapus tanggal
+
+NILAI : 
+- Jadi 4 field : Tugas, PAS, PAT, ULANGAN HARIAN 
+- Mapel yang dinilai berdasarkan jadwal
