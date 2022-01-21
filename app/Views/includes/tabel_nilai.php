@@ -75,7 +75,9 @@
     <?= $this->include('includes/modal_edit_nilai'); ?>
 <?php endif; ?>
 <?php if (count($nilai) <= 0) : ?>
-    <?= $this->include('includes/modal_input_nilai'); ?>
+    <?php if (session()->get('level') == 'admin') : ?>
+        <?= $this->include('includes/modal_input_nilai'); ?>
+    <?php endif ?>
 <?php endif; ?>
 
 <?= $this->section('scripts') ?>

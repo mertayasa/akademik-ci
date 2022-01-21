@@ -129,6 +129,7 @@ $routes->group('nilai', ['filter' => 'auth'], function ($routes) {
     $routes->get('destroy/(:num)', 'Nilai::destroy/$1', ['as' => 'nilai_destroy']);
     $routes->post('datatables', 'Nilai::datatables', ['as' => 'nilai_datatables']);
     $routes->post('update', 'Nilai::update', ['as' => 'update_nilai']);
+    $routes->get('filter', 'Nilai::indexOrtu', ['as' => 'nilai_filter']);
 });
 
 $routes->group('prestasi', ['filter' => 'auth'], function ($routes) {

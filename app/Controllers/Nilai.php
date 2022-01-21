@@ -74,7 +74,7 @@ class Nilai extends BaseController
         return view('nilai/siswa/index', $data);
     }
 
-    private function indexOrtu()
+    public function indexOrtu()
     {
         $id_siswa = $_GET['id_siswa'] ?? null;
         $siswa = $this->siswa->where('id_ortu', session()->get('id'))->findAll();
@@ -82,6 +82,9 @@ class Nilai extends BaseController
 
         if (isset($siswa[0]['id'])) {
             $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($id_siswa ?? $siswa[0]['id'], $id_tahun_ajar)[0] ?? [];
+        } elseif ($id_siswa != null) {
+            echo $id_siswa;
+            $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($id_siswa, $id_tahun_ajar)[0] ?? [];
         } else {
             $anggota_kelas = [];
         }
