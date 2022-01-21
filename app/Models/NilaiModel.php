@@ -57,19 +57,20 @@ class NilaiModel extends Generic
     public function get_nilai_by_anggota($id_anggota_kelas)
     {
         return $this->select(
-            'mapel.nama as nama_mapel, tugas, uts, uas, nilai.id as id_nilai, nilai.id_kelas as id_kelas, nilai.id_anggota_kelas as id_anggota'
+            'mapel.nama as nama_mapel, tugas, uts, uas,harian, nilai.id as id_nilai, nilai.id_kelas as id_kelas, nilai.id_anggota_kelas as id_anggota'
         )->join('kelas', 'nilai.id_kelas = kelas.id')
             ->join('mapel', 'nilai.id_mapel = mapel.id')
             ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')
             ->where([
                 'nilai.id_anggota_kelas' => $id_anggota_kelas,
             ])
+            ->groupBy('id_mapel')
             ->findAll();
     }
     public function get_nilai_by_semester($id_anggota_kelas, $semester)
     {
         return $this->select(
-            'mapel.nama as nama_mapel, tugas, uts, uas, nilai.id as id_nilai, nilai.id_kelas as id_kelas, nilai.id_anggota_kelas as id_anggota'
+            'mapel.nama as nama_mapel, tugas, uts, uas, harian, nilai.id as id_nilai, nilai.id_kelas as id_kelas, nilai.id_anggota_kelas as id_anggota'
         )->join('kelas', 'nilai.id_kelas = kelas.id')
             ->join('mapel', 'nilai.id_mapel = mapel.id')
             ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')

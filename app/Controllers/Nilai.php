@@ -10,6 +10,7 @@ use App\Models\NilaiModel;
 use App\Models\SiswaModel;
 use App\Models\TahunAjarModel;
 use App\Models\WaliKelasModel;
+use App\Models\JadwalModel;
 use Exception;
 
 use function PHPUnit\Framework\returnSelf;
@@ -109,12 +110,14 @@ class Nilai extends BaseController
     }
     public function edit($id, $semester)
     {
+        $jadwalModel = new JadwalModel();
+
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
         $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($id, $id_tahun_ajar)[0] ?? [];
         $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
         $nilai = $this->nilai->get_nilai_by_semester($anggota_kelas['id'], $semester) ?? [];
         $id_siswa = $this->request->uri->getSegment(2);
-        $mapel = $this->mapel->findAll();
+        $mapel = $jadwalModel->get_mapel_jadwal($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']);
 
         $data = [
             'anggota_kelas' => $anggota_kelas,
@@ -158,18 +161,20 @@ class Nilai extends BaseController
         $tugas = $this->request->getPost('tugas');
         $uts = $this->request->getPost('uts');
         $uas = $this->request->getPost('uas');
+        $harian = $this->request->getPost('harian');
         $semester = $this->request->getPost('semester');
         $data = [];
 
         foreach ($tugas as $key => $val) {
             array_push($data, [
-                'id_kelas' => $id_kelas,
+                'id_kelas' => $id_kelas[$key],
                 'id_mapel' => $id_mapel[$key],
-                'id_anggota_kelas' => $id_anggota_kelas,
+                'id_anggota_kelas' => $id_anggota_kelas[$key],
                 'tugas' => $val,
                 'uts' => $uts[$key],
                 'uas' => $uas[$key],
-                'semester' => $semester
+                'semester' => $semester,
+                'harian' => $harian[$key]
             ]);
         }
         // dd($data);
