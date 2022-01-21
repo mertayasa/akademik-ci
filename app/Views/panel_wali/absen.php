@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12 mt-3">
-        <?= $this->include('includes/table_absensi'); ?>
+        <?= $this->include('includes/table_absensi_ganjil'); ?>
     </div>
 
     <div class="col-md-12">

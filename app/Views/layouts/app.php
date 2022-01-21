@@ -111,6 +111,7 @@
 
 
     <script>
+        const baseUrl = "<?= base_url() ?>"
         function showToast(code, text) {
             if (code == 1) {
                 toastr.success(text)
@@ -118,6 +119,24 @@
 
             if (code == 0) {
                 toastr.error(text)
+            }
+        }
+        
+        function showAlertSwal(code, text){
+            if (code == 1) {
+                Swal.fire(
+                    'Berhasil',
+                    text,
+                    'success'
+                )
+            }
+            
+            if (code == 0) {
+                Swal.fire(
+                    'Terjadi Kesalahan',
+                    text,
+                    'error'
+                )
             }
         }
 
