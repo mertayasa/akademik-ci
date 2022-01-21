@@ -15,78 +15,92 @@
                     <div class="container mt-2">
                         <?php form_open(route_to('create_nilai')); ?>
                         <?= csrf_field(); ?>
-                        <table class="table table-striped table-bordered align-items-center">
-                            <thead>
-                                <tr class="text-center">
-                                    <th style="padding-bottom:35px !important" rowspan="2">No</th>
-                                    <th style="padding-bottom:35px !important" rowspan="2">Mapel</th>
-                                    <th rowspan="1" colspan="3">Nilai</th>
+                        <div class="col-md-12">
+                            <table class="table table-striped table-bordered table-responsive align-items-center">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th style="padding-bottom:35px !important" rowspan="2">No</th>
+                                        <th style="padding-bottom:35px !important" rowspan="2">Mapel</th>
+                                        <th rowspan="1" colspan="4">Nilai</th>
 
-                                </tr>
-                                <tr class="text-center">
-                                    <th>Tugas</th>
-                                    <th>UTS</th>
-                                    <th>UAS</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $no = 1; ?>
-                                <?php if (count($mapel) > 0) : ?>
-                                    <?php foreach ($mapel as $mp) : ?>
-                                        <tr>
-                                            <?= form_input([
-                                                'type' => 'hidden',
-                                                'name' => 'id_kelas[]',
-                                                'id' => 'id_kelas',
-                                                'value' => $anggota_kelas['id_kelas']
-                                            ]); ?>
-                                            <?= form_input([
-                                                'type' => 'hidden',
-                                                'name' => 'id_mapel[]',
-                                                'id' => 'id_mapel',
-                                                'value' => $mp['id']
-                                            ]); ?>
-                                            <?= form_input([
-                                                'type' => 'hidden',
-                                                'name' => 'id_anggota_kelas[]',
-                                                'id' => 'id_anggota_kelas',
-                                                'value' => $anggota_kelas['id']
-                                            ]); ?>
-                                            <td><?= $no; ?></td>
-                                            <td><?= $mp["nama"]; ?></td>
-                                            <td><?= form_input([
-                                                    'type' => 'number',
-                                                    'name' => 'tugas[]',
-                                                    'id' => 'tugas',
-                                                    'value' => ''
+                                    </tr>
+                                    <tr class="text-center">
+                                        <th>TUGAS</th>
+                                        <th>PAS</th>
+                                        <th>PAT</th>
+                                        <th>ULANGAN HARIAN</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $no = 1; ?>
+                                    <?php if (count($mapel) > 0) : ?>
+                                        <?php foreach ($mapel as $mp) : ?>
+                                            <tr>
+                                                <?= form_input([
+                                                    'type' => 'hidden',
+                                                    'name' => 'id_kelas[]',
+                                                    'id' => 'id_kelas',
+                                                    'value' => $anggota_kelas['id_kelas']
                                                 ]); ?>
-                                            </td>
-                                            <td><?= form_input([
-                                                    'type' => 'number',
-                                                    'name' => 'uts[]',
-                                                    'id' => 'uts',
-                                                    'value' => ''
+                                                <?= form_input([
+                                                    'type' => 'hidden',
+                                                    'name' => 'id_mapel[]',
+                                                    'id' => 'id_mapel',
+                                                    'value' => $mp['id_mapel']
                                                 ]); ?>
-                                            </td>
-                                            <td><?= form_input([
-                                                    'type' => 'number',
-                                                    'name' => 'uas[]',
-                                                    'id' => 'uas',
-                                                    'value' => ''
+                                                <?= form_input([
+                                                    'type' => 'hidden',
+                                                    'name' => 'id_anggota_kelas[]',
+                                                    'id' => 'id_anggota_kelas',
+                                                    'value' => $anggota_kelas['id']
                                                 ]); ?>
-                                            </td>
-                                            <?= form_input([
-                                                'type' => 'hidden',
-                                                'name' => 'semester',
-                                                'id' => 'semester',
-                                                'value' => $semester
-                                            ]); ?>
-                                        </tr>
-                                        <?php $no++; ?>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                                                <td><?= $no; ?></td>
+                                                <td><?= $mp["nama"]; ?></td>
+                                                <td><?= form_input([
+                                                        'type' => 'number',
+                                                        'class' => 'col-md-12',
+                                                        'name' => 'tugas[]',
+                                                        'id' => 'tugas',
+                                                        'value' => ''
+                                                    ]); ?>
+                                                </td>
+                                                <td><?= form_input([
+                                                        'type' => 'number',
+                                                        'class' => 'col-md-12',
+                                                        'name' => 'uts[]',
+                                                        'id' => 'uts',
+                                                        'value' => ''
+                                                    ]); ?>
+                                                </td>
+                                                <td><?= form_input([
+                                                        'type' => 'number',
+                                                        'class' => 'col-md-12',
+                                                        'name' => 'uas[]',
+                                                        'id' => 'uas',
+                                                        'value' => ''
+                                                    ]); ?>
+                                                </td>
+                                                <td><?= form_input([
+                                                        'type' => 'number',
+                                                        'class' => 'col-md-12',
+                                                        'name' => 'harian[]',
+                                                        'id' => 'harian',
+                                                        'value' => ''
+                                                    ]); ?>
+                                                </td>
+                                                <?= form_input([
+                                                    'type' => 'hidden',
+                                                    'name' => 'semester',
+                                                    'id' => 'semester',
+                                                    'value' => $semester
+                                                ]); ?>
+                                            </tr>
+                                            <?php $no++; ?>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

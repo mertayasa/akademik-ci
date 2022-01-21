@@ -1,14 +1,15 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
-            <table id="kelasTable" class="table table-striped table-hover">
+            <table id="kelasTable" class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
                         <td>No</td>
                         <td>Pelajaran</td>
-                        <td>Tugas</td>
-                        <td>UTS</td>
-                        <td>UAS</td>
+                        <td>TUGAS</td>
+                        <td>PAS</td>
+                        <td>PAT</td>
+                        <td>ULANGAN HARIAN</td>
                         <td>Rata-Rata</td>
                         <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
                             <td>Action</td>
@@ -20,6 +21,7 @@
                     $sum_tugas = 0;
                     $sum_uts = 0;
                     $sum_uas = 0;
+                    $sum_harian = 0;
                     $sum_akumulatif = 0;
                     ?>
                     <?php if (isset($nilai) && count($nilai) > 0) : ?>
@@ -30,6 +32,7 @@
                                 <td><?= $value['tugas'] ?></td>
                                 <td><?= $value['uts'] ?></td>
                                 <td><?= $value['uas'] ?></td>
+                                <td><?= $value['harian'] ?></td>
                                 <td><?= round(($value['tugas'] + $value['uts'] + $value['uas']) / 3) ?></td>
                                 <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
                                     <td><button data-toggle="modal" data-target="#modal_edit_nilai" data-id="<?= $value["id_nilai"]; ?>" class="btn btn-sm btn-warning action-edit">Edit </button></td>
@@ -39,6 +42,7 @@
                                 $sum_tugas = $sum_tugas + $value['tugas'];
                                 $sum_uts = $sum_uts + $value['uts'];
                                 $sum_uas = $sum_uas + $value['uas'];
+                                $sum_harian = $sum_harian + $value['harian'];
                                 $sum_akumulatif = $sum_akumulatif + round(($value['tugas'] + $value['uts'] + $value['uas']) / 3)
                                 ?>
                             </tr>
@@ -48,13 +52,18 @@
                             <td><?= $sum_tugas ?></td>
                             <td><?= $sum_uts ?></td>
                             <td><?= $sum_uas ?></td>
+                            <td><?= $sum_harian ?></td>
                             <td><?= $sum_akumulatif ?></td>
                         </tr>
                     <?php else : ?>
-                        <tr>
-                            <td colspan="6" class="text-center"> Tidak ada data / Nilai belum diinput </td>
-                            <td><button data-toggle="modal" data-target="#modal_input_nilai" class="btn btn-primary">Input Nilai</button></td>
-                        </tr>
+                        <?php if (session()->get('level') == 'admin') : ?>
+                            <tr>
+                                <td colspan="7" class="text-center"> Tidak ada data / Nilai belum diinput </td>
+                                <td><button data-toggle="modal" data-target="#modal_input_nilai" class="btn btn-primary">Input Nilai</button></td>
+                            </tr>
+                        <?php else : ?>
+                            <td colspan="8" class="text-center"> Tidak ada data / Nilai belum diinput </td>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </tbody>
             </table>
@@ -66,7 +75,9 @@
     <?= $this->include('includes/modal_edit_nilai'); ?>
 <?php endif; ?>
 <?php if (count($nilai) <= 0) : ?>
-    <?= $this->include('includes/modal_input_nilai'); ?>
+    <?php if (session()->get('level') == 'admin') : ?>
+        <?= $this->include('includes/modal_input_nilai'); ?>
+    <?php endif ?>
 <?php endif; ?>
 
 <?= $this->section('scripts') ?>

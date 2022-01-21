@@ -109,4 +109,14 @@ class JadwalModel extends Generic
         $query = $this->dt->get()->getResultObject();
         return $query;
     }
+    public function get_mapel_jadwal($id_kelas, $id_tahun_ajar)
+    {
+        $this->dt->select('mapel.nama, jadwal.id_mapel');
+        $this->dt->join('mapel', 'jadwal.id_mapel=mapel.id');
+        $this->dt->where(['jadwal.id_kelas' => $id_kelas, 'jadwal.id_tahun_ajar' => $id_tahun_ajar]);
+        $this->dt->groupBy('id_mapel');
+        $this->dt->orderBy('jadwal.id_mapel', 'ASC');
+        $query = $this->dt->get()->getResultArray();
+        return $query;
+    }
 }
