@@ -138,12 +138,12 @@
     <script>
         function absen() {
             $('form').submit(function(event) {
-                var kelas = $(this).children().find('#kelas_jenjang').html();
+                let kelas = $(this).children().find('#kelas_jenjang').html();
                 if (kelas != undefined) {
                     event.preventDefault();
-                    var form = $(this)
-                    var data_form = form.serialize();
-                    var url = form.attr('action');
+                    let form = $(this)
+                    let data_form = form.serialize();
+                    let url = form.attr('action');
                     console.log(url)
                     $.ajax({
                         type: "post",
@@ -154,7 +154,7 @@
                             "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                         },
                         success: function(data) {
-                            var json = JSON.parse(data)
+                            let json = JSON.parse(data)
                             console.log(json);
                             if(json.absensi.length < 1){
                                 refreshForm()
