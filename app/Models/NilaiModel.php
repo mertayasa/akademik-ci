@@ -48,6 +48,12 @@ class NilaiModel extends Generic
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->db = db_connect();
+        $this->dt = $this->db->table($this->table);
+    }
     public function get_nilai_by_anggota($id_anggota_kelas)
     {
         return $this->select(

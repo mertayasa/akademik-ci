@@ -52,7 +52,8 @@
                         </tr>
                     <?php else : ?>
                         <tr>
-                            <td colspan="6" class="text-center"> Tidak Ada Data </td>
+                            <td colspan="6" class="text-center"> Tidak ada data / Nilai belum diinput </td>
+                            <td><button data-toggle="modal" data-target="#modal_input_nilai" class="btn btn-primary">Input Nilai</button></td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -63,6 +64,9 @@
 </div>
 <?php if (session()->get('level') == 'admin' || session()->get('is_wali')) : ?>
     <?= $this->include('includes/modal_edit_nilai'); ?>
+<?php endif; ?>
+<?php if (count($nilai) <= 0) : ?>
+    <?= $this->include('includes/modal_input_nilai'); ?>
 <?php endif; ?>
 
 <?= $this->section('scripts') ?>

@@ -114,12 +114,15 @@ class Nilai extends BaseController
         $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
         $nilai = $this->nilai->get_nilai_by_semester($anggota_kelas['id'], $semester) ?? [];
         $id_siswa = $this->request->uri->getSegment(2);
+        $mapel = $this->mapel->findAll();
+
         $data = [
             'anggota_kelas' => $anggota_kelas,
             'wali_kelas' => $wali_kelas,
             'nilai' => $nilai,
             'semester' => $semester,
-            'id_siswa' => $id_siswa
+            'id_siswa' => $id_siswa,
+            'mapel'    => $mapel
         ];
 
         return view('nilai/siswa/index', $data);
@@ -146,5 +149,37 @@ class Nilai extends BaseController
             session()->setFlashdata('error', 'Update gagal');
             return redirect()->back()->withInput();
         }
+    }
+    public function create()
+    {
+        $id_kelas = $this->request->getPost('id_kelas');
+        $id_mapel = $this->request->getPost('id_mapel');
+        $id_anggota_kelas = $this->request->getPost('id_anggota_kelas');
+        $tugas = $this->request->getPost('tugas');
+        $uts = $this->request->getPost('uts');
+        $uas = $this->request->getPost('uas');
+        $semester = $this->request->getPost('semester');
+        $data = [];
+
+        foreach ($tugas as $key => $val) {
+            array_push($data, [
+                'id_kelas' => $id_kelas,
+                'id_mapel' => $id_mapel[$key],
+                'id_anggota_kelas' => $id_anggota_kelas,
+                'tugas' => $val,
+                'uts' => $uts[$key],
+                'uas' => $uas[$key],
+                'semester' => $semester
+            ]);
+        }
+        // dd($data);
+        try {
+            $this->nilai->dt->insertBatch($data);
+            session()->setFlashdata('success', 'Berhasil melakuan input nilai');
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            session()->setFlashdata('errot', 'Gagal melakuan input nilai');
+        }
+        return redirect()->back()->withInput();
     }
 }
