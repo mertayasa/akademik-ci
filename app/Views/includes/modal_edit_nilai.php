@@ -26,11 +26,11 @@
                     ]); ?>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="nama_guru">Mata Pelajaran</label>
+                            <label for="nama_guru">MATA PELAJARAN</label>
                             <div class="mapel"></div>
                         </div>
                         <div class="form-group">
-                            <?= form_label('tugas', 'tugas'); ?>
+                            <?= form_label('TUGAS', 'tugas'); ?>
                             <?= form_input([
                                 'type'  => 'number',
                                 'name'  => 'tugas',
@@ -40,7 +40,7 @@
                             ]); ?>
                         </div>
                         <div class="form-group">
-                            <?= form_label('UTS', 'uts'); ?>
+                            <?= form_label('PAS', 'uts'); ?>
                             <?= form_input([
                                 'type'  => 'number',
                                 'name'  => 'uts',
@@ -50,7 +50,7 @@
                             ]); ?>
                         </div>
                         <div class="form-group">
-                            <?= form_label('uas', 'uas'); ?>
+                            <?= form_label('PAT', 'uas'); ?>
                             <?= form_input([
                                 'type'  => 'number',
                                 'name'  => 'uas',
@@ -59,6 +59,23 @@
                                 'class' => 'form-control'
                             ]); ?>
                         </div>
+                        <div class="form-group">
+                            <?= form_label('ULANGAN HARIAN', 'harian'); ?>
+                            <?= form_input([
+                                'type'  => 'number',
+                                'name'  => 'harian',
+                                'id'    => 'harian',
+                                'value' => '',
+                                'class' => 'form-control'
+                            ]); ?>
+                        </div>
+                        <?= form_input([
+                            'type'  => 'hidden',
+                            'name'  => 'semester',
+                            'id'    => 'semester',
+                            'value' => $semester,
+                            'class' => 'form-control'
+                        ]); ?>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

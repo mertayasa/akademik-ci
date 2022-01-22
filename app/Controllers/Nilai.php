@@ -139,17 +139,20 @@ class Nilai extends BaseController
         $tugas = $this->request->getPost('tugas');
         $uts = $this->request->getPost('uts');
         $uas = $this->request->getPost('uas');
+        $harian = $this->request->getPost('harian');
+        $semester = $this->request->getPost('semester');
         $id_siswa = $this->request->getPost('id_siswa');
 
         $data = [
             'tugas' => $tugas,
             'uts'   => $uts,
-            'uas'   => $uas
+            'uas'   => $uas,
+            'harian'   => $harian
         ];
         try {
             $this->nilai->updateData($id, $data);
             session()->setFlashdata('success', 'Data nilai berhasil diupdate');
-            return redirect()->to(route_to('nilai_edit', $id_siswa));
+            return redirect()->to(route_to("nilai_edit_$semester", $id_siswa, $semester));
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'Update gagal');
