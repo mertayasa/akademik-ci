@@ -32,21 +32,23 @@ class AnggotaKelas extends BaseController
 
         if ($request->getMethod(true) === 'POST') {
             $lists = $datatable->getDatatables($tahun_ajar, $kelas);
-            log_message('info', json_encode($lists));
+            // log_message('error', json_encode($lists));
             $data = [];
             $no = $request->getPost('start');
 
             foreach ($lists as $list) {
+                $status = getStatusAnggota($kelas, $tahun_ajar, $list->id);
                 $no++;
                 $row = [];
+                // $row[] = $list->id;
                 $row[] = $no;
                 $row[] = $list->nama;
                 $row[] = $list->nis;
-                $row[] = ucfirst($list->status);
+                $row[] = ucfirst($status);
                 $row[] = "
-                    <a href='" . route_to('nilai_edit_ganjil', $list->id, 'ganjil') . "' class='btn btn-sm btn-info'>Nilai Smt Ganjil</a>
-                    <a href='" . route_to('nilai_edit_genap', $list->id, 'genap') . "' class='btn btn-sm btn-success'>Nilai Smt Genap</a>
-                    <button class='btn btn-sm " . ($list->status == 'aktif' ? 'btn-danger' : 'btn-warning') . "'onclick='updateStatus(`" . route_to('anggota_kelas_update_status', $list->id) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi " . ($list->status == 'aktif' ? 'Non Aktif' : 'Aktif') . " ?`)'>" . ($list->status == 'aktif' ? 'Set Non Aktif' : 'Set Aktif') . "</button>";
+                    <a href='" . route_to('nilai_edit_ganjil', $list->id, 'ganjil') . "' class='btn btn-sm btn-info ". ($status == 'nonaktif' ? 'd-none' : '') ."'>Nilai Smt Ganjil</a>
+                    <a href='" . route_to('nilai_edit_genap', $list->id, 'genap') . "' class='btn btn-sm btn-success ". ($status == 'nonaktif' ? 'd-none' : '') ."'>Nilai Smt Genap</a>
+                    <button class='btn btn-sm " . ($status == 'aktif' ? 'btn-danger' : 'btn-warning') . "'onclick='updateStatus(`" . route_to('anggota_kelas_update_status', getAnggotaKelasId($kelas, $tahun_ajar, $list->id)) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi " . ($status == 'aktif' ? 'Non Aktif' : 'Aktif') . " ?`)'>" . ($status == 'aktif' ? 'Set Non Aktif' : 'Set Aktif') . "</button>";
                 $data[] = $row;
             }
 
@@ -66,7 +68,7 @@ class AnggotaKelas extends BaseController
         try {
             $anggota_kelas = $this->anggota_kelas->find($id);
             $status = ($anggota_kelas['status'] == 'aktif' ? 'nonaktif' : 'aktif');
-            $this->siswa->updateData($anggota_kelas['id_siswa'], ['status' => $status]);
+            // $this->siswa->updateData($anggota_kelas['id_siswa'], ['status' => $status]);
             $this->anggota_kelas->updateData($id, ['status' => $status]);
             return json_encode(['code' => 1, 'message' => 'Berhasil mengubah status siswa']);
         } catch (Exception $e) {

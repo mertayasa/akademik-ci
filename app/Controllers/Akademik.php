@@ -129,12 +129,21 @@ class Akademik extends BaseController
         $kelas = $this->kelas->find($id_kelas);
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
         $absen = $this->anggota_kelas
-        ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, ')
-        ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
+        ->select(
+            'anggota_kelas.id as anggota_kelas_id, 
+            anggota_kelas.id_kelas as kelas_id,
+            anggota_kelas.id_tahun_ajar as tahun_ajar_id,
+            anggota_kelas.id_siswa as siswa_id,
+            anggota_kelas.status as status,
+            siswa.nama as siswa_nama,'
+        )
+        ->join('siswa', 'anggota_kelas.id_siswa = siswa.id')
         ->where([
             'id_kelas' => $id_kelas,
             'id_tahun_ajar' => $id_tahun_ajar
         ])->findAll();
+
+        // dd($absen);
 
         $count_absen = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar)->countAllResults();
         $absen_ganjil = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar, 'ganjil')->orderBy('absensi.tanggal', 'ASC')->findAll();

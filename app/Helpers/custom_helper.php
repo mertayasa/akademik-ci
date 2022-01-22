@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\AbsensiModel;
+use App\Models\AnggotaKelasModel;
 
 if ( ! function_exists('isActive'))
 {
@@ -194,15 +195,43 @@ if ( ! function_exists('isActive'))
         return 'images/' . $folder . '/' . $safeName;
     }
 
-    function getAbsensiByDate($tgl, $id_anggota_kelas)
+    function getAbsensiByDate($tgl, $id_anggota_kelas, $id_kelas)
     {
         $absensi = new AbsensiModel;
         $check_absensi = $absensi->where([
             'tanggal' => $tgl,
-            'id_anggota_kelas' => $id_anggota_kelas
+            'id_anggota_kelas' => $id_anggota_kelas,
+            'id_kelas' => $id_kelas,
         ])->findAll();
         
         return isset($check_absensi[0]) && ($check_absensi[0]['kehadiran'] != '' || $check_absensi[0]['kehadiran'] != null) ? getAbsenceCode($check_absensi[0]['kehadiran']) : '-';
+    }
+
+    function getStatusAnggota($id_kelas, $id_tahun_ajar, $id_siswa)
+    {
+        $anggota_kelas = new AnggotaKelasModel;
+        $check_anggota = $anggota_kelas->where([
+            'id_kelas' => $id_kelas,
+            'id_tahun_ajar' => $id_tahun_ajar,
+            'id_siswa' => $id_siswa,
+        ])->findAll();
+
+        log_message('error', json_encode($check_anggota[0]['status']));
+        return $check_anggota[0]['status'];
+    }
+
+    function getAnggotaKelasId($id_kelas, $id_tahun_ajar, $id_siswa)
+    {
+        $anggota_kelas = new AnggotaKelasModel;
+        $check_anggota = $anggota_kelas->where([
+            'id_kelas' => $id_kelas,
+            'id_tahun_ajar' => $id_tahun_ajar,
+            'id_siswa' => $id_siswa,
+        ])->findAll();
+
+        log_message('error', json_encode($check_anggota[0]['id']));
+
+        return $check_anggota[0]['id'];
     }
 
     function getAbsenceCode($kehadiran)

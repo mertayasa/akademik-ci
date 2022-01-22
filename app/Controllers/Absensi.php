@@ -171,7 +171,7 @@ class Absensi extends BaseController
         $tanggal_input = $this->request->getVar('tanggal');
         $data['tanggal'] = date('Y-m-d', strtotime($tanggal_input));
         $data['absensi'] = $this->absensi->where('tanggal', $data['tanggal'])->findAll();
-        return json_encode($data);
+        return json_encode(['code' => 1, 'data' => $data]);
     }
 
     public function getAbsensiByKelas($id_kelas, $id_tahun_ajar)
@@ -260,7 +260,7 @@ class Absensi extends BaseController
         $view_absensi_ganjil = view('includes/table_absensi_ganjil', $data);
         $view_absensi_genap = view('includes/table_absensi_genap', $data);
 
-        return json_encode(['code' => 1, 'message' => 'Berhasil melakukan absensi', 'view_absensi_ganjil' => $view_absensi_ganjil, 'view_absensi_genap' => $view_absensi_genap]);
+        return json_encode(['code' => 1, 'id_kelas' => $id_kelas, 'tanggal' => $tanggal_input, 'message' => 'Berhasil melakukan absensi', 'view_absensi_ganjil' => $view_absensi_ganjil, 'view_absensi_genap' => $view_absensi_genap]);
     }
 
     public function destroy($tanggal, $id_kelas)

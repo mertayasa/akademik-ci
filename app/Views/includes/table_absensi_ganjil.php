@@ -5,9 +5,9 @@
             <table class="table table-bordered mb-0">
                 <thead>
                     <tr>
-                        <td rowspan="2" class="text-center align-middle">No</td>
-                        <td rowspan="2" class="text-center align-middle">Nama</td>
-                        <td colspan="100" class="text-center">Absensi Ke-</td>
+                        <th rowspan="2" width="5%" class="text-center align-middle">No</th>
+                        <th rowspan="2" style="min-width:300px" class="text-center align-middle">Nama</th>
+                        <th colspan="100" class="text-center">Absensi Ke-</th>
                     </tr>
                     <tr>
                         <?php if(count($absen_ganjil) == 0): ?>
@@ -32,7 +32,7 @@
                                                 <td class="text-center"></td>
                                             <?php else: ?>
                                                 <?php foreach ($absen_ganjil as $key_abs => $tgl_ganjil) : ?>
-                                                    <td class="text-center px-1"><?= getAbsensiByDate($tgl_ganjil, $value['anggota_kelas_id']) ?></td>
+                                                    <td class="text-center px-1"><?= getAbsensiByDate($tgl_ganjil, $value['anggota_kelas_id'], $value['kelas_id']) ?></td>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                     </tr>

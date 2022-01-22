@@ -11,7 +11,7 @@
                         <?php if (count($absen) > 0) : ?>
                             <div id="before_<?= $kelas; ?>" class="before">
                                 <div class="card-body px-0 py-0">
-                                    <form id="tanggal_<?= $kelas; ?>" action="<?= route_to('cek_absensi'); ?>" method="post">
+                                    <form id="formSelectTgl" action="<?= route_to('cek_absensi'); ?>" method="post">
                                         <?= csrf_field(); ?>
                                         <div class="form-group col-12 col-md-4 px-0">
                                             <div id="kelas_jenjang" style="display: none;"><?= $kelas; ?></div>
@@ -19,7 +19,7 @@
                                             <div class="input-group mb-3">
                                                 <input class="form-control" type="date" autocomplete="off" name="tanggal">
                                                 <div class="input-group-prepend">
-                                                    <button onclick="absen()" class="btn btn-primary submit-btn" id="submit_<?= $kelas; ?>">Submit</button>
+                                                    <button onclick="getAbsensi()" type="button" class="btn btn-primary submit-btn" id="submit_<?= $kelas; ?>">Submit</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -68,38 +68,40 @@
                                         <tbody>
                                             <?php $no = 1; ?>
                                             <?php foreach ($absen as $key => $value) : ?>
-                                                <tr>
-                                                    <?= form_input([
-                                                        'type' => 'hidden',
-                                                        'name' => 'id_anggota_kelas[]',
-                                                        'id' => 'id_anggota_kelas',
-                                                        'value' => $value['anggota_kelas_id']
-                                                    ]); ?>
-                                                    <?= form_input([
-                                                        'type' => 'hidden',
-                                                        'name' => 'tanggal_input',
-                                                        'id' => 'tanggal_input',
-                                                    ]); ?>
-                                                    <?= form_input([
-                                                        'type' => 'hidden',
-                                                        'name' => 'id_absensi[]',
-                                                        'id' => 'id_absensi',
-                                                        'value' => ''
-                                                    ]); ?>
-                                                    <td><?= $no; ?></td>
-                                                    <td><?= $value['siswa_nama']; ?></td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <select class="form-control select-absensi" name="absensi[<?= $value['anggota_kelas_id'] ?>]" id="data_absensi_<?= $value['anggota_kelas_id']; ?>">
-                                                                <option value="">--pilih absensi--</option>
-                                                                <option value="hadir">Hadir</option>
-                                                                <option value="sakit">Sakit</option>
-                                                                <option value="ijin">Ijin</option>
-                                                                <option value="tanpa_keterangan">Tanpa Keterangan</option>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                <?php if($value['status'] == 'aktif'): ?>
+                                                    <tr>
+                                                        <?= form_input([
+                                                            'type' => 'hidden',
+                                                            'name' => 'id_anggota_kelas[]',
+                                                            'id' => 'id_anggota_kelas',
+                                                            'value' => $value['anggota_kelas_id']
+                                                        ]); ?>
+                                                        <?= form_input([
+                                                            'type' => 'hidden',
+                                                            'name' => 'tanggal_input',
+                                                            'id' => 'tanggal_input',
+                                                        ]); ?>
+                                                        <?= form_input([
+                                                            'type' => 'hidden',
+                                                            'name' => 'id_absensi[]',
+                                                            'id' => 'id_absensi',
+                                                            'value' => ''
+                                                        ]); ?>
+                                                        <td><?= $no; ?></td>
+                                                        <td><?= $value['siswa_nama']; ?></td>
+                                                        <td>
+                                                            <div class="form-group">
+                                                                <select class="form-control select-absensi" name="absensi[<?= $value['anggota_kelas_id'] ?>]" id="data_absensi_<?= $value['anggota_kelas_id']; ?>">
+                                                                    <option value="">--pilih absensi--</option>
+                                                                    <option value="hadir">Hadir</option>
+                                                                    <option value="sakit">Sakit</option>
+                                                                    <option value="ijin">Ijin</option>
+                                                                    <option value="tanpa_keterangan">Tanpa Keterangan</option>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php endif; ?>
                                                 <?php $no++; ?>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -136,47 +138,44 @@
 
 <?= $this->section('scripts'); ?>
     <script>
-        function absen() {
-            $('form').submit(function(event) {
-                let kelas = $(this).children().find('#kelas_jenjang').html();
-                if (kelas != undefined) {
-                    event.preventDefault();
-                    let form = $(this)
-                    let data_form = form.serialize();
-                    let url = form.attr('action');
-                    console.log(url)
-                    $.ajax({
-                        type: "post",
-                        url: url,
-                        data: data_form,
-                        cache: false,
-                        headers: {
-                            "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
-                        },
-                        success: function(data) {
-                            let json = JSON.parse(data)
-                            console.log(json);
-                            if(json.absensi.length < 1){
-                                refreshForm()
-                                toogleDeleteButton('hide')
-                            }else{
-                                $.each(json.absensi, function(i, val) {
-                                    $('#data_absensi_' + val.id_anggota_kelas).val(val.kehadiran)
-                                    $('#semester_' + kelas).val(val.semester)
-                                    $('#id_absensi').val(val.id)
-                                })
-                                const btnDeleteAbsensi = document.getElementById('btnDeleteAbsensi')
-                                btnDeleteAbsensi.setAttribute('data-tanggal', json.tanggal)
-                                btnDeleteAbsensi.setAttribute('data-id-kelas', json.absensi[0]['id_kelas'])
-                                toogleDeleteButton('show')
-                            }
-
-                            $('[name="tanggal_input"]').val(json.tanggal);
-                            $('#initTable').css('display', 'none')
-                            $('#after_' + kelas).removeAttr('style');
-                        }
-                    });
+        function getAbsensi() {
+            const formSelectTgl = document.getElementById('formSelectTgl')
+            const getAbsensiUrl = formSelectTgl.getAttribute('action')
+            fetch(getAbsensiUrl, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    "<?= csrf_token() ?>": "<?= csrf_hash() ?>",
+                },
+                method : 'POST',
+                body : new FormData(formSelectTgl)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code == 1) {
+                    const kelas = document.getElementById('kelas_jenjang').innerHTML
+                    const dataAbsensi = data.data 
+                    // console.log(dataAbsensi);
+                    if(dataAbsensi.absensi.length < 1){
+                        refreshForm()
+                        toogleDeleteButton('hide')
+                    }else{
+                        $.each(dataAbsensi.absensi, function(i, val) {
+                            console.log(val);
+                            $('#data_absensi_' + val.id_anggota_kelas).val(val.kehadiran)
+                            $('#semester_' + kelas).val(val.semester)
+                            $('#id_absensi').val(val.id)
+                        })
+                        toogleDeleteButton('show')
+                    }
+    
+                    $('[name="tanggal_input"]').val(dataAbsensi.tanggal);
+                    $('#initTable').css('display', 'none')
+                    $('#after_' + kelas).removeAttr('style');
                 }
+            })
+            .catch((error) => {
+                console.log(error);
+                showAlertSwal(0, 'Gagal mengambil data absensi')
             })
         }
         
@@ -266,6 +265,9 @@
                 if (data.code == 1) {
                     refreshTable(data)
                     toogleDeleteButton('show')
+                    const btnDeleteAbsensi = document.getElementById('btnDeleteAbsensi')
+                    btnDeleteAbsensi.setAttribute('data-tanggal', data.tanggal)
+                    btnDeleteAbsensi.setAttribute('data-id-kelas', data.id_kelas)
                 }
 
                 return showAlertSwal(data.code, data.message)
