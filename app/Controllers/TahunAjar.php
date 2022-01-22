@@ -11,7 +11,7 @@ use Exception;
 class TahunAjar extends BaseController
 {
     protected $tahun_ajar;
-    
+
     public function __construct()
     {
         $this->tahun_ajar = new TahunAjarModel();
@@ -36,12 +36,16 @@ class TahunAjar extends BaseController
                 $no++;
                 $row = [];
                 $row[] = $no;
-                $row[] = $list->tahun_mulai.'/'.$list->tahun_selesai;
+                $row[] = $list->tahun_mulai . '/' . $list->tahun_selesai;
                 $row[] = ucfirst(str_replace('_', ' ', $list->status));
-                $row[] = "
-                <button class='btn btn-sm btn-info' onclick='setActive(`". route_to('tahun_ajar_set_active', $list->id) ."`, `tahunAjarDataTable`, `Apakah anda yakin mengaktifkan tahun ajaran ?, tahun ajaran lain akan otomatis non aktif`)'>Set Aktif</button>
-                <a href='". route_to('tahun_ajar_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
-                <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('tahun_ajar_destroy', $list->id) ."`, `tahunAjarDataTable`, `Apakah anda yakin menghapus data tahun ajaran ?`)'>Hapus</button>";
+                if (session()->get('level') == 'admin') {
+                    $row[] = "
+                    <button class='btn btn-sm btn-info' onclick='setActive(`" . route_to('tahun_ajar_set_active', $list->id) . "`, `tahunAjarDataTable`, `Apakah anda yakin mengaktifkan tahun ajaran ?, tahun ajaran lain akan otomatis non aktif`)'>Set Aktif</button>
+                    <a href='" . route_to('tahun_ajar_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
+                    <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('tahun_ajar_destroy', $list->id) . "`, `tahunAjarDataTable`, `Apakah anda yakin menghapus data tahun ajaran ?`)'>Hapus</button>";
+                } else {
+                    $row[] = "";
+                }
                 $data[] = $row;
             }
 
@@ -66,14 +70,14 @@ class TahunAjar extends BaseController
         $tahun_ajar = $this->tahun_ajar->getData($id);
         $data = [
             'tahun_ajar' => $tahun_ajar
-        ];  
+        ];
 
         return view('tahun_ajar/edit', $data);
     }
 
     public function insert()
     {
-        try{
+        try {
             $new_data = [
                 'tahun_mulai' => $this->request->getPost('tahun_mulai'),
                 'tahun_selesai' => $this->request->getPost('tahun_selesai'),
@@ -91,7 +95,7 @@ class TahunAjar extends BaseController
 
     public function update($id)
     {
-        try{
+        try {
             $update_data = [
                 'tahun_mulai' => $this->request->getPost('tahun_mulai'),
                 'tahun_selesai' => $this->request->getPost('tahun_selesai'),
@@ -109,24 +113,24 @@ class TahunAjar extends BaseController
 
     public function setActive($id)
     {
-        try{
+        try {
             $this->tahun_ajar->transStart();
-                $setnonactive = $this->tahun_ajar->whereNotIn('id', [$id])->findAll();
-                foreach($setnonactive as $setnon){
-                    $updatenon = [
-                        'status' => 'nonaktif',
-                    ];
-
-                    $this->tahun_ajar->updateData($setnon['id'], $updatenon);
-                }
-
-                $update_data = [
-                    'status' => 'aktif',
+            $setnonactive = $this->tahun_ajar->whereNotIn('id', [$id])->findAll();
+            foreach ($setnonactive as $setnon) {
+                $updatenon = [
+                    'status' => 'nonaktif',
                 ];
-        
-                $this->tahun_ajar->updateData($id, $update_data);
+
+                $this->tahun_ajar->updateData($setnon['id'], $updatenon);
+            }
+
+            $update_data = [
+                'status' => 'aktif',
+            ];
+
+            $this->tahun_ajar->updateData($id, $update_data);
             $this->tahun_ajar->transComplete();
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             return json_encode([
                 'code' => 0,
@@ -142,9 +146,9 @@ class TahunAjar extends BaseController
 
     public function destroy($id)
     {
-        try{
+        try {
             $this->tahun_ajar->delete($id);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return json_encode([
                 'code' => 0,
                 'message' => 'Gagal menghapus data tahun ajar'

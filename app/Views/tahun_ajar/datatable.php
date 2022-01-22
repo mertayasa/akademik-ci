@@ -13,7 +13,9 @@
                             <td>No</td>
                             <td>Tahun Ajar</td>
                             <td>Status</td>
-                            <td>Aksi</td>
+                            <?php if (session()->get('level') == 'admin') : ?>
+                                <td>Aksi</td>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,12 +42,12 @@
             },
         },
         "columnDefs": [{
-            "targets": [0, 3],
+            "targets": [0, <?php (session()->get('level') == 'admin') ? 3 : 0 ?>],
             "orderable": false,
         }],
     })
 
-    function setActive(url, tableId, prompt){
+    function setActive(url, tableId, prompt) {
         Swal.fire({
             title: "Warning",
             text: prompt,

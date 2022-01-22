@@ -61,7 +61,7 @@
     <?php //endif; 
     ?>
 
-    <?php if (session()->get('level') == 'admin') : ?>
+    <?php if (session()->get('level') == 'admin' or session()->get('level') == 'kepsek') : ?>
         <?php
         $data_master_sub = [
             'tahunAjar',

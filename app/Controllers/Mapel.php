@@ -10,7 +10,7 @@ use Config\Services;
 class Mapel extends BaseController
 {
     protected $mapel;
-    
+
     public function __construct()
     {
         $this->mapel = new MapelModel();
@@ -37,9 +37,13 @@ class Mapel extends BaseController
                 $row[] = $no;
                 $row[] = $list->nama;
                 $row[] = $list->status;
-                $row[] = "
-                <a href='". route_to('mapel_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
-                <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('mapel_destroy', $list->id) ."`, `mapelDataTable`, `Apakah anda yang menghapus data mata pelajaran ?`)'>Hapus</button>";
+                if (session()->get('level') == 'admin') {
+                    $row[] = "
+                    <a href='" . route_to('mapel_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
+                    <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('mapel_destroy', $list->id) . "`, `mapelDataTable`, `Apakah anda yang menghapus data mata pelajaran ?`)'>Hapus</button>";
+                } else {
+                    $row[] = "";
+                }
                 $data[] = $row;
             }
 
@@ -64,14 +68,14 @@ class Mapel extends BaseController
         $mapel = $this->mapel->getData($id);
         $data = [
             'mapel' => $mapel
-        ];  
+        ];
 
         return view('mapel/edit', $data);
     }
 
     public function insert()
     {
-        try{
+        try {
             $new_data = [
                 'nama' => $this->request->getPost('nama'),
                 'status' => $this->request->getPost('status'),
@@ -89,7 +93,7 @@ class Mapel extends BaseController
 
     public function update($id)
     {
-        try{
+        try {
             $update_data = [
                 'nama' => $this->request->getPost('nama'),
                 'status' => $this->request->getPost('status'),
@@ -107,9 +111,9 @@ class Mapel extends BaseController
 
     public function destroy($id)
     {
-        try{
+        try {
             $this->mapel->delete($id);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return json_encode([
                 'code' => 0,
                 'message' => 'Gagal menghapus data mata pelajaran'

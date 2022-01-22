@@ -38,9 +38,13 @@ class Kelas extends BaseController
                 $row[] = $no;
                 $row[] = 'Kelas ' . $list->jenjang;
                 $row[] = $list->kode;
-                $row[] = "
-                <a href='" . route_to('kelas_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
-                <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('kelas_destroy', $list->id) . "`, `kelasDataTable`, `Apakah anda yang menghapus data jenjang kelas ?`)'>Hapus</button>";
+                if (session()->get('level') == 'admin') {
+                    $row[] = "
+                    <a href='" . route_to('kelas_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
+                    <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('kelas_destroy', $list->id) . "`, `kelasDataTable`, `Apakah anda yang menghapus data jenjang kelas ?`)'>Hapus</button>";
+                } else {
+                    $row[] = "";
+                }
                 $data[] = $row;
             }
 
