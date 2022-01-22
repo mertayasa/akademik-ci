@@ -16,7 +16,7 @@ class GuruKepsekSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create('id_ID');
-        for ($i = 0; $i <= 25; $i++) {
+        for ($i = 0; $i <= 20; $i++) {
             $data = [
                 'nama' => $faker->name(),
                 'email' => $faker->email(),
@@ -34,7 +34,7 @@ class GuruKepsekSeeder extends Seeder
             ];
             $this->guru_kepsek->updateOrInsert(['email' => $data['email']], $data);
         }
-        for ($i = 0; $i <= 5; $i++) {
+        for ($i = 0; $i <= 20; $i++) {
             $data = [
                 'nama' => $faker->name(),
                 'email' => $faker->email(),
@@ -52,7 +52,7 @@ class GuruKepsekSeeder extends Seeder
             ];
             $this->guru_kepsek->updateOrInsert(['email' => $data['email']], $data);
         }
-        for ($i = 0; $i <= 3; $i++) {
+        for ($i = 0; $i <= 20; $i++) {
             $data = [
                 'nama' => $faker->name(),
                 'email' => $faker->email(),

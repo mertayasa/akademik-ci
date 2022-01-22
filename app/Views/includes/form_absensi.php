@@ -15,6 +15,13 @@
                                         <?= csrf_field(); ?>
                                         <div class="form-group col-12 col-md-4 px-0">
                                             <div id="kelas_jenjang" style="display: none;"><?= $kelas; ?></div>
+                                            <?= form_input([
+                                                'type' => 'hidden',
+                                                'name' => 'id_kelas',
+                                                'id' => 'id_kelas',
+                                                'value' => $kelas_raw['id']
+                                            ]); ?>
+
                                             <label for="tanggal" class="mr-1">Tanggal</label>
                                             <div class="input-group mb-3">
                                                 <input class="form-control" type="date" autocomplete="off" name="tanggal">
@@ -141,30 +148,41 @@
         function getAbsensi() {
             const formSelectTgl = document.getElementById('formSelectTgl')
             const getAbsensiUrl = formSelectTgl.getAttribute('action')
+            const formData = new FormData(formSelectTgl)
+
+            // for (var pair of formData.entries()) {
+            //     console.log(pair[0]+ ', ' + pair[1]); 
+            // }
+
             fetch(getAbsensiUrl, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
                     "<?= csrf_token() ?>": "<?= csrf_hash() ?>",
                 },
                 method : 'POST',
-                body : new FormData(formSelectTgl)
+                body : formData
             })
             .then(response => response.json())
             .then(data => {
                 if (data.code == 1) {
                     const kelas = document.getElementById('kelas_jenjang').innerHTML
                     const dataAbsensi = data.data 
-                    // console.log(dataAbsensi);
+                    console.log(dataAbsensi);
                     if(dataAbsensi.absensi.length < 1){
                         refreshForm()
                         toogleDeleteButton('hide')
                     }else{
                         $.each(dataAbsensi.absensi, function(i, val) {
-                            console.log(val);
                             $('#data_absensi_' + val.id_anggota_kelas).val(val.kehadiran)
                             $('#semester_' + kelas).val(val.semester)
                             $('#id_absensi').val(val.id)
                         })
+                    
+                        // console.log(dataAbsensi);
+                        const btnDeleteAbsensi = document.getElementById('btnDeleteAbsensi')
+                        btnDeleteAbsensi.setAttribute('data-tanggal', dataAbsensi.tanggal)
+                        btnDeleteAbsensi.setAttribute('data-id-kelas', dataAbsensi.absensi[0].id_kelas)
+
                         toogleDeleteButton('show')
                     }
     
@@ -182,7 +200,7 @@
         function deleteAbsensi(){
             const btnDeleteAbsensi = document.getElementById('btnDeleteAbsensi')
             const deleteUrl = `${baseUrl}/absensi/destroy/${btnDeleteAbsensi.getAttribute('data-tanggal')}/${btnDeleteAbsensi.getAttribute('data-id-kelas')}`
-            console.log(deleteUrl)
+            // console.log(deleteUrl)
             Swal.fire({
                 title: "Warning",
                 text: `Yakin menghapus data absensi tanggal ${btnDeleteAbsensi.getAttribute('data-tanggal')} Proses ini tidak dapat diulang`,
@@ -251,6 +269,10 @@
             const formUpdateAbsensi = document.getElementById('formUpdateAbsensi')
             const formData = new FormData(formUpdateAbsensi)
             const actionUrl = formUpdateAbsensi.getAttribute('action')
+
+            // for (var pair of formData.entries()) {
+            //     console.log(pair[0]+ ', ' + pair[1]); 
+            // }
 
             fetch(actionUrl, {
                 headers: {

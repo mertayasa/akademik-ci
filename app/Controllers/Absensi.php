@@ -169,8 +169,14 @@ class Absensi extends BaseController
     public function getAbsensi()
     {
         $tanggal_input = $this->request->getVar('tanggal');
+        $id_kelas = $this->request->getVar('id_kelas');
+
         $data['tanggal'] = date('Y-m-d', strtotime($tanggal_input));
-        $data['absensi'] = $this->absensi->where('tanggal', $data['tanggal'])->findAll();
+        $data['absensi'] = $this->absensi
+                            ->where([
+                                'tanggal' => $data['tanggal'],
+                                'id_kelas' => $id_kelas,
+                            ])->findAll();
         return json_encode(['code' => 1, 'data' => $data]);
     }
 
