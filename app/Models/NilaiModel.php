@@ -21,7 +21,8 @@ class NilaiModel extends Generic
         'id_anggota_kelas',
         'tugas',
         'uts',
-        'uas'
+        'uas',
+        'harian'
     ];
 
     // Dates

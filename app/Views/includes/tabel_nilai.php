@@ -87,6 +87,7 @@
         var tugas = $(this).closest('tr').find('td').eq(2).html();
         var uts = $(this).closest('tr').find('td').eq(3).html();
         var uas = $(this).closest('tr').find('td').eq(4).html();
+        var harian = $(this).closest('tr').find('td').eq(5).html();
         var id_nilai = $(this).data('id')
 
         $('.mapel').html(mapel)
@@ -94,6 +95,7 @@
         $('#tugas').val(tugas)
         $('#uts').val(uts)
         $('#uas').val(uas)
+        $('#harian').val(harian)
     })
 </script>
 <?= $this->endSection() ?>
