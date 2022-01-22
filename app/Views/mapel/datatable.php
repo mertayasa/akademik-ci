@@ -3,7 +3,9 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <a href="<?= route_to('mapel_create') ?>" class="btn btn-primary btn-sm float-right">Tambah Mata Pelajaran</a>
+                <?php if (session()->get('level') == 'admin') : ?>
+                    <a href="<?= route_to('mapel_create') ?>" class="btn btn-primary btn-sm float-right">Tambah Mata Pelajaran</a>
+                <?php endif; ?>
             </div>
             <div class="card-body">
 
