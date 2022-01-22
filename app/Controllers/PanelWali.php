@@ -57,17 +57,25 @@ class PanelWali extends BaseController
                 'id_guru_wali' => $user['id'],
                 'id_tahun_ajar' => $id_tahun_ajar
             ])->findAll();
-
+            
         foreach ($kelas as $key => $each) {
             $kelas[$key]['jumlah_siswa'] = $this->assignStudentCount($each, $id_tahun_ajar);
             $kelas[$key]['hari'] = $this->jadwal->get_hari($each['id_kelas'], $each['id_tahun_ajar']);
             $kelas[$key]['jadwal'] = $this->jadwal->get_jadwal_by_id($each['id_kelas'], $each['id_tahun_ajar']);
+            $kelas[$key]['kelas'] = $this->kelas->getData($each['id_kelas']);
             $kelas[$key]['absen'] = $this->anggota_kelas
-                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, ')
-                ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
+                ->select(
+                    'anggota_kelas.id as anggota_kelas_id, 
+                    anggota_kelas.id_kelas as kelas_id,
+                    anggota_kelas.id_tahun_ajar as tahun_ajar_id,
+                    anggota_kelas.id_siswa as siswa_id,
+                    anggota_kelas.status as status,
+                    siswa.nama as siswa_nama,'
+                )
+                ->join('siswa', 'anggota_kelas.id_siswa = siswa.id')
                 ->where([
                     'id_kelas' => $each['id_kelas'],
-                    'id_tahun_ajar' => $each['id_tahun_ajar']
+                    'id_tahun_ajar' => $id_tahun_ajar
                 ])->findAll();
 
             $kelas[$key]['count_absen'] = $this->absensi->queryAbsensi($each['id_kelas'], $id_tahun_ajar)->countAllResults();

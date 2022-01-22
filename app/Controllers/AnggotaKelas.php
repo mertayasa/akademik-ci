@@ -38,9 +38,9 @@ class AnggotaKelas extends BaseController
 
             foreach ($lists as $list) {
                 $status = getStatusAnggota($kelas, $tahun_ajar, $list->id);
+                $btnClass = ($status == 'aktif' ? 'btn-danger' : 'btn-warning');
                 $no++;
                 $row = [];
-                // $row[] = $list->id;
                 $row[] = $no;
                 $row[] = $list->nama;
                 $row[] = $list->nis;
@@ -48,7 +48,7 @@ class AnggotaKelas extends BaseController
                 $row[] = "
                     <a href='" . route_to('nilai_edit_ganjil', $list->id, 'ganjil') . "' class='btn btn-sm btn-info ". ($status == 'nonaktif' ? 'd-none' : '') ."'>Nilai Smt Ganjil</a>
                     <a href='" . route_to('nilai_edit_genap', $list->id, 'genap') . "' class='btn btn-sm btn-success ". ($status == 'nonaktif' ? 'd-none' : '') ."'>Nilai Smt Genap</a>
-                    <button class='btn btn-sm " . ($status == 'aktif' ? 'btn-danger' : 'btn-warning') . "'onclick='updateStatus(`" . route_to('anggota_kelas_update_status', getAnggotaKelasId($kelas, $tahun_ajar, $list->id)) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi " . ($status == 'aktif' ? 'Non Aktif' : 'Aktif') . " ?`)'>" . ($status == 'aktif' ? 'Set Non Aktif' : 'Set Aktif') . "</button>";
+                    <button class='btn btn-sm " . $btnClass . ' '. (isAdmin() ? '' : 'd-none') . "'onclick='updateStatus(`" . route_to('anggota_kelas_update_status', getAnggotaKelasId($kelas, $tahun_ajar, $list->id)) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi " . ($status == 'aktif' ? 'Non Aktif' : 'Aktif') . " ?`)'>" . ($status == 'aktif' ? 'Set Non Aktif' : 'Set Aktif') . "</button>";
                 $data[] = $row;
             }
 

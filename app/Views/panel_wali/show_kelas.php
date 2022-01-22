@@ -33,7 +33,7 @@
                     <div class="tab-content" id="nav-tabContent<?= $key ?>">
                         <div class="tab-pane fade show active" id="list-siswa<?= $key ?>" role="tabpanel" aria-labelledby="list-siswa-tab<?= $key ?>"> <?= view_cell('\App\Libraries\Widget::tabSiswa', ['key' => $key, 'tahun_ajar' => $tahun_ajar['id'], 'kelas' => $kel['id_kelas']]) ?> </div>
                         <div class="tab-pane mt-3 fade" id="list-jadwal<?= $key ?>" role="tabpanel" aria-labelledby="list-jadwal-tab<?= $key ?>"> <?= view_cell('\App\Libraries\Widget::tabJadwal', ['hari' => $kel['hari'], 'jadwal' => $kel['jadwal'], 'absen' => $kel['absen']]) ?> </div>
-                        <div class="tab-pane fade" id="list-absen<?= $key ?>" role="tabpanel" aria-labelledby="list-absen-tab<?= $key ?>"> <?= view_cell('\App\Libraries\Widget::tabAbsen', ['tahun_ajar' => $tahun_ajar, 'kelas_raw' => $kel, 'absen' => $kel['absen'], 'jumlah_siswa' => $kel['jumlah_siswa'], 'count_absen' => $kel['count_absen'], 'absen_ganjil' => $kel['absen_ganjil'], 'absen_genap' => $kel['absen_genap'],  'kelas' => $kel['jenjang'] . '' . $kel['kode']]) ?> </div>
+                        <div class="tab-pane fade" id="list-absen<?= $key ?>" role="tabpanel" aria-labelledby="list-absen-tab<?= $key ?>"> <?= view_cell('\App\Libraries\Widget::tabAbsen', ['tahun_ajar' => $tahun_ajar, 'kelas_raw' => $kel['kelas'], 'absen' => $kel['absen'], 'jumlah_siswa' => $kel['jumlah_siswa'], 'count_absen' => $kel['count_absen'], 'absen_ganjil' => $kel['absen_ganjil'], 'absen_genap' => $kel['absen_genap'],  'kelas' => $kel['jenjang'] . '' . $kel['kode']]) ?> </div>
                     </div>
                 </div>
 
