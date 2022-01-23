@@ -25,7 +25,9 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <?= $this->include('includes/form_absensi'); ?>
+        <?php if (session()->get('level') == 'admin') : ?>
+            <?= $this->include('includes/form_absensi'); ?>
+        <?php endif; ?>
     </div>
 
     <div class="container-fluid">
