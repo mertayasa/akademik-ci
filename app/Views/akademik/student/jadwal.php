@@ -1,7 +1,9 @@
 <!-- Content -->
 <div class="row mb-3">
     <div class="col-md-12">
-        <a href="<?= route_to('jadwal_create') ?>" class="btn btn-primary btn-sm float-right">Tambah Jadwal</a>
+        <?php if (session()->get('level') == 'admin') : ?>
+            <a href="<?= route_to('jadwal_create') ?>" class="btn btn-primary btn-sm float-right">Tambah Jadwal</a>
+        <?php endif; ?>
     </div>
 </div>
 <div class="row">
@@ -20,7 +22,9 @@
                                 <td>Pelajaran</td>
                                 <td>Guru</td>
                                 <td>Jam</td>
-                                <td>Action</td>
+                                <?php if (session()->get('level') == 'admin') : ?>
+                                    <td>Action</td>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,18 +38,20 @@
                                             <td data-mapel="<?= $value->id_mapel; ?>" class="nama-mapel"><?= $value->nama_mapel ?></td>
                                             <td data-guru="<?= $value->id_guru; ?>" class="nama-guru"><?= $value->nama_guru ?></td>
                                             <td class="jam"><?= \Carbon\Carbon::parse($value->jam_mulai)->format('H:i') . ' - ' . \Carbon\Carbon::parse($value->jam_selesai)->format('H:i') ?></td>
-                                            <td class="td-action">
-                                                <div class="dropdown">
-                                                    <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
-                                                        Menu
-                                                    </a>
+                                            <?php if (session()->get('level') == 'admin') : ?>
+                                                <td class="td-action">
+                                                    <div class="dropdown">
+                                                        <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                                                            Menu
+                                                        </a>
 
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item action-edit" href="#" data-toggle="modal" data-target="#modal_edit">Edit</a>
-                                                        <a class="dropdown-item action-hapus" href="<?= route_to('akademik_delete_schedule', $value->id, $value->id_kelas, $value->id_tahun_ajar); ?>" data-id="<?= $value->id_mapel; ?>" onclick="return confirm('Hapus data Ini?')">Hapus</a>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                            <a class="dropdown-item action-edit" href="#" data-toggle="modal" data-target="#modal_edit">Edit</a>
+                                                            <a class="dropdown-item action-hapus" href="<?= route_to('akademik_delete_schedule', $value->id, $value->id_kelas, $value->id_tahun_ajar); ?>" data-id="<?= $value->id_mapel; ?>" onclick="return confirm('Hapus data Ini?')">Hapus</a>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
+                                                </td>
+                                            <?php endif; ?>
                                         </tr>
                                     <?php endif; ?>
                                 <?php endforeach; ?>

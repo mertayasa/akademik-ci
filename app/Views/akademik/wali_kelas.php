@@ -11,7 +11,9 @@
                             <th>No</th>
                             <th>Nama Wali Kelas</th>
                             <th>NIP</th>
-                            <th>Action</th>
+                            <?php if (session()->get('level') == 'admin') : ?>
+                                <th>Action</th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -21,9 +23,11 @@
                                     <td><?= $no++; ?></td>
                                     <td class="wali-nama"><?= $wali->nama_guru; ?></td>
                                     <td class="wali-nip"><?= $wali->nip; ?></td>
-                                    <td><button data-toggle="modal" data-target="#modal_wali" class="btn btn-sm btn-warning action-edit" data-id="<?= $wali->id; ?>" data-id_guru="<?= $wali->id_guru_wali; ?>">Edit </button>
-                                        <a href="<?= route_to('akademik_destroy_wali', $wali->id, $wali->id_kelas, $wali->id_tahun_ajar); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus Data Ini?')">Hapus</a>
-                                    </td>
+                                    <?php if (session()->get('level') == 'admin') : ?>
+                                        <td><button data-toggle="modal" data-target="#modal_wali" class="btn btn-sm btn-warning action-edit" data-id="<?= $wali->id; ?>" data-id_guru="<?= $wali->id_guru_wali; ?>">Edit </button>
+                                            <a href="<?= route_to('akademik_destroy_wali', $wali->id, $wali->id_kelas, $wali->id_tahun_ajar); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus Data Ini?')">Hapus</a>
+                                        </td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else : ?>
