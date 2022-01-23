@@ -33,7 +33,7 @@ class Profile extends BaseController
             if ($level == 'siswa') {
                 $user = $this->siswa->getData($id);
                 $user['foto'] = $this->siswa->getFoto($user['id']);
-                $ortu = $this->siswa->getData($user['id_ortu']);
+                $ortu = $this->ortu->getData($user['id_ortu']);
             } elseif ($level == 'admin') {
                 $user = $this->admin->getData($id);
                 $user['foto'] = $this->admin->getFoto($user['id']);
