@@ -42,7 +42,8 @@
                         <th colspan="100" class="text-center">Absensi Ke-</th>
                     </tr>
                     <tr>
-                        <td class="text-center">Semester Genap</td>
+                        <td class="text-center" >Tanggal Absensi</td>
+                        <td class="text-center" >Status Kehadiran</td>
                     </tr>
                 </thead>
                 <tbody>
