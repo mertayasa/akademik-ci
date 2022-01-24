@@ -19,12 +19,12 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>SIAMON</b></a>
+            <img src="<?= base_url('logo.png') ?>" alt="">
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Login</p>
+                <p class="login-box-msg">SIAMON</p>
 
                 <?php if (session()->getFlashdata('error')) : ?>
                     <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
