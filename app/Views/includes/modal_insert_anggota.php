@@ -23,7 +23,7 @@
                                     'id' => 'nis',
                                     'value' => ''
                                 ]); ?>
-                                <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                                <button type="submit" class="btn btn-primary btn-sm mt-2">Search</button>
                                 <?= form_close(); ?>
                             </div>
                         </div>

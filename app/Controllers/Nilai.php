@@ -63,7 +63,8 @@ class Nilai extends BaseController
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
         $anggota_kelas = $this->anggota_kelas->get_anggota_by_id((session()->get('id')), $id_tahun_ajar)[0] ?? [];
         $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
-        $nilai = $this->nilai->get_nilai_by_anggota($anggota_kelas['id']) ?? [];
+        $nilai['genap'] = $this->nilai->get_nilai_by_semester($anggota_kelas['id'], 'genap') ?? [];
+        $nilai['ganjil'] = $this->nilai->get_nilai_by_semester($anggota_kelas['id'], 'ganjil') ?? [];
 
         $data = [
             'anggota_kelas' => $anggota_kelas,
@@ -89,16 +90,20 @@ class Nilai extends BaseController
             $anggota_kelas = [];
         }
 
-        if (isset($anggota_kelas)) {
+        if (isset($anggota_kelas) and $anggota_kelas != null) {
             $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
         } else {
-            $wali_kelas = [];
+            $wali_kelas =  null;
         }
 
-        if (isset($anggota_kelas)) {
-            $nilai = $this->nilai->get_nilai_by_anggota($anggota_kelas['id']) ?? [];
+        if (isset($anggota_kelas) and $anggota_kelas != null) {
+            $nilai['genap'] = $this->nilai->get_nilai_by_semester($anggota_kelas['id'], 'genap') ?? [];
+            $nilai['ganjil'] = $this->nilai->get_nilai_by_semester($anggota_kelas['id'], 'ganjil') ?? [];
         } else {
-            $nilai = [];
+            $nilai = [
+                'ganjil' => null,
+                'genap' => null
+            ];
         }
 
         $data = [
