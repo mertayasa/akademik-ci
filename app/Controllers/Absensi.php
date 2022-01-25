@@ -103,6 +103,8 @@ class Absensi extends BaseController
             'absen' => $absen,
         ];
 
+        // dd($data);
+
         return view('absensi/siswa/index', $data);
     }
 
@@ -111,6 +113,7 @@ class Absensi extends BaseController
         $id_siswa = $_GET['id_siswa'] ?? null;
 
         $siswa = $this->siswa->where('id_ortu', session()->get('id'))->findAll();
+        // dd($siswa);
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'] ?? null;
 
         if (isset($siswa[0]['id'])) {
