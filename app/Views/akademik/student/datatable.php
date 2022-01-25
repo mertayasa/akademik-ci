@@ -3,7 +3,16 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h4>Daftar Siswa</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Daftar Siswa</h4>
+                    </div>
+                    <div class="col-md-6">
+                        <?php if (session()->get('level') == 'admin') : ?>
+                            <button class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#modal_insert_anggota">Tambah Anggota Kelas</button>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
 
@@ -26,6 +35,9 @@
         </div>
     </div>
 </div>
+<?php if (session()->get('level') == 'admin') : ?>
+    <?= $this->include('includes/modal_insert_anggota'); ?>
+<?php endif; ?>
 
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
@@ -46,7 +58,7 @@
         }],
     })
 
-    function updateStatus(url, tableId, text){
+    function updateStatus(url, tableId, text) {
         Swal.fire({
             title: "Warning",
             text: text,
@@ -74,6 +86,67 @@
             }
         })
     }
+    $('#form_search_anggota').submit(function(e) {
+        e.preventDefault()
+        var data = $(this).serialize()
+        var url = $(this).attr('action')
+        $.ajax({
+            url: url,
+            data: data,
+            method: 'get',
+            success: function(response) {
+                var result = JSON.parse(response)
+                if (result != null) {
+                    $(result).each(function(i, val) {
+                        console.log(val)
+                        $('#id_siswa').val(val.id_siswa)
+                        $('#nama').html(val.nama)
+                        $('#nis_siswa').html(val.nis)
+                        $('#status').html(val.status)
+                    })
+                } else {
+                    console.log('asd')
+                    Swal.fire({
+                        title: "Warning",
+                        text: "Siswa tidak ditemukan",
+                        icon: 'warning',
+                    })
+                }
+            }
+        })
+    })
 
+    $('#form_insert_anggota').submit(function(e) {
+        e.preventDefault()
+        console.log('sahsihai')
+        var data = $(this).serialize()
+        var url = $(this).attr('action')
+        $.ajax({
+            url: url,
+            data: data,
+            method: 'post',
+            success: function(response) {
+                var data = JSON.parse(response)
+                console.log(response)
+                if (data.code == 1) {
+                    Swal.fire({
+                        title: "Warning",
+                        text: data.message,
+                        icon: 'warning',
+                    })
+                } else {
+                    Swal.fire({
+                        title: "Success",
+                        text: data.message,
+                        icon: "success",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    })
+                }
+            }
+        })
+    })
 </script>
 <?= $this->endSection() ?>

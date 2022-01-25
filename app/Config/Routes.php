@@ -178,6 +178,9 @@ $routes->group('akademik', ['filter' => 'auth'], function ($routes) {
     $routes->post('insert/(:num)/(:num)', 'Akademik::insertWaliPerkelas/$1/$2', ['as' => 'akademik_save_wali']);
     $routes->get('destroy/(:num)/(:num)/(:num)', 'Akademik::destroyWali/$1/$2/$3', ['as' => 'akademik_destroy_wali']);
     $routes->post('update_wali/(:num)/(:num)', 'Akademik::updateWali/$1/$2', ['as' => 'akademik_update_wali']);
+    $routes->get('(:num)/(:num)/insert-anggota-page', 'Akademik::insertAnggotaPage/$1/$2', ['as' => 'akademik_insert_anggota_page']);
+    $routes->get('search-anggota-kelas', 'Akademik::searchAnggota', ['as' => 'akademik_search_anggota_kelas']);
+    $routes->post('add-anggota-kelas/(:num)/(:num)', 'Akademik::insertAnggota/$1/$2', ['as' => 'akademik_add_anggota_kelas']);
 });
 
 $routes->group('anggota_kelas', ['filter' => 'auth'], function ($routes) {

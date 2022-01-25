@@ -67,4 +67,12 @@ class AnggotaKelasModel extends Generic
             ->orderBy('anggota_kelas.id', 'DESC')
             ->findAll();
     }
+    public function search_anggota($id_siswa)
+    {
+        return $this->select($this->table . '.*,siswa.id, siswa.nama, siswa.nis')
+            ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
+            ->where($this->table . '.id_siswa', $id_siswa)
+            ->orderBy('id_tahun_ajar', 'ASC')
+            ->findAll();
+    }
 }

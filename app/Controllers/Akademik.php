@@ -11,6 +11,9 @@ use App\Models\WaliKelasModel;
 use App\Models\JadwalModel;
 use App\Models\MapelModel;
 use App\Models\GuruKepsekModel;
+use App\Models\SiswaModel;
+use PhpParser\Node\Stmt\Catch_;
+
 // use Carbon\Carbon;
 // use phpDocumentor\Reflection\Types\This;
 
@@ -97,13 +100,13 @@ class Akademik extends BaseController
     //                 $this->wali_kelas->updateOrInsert(['id_kelas' => $data['id_kelas'], 'id_guru_wali' => $data['id_guru_wali'], 'id_tahun_ajar' => $data['id_tahun_ajar']], $data);
     //             }else{
     //                 $id_wali = [];
-                    
+
     //                 foreach($wali_kelas as $wali){
     //                     array_push($id_wali, $wali['id_guru_wali']);
     //                 }
 
     //                 // dd($id_wali);
-    
+
     //                 $wali = $this->guru->whereNotIn('id', $id_wali)->where('level', 'guru')->orderBy('id', 'RANDOM')->findAll();
     //                 if(count($wali) > 0){
     //                     $data = [
@@ -114,7 +117,7 @@ class Akademik extends BaseController
     //                     $this->wali_kelas->updateOrInsert(['id_kelas' => $data['id_kelas'], 'id_guru_wali' => $data['id_guru_wali'], 'id_tahun_ajar' => $data['id_tahun_ajar']], $data);
     //                 }
     //             }
-                
+
 
     //         }
     //     }
@@ -131,7 +134,7 @@ class Akademik extends BaseController
     //             $return[$key] = $value;
     //         }
     //     }
-    
+
     //     return $return;
     // }    
 
@@ -187,25 +190,25 @@ class Akademik extends BaseController
 
         return view('akademik/student/index', $data);
     }
-    
+
     public function showAbsensi($id_kelas, $id_tahun_ajar)
     {
         $kelas = $this->kelas->find($id_kelas);
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
         $absen = $this->anggota_kelas
-        ->select(
-            'anggota_kelas.id as anggota_kelas_id, 
+            ->select(
+                'anggota_kelas.id as anggota_kelas_id, 
             anggota_kelas.id_kelas as kelas_id,
             anggota_kelas.id_tahun_ajar as tahun_ajar_id,
             anggota_kelas.id_siswa as siswa_id,
             anggota_kelas.status as status,
             siswa.nama as siswa_nama,'
-        )
-        ->join('siswa', 'anggota_kelas.id_siswa = siswa.id')
-        ->where([
-            'id_kelas' => $id_kelas,
-            'id_tahun_ajar' => $id_tahun_ajar
-        ])->findAll();
+            )
+            ->join('siswa', 'anggota_kelas.id_siswa = siswa.id')
+            ->where([
+                'id_kelas' => $id_kelas,
+                'id_tahun_ajar' => $id_tahun_ajar
+            ])->findAll();
 
         // dd($absen);
 
@@ -372,6 +375,60 @@ class Akademik extends BaseController
             log_message('error', $e->getMessage());
             $this->session->setFlashdata('error', 'Gagal Menghapus Wali');
             return redirect()->back();
+        }
+    }
+    public function searchAnggota()
+    {
+        $siswaModel = new SiswaModel();
+        $nis = $_GET['nis'];
+        $data = $siswaModel->select('id, nis, nama, status')
+            ->where('nis', $nis)
+            ->findAll();
+        if (count($data) > 0) {
+            foreach ($data as $value) {
+                $result[] = [
+                    'nama' => $value['nama'],
+                    'id_siswa' => $value['id'],
+                    'nis' => $value['nis'],
+                    'status' => $value['status']
+                ];
+            }
+        } else {
+            $result = null;
+        }
+        echo json_encode($result);
+    }
+    public function insertAnggota()
+    {
+        $id_kelas = $this->request->getPost('id_kelas');
+        $id_siswa = $this->request->getPost('id_siswa');
+        $id_tahun_ajar = $this->request->getPost('id_tahun_ajar');
+        $data = $this->anggota_kelas->search_anggota($id_siswa);
+        try {
+            if ($data != null) {
+                foreach ($data as $value) {
+                    if ($value['id_kelas'] != $id_kelas && $value['id_tahun_ajar'] == $id_tahun_ajar) {
+                        if ($value['id_kelas'] != $id_kelas && $value['id_tahun_ajar'] <= $id_tahun_ajar) {
+                            return json_encode($result = ['code' => 1, 'message' => 'Siswa sudah berada di kelas lainnya']);
+                        }
+                    }
+                    if ($value['id_kelas'] == $id_kelas && $value['id_tahun_ajar'] == $id_tahun_ajar) {
+                        return json_encode($result = ['code' => 1, 'message' => 'Siswa sudah berada di kelas ini']);
+                    }
+                }
+            }
+            $insert_data = [
+                'id_kelas' => $id_kelas,
+                'id_siswa' => $id_siswa,
+                'id_tahun_ajar' => $id_tahun_ajar
+            ];
+            $result = ['code' => 2, 'message' => 'Siswa sberhasil ditambahakan'];
+            $this->anggota_kelas->insertData($insert_data);
+            return json_encode($result);
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            $result = ['code' => 1, 'message' => 'Siswa gagal ditambahkan'];
+            return json_encode($result);
         }
     }
 }
