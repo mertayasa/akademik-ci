@@ -19,7 +19,8 @@ class AdminModel extends Generic
         'nama',
         'email',
         'password',
-        'status'
+        'status',
+        'foto'
     ];
 
     // Dates

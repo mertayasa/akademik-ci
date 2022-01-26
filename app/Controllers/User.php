@@ -118,7 +118,7 @@ class User extends BaseController
                     $row[] = "
                     <a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary'>Profil</a>
                     <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
-                    <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('user_destroy', $list->id) . "`, `userDataTable`, `Aseg`)'>Hapus</button>";
+                    <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('user_destroy', $list->id, $level) . "`, `userDataTable`, `Aseg`)'>Hapus</button>";
                 } else {
                     $row[] = "<a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary'>Profil</a>";
                 }
@@ -140,7 +140,7 @@ class User extends BaseController
     public function create($level)
     {
         if ($level == 'siswa') {
-            $ortu = $this->siswa->select('id, nama')->where('level', 'ortu')->where('status', 'aktif')->findAll();
+            $ortu = $this->ortu->select('id, nama')->where('status', 'aktif')->findAll();
         } else {
             $ortu = [];
         }
@@ -156,10 +156,11 @@ class User extends BaseController
     public function insert($level)
     {
         try {
-            $allowed_level = ['admin', 'kepsek'];
-
+            $allowed_level = ['guru', 'kepsek'];
             $new_data = $this->request->getPost();
-            $new_data['level'] = $level == 'admin-kepsek' && in_array($new_data['level'], $allowed_level) ? $new_data['level'] : $level;
+            if ($level == 'guru' or $level == 'kepsek') {
+                $new_data['level'] = $level == 'guru-kepsek' && in_array($new_data['level'], $allowed_level) ? $new_data['level'] : $level;
+            }
             if (!$new_data['password']) {
                 session()->setFlashdata('error', 'Password belum diisi');
                 return redirect()->back()->withInput();
@@ -177,8 +178,23 @@ class User extends BaseController
 
                 $new_data['foto'] = $upload_image;
             }
-
-            $this->level->insertData($new_data);
+            switch ($level) {
+                case "admin":
+                    $this->admin->insertData($new_data);
+                    break;
+                case "siswa":
+                    $this->siswa->insertData($new_data);
+                    break;
+                case "ortu":
+                    $this->ortu->insertData($new_data);
+                    break;
+                case "guru":
+                    $this->guru->insertData($new_data);
+                    break;
+                case "kepsek":
+                    $this->guru->insertData($new_data);
+                    break;
+            }
             session()->setFlashdata('success', 'Berhasil menambahkan data user');
             return redirect()->to(route_to('user_index', $level));
         } catch (\Exception $e) {
@@ -263,10 +279,26 @@ class User extends BaseController
         }
     }
 
-    public function destroy($id)
+    public function destroy($id, $level)
     {
         try {
-            $this->level->delete($id);
+            switch ($level) {
+                case "admin":
+                    $this->admin->delete($id);
+                    break;
+                case "siswa":
+                    $this->siswa->delete($id);
+                    break;
+                case "guru":
+                    $this->guru->delete($id);
+                    break;
+                case "ortu":
+                    $this->ortu->delete($id);
+                    break;
+                case "kepsek":
+                    $this->guru->delete($id);
+                    break;
+            }
         } catch (\Exception $e) {
             return json_encode([
                 'code' => 0,

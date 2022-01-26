@@ -24,7 +24,8 @@ class SiswaModel extends Generic
         'tanggal_lahir',
         'tempat_lahir',
         'angkatan',
-        'status'
+        'status',
+        'foto'
     ];
 
     // Dates

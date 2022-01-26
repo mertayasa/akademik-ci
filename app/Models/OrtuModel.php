@@ -25,7 +25,8 @@ class OrtuModel extends Generic
         'alamat',
         'tanggal_lahir',
         'tempat_lahir',
-        'status'
+        'status',
+        'foto'
     ];
 
     // Dates

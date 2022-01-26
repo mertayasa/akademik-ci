@@ -27,7 +27,8 @@ class GuruKepsekModel extends Generic
         'tempat_lahir',
         'tanggal_lahir',
         'status',
-        'bio'
+        'bio',
+        'foto'
     ];
 
     // Dates

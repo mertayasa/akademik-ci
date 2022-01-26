@@ -3,33 +3,32 @@
 use App\Models\AbsensiModel;
 use App\Models\AnggotaKelasModel;
 
-if ( ! function_exists('isActive'))
-{
+if (!function_exists('isActive')) {
     function isActive($param)
     {
         $current_url = explode('/', uri_string());
 
-        if(is_array($param)){
-            foreach($param as $par){
-               if($current_url[0] == $par || ($current_url[1] ?? '-') == $param){
-                   return 'active';
-               } 
+        if (is_array($param)) {
+            foreach ($param as $par) {
+                if ($current_url[0] == $par || ($current_url[1] ?? '-') == $param) {
+                    return 'active';
+                }
             }
-        }else{
+        } else {
             return $current_url[0] === $param || ($current_url[1] ?? '-') === $param ? 'active' : '';
         }
     }
 
     function getLevelName($level = null)
     {
-        if($level != null){
+        if ($level != null) {
             return ucwords(str_replace('_', ' ', $level));
         }
     }
 
     function isAdmin()
     {
-        if(session()->get('level') == 'admin'){
+        if (session()->get('level') == 'admin') {
             return true;
         }
 
@@ -38,7 +37,7 @@ if ( ! function_exists('isActive'))
 
     function isSiswa()
     {
-        if(session()->get('level') == 'siswa'){
+        if (session()->get('level') == 'siswa') {
             return true;
         }
 
@@ -47,7 +46,7 @@ if ( ! function_exists('isActive'))
 
     function isGuru()
     {
-        if(session()->get('level') == 'guru'){
+        if (session()->get('level') == 'guru') {
             return true;
         }
 
@@ -56,7 +55,7 @@ if ( ! function_exists('isActive'))
 
     function isKepsek()
     {
-        if(session()->get('level') == 'kepsek'){
+        if (session()->get('level') == 'kepsek') {
             return true;
         }
 
@@ -65,7 +64,7 @@ if ( ! function_exists('isActive'))
 
     function isOrtu()
     {
-        if(session()->get('level') == 'ortu'){
+        if (session()->get('level') == 'ortu') {
             return true;
         }
 
@@ -74,10 +73,11 @@ if ( ! function_exists('isActive'))
 
     function getStatusGuru($status = null)
     {
-        if($status == null){
+        if ($status == null) {
             return [
                 'tetap' => 'Tetap',
-                'honorer' => 'Honorer'
+                'honorer' => 'Honorer',
+                'bukan_guru' => 'Bukan Guru'
             ];
         }
 
@@ -86,25 +86,25 @@ if ( ! function_exists('isActive'))
 
     function convertRoman($number)
     {
-        switch($number){
+        switch ($number) {
             case 1:
                 return 'I';
-            break;
+                break;
             case 2:
                 return 'II';
-            break;
+                break;
             case 3:
                 return 'III';
-            break;
+                break;
             case 4:
                 return 'IV';
-            break;
+                break;
             case 5:
                 return 'V';
-            break;
+                break;
             case 6:
                 return 'VI';
-            break;
+                break;
         }
     }
 
@@ -123,17 +123,17 @@ if ( ! function_exists('isActive'))
 
     function getKategoriPrestasi($kategori, $with_html = false)
     {
-        if($with_html){
-            switch($kategori){
+        if ($with_html) {
+            switch ($kategori) {
                 case 'guru':
-                    return '<span class="badge badge-primary">'. ucfirst($kategori) .'</span>';
-                break;
+                    return '<span class="badge badge-primary">' . ucfirst($kategori) . '</span>';
+                    break;
                 case 'siswa':
-                    return '<span class="badge badge-info">'. ucfirst($kategori) .'</span>';
-                break;
+                    return '<span class="badge badge-info">' . ucfirst($kategori) . '</span>';
+                    break;
                 case 'pegawai':
-                    return '<span class="badge badge-success">'. ucfirst($kategori) .'</span>';
-                break;
+                    return '<span class="badge badge-success">' . ucfirst($kategori) . '</span>';
+                    break;
             }
         }
         return ucfirst($kategori);
@@ -142,28 +142,28 @@ if ( ! function_exists('isActive'))
     function getTingkatPrestasi($tingkat, $with_html = false)
     {
         // "kec", "kab", "prov", "nas", "kota", "inter", "antar_sekolah"
-        switch($tingkat){
+        switch ($tingkat) {
             case 'kec':
                 return $with_html ? '<span class="badge badge-warning">Kecamatan</span>' : 'Kecamatan';
-            break;
+                break;
             case 'kab':
                 return $with_html ? '<span class="badge badge-info">Kabupaten</span>' : 'Kabupaten';
-            break;
+                break;
             case 'prov':
                 return $with_html ? '<span class="badge badge-info">Provinsi</span>' : 'Provinsi';
-            break;
+                break;
             case 'nas':
                 return $with_html ? '<span class="badge badge-success">Nasional</span>' : 'Nasional';
-            break;
+                break;
             case 'kota':
                 return $with_html ? '<span class="badge badge-info">Kota</span>' : 'Kota';
-            break;
+                break;
             case 'inter':
                 return $with_html ? '<span class="badge badge-success">Internasional</span>' : 'Internasional';
-            break;
+                break;
             case 'antar_sekolah':
                 return $with_html ? '<span class="badge badge-warning">Antar Sekola</span>' : 'Antar Sekolah';
-            break;
+                break;
         }
     }
 
@@ -172,26 +172,25 @@ if ( ! function_exists('isActive'))
         try {
             $foto = base64_decode($base_64_foto['data']);
             $folderName = 'images/' . $folder;
-    
+
             $formatted_file_name = str_replace(' ', '-', $base_64_foto['name']);
-    
+
             if (file_exists($folderName . '/' . $formatted_file_name)) {
                 return 'images/' . $folder . '/' . $formatted_file_name;
             };
-    
+
             if (!file_exists($folderName)) {
                 mkdir($folderName, 0755, true);
             }
-    
+
             $safeName = time() . $formatted_file_name;
             $inventoriePath =  $folderName;
             file_put_contents($inventoriePath . '/' . $safeName, $foto);
-
         } catch (Exception $e) {
             log_message('error', $e->getMessage());
             return 0;
         }
-    
+
         return 'images/' . $folder . '/' . $safeName;
     }
 
@@ -203,7 +202,7 @@ if ( ! function_exists('isActive'))
             'id_anggota_kelas' => $id_anggota_kelas,
             'id_kelas' => $id_kelas,
         ])->findAll();
-        
+
         return isset($check_absensi[0]) && ($check_absensi[0]['kehadiran'] != '' || $check_absensi[0]['kehadiran'] != null) ? getAbsenceCode($check_absensi[0]['kehadiran']) : '-';
     }
 
@@ -236,19 +235,19 @@ if ( ! function_exists('isActive'))
 
     function getAbsenceCode($kehadiran)
     {
-        switch($kehadiran){
+        switch ($kehadiran) {
             case 'hadir':
                 return 'H';
-            break;
+                break;
             case 'sakit':
                 return 'S';
-            break;
+                break;
             case 'ijin':
                 return 'I';
-            break;
+                break;
             case 'tanpa_keterangan':
                 return 'A';
-            break;
+                break;
         }
     }
 }
