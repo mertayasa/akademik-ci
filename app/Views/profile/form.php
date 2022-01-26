@@ -24,7 +24,7 @@
     </div>
 </div>
 
-<?php if(isSiswa()): ?>
+<?php if (isSiswa() or isOrtu()) : ?>
     <div class="row mt-3">
         <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('Tanggal Lahir', 'tglLahir') ?>
@@ -49,16 +49,16 @@
     </div>
 
     <div class="row mt-3">
-        <?php if(!isAdmin()): ?>
-                <div class="col-12 col-md-6 pb-3 pb-md-0">
-                    <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
-                    <?= form_upload([
-                        'type' => 'file',
-                        'name' => 'foto',
-                        'id' => 'filePondUpload',
-                        'data-foto' => isset($user) ? base_url($user['foto']) : ''
-                    ]) ?>
-                </div>
+        <?php if (!isAdmin()) : ?>
+            <div class="col-12 col-md-6 pb-3 pb-md-0">
+                <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
+                <?= form_upload([
+                    'type' => 'file',
+                    'name' => 'foto',
+                    'id' => 'filePondUpload',
+                    'data-foto' => isset($user) ? base_url($user['foto']) : ''
+                ]) ?>
+            </div>
             <?= $this->include('layouts/filepond') ?>
         <?php endif; ?>
 
@@ -76,7 +76,7 @@
 
 <?php endif; ?>
 
-<?php if(isGuru()): ?>
+<?php if (isGuru()) : ?>
     <div class="row mt-3">
         <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('Alamat', 'alamat') ?>
@@ -88,29 +88,20 @@
                 'class' => 'form-control'
             ]) ?>
         </div>
-        <div class="col-12 col-md-6 pb-3 pb-md-0">
-            <?= form_label('Tanggal Lahir', 'tglLahir') ?>
-            <?= form_input([
-                'type' => 'date',
-                'name' => 'tanggal_lahir',
-                'id' => 'tglLahir',
-                'value' => set_value('tanggal_lahir') == false && isset($user) ? $user['tanggal_lahir'] : set_value('tanggal_lahir'),
-                'class' => 'form-control'
-            ]) ?>
-        </div>
+
     </div>
 
     <div class="row mt-3">
-        <?php if(!isAdmin()): ?>
-                <div class="col-12 col-md-6 pb-3 pb-md-0">
-                    <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
-                    <?= form_upload([
-                        'type' => 'file',
-                        'name' => 'foto',
-                        'id' => 'filePondUpload',
-                        'data-foto' => isset($user) ? base_url($user['foto']) : ''
-                    ]) ?>
-                </div>
+        <?php if (!isAdmin()) : ?>
+            <div class="col-12 col-md-6 pb-3 pb-md-0">
+                <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
+                <?= form_upload([
+                    'type' => 'file',
+                    'name' => 'foto',
+                    'id' => 'filePondUpload',
+                    'data-foto' => isset($user) ? base_url($user['foto']) : ''
+                ]) ?>
+            </div>
             <?= $this->include('layouts/filepond') ?>
         <?php endif; ?>
 
@@ -127,7 +118,7 @@
     </div>
 <?php endif; ?>
 
-<?php if(isOrtu()): ?>
+<?php if (isOrtu()) : ?>
     <div class="row mt-3">
         <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('Pekerjaan', 'pekerjaan') ?>
@@ -151,16 +142,16 @@
         </div>
     </div>
     <div class="row mt-3">
-        <?php if(!isAdmin()): ?>
-                <div class="col-12 col-md-6 pb-3 pb-md-0">
-                    <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
-                    <?= form_upload([
-                        'type' => 'file',
-                        'name' => 'foto',
-                        'id' => 'filePondUpload',
-                        'data-foto' => isset($user) ? base_url($user['foto']) : ''
-                    ]) ?>
-                </div>
+        <?php if (!isAdmin()) : ?>
+            <div class="col-12 col-md-6 pb-3 pb-md-0">
+                <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
+                <?= form_upload([
+                    'type' => 'file',
+                    'name' => 'foto',
+                    'id' => 'filePondUpload',
+                    'data-foto' => isset($user) ? base_url($user['foto']) : ''
+                ]) ?>
+            </div>
             <?= $this->include('layouts/filepond') ?>
         <?php endif; ?>
     </div>
