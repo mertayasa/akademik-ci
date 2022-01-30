@@ -24,7 +24,7 @@
 
                                             <label for="tanggal" class="mr-1">Tanggal</label>
                                             <div class="input-group mb-3">
-                                                <input class="form-control" type="date" autocomplete="off" name="tanggal">
+                                                <input class="form-control" type="date" autocomplete="off" name="tanggal" id="inputTanggalAbsen">
                                                 <div class="input-group-prepend">
                                                     <button onclick="getAbsensi()" type="button" class="btn btn-primary submit-btn" id="submit_<?= $kelas; ?>">Submit</button>
                                                 </div>
@@ -43,7 +43,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div id="after_<?= $kelas; ?>" style="display: none;">
+                            <div id="inputAbsensiTabel" class="d-none">
                                 <div class="card-body px-0 pt-0">
                                     <?= form_open(route_to('insert_absensi'), ['id' => 'formUpdateAbsensi']); ?>
                                     <?= csrf_field(); ?>
@@ -147,54 +147,65 @@
     <script>
         function getAbsensi() {
             const formSelectTgl = document.getElementById('formSelectTgl')
+            const inputTanggalAbsen = document.getElementById('inputTanggalAbsen')
             const getAbsensiUrl = formSelectTgl.getAttribute('action')
             const formData = new FormData(formSelectTgl)
+            const initTable = document.getElementById('initTable')
+            const inputAbsensiTabel = document.getElementById('inputAbsensiTabel')
 
             // for (var pair of formData.entries()) {
             //     console.log(pair[0]+ ', ' + pair[1]); 
             // }
 
-            fetch(getAbsensiUrl, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    "<?= csrf_token() ?>": "<?= csrf_hash() ?>",
-                },
-                method : 'POST',
-                body : formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.code == 1) {
-                    const kelas = document.getElementById('kelas_jenjang').innerHTML
-                    const dataAbsensi = data.data 
-                    console.log(dataAbsensi);
-                    if(dataAbsensi.absensi.length < 1){
-                        refreshForm()
-                        toogleDeleteButton('hide')
-                    }else{
-                        $.each(dataAbsensi.absensi, function(i, val) {
-                            $('#data_absensi_' + val.id_anggota_kelas).val(val.kehadiran)
-                            $('#semester_' + kelas).val(val.semester)
-                            $('#id_absensi').val(val.id)
-                        })
-                    
-                        // console.log(dataAbsensi);
-                        const btnDeleteAbsensi = document.getElementById('btnDeleteAbsensi')
-                        btnDeleteAbsensi.setAttribute('data-tanggal', dataAbsensi.tanggal)
-                        btnDeleteAbsensi.setAttribute('data-id-kelas', dataAbsensi.absensi[0].id_kelas)
-
-                        toogleDeleteButton('show')
-                    }
+            if(inputTanggalAbsen.value == undefined || inputTanggalAbsen.value == '' || inputTanggalAbsen.value.length < 1){
+                $('#initTable').removeClass('d-none')
+                $('#inputAbsensiTabel').addClass('d-none')
+            }else{
+                fetch(getAbsensiUrl, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        "<?= csrf_token() ?>": "<?= csrf_hash() ?>",
+                    },
+                    method : 'POST',
+                    body : formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code == 1) {
+                        const kelas = document.getElementById('kelas_jenjang').innerHTML
+                        const dataAbsensi = data.data 
+                        console.log(dataAbsensi);
+                        if(dataAbsensi.absensi.length < 1){
+                            refreshForm()
+                            toogleDeleteButton('hide')
+                        }else{
+                            $.each(dataAbsensi.absensi, function(i, val) {
+                                $('#data_absensi_' + val.id_anggota_kelas).val(val.kehadiran)
+                                $('#semester_' + kelas).val(val.semester)
+                                $('#id_absensi').val(val.id)
+                            })
+                        
+                            // console.log(dataAbsensi);
+                            const btnDeleteAbsensi = document.getElementById('btnDeleteAbsensi')
+                            btnDeleteAbsensi.setAttribute('data-tanggal', dataAbsensi.tanggal)
+                            btnDeleteAbsensi.setAttribute('data-id-kelas', dataAbsensi.absensi[0].id_kelas)
     
-                    $('[name="tanggal_input"]').val(dataAbsensi.tanggal);
-                    $('#initTable').css('display', 'none')
-                    $('#after_' + kelas).removeAttr('style');
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                showAlertSwal(0, 'Gagal mengambil data absensi')
-            })
+                            toogleDeleteButton('show')
+                        }
+        
+                        $('[name="tanggal_input"]').val(dataAbsensi.tanggal);
+                        $('#initTable').addClass('d-none')
+                        $('#inputAbsensiTabel').removeClass('d-none')
+                        // $('#initTable').css('display', 'none')
+                        // $('#inputAbsensiTabel').removeAttr('style');
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    showAlertSwal(0, 'Gagal mengambil data absensi')
+                })
+            }
+
         }
         
         function deleteAbsensi(){

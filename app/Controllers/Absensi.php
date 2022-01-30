@@ -294,9 +294,9 @@ class Absensi extends BaseController
             $view_absensi_ganjil = view('includes/table_absensi_ganjil', $data);
             $view_absensi_genap = view('includes/table_absensi_genap', $data);
     
-            return json_encode(['code' => 1, 'message' => 'Berhasil melakukan absensi', 'view_absensi_ganjil' => $view_absensi_ganjil, 'view_absensi_genap' => $view_absensi_genap]);
+            return json_encode(['code' => 1, 'message' => 'Berhasil menghapus absensi', 'view_absensi_ganjil' => $view_absensi_ganjil, 'view_absensi_genap' => $view_absensi_genap]);
         }else{
-            return json_encode(['code' => 1, 'data' => $absensi]);
+            return json_encode(['code' => 0, 'message' => 'Absensi tidak ditemukan']);
         }
 
 
