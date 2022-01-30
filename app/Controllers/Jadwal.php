@@ -169,6 +169,13 @@ class Jadwal extends BaseController
     public function create()
     {
         $data = $this->request->getPost();
+        $cek_jadwal = $this->jadwal->select('*')
+            ->where('id_kelas', $data['id_kelas'])
+            ->where('id_tahun_ajar', $data['id_tahun_ajar'])
+            ->where('id_mapel', $data['id_mapel'])
+            ->where('hari', $data['hari'])
+            ->findAll();
+        // dd($cek_jadwal);
         $kode = [
             'Senin' => '1',
             'Selasa' => '2',
@@ -184,8 +191,12 @@ class Jadwal extends BaseController
             }
         }
         try {
-            $this->jadwal->insertData($data);
-            session()->setFlashdata('success', 'Berhasil menginput jadwal');
+            if ($cek_jadwal == null) {
+                $this->jadwal->insertData($data);
+                session()->setFlashdata('success', 'Berhasil menginput jadwal');
+            } else {
+                session()->setFlashdata('error', 'Jadwal sudah ada');
+            }
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
         }
