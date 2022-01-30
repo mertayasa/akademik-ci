@@ -227,8 +227,6 @@ class Akademik extends BaseController
             'kelas' => $kelas['jenjang'] . '' . $kelas['kode']
         ];
 
-        // dd($data);
-
         return view('akademik/absensi/index', $data);
     }
 
@@ -237,7 +235,6 @@ class Akademik extends BaseController
         $this->jadwal = new JadwalModel;
         $this->guru = new GuruKepsekModel;
         $this->mapel = new MapelModel;
-        $this->kelas = new KelasModel();
         $jadwal_kelas = $this->jadwal->get_jadwal_by_id($id_kelas, $id_tahun_ajar);
         $jadwal_hari = $this->jadwal->get_hari($id_kelas, $id_tahun_ajar);
         $guru = $this->guru->where('level', 'guru')->get()->getResultObject();
@@ -249,15 +246,16 @@ class Akademik extends BaseController
         $data = [
             'jadwal'       => $jadwal_kelas,
             'hari'         => $jadwal_hari,
+            'hari_all'     => getHari(),
             'kelas'        => $kelas,
             'mapel'        => $mapel,
             'tahun_ajar'   => $tahun_ajar,
             'breadcrumb'   => 'Daftar Jadwal',
             'guru'         => $guru,
-            'include_view' => $include
+            'include_view' => $include,
+            'uri'          => service('uri')
         ];
 
-        // dd($data);
         return view('akademik/student/index', $data);
     }
     public function update()
@@ -265,7 +263,6 @@ class Akademik extends BaseController
         $this->jadwal = new JadwalModel;
         $id = $this->request->getVar('id_jadwal');
         $id_kelas = $this->request->getPost('id_kelas_post');
-        // dd($id);
         $id_tahun_ajar = $this->request->getPost('id_tahun_ajar_post');
         $data = [
             'id_mapel'  => $this->request->getPost('nama_mapel'),

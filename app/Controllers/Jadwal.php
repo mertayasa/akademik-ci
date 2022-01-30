@@ -166,4 +166,29 @@ class Jadwal extends BaseController
 
         // return view('jadwal/print/pdf', $data);
     }
+    public function create()
+    {
+        $data = $this->request->getPost();
+        $kode = [
+            'Senin' => '1',
+            'Selasa' => '2',
+            'Rabu' => '3',
+            'Kamis' => '4',
+            'Jumat' => '5',
+            'Sabtu' => '6',
+            'Minggu' => '7'
+        ];
+        foreach ($kode as $key => $value) {
+            if ($key == $data['hari']) {
+                $data['kode_hari'] = $value;
+            }
+        }
+        try {
+            $this->jadwal->insertData($data);
+            session()->setFlashdata('success', 'Berhasil menginput jadwal');
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+        }
+        return redirect()->back()->withInput();
+    }
 }

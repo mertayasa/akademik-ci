@@ -2,7 +2,7 @@
 <div class="row mb-3">
     <div class="col-md-12">
         <?php if (session()->get('level') == 'admin') : ?>
-            <a href="<?= route_to('jadwal_create') ?>" class="btn btn-primary btn-sm float-right">Tambah Jadwal</a>
+            <button data-target="#modal_create_jadwal" data-toggle="modal" class="btn btn-primary btn-sm float-right">Tambah Jadwal</button>
         <?php endif; ?>
     </div>
 </div>
@@ -124,6 +124,9 @@
         </div>
     </div>
 </div>
+<?php if (isAdmin()) : ?>
+    <?= $this->include('includes/modal_create_jadwal'); ?>
+<?php endif; ?>
 
 <?= $this->section('scripts') ?>
 

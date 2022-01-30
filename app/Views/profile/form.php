@@ -12,16 +12,18 @@
             'class' => 'form-control'
         ]) ?>
     </div>
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('No Telpon', 'noTelp') ?>
-        <?= form_input([
-            'type' => 'text',
-            'name' => 'no_telp',
-            'id' => 'noTelp',
-            'value' => set_value('no_telp') == false && isset($user) ? $user['no_telp'] : set_value('no_telp'),
-            'class' => 'form-control'
-        ]) ?>
-    </div>
+    <?php if (!isSiswa() and !isAdmin()) : ?>
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('No Telpon', 'noTelp') ?>
+            <?= form_input([
+                'type' => 'text',
+                'name' => 'no_telp',
+                'id' => 'noTelp',
+                'value' => set_value('no_telp') == false && isset($user) ? $user['no_telp'] : set_value('no_telp'),
+                'class' => 'form-control'
+            ]) ?>
+        </div>
+    <?php endif; ?>
 </div>
 
 <?php if (isSiswa() or isOrtu()) : ?>
@@ -61,17 +63,18 @@
             </div>
             <?= $this->include('layouts/filepond') ?>
         <?php endif; ?>
-
-        <div class="col-12 col-md-6 pb-3 pb-md-0">
-            <?= form_label('Alamat', 'alamat') ?>
-            <?= form_input([
-                'type' => 'text',
-                'name' => 'alamat',
-                'id' => 'alamat',
-                'value' => set_value('alamat') == false && isset($user) ? $user['alamat'] : set_value('alamat'),
-                'class' => 'form-control'
-            ]) ?>
-        </div>
+        <?php if (!isSiswa()) : ?>
+            <div class="col-12 col-md-6 pb-3 pb-md-0">
+                <?= form_label('Alamat', 'alamat') ?>
+                <?= form_input([
+                    'type' => 'text',
+                    'name' => 'alamat',
+                    'id' => 'alamat',
+                    'value' => set_value('alamat') == false && isset($user) ? $user['alamat'] : set_value('alamat'),
+                    'class' => 'form-control'
+                ]) ?>
+            </div>
+        <?php endif; ?>
     </div>
 
 <?php endif; ?>

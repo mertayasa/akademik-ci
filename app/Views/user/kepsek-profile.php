@@ -19,7 +19,6 @@
                                             <div class="mt-3">
                                                 <h4><?= $kepsek['nama'] ?></h4>
                                                 <p class="text-secondary mb-1">Kepala Sekolah</p>
-                                                <p class="text-muted font-size-sm">SDN Nama Sekolah</p>
                                             </div>
                                         </div>
                                     </div>
@@ -64,7 +63,7 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <?php if(isAdmin() or isKepsek()): ?>
+                                        <?php if (isAdmin() or isKepsek()) : ?>
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <a class="btn btn-info " target="__blank" href="<?= route_to('kepsek_edit', $kepsek['id']) ?>">Edit</a>
