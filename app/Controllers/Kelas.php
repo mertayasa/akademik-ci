@@ -3,18 +3,28 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\AnggotaKelasModel;
 use App\Models\DataTables\KelasDataTable;
+use App\Models\JadwalModel;
 use App\Models\KelasModel;
+use App\Models\MapelModel;
+use App\Models\NilaiModel;
 use App\Models\TahunAjarModel;
 use Config\Services;
 
 class Kelas extends BaseController
 {
     protected $kelas;
+    protected $anggota_kelas;
+    protected $nilai;
+    protected $jadwal;
 
     public function __construct()
     {
         $this->kelas = new KelasModel();
+        $this->nilai = new NilaiModel();
+        $this->jadwal = new JadwalModel();
+        $this->anggota_kelas = new AnggotaKelasModel();
     }
 
     public function index()
@@ -137,6 +147,17 @@ class Kelas extends BaseController
 
     public function destroy($id)
     {
+        $anggota_kelas = $this->anggota_kelas->where('id_kelas', $id)->countAllResults();
+        $nilai = $this->nilai->where('id_kelas', $id)->countAllResults();
+        $jadwal = $this->jadwal->where('id_kelas', $id)->countAllResults();
+
+        if($anggota_kelas > 0 || $nilai > 0 || $jadwal > 0) {
+            return json_encode([
+                'code' => 0,
+                'swal' => 'Tidak bisa menghapus data kelas karena masih digunakan di tabel lain'
+            ]);
+        }
+
         try {
             $this->kelas->delete($id);
         } catch (\Exception $e) {
