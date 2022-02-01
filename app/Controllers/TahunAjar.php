@@ -161,7 +161,7 @@ class TahunAjar extends BaseController
         if($anggota_kelas > 0 || $jadwal > 0) {
             return json_encode([
                 'code' => 0,
-                'swal' => 'Tidak bisa menghapus data kelas karena masih digunakan di tabel lain'
+                'swal' => 'Tidak bisa menghapus data tahun ajar karena masih digunakan di tabel lain'
             ]);
         }
 

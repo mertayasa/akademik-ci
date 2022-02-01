@@ -123,7 +123,7 @@ class Mapel extends BaseController
         if($nilai > 0 || $jadwal > 0) {
             return json_encode([
                 'code' => 0,
-                'swal' => 'Tidak bisa menghapus data kelas karena masih digunakan di tabel lain'
+                'swal' => 'Tidak bisa menghapus data mata pelajaran karena masih digunakan di tabel lain'
             ]);
         }
 
