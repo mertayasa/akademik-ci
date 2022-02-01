@@ -117,6 +117,7 @@ $routes->group('absensi', ['filter' => 'auth'], function ($routes) {
     $routes->post('get', 'Absensi::getAbsensi', ['as' => 'cek_absensi']);
     $routes->post('insert', 'Absensi::InsertAbsensi', ['as' => 'insert_absensi']);
     $routes->get('destroy/(:num)/(:num)', 'Absensi::destroy/$1/$2', ['as' => 'destroy_absensi']);
+    $routes->get('filter', 'Absensi::indexOrtu', ['as' => 'absensi_filter']);
 });
 
 $routes->group('nilai', ['filter' => 'auth'], function ($routes) {

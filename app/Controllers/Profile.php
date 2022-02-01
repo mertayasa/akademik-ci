@@ -153,7 +153,7 @@ class Profile extends BaseController
                     $user = [];
             }
             session()->setFlashdata('success', 'Berhasil mengubah profil');
-            return redirect()->back();
+            return redirect()->to(route_to('profile_show', $level, $id));
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'Gagal mengubah profil');

@@ -32,7 +32,7 @@
                             <?php endforeach; ?>
                         <?php else : ?>
                             <tr>
-                                <td colspan="4" class="text-center">Tidak Ada Data. <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_wali">Pilih Wali</button> untuk tambah wal kelas </td>
+                                <td colspan="4" class="text-center">Tidak Ada Data. <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_wali">Pilih Wali</button> untuk tambah wali kelas </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>

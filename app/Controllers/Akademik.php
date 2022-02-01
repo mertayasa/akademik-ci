@@ -371,8 +371,8 @@ class Akademik extends BaseController
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             $this->session->setFlashdata('error', 'Gagal Menghapus Wali');
-            return redirect()->back();
         }
+        return redirect()->back();
     }
     public function searchAnggota()
     {

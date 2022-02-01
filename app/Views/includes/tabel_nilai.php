@@ -33,7 +33,7 @@
                                 <td><?= $value['uts'] ?></td>
                                 <td><?= $value['uas'] ?></td>
                                 <td><?= $value['harian'] ?></td>
-                                <td><?= round(($value['tugas'] + $value['uts'] + $value['uas']) / 3) ?></td>
+                                <td><?= round(($value['tugas'] + $value['uts'] + $value['uas'] + $value['harian']) / 4) ?></td>
                                 <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
                                     <td><button data-toggle="modal" data-target="#modal_edit_nilai" data-id="<?= $value["id_nilai"]; ?>" class="btn btn-sm btn-warning action-edit">Edit </button></td>
                                 <?php endif; ?>
@@ -43,7 +43,7 @@
                                 $sum_uts = $sum_uts + $value['uts'];
                                 $sum_uas = $sum_uas + $value['uas'];
                                 $sum_harian = $sum_harian + $value['harian'];
-                                $sum_akumulatif = $sum_akumulatif + round(($value['tugas'] + $value['uts'] + $value['uas']) / 3)
+                                $sum_akumulatif = $sum_akumulatif + round(($value['tugas'] + $value['uts'] + $value['uas'] + $value['harian']) / 4)
                                 ?>
                             </tr>
                         <?php endforeach; ?>
