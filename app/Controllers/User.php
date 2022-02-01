@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\AdminModel;
+use App\Models\AnggotaKelasModel;
 use App\Models\DataTables\AdminDataTable;
 use App\Models\DataTables\GuruKepsekDataTable;
 use App\Models\DataTables\SiswaDataTable;
@@ -11,8 +12,10 @@ use App\Models\DataTables\OrtuDataTable;
 use App\Models\DataTables\SiswaAllDataTable;
 // use App\Models\DataTables\UserDataTable;
 use App\Models\GuruKepsekModel;
+use App\Models\JadwalModel;
 use App\Models\OrtuModel;
 use App\Models\SiswaModel;
+use App\Models\WaliKelasModel;
 use Config\Services;
 
 class User extends BaseController
@@ -23,6 +26,9 @@ class User extends BaseController
     protected $guru;
     protected $level;
     protected $admin;
+    protected $anggota_kelas;
+    protected $jadwal;
+    protected $wali_kelas;
 
     public function __construct()
     {
@@ -31,6 +37,9 @@ class User extends BaseController
         $this->ortu = new OrtuModel();
         $this->guru = new GuruKepsekModel();
         $this->admin = new AdminModel();
+        $this->anggota_kelas = new AnggotaKelasModel();
+        $this->jadwal = new JadwalModel();
+        $this->wali_kelas = new WaliKelasModel();
         $this->level = session()->get('level');
     }
 
@@ -285,19 +294,50 @@ class User extends BaseController
             switch ($level) {
                 case "admin":
                     $this->admin->delete($id);
-                    break;
+                break;
+
                 case "siswa":
+                    $anggota_kelas = $this->anggota_kelas->where('id_siswa', $id)->countAllResults();
+            
+                    if($anggota_kelas > 0) {
+                        return json_encode([
+                            'code' => 0,
+                            'swal' => 'Tidak bisa menghapus data siswa karena masih digunakan di tabel lain'
+                        ]);
+                    }
+
                     $this->siswa->delete($id);
-                    break;
+                break;
+
                 case "guru":
+                    $jadwal = $this->jadwal->where('id_guru', $id)->countAllResults();
+                    $wali_kelas = $this->wali_kelas->where('id_guru_wali', $id)->countAllResults();
+            
+                    if($jadwal > 0 || $wali_kelas > 0) {
+                        return json_encode([
+                            'code' => 0,
+                            'swal' => 'Tidak bisa menghapus data guru karena masih digunakan di tabel lain'
+                        ]);
+                    }
+
                     $this->guru->delete($id);
-                    break;
+                break;
+
                 case "ortu":
+                    $siswa = $this->siswa->where('id_ortu', $id)->countAllResults();
+            
+                    if($siswa > 0) {
+                        return json_encode([
+                            'code' => 0,
+                            'swal' => 'Tidak bisa menghapus data orang tua karena masih digunakan di tabel lain'
+                        ]);
+                    }
                     $this->ortu->delete($id);
-                    break;
+                break;
+
                 case "kepsek":
                     $this->guru->delete($id);
-                    break;
+                break;
             }
         } catch (\Exception $e) {
             return json_encode([
