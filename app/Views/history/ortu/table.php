@@ -1,92 +1,92 @@
 <!-- Content -->
 <div class="row">
-    <?= $this->include('includes/filter_siswa'); ?>
-    
-    <div class="col-md-12">
-        <?php if (isset($history_nilai) && count($history_nilai) > 0): ?>
-            <?php foreach ($history_nilai as $key => $history):?>
-        <div class="card">
-            
-                <div class="card-header">
-                    <table>
-                        <tr>
-                            <td>Kelas</td>
-                            <td class="px-2">:</td>
-                            <td><?= $history['kelas'] ?></td>
-                        </tr>
-                        <tr>
-                            <td>Wali Kelas</td>
-                            <td class="px-2">:</td>
-                            <td><?= $history['wali_kelas'] ?></td>
-                        </tr>
-                        <tr>
-                            <td>Tahun Ajar</td>
-                            <td class="px-2">:</td>
-                            <td><?= $history['tahun_ajar'] ?></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="card-body">
-    
-                    <table id="kelasTable" class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <td>No</td>
-                                <td>Pelajaran</td>
-                                <td>Tugas</td>
-                                <td>UTS</td>
-                                <td>UAS</td>
-                                <td>Rata-Rata</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php 
-                                $sum_tugas = 0; 
-                                $sum_uts = 0; 
-                                $sum_uas = 0; 
-                                $sum_akumulatif = 0; 
-                            ?>
-                            <?php if (isset($history['nilai']) && count($history['nilai']) > 0): ?>
-                                <?php
-                                    $index = 1;
-                                ?>
-                                <?php foreach ($history['nilai'] as $key => $value):?>
-                                    <tr>
-                                        <td><?= $index++ ?></td>
-                                        <td><?= $value['nama_mapel'] ?></td>
-                                        <td><?= $value['tugas'] ?></td>
-                                        <td><?= $value['uts'] ?></td>
-                                        <td><?= $value['uas'] ?></td>
-                                        <td><?= round(($value['tugas'] + $value['uts'] + $value['uas'])/3) ?></td>
-    
-                                        <?php 
-                                            $sum_tugas = $sum_tugas + $value['tugas'];
-                                            $sum_uts = $sum_uts + $value['uts']; 
-                                            $sum_uas = $sum_uas + $value['uas']; 
-                                            $sum_akumulatif = $sum_akumulatif + round(($value['tugas'] + $value['uts'] + $value['uas'])/3)
-                                        ?>
-                                    </tr>
-                                <?php endforeach;?>
-                                <tr>
-                                    <td colspan="2" class="text-center"> <b>Total</b> </td>
-                                    <td><?= $sum_tugas ?></td>
-                                    <td><?= $sum_uts ?></td>
-                                    <td><?= $sum_uas ?></td>
-                                    <td><?= $sum_akumulatif ?></td>
-                                </tr>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="6" class="text-center"> Tidak Ada Data </td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-    
-                </div>
+    <?= $this->include('includes/filter_siswa_history'); ?>
 
-        </div>
-            <?php endforeach;?>
-        <?php else: ?>
+    <div class="col-md-12">
+        <?php if (isset($history_nilai) && count($history_nilai) > 0) : ?>
+            <?php foreach ($history_nilai as $key => $history) : ?>
+                <div class="card">
+
+                    <div class="card-header">
+                        <table>
+                            <tr>
+                                <td>Kelas</td>
+                                <td class="px-2">:</td>
+                                <td><?= $history['kelas'] ?></td>
+                            </tr>
+                            <tr>
+                                <td>Wali Kelas</td>
+                                <td class="px-2">:</td>
+                                <td><?= $history['wali_kelas'] ?></td>
+                            </tr>
+                            <tr>
+                                <td>Tahun Ajar</td>
+                                <td class="px-2">:</td>
+                                <td><?= $history['tahun_ajar'] ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="card-body">
+
+                        <table id="kelasTable" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <td>No</td>
+                                    <td>Pelajaran</td>
+                                    <td>Tugas</td>
+                                    <td>UTS</td>
+                                    <td>UAS</td>
+                                    <td>Rata-Rata</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $sum_tugas = 0;
+                                $sum_uts = 0;
+                                $sum_uas = 0;
+                                $sum_akumulatif = 0;
+                                ?>
+                                <?php if (isset($history['nilai']) && count($history['nilai']) > 0) : ?>
+                                    <?php
+                                    $index = 1;
+                                    ?>
+                                    <?php foreach ($history['nilai'] as $key => $value) : ?>
+                                        <tr>
+                                            <td><?= $index++ ?></td>
+                                            <td><?= $value['nama_mapel'] ?></td>
+                                            <td><?= $value['tugas'] ?></td>
+                                            <td><?= $value['uts'] ?></td>
+                                            <td><?= $value['uas'] ?></td>
+                                            <td><?= round(($value['tugas'] + $value['uts'] + $value['uas']) / 3) ?></td>
+
+                                            <?php
+                                            $sum_tugas = $sum_tugas + $value['tugas'];
+                                            $sum_uts = $sum_uts + $value['uts'];
+                                            $sum_uas = $sum_uas + $value['uas'];
+                                            $sum_akumulatif = $sum_akumulatif + round(($value['tugas'] + $value['uts'] + $value['uas']) / 3)
+                                            ?>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <tr>
+                                        <td colspan="2" class="text-center"> <b>Total</b> </td>
+                                        <td><?= $sum_tugas ?></td>
+                                        <td><?= $sum_uts ?></td>
+                                        <td><?= $sum_uas ?></td>
+                                        <td><?= $sum_akumulatif ?></td>
+                                    </tr>
+                                <?php else : ?>
+                                    <tr>
+                                        <td colspan="6" class="text-center"> Tidak Ada Data </td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            <?php endforeach; ?>
+        <?php else : ?>
             <tr>
                 <td colspan="6" class="text-center"> Tidak Ada Data </td>
             </tr>

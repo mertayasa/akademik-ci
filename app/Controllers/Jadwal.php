@@ -118,8 +118,11 @@ class Jadwal extends BaseController
         } else {
             $jadwal = [];
         }
-
-        $hari = $this->jadwal->get_hari($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']) ?? [];
+        if (count($anggota_kelas) > 0) {
+            $hari = $this->jadwal->get_hari($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar']) ?? [];
+        } else {
+            $hari = [];
+        }
 
         $data = [
             'id_siswa' => $id_siswa ?? ($anggota_kelas[0]['id'] ?? null),
@@ -129,7 +132,7 @@ class Jadwal extends BaseController
             'hari' => $hari,
             'wali_kelas' => $wali_kelas,
             'id_tahun_ajar' => $id_tahun_ajar,
-            'id_kelas' => $anggota_kelas['id_kelas'],
+            'id_kelas' => ($anggota_kelas != null) ? $anggota_kelas['id_kelas'] : 0,
         ];
 
         return view('jadwal/ortu/index', $data);
