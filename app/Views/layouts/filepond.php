@@ -28,9 +28,10 @@
 
         if (url.pathname.includes('edit')) {
             imageUrl = document.getElementById('filePondUpload').getAttribute('data-foto')
+            console.log(imageUrl);
             options = {
-                acceptedFileTypes: ['image/png', 'image/jng', 'image/jpeg'],
-                maxFileSize: '5000KB',
+                acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+                maxFileSize: '5MB',
                 files: [{
                     source: imageUrl,
                     options: {
@@ -40,8 +41,8 @@
             }
         } else {
             options = {
-                acceptedFileTypes: ['image/png', 'image/jng', 'image/jpeg'],
-                maxFileSize: '5000KB',
+                acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+                maxFileSize: '5MB',
             }
         }
 
