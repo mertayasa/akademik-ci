@@ -294,12 +294,12 @@ class User extends BaseController
             switch ($level) {
                 case "admin":
                     $this->admin->delete($id);
-                break;
+                    break;
 
                 case "siswa":
                     $anggota_kelas = $this->anggota_kelas->where('id_siswa', $id)->countAllResults();
-            
-                    if($anggota_kelas > 0) {
+
+                    if ($anggota_kelas > 0) {
                         return json_encode([
                             'code' => 0,
                             'swal' => 'Tidak bisa menghapus data siswa karena masih digunakan di tabel lain'
@@ -307,13 +307,13 @@ class User extends BaseController
                     }
 
                     $this->siswa->delete($id);
-                break;
+                    break;
 
                 case "guru":
                     $jadwal = $this->jadwal->where('id_guru', $id)->countAllResults();
                     $wali_kelas = $this->wali_kelas->where('id_guru_wali', $id)->countAllResults();
-            
-                    if($jadwal > 0 || $wali_kelas > 0) {
+
+                    if ($jadwal > 0 || $wali_kelas > 0) {
                         return json_encode([
                             'code' => 0,
                             'swal' => 'Tidak bisa menghapus data guru karena masih digunakan di tabel lain'
@@ -321,23 +321,23 @@ class User extends BaseController
                     }
 
                     $this->guru->delete($id);
-                break;
+                    break;
 
                 case "ortu":
                     $siswa = $this->siswa->where('id_ortu', $id)->countAllResults();
-            
-                    if($siswa > 0) {
+
+                    if ($siswa > 0) {
                         return json_encode([
                             'code' => 0,
                             'swal' => 'Tidak bisa menghapus data orang tua karena masih digunakan di tabel lain'
                         ]);
                     }
                     $this->ortu->delete($id);
-                break;
+                    break;
 
                 case "kepsek":
                     $this->guru->delete($id);
-                break;
+                    break;
             }
         } catch (\Exception $e) {
             return json_encode([
@@ -436,6 +436,8 @@ class User extends BaseController
 
             if ($update_data['password'] != '') {
                 $update_data['password'] = password_hash($update_data['password'], PASSWORD_BCRYPT);
+            } else {
+                unset($update_data['password']);
             }
 
             $this->guru->updateData($id, $update_data);
