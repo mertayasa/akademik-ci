@@ -4,16 +4,22 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\DataTables\MapelDataTable;
+use App\Models\JadwalModel;
 use App\Models\MapelModel;
+use App\Models\NilaiModel;
 use Config\Services;
 
 class Mapel extends BaseController
 {
     protected $mapel;
+    protected $nilai;
+    protected $jadwal;
 
     public function __construct()
     {
         $this->mapel = new MapelModel();
+        $this->nilai = new NilaiModel();
+        $this->jadwal = new JadwalModel();
     }
 
     public function index()
@@ -111,6 +117,16 @@ class Mapel extends BaseController
 
     public function destroy($id)
     {
+        $nilai = $this->nilai->where('id_mapel', $id)->countAllResults();
+        $jadwal = $this->jadwal->where('id_mapel', $id)->countAllResults();
+
+        if($nilai > 0 || $jadwal > 0) {
+            return json_encode([
+                'code' => 0,
+                'swal' => 'Tidak bisa menghapus data mata pelajaran karena masih digunakan di tabel lain'
+            ]);
+        }
+
         try {
             $this->mapel->delete($id);
         } catch (\Exception $e) {

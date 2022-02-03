@@ -161,8 +161,12 @@
                         },
                         "method": "get",
                         success: function(data) {
-                            console.log('delete ')
-                            showToast(data.code, data.message)
+                            // console.log('delete ')
+                            if(data.swal != undefined){
+                                showAlertSwal(data.code, data.swal)
+                            }else{
+                                showToast(data.code, data.message)
+                            }
                             $('#' + tableId).DataTable().ajax.reload();
                         }
                     })

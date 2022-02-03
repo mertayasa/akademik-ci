@@ -3,7 +3,10 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\AnggotaKelasModel;
 use App\Models\DataTables\TahunAjarDataTable;
+use App\Models\JadwalModel;
+use App\Models\NilaiModel;
 use App\Models\TahunAjarModel;
 use Config\Services;
 use Exception;
@@ -11,10 +14,16 @@ use Exception;
 class TahunAjar extends BaseController
 {
     protected $tahun_ajar;
+    protected $anggota_kelas;
+    protected $nilai;
+    protected $jadwal;
 
     public function __construct()
     {
         $this->tahun_ajar = new TahunAjarModel();
+        $this->anggota_kelas = new AnggotaKelasModel();
+        $this->nilai = new NilaiModel();
+        $this->jadwal = new JadwalModel();
     }
 
     public function index()
@@ -146,6 +155,16 @@ class TahunAjar extends BaseController
 
     public function destroy($id)
     {
+        $anggota_kelas = $this->anggota_kelas->where('id_tahun_ajar', $id)->countAllResults();
+        $jadwal = $this->jadwal->where('id_tahun_ajar', $id)->countAllResults();
+
+        if($anggota_kelas > 0 || $jadwal > 0) {
+            return json_encode([
+                'code' => 0,
+                'swal' => 'Tidak bisa menghapus data tahun ajar karena masih digunakan di tabel lain'
+            ]);
+        }
+
         try {
             $this->tahun_ajar->delete($id);
         } catch (\Exception $e) {
