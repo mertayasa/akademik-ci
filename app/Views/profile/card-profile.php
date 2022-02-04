@@ -46,16 +46,18 @@
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">No Telpon</h6>
+                                        <?php if ($level != 'admin' and $level != 'siswa') : ?>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">No Telpon</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <?= $user['no_telp'] ?? '-' ?>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <?= $user['no_telp'] ?? '-' ?>
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <?php if ($level != 'admin') : ?>
+                                            <hr>
+                                        <?php endif; ?>
+                                        <?php if ($level != 'admin' and $level != 'siswa') : ?>
                                             <div class="row">
                                                 <div class="col-sm-3">
                                                     <h6 class="mb-0">Alamat</h6>
@@ -66,7 +68,6 @@
                                             </div>
                                             <hr>
                                         <?php endif; ?>
-
 
                                         <?= $this->include('profile/show_include/' . $level . '.php'); ?>
 

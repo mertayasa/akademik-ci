@@ -13,6 +13,12 @@
         ]) ?>
     </div>
     <div class="col-12 col-md-6 pb-3 pb-md-0">
-
+        <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
+        <?= form_upload([
+            'type' => 'file',
+            'name' => 'foto',
+            'id' => 'filePondUpload',
+            'data-foto' => isset($user) ? base_url($user['foto']) : ''
+        ]) ?>
+        <?= $this->include('layouts/filepond') ?>
     </div>
-</div>
