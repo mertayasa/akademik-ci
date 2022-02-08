@@ -7,7 +7,7 @@
                     <?= form_open(route_to('update_nilai')); ?>
                     <?= csrf_field(); ?>
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit Nilai</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Input Nilai</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -20,24 +20,6 @@
                     ]); ?>
                     <?= form_input([
                         'type' => 'hidden',
-                        'name' => 'id_kelas',
-                        'id' => 'id_kelas',
-                        'value' => ''
-                    ]); ?>
-                    <?= form_input([
-                        'type' => 'hidden',
-                        'name' => 'id_anggota_kelas',
-                        'id' => 'id_anggota_kelas',
-                        'value' => ''
-                    ]); ?>
-                    <?= form_input([
-                        'type' => 'hidden',
-                        'name' => 'id_mapel',
-                        'id' => 'id_mapel',
-                        'value' => ''
-                    ]); ?>
-                    <?= form_input([
-                        'type' => 'hidden',
                         'name' => 'id_siswa',
                         'id' => 'id_siswa',
                         'value' => $id_siswa
@@ -45,7 +27,13 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="nama_guru">MATA PELAJARAN</label>
-                            <div class="mapel"></div>
+                            <div class="form-group">
+                                <select class="form-control" id="id_mapel" name="id_mapel">
+                                    <?php foreach ($mapel as $mp) : ?>
+                                        <option value="<?= $mp['id']; ?>"><?= $mp['nama']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group">
                             <?= form_label('TUGAS', 'tugas'); ?>

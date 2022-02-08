@@ -71,7 +71,7 @@ class NilaiModel extends Generic
     public function get_nilai_by_semester($id_anggota_kelas, $semester)
     {
         return $this->select(
-            'mapel.nama as nama_mapel, tugas, uts, uas, harian, nilai.id as id_nilai, nilai.id_kelas as id_kelas, nilai.id_anggota_kelas as id_anggota'
+            'mapel.nama as nama_mapel, tugas, uts, uas, harian, nilai.id as id_nilai, nilai.id_kelas as id_kelas, nilai.id_anggota_kelas as id_anggota, nilai.id_mapel'
         )->join('kelas', 'nilai.id_kelas = kelas.id')
             ->join('mapel', 'nilai.id_mapel = mapel.id')
             ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')
@@ -81,4 +81,20 @@ class NilaiModel extends Generic
             ])
             ->findAll();
     }
+    // public function get_nilai_edit_by_semester($id_kelas, $id_tahun_ajar, $id_anggota_kelas, $semester)
+    // {
+    //     return $this->select(
+    //         'mapel.nama as nama_mapel, tugas, uts, uas, harian, nilai.id as id_nilai, nilai.id_kelas as id_kelas, nilai.id_anggota_kelas as id_anggota jadwal_id_mapel, jadwal.id_tahun_ajar'
+    //     )->join('kelas', 'nilai.id_kelas = kelas.id')
+    //         ->join('jadwal', 'jadwal.id_kelas = nilai.id_kelas', 'left')
+    //         ->join('mapel', 'jadwal.id_mapel = mapel.id')
+    //         ->join('anggota_kelas', 'nilai.id_anggota_kelas = anggota_kelas.id')
+    //         ->where([
+    //             'nilai.id_anggota_kelas' => $id_anggota_kelas,
+    //             'nilai.semester' => $semester,
+    //             'jadwal.id_kelas' => $id_kelas,
+    //             'jadwal.id_tahun_ajar' => $id_tahun_ajar
+    //         ])
+    //         ->findAll();
+    // }
 }

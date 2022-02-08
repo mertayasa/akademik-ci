@@ -30,28 +30,39 @@
                         $no = 1;
                         ?>
                         <?php if (isset($nilai['ganjil']) && count($nilai['ganjil']) > 0) : ?>
-                            <?php foreach ($nilai['ganjil'] as $key => $value) : ?>
+                            <?php foreach ($mapel as $key => $mp) : ?>
+                                <?php
+
+                                $nama_mapel = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['nama_mapel'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['nama_mapel'] : 0;
+                                $nilai_tugas = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['tugas'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['tugas'] : 0;
+                                $nilai_uts = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['uts'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['uts'] : 0;
+                                $nilai_uas = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['uas'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['uas'] : 0;
+                                $nilai_harian = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['harian'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['harian'] : 0;
+                                $nilai_id_mapel = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['id_mapel'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['id_mapel'] : 0;
+
+                                ?>
                                 <tr>
-                                    <td><?= $no ?></td>
-                                    <td><?= $value['nama_mapel'] ?></td>
-                                    <td><?= $value['tugas'] ?></td>
-                                    <td><?= $value['uts'] ?></td>
-                                    <td><?= $value['uas'] ?></td>
-                                    <td><?= $value['harian'] ?></td>
-                                    <td><?= round(($value['tugas'] + $value['uts'] + $value['uas'] + $value['harian']) / 4) ?></td>
+                                    <td><?= $key + 1 ?></td>
+                                    <td><?= $mp['nama'] ?></td>
+                                    <td><?= $nilai_tugas ?></td>
+                                    <td><?= $nilai_uts ?></td>
+                                    <td><?= $nilai_uas ?></td>
+                                    <td><?= $nilai_harian ?></td>
+                                    <td style="display: none;" class="id_mapel"><?= $mp['id_mapel'] ?></td>
+                                    <td><?= round(($nilai_tugas + $nilai_uts + $nilai_uas + $nilai_harian) / 4) ?></td>
                                     <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
-                                        <td><button data-toggle="modal" data-target="#modal_edit_nilai" data-id="<?= $value["id_nilai"]; ?>" class="btn btn-sm btn-warning action-edit">Edit </button></td>
+                                        <td><button data-toggle="modal" data-target="#modal_edit_nilai" data-id_mapel="<?= $mp['id_mapel']; ?>" data-id="<?= (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['id_nilai'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'ganjil', $mp['id_mapel'])[0]['id_nilai'] : 0 ?>" class="btn btn-sm btn-warning action-edit">Edit </button></td>
                                     <?php endif; ?>
 
+
                                     <?php
-                                    $sum_tugas = $sum_tugas + $value['tugas'];
-                                    $sum_uts = $sum_uts + $value['uts'];
-                                    $sum_uas = $sum_uas + $value['uas'];
-                                    $sum_harian = $sum_harian + $value['harian'];
-                                    $sum_akumulatif = $sum_akumulatif + round(($value['tugas'] + $value['uts'] + $value['uas'] + $value['harian']) / 4)
+                                    $sum_tugas = $sum_tugas + $nilai_tugas;
+                                    $sum_uts = $sum_uts + $nilai_uts;
+                                    $sum_uas = $sum_uas + $nilai_uas;
+                                    $sum_harian = $sum_harian + $nilai_harian;
+                                    $sum_akumulatif = $sum_akumulatif + round(($nilai_tugas + $nilai_uts + $nilai_uas + $nilai_harian) / 4)
                                     ?>
                                 </tr>
-                                <?php $no++ ?>
                             <?php endforeach; ?>
                             <tr>
                                 <td colspan="2" class="text-center"> <b>Total</b> </td>
@@ -110,28 +121,39 @@
                         $no = 1;
                         ?>
                         <?php if (isset($nilai['genap']) && count($nilai['genap']) > 0) : ?>
-                            <?php foreach ($nilai['genap'] as $key => $value) : ?>
+                            <?php foreach ($mapel as $key => $mp) : ?>
+                                <?php
+
+                                $nama_mapel = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['nama_mapel'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['nama_mapel'] : 0;
+                                $nilai_tugas = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['tugas'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['tugas'] : 0;
+                                $nilai_uts = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['uts'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['uts'] : 0;
+                                $nilai_uas = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['uas'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['uas'] : 0;
+                                $nilai_harian = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['harian'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['harian'] : 0;
+                                $nilai_id_mapel = (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['id_mapel'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['id_mapel'] : 0;
+
+                                ?>
                                 <tr>
-                                    <td><?= $no ?></td>
-                                    <td><?= $value['nama_mapel'] ?></td>
-                                    <td><?= $value['tugas'] ?></td>
-                                    <td><?= $value['uts'] ?></td>
-                                    <td><?= $value['uas'] ?></td>
-                                    <td><?= $value['harian'] ?></td>
-                                    <td><?= round(($value['tugas'] + $value['uts'] + $value['uas']) / 3) ?></td>
+                                    <td><?= $key + 1 ?></td>
+                                    <td><?= $mp['nama'] ?></td>
+                                    <td><?= $nilai_tugas ?></td>
+                                    <td><?= $nilai_uts ?></td>
+                                    <td><?= $nilai_uas ?></td>
+                                    <td><?= $nilai_harian ?></td>
+                                    <td style="display: none;" class="id_mapel"><?= $mp['id_mapel'] ?></td>
+                                    <td><?= round(($nilai_tugas + $nilai_uts + $nilai_uas + $nilai_harian) / 4) ?></td>
                                     <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
-                                        <td><button data-toggle="modal" data-target="#modal_edit_nilai" data-id="<?= $value["id_nilai"]; ?>" class="btn btn-sm btn-warning action-edit">Edit </button></td>
+                                        <td><button data-toggle="modal" data-target="#modal_edit_nilai" data-id_mapel="<?= $mp['id_mapel']; ?>" data-id="<?= (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['id_nilai'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], 'genap', $mp['id_mapel'])[0]['id_nilai'] : 0 ?>" class="btn btn-sm btn-warning action-edit">Edit </button></td>
                                     <?php endif; ?>
 
+
                                     <?php
-                                    $sum_tugas = $sum_tugas + $value['tugas'];
-                                    $sum_uts = $sum_uts + $value['uts'];
-                                    $sum_uas = $sum_uas + $value['uas'];
-                                    $sum_harian = $sum_harian + $value['harian'];
-                                    $sum_akumulatif = $sum_akumulatif + round(($value['tugas'] + $value['uts'] + $value['uas']) / 3)
+                                    $sum_tugas = $sum_tugas + $nilai_tugas;
+                                    $sum_uts = $sum_uts + $nilai_uts;
+                                    $sum_uas = $sum_uas + $nilai_uas;
+                                    $sum_harian = $sum_harian + $nilai_harian;
+                                    $sum_akumulatif = $sum_akumulatif + round(($nilai_tugas + $nilai_uts + $nilai_uas + $nilai_harian) / 4)
                                     ?>
                                 </tr>
-                                <?php $no++ ?>
                             <?php endforeach; ?>
                             <tr>
                                 <td colspan="2" class="text-center"> <b>Total</b> </td>

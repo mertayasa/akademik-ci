@@ -2,6 +2,7 @@
 
 use App\Models\AbsensiModel;
 use App\Models\AnggotaKelasModel;
+use App\Models\NilaiModel;
 
 if (!function_exists('isActive')) {
     function isActive($param)
@@ -249,5 +250,18 @@ if (!function_exists('isActive')) {
                 return 'A';
                 break;
         }
+    }
+    function getNilaiByJadwal($id_kelas, $id_anggota_kelas, $semester, $id_mapel)
+    {
+        $nilai_model = new NilaiModel();
+        return $nilai_model->select(
+            'tugas, uts, uas, harian, nilai.id as id_nilai, nilai.id_kelas as id_kelas, nilai.id_anggota_kelas as id_anggota, nilai.id_mapel as id_mapel'
+        )->where([
+            'nilai.id_anggota_kelas' => $id_anggota_kelas,
+            'nilai.semester' => $semester
+        ])
+            ->where('id_mapel', $id_mapel)
+            ->orderBy('id', 'ASC')
+            ->find();
     }
 }
