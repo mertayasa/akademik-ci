@@ -102,7 +102,7 @@
         var harian = $(this).closest('tr').find('td').eq(5).html();
         var id_nilai = $(this).data('id')
         var id_kelas = <?= $anggota_kelas['id_kelas']; ?>;
-        var id_anggota = <?= (isset(getNilaibyJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], $semester, $mp['id_mapel'])[0]['id_anggota'])) ? getNilaibyJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], $semester, $mp['id_mapel'])[0]['id_anggota'] : 0 ?>;
+        var id_anggota = <?= $anggota_kelas['id']; ?>;
         var id_mapel = $(this).data('id_mapel');
 
         $('.mapel').html(mapel)
