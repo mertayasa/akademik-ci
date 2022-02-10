@@ -3,6 +3,8 @@
 use App\Models\AbsensiModel;
 use App\Models\AnggotaKelasModel;
 use App\Models\NilaiModel;
+use App\Models\TahunAjarModel;
+use App\Models\WaliKelasModel;
 
 if (!function_exists('isActive')) {
     function isActive($param)
@@ -193,6 +195,38 @@ if (!function_exists('isActive')) {
         }
 
         return 'images/' . $folder . '/' . $safeName;
+    }
+
+    function getKelasBySiswa($id_siswa)
+    {
+        $anggota_kelas = new AnggotaKelasModel;
+        $check_anggota = $anggota_kelas->where([
+            'anggota_kelas.id_siswa' => $id_siswa,
+        ])
+        ->join('tahun_ajar', 'anggota_kelas.id_tahun_ajar = tahun_ajar.id')
+        ->join('kelas', 'anggota_kelas.id_kelas = kelas.id')
+        ->orderBy('kelas.jenjang', 'desc')
+        ->findAll();
+
+        return $check_anggota;
+    }
+
+    function checkWali($id_guru)
+    {
+        $tahun_ajar = new TahunAjarModel;
+        $wali_kelas = new WaliKelasModel;
+
+        $id_tahun_ajar = $tahun_ajar->getActiveId();
+        $wali_kelas = $wali_kelas->where([
+            'id_guru_wali' => $id_guru,
+            'id_tahun_ajar' => $id_tahun_ajar
+        ])
+        ->join('tahun_ajar', 'wali_kelas.id_tahun_ajar = tahun_ajar.id')
+        ->join('kelas', 'wali_kelas.id_kelas = kelas.id')
+        ->orderBy('tahun_ajar.tahun_mulai', 'desc')
+        ->findAll();
+
+        return isset($wali_kelas[0]) ? $wali_kelas[0] : null;
     }
 
     function getAbsensiByDate($tgl, $id_anggota_kelas, $id_kelas)

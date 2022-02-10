@@ -46,6 +46,8 @@ class User extends BaseController
     public function index($level)
     {
 
+        // $asd = getKelasBySiswa(2);
+        // dd($asd);
         if ($level == 'kepsek') {
             $kepsek = $this->guru->where('level', 'kepsek')->findAll()[0] ?? [];
             if ($kepsek) {
@@ -95,41 +97,64 @@ class User extends BaseController
                 $no++;
                 $row = [];
                 $row[] = $no;
-                if ($level != 'admin') {
-                    if ($level == 'siswa') {
-                        $row[] = "
-                        <a target='_blank' href='" . base_url($this->siswa->getFoto($list->id)) . "'>
-                            <img src='" . base_url($this->siswa->getFoto($list->id)) . "' width='100px'>
-                        </a>";
-                    } elseif ($level == 'guru' || $level == 'kepsek') {
-                        $row[] = "
-                        <a target='_blank' href='" . base_url($this->guru->getFoto($list->id)) . "'>
-                            <img src='" . base_url($this->guru->getFoto($list->id)) . "' width='100px'>
-                        </a>";
-                    } elseif ($level == 'ortu') {
-                        $row[] = "
-                        <a target='_blank' href='" . base_url($this->ortu->getFoto($list->id)) . "'>
-                            <img src='" . base_url($this->ortu->getFoto($list->id)) . "' width='100px'>
-                        </a>";
-                    } else {
-                        $row[] = "
-                        <a target='_blank' href='" . base_url($this->admin->getFoto($list->id)) . "'>
-                            <img src='" . base_url($this->admin->getFoto($list->id)) . "' width='100px'>
-                        </a>";
-                    }
+                if ($level == 'siswa') {
+                    $row[] = "
+                    <a target='_blank' href='" . base_url($this->siswa->getFoto($list->id)) . "'>
+                        <img src='" . base_url($this->siswa->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+                    </a>";
+                } elseif ($level == 'guru' || $level == 'kepsek') {
+                    $row[] = "
+                    <a target='_blank' href='" . base_url($this->guru->getFoto($list->id)) . "'>
+                        <img src='" . base_url($this->guru->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+                    </a>";
+                } elseif ($level == 'ortu') {
+                    $row[] = "
+                    <a target='_blank' href='" . base_url($this->ortu->getFoto($list->id)) . "'>
+                        <img src='" . base_url($this->ortu->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+                    </a>";
+                } else {
+                    $row[] = "
+                    <a target='_blank' href='" . base_url($this->admin->getFoto($list->id)) . "'>
+                        <img src='" . base_url($this->admin->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+                    </a>";
                 }
+
                 $row[] = $list->nama;
                 $row[] = $list->email;
-                // $row[] = $list->level;
-                $row[] = ucfirst($list->status);
+
+                if($level == 'siswa'){
+                    $kelas = getKelasBySiswa($list->id);
+                    $row[] = $list->nis;
+                    $row[] = isset($kelas[0]) ? $kelas[0]['jenjang']. ' ' .$kelas[0]['kode'] : 'Tanpa Kelas';
+                    $row[] = isset($kelas[0]) ? $kelas[0]['tahun_mulai']. '-' .$kelas[0]['tahun_selesai'] : '-';
+                    $row[] = ucfirst($list->status);
+                }
+
+                if($level == 'ortu'){
+                    $row[] = $list->no_telp ?? '-';
+                    $row[] = ucfirst($list->status);
+                }
+
+                if($level == 'guru'){
+                    $row[] = $list->nip ?? '-';
+                    $row[] = $list->no_telp ?? '-';
+                    $row[] = ucfirst($list->status);
+                }
+
+                if($level == 'admin'){
+                    $row[] = $list->nip ?? '-';
+                    $row[] = $list->no_telp ?? '-';
+                    $row[] = $list->alamat ?? '-';
+                    $row[] = ucfirst($list->status);
+                }
 
                 if (isAdmin()) {
                     $row[] = "
-                    <a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary'>Profil</a>
-                    <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
-                    <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('user_destroy', $list->id, $level) . "`, `userDataTable`, `Aseg`)'>Hapus</button>";
+                    <a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>
+                    <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning mb-2'>Edit</a>";
+                    // <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('user_destroy', $list->id, $level) . "`, `userDataTable`, `Aseg`)'>Hapus</button>";
                 } else {
-                    $row[] = "<a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary'>Profil</a>";
+                    $row[] = "<a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>";
                 }
 
                 $data[] = $row;
@@ -149,7 +174,7 @@ class User extends BaseController
     public function create($level)
     {
         if ($level == 'siswa') {
-            $ortu = $this->ortu->select('id, nama')->where('status', 'aktif')->findAll();
+            $ortu = $this->ortu->select('id, nama')->where('status', 'aktif')->orderBy('nama', 'asd')->findAll();
         } else {
             $ortu = [];
         }
@@ -216,7 +241,7 @@ class User extends BaseController
     public function edit($level, $id)
     {
         if ($level == 'siswa') {
-            $ortu = $this->ortu->select('id, nama')->findAll();
+            $ortu = $this->ortu->select('id, nama')->orderBy('nama', 'asd')->findAll();
             $user = $this->siswa->getData($id);
             $user['foto'] = $this->siswa->getFoto($id);
         } elseif ($level == "ortu") {

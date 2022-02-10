@@ -45,8 +45,8 @@ class Mapel extends BaseController
                 $row[] = $list->status;
                 if (session()->get('level') == 'admin') {
                     $row[] = "
-                    <a href='" . route_to('mapel_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>
-                    <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('mapel_destroy', $list->id) . "`, `mapelDataTable`, `Apakah anda yang menghapus data mata pelajaran ?`)'>Hapus</button>";
+                    <a href='" . route_to('mapel_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>";
+                    // <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('mapel_destroy', $list->id) . "`, `mapelDataTable`, `Apakah anda yang menghapus data mata pelajaran ?`)'>Hapus</button>";
                 } else {
                     $row[] = "";
                 }

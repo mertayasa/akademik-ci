@@ -3,8 +3,17 @@
     <link href="<?= base_url('plugin/filepond/dist/image-preview/filepond-plugin-image-preview.css') ?>" rel="stylesheet" />
 <?= $this->endSection() ?>
 
-<div class="row">
     <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Judul', 'judul') ?> <br>
+        <?= form_input([
+            'type' => 'text',
+            'name' => 'judul',
+            'id' => 'judul',
+            'value' => set_value('judul') == false && isset($agenda) ? $agenda['judul'] : set_value('judul'),
+            'class' => 'form-control'
+        ]) ?>
+    </div>
+    <div class="col-12 col-md-6 pb-3 pb-md-0 mt-3">
         <?= form_label('File', 'fileAgenda') ?> <br>
         <?= form_upload([
             'type' => 'file',
@@ -13,7 +22,6 @@
             'data-file' => isset($agenda) ? base_url($agenda['file']) : ''
         ]) ?>
     </div>
-</div>
 
 <?= $this->section('scripts') ?>
     <script src="<?= base_url('plugin/filepond/dist/filepond.js') ?>"></script>

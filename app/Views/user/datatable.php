@@ -5,7 +5,7 @@
         <div class="card">
             <?php if(isAdmin()): ?>
                 <div class="card-header">
-                    <a href="<?= route_to('user_create', $level) ?>" class="btn btn-primary btn-sm float-right">Tambah <?= ucfirst($level) ?></a>
+                    <a href="<?= route_to('user_create', $level) ?>" class="btn btn-primary btn-sm float-right">Tambah <?= $level == 'ortu' ? 'Orang Tua' : ucfirst($level) ?></a>
                 </div>
             <?php endif; ?>
             <div class="card-body">
@@ -14,12 +14,32 @@
                     <thead>
                         <tr>
                             <td>No</td>
-                            <?php if($level != 'admin'): ?>
-                                <td>Avatar</td>
-                            <?php endif; ?>
+                            <td>Avatar</td>
                             <td>Nama</td>
                             <td>Email</td>
-                            <td>Status</td>
+                                <?php switch($level):
+                                    case 'admin': ?>
+                                        <td>NIP</td>
+                                        <td>No Telp</td>
+                                        <td>Alamat</td>
+                                        <td>Status Aktif</td>
+                                    <?php break;
+                                    case 'siswa': ?>
+                                        <td>NIS</td>
+                                        <td>Kelas</td>
+                                        <td>Tahun ajar</td>
+                                        <td>Status Aktif</td>
+                                    <?php break;
+                                    case 'guru': ?>
+                                        <td>NIP</td>
+                                        <td>No Telp</td>
+                                        <td>Status Aktif</td>
+                                    <?php break;
+                                    case 'ortu': ?>
+                                        <td>No Telp</td>
+                                        <td>Status Aktif</td>
+                                    <?php break; ?>
+                                <?php endswitch; ?>
                             <td>Aksi</td>
                         </tr>
                     </thead>

@@ -20,7 +20,10 @@ class AdminModel extends Generic
         'email',
         'password',
         'status',
-        'foto'
+        'foto',
+        'nip',
+        'no_telp',
+        'alamat',
     ];
 
     // Dates
