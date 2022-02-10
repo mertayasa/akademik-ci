@@ -75,6 +75,12 @@ $routes->group('tahunAjar', ['filter' => 'auth'], function ($routes) {
     $routes->post('datatables', 'TahunAjar::datatables', ['as' => 'tahun_ajar_datatables']);
 });
 
+$routes->group('kelasPerTahun', ['filter' => 'auth'], function ($routes) {
+    $routes->get('/', 'KelasPerTahun::index', ['as' => 'kelas_per_tahun_index']);
+    $routes->get('(:num)/edit', 'KelasPerTahun::edit/$1', ['as' => 'kelas_per_tahun_edit']);
+    $routes->patch('update/(:num)', 'KelasPerTahun::update/$1', ['as' => 'kelas_per_tahun_update']);
+});
+
 $routes->group('mapel', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Mapel::index', ['as' => 'mapel_index']);
     $routes->get('(:num)/edit', 'Mapel::edit/$1', ['as' => 'mapel_edit']);

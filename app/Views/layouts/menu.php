@@ -19,6 +19,7 @@
             'kelas',
             'user',
             'profile',
+            'kelasPerTahun'
         ];
         ?>
         <li class="nav-item <?= isActive($data_master_sub) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
@@ -39,16 +40,23 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('mapel_index') ?>" class="nav-link <?= isActive('mapel') ?>">
+                    <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Mata Pelajaran</p>
+                        <p>Kelas</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
+                    <a href="<?= route_to('kelas_per_tahun_index') ?>" class="nav-link <?= isActive('kelasPerTahun') ?>">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Kelas</p>
+                        <p>Kelas Per Tahun Ajar</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?= route_to('mapel_index') ?>" class="nav-link <?= isActive('mapel') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Mata Pelajaran</p>
                     </a>
                 </li>
 
