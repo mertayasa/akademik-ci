@@ -10,7 +10,8 @@
                     <div class="card flex-fill" style="width: 16rem;">
                         <div class="over-image">
                             <div style="background-color: #95D1CC; height:130px" class="card-img-top"></div>
-                            <div class="centered"><?= convertRoman($key_jenjang) . '' . $kode_kelas['kode'] ?></div>
+                            <!-- <div class="centered"><?= convertRoman($key_jenjang) . '' . $kode_kelas['kode'] ?></div> -->
+                            <div class="centered"><?= $key_jenjang . '' . $kode_kelas['kode'] ?></div>
                         </div>
                         <div class="card-body px-2 py-2">
                             <table width="100%">

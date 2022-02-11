@@ -22,7 +22,8 @@
                             </tr>
                             <?php foreach ($kelas as $kel) : ?>
                                 <tr>
-                                    <td><?= convertRoman($kel['jenjang']) . ' ' . $kel['kode'] ?></td>
+                                    <!-- <td><?= convertRoman($kel['jenjang']) . ' ' . $kel['kode'] ?></td> -->
+                                    <td><?= $kel['jenjang'] . ' ' . $kel['kode'] ?></td>
                                     <td class="text-center">
                                         <div class="form-group mb-0">
                                             <div class="custom-control custom-switch">

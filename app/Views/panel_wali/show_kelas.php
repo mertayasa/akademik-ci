@@ -8,7 +8,8 @@
                         <tr>
                             <td>Kelas</td>
                             <td class="px-2">:</td>
-                            <td class="kelas"><?= convertRoman($kel['jenjang']) . '' . $kel['kode'] ?></td>
+                            <!-- <td class="kelas"><?= convertRoman($kel['jenjang']) . '' . $kel['kode'] ?></td> -->
+                            <td class="kelas"><?= $kel['jenjang'] . '' . $kel['kode'] ?></td>
                         </tr>
                         <tr>
                             <td>Tahun Ajar</td>
