@@ -12,7 +12,8 @@
                         <tr>
                             <td>No</td>
                             <td></td>
-                            <td>Berkas</td>
+                            <td>Judul</td>
+                            <!-- <td>Berkas</td> -->
                             <td>Status</td>
                             <td>Aksi</td>
                         </tr>

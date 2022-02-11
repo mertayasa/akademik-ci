@@ -5,10 +5,10 @@ namespace App\Models;
 use App\Models\Generic\Generic;
 use CodeIgniter\Model;
 
-class AdminModel extends Generic
+class KelasPerTahunModel extends Generic
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'admin';
+    // protected $DBGroup          = 'default';
+    protected $table            = 'kelas_aktif_per_tahun';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -16,18 +16,12 @@ class AdminModel extends Generic
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nama',
-        'email',
-        'password',
-        'status',
-        'foto',
-        'nip',
-        'no_telp',
-        'alamat',
+        'id_kelas',
+        'id_tahun_ajar',
     ];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';

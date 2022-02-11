@@ -47,13 +47,14 @@ class Agenda extends BaseController
                 $row = [];
                 $row[] = $no;
                 $row[] = $list->updated_at;
-                $row[] = '<object data="'. base_url($list->file) .'" width="350px" height="100px"></object>';
+                $row[] = $list->judul ?? '-';
+                // $row[] = '<object data="'. base_url($list->file) .'" width="350px" height="100px"></object>';
                 $row[] = $list->status;
                 $row[] = "
-                <a href='". base_url($list->file) ."' class='btn btn-sm btn-info' target='_blank'>Berkas</a>
+                <a href='". base_url($list->file) ."' class='btn btn-sm btn-info' target='_blank'>Tampil</a>
                 <button class='btn btn-sm btn-primary' onclick='setActive(`". route_to('agenda_set_active', $list->id) ."`, `agendaDataTable`, `Apakah anda yakin mengaktifkan data agenda ?, data agenda lain akan otomatis non aktif`)'>Set Aktif</button>
-                <a href='". route_to('agenda_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>
-                <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('agenda_destroy', $list->id) ."`, `agendaDataTable`, `Apakah anda yang menghapus data agenda ?`)'>Hapus</button>";
+                <a href='". route_to('agenda_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>";
+                // <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('agenda_destroy', $list->id) ."`, `agendaDataTable`, `Apakah anda yang menghapus data agenda ?`)'>Hapus</button>";
                 $data[] = $row;
             }
 
@@ -85,6 +86,7 @@ class Agenda extends BaseController
             }
 
             $new_data = [
+                'judul' => $this->request->getPost('judul'),
                 'status' => $this->agenda::$nonaktif,
                 'file' => $upload_image,
             ];
@@ -154,6 +156,7 @@ class Agenda extends BaseController
             }
 
             $new_data = [
+                'judul' => $this->request->getPost('judul'),
                 'file' => $upload_image,
             ];
 

@@ -37,6 +37,7 @@
                                             </div>
                                             <hr>
                                         <?php endif; ?>
+                                        
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0">Email</h6>
@@ -46,6 +47,7 @@
                                             </div>
                                         </div>
                                         <hr>
+
                                         <?php if ($level != 'admin' and $level != 'siswa') : ?>
                                             <div class="row">
                                                 <div class="col-sm-3">
@@ -57,6 +59,7 @@
                                             </div>
                                             <hr>
                                         <?php endif; ?>
+                                        
                                         <?php if ($level != 'admin' and $level != 'siswa') : ?>
                                             <div class="row">
                                                 <div class="col-sm-3">
@@ -71,6 +74,14 @@
 
                                         <?= $this->include('profile/show_include/' . $level . '.php'); ?>
 
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0">Status Aktif</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <?= ucfirst($user['status']) ?>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

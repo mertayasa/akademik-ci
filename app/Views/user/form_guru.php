@@ -65,7 +65,7 @@
 <?php if (isAdmin()) : ?>
     <div class="row mt-3">
         <div class="col-12 col-md-6 pb-3 pb-md-0">
-            <?= form_label('Status Guru', 'statusGuru') ?>
+            <?= form_label('Jabatan Guru', 'statusGuru') ?>
             <?= form_dropdown(
                 'status_guru',
                 getStatusGuru(),

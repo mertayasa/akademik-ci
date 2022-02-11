@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.css') ?>">
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/sweetalert2/sweetalert2.css') ?>">
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/toastr/toastr.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('adminlte/plugins/select2/css/select2.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.css') ?>">
     <meta name="csrf-token" content="<?= csrf_hash() ?>" />
 
     <style>
@@ -108,6 +110,7 @@
     <script src="<?= base_url('adminlte/plugins/sweetalert2/sweetalert2.all.js') ?>"></script>
     <script src="<?= base_url('adminlte/plugins/datatables/jquery.dataTables.min.js') ?>"></script>
     <script src="<?= base_url('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
+    <script src="<?= base_url('adminlte/plugins/select2/js/select2.js') ?>"></script>
 
 
     <script>
@@ -175,7 +178,13 @@
         }
     </script>
 
-
+    <script>
+        $(document).ready(function() {
+            $('select:not(.custom-select)').select2({
+                theme: 'bootstrap4',
+            });
+        });
+    </script>
 
     <?= $this->renderSection('scripts') ?>
 

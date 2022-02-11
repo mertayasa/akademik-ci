@@ -16,6 +16,7 @@ class AgendaModel extends Generic
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
+        'judul',
         'file',
         'status',
         'created_at',
