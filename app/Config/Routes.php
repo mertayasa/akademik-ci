@@ -78,7 +78,7 @@ $routes->group('tahunAjar', ['filter' => 'auth'], function ($routes) {
 $routes->group('kelasPerTahun', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'KelasPerTahun::index', ['as' => 'kelas_per_tahun_index']);
     $routes->get('(:num)/edit', 'KelasPerTahun::edit/$1', ['as' => 'kelas_per_tahun_edit']);
-    $routes->patch('update/(:num)', 'KelasPerTahun::update/$1', ['as' => 'kelas_per_tahun_update']);
+    $routes->post('update/(:num)', 'KelasPerTahun::update/$1', ['as' => 'kelas_per_tahun_update']);
 });
 
 $routes->group('mapel', ['filter' => 'auth'], function ($routes) {
