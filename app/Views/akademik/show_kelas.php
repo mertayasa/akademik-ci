@@ -3,7 +3,8 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <?= form_open(route_to('akademik_search_tahun'), ['id' => 'storeForm']); ?>
+            Tahun Ajar <?= $tahun_ajar_active['tahun_mulai'] . '/' . $tahun_ajar_active['tahun_selesai'] ?>
+                <!-- <?= form_open(route_to('akademik_search_tahun'), ['id' => 'storeForm']); ?>
                     <div class="row align-items-end">
                         <div class="col-12 col-md-3 pb-3 pb-md-0">
                             <?= form_label('Filter Tahun Ajar', 'tahunAjar') ?>
@@ -19,7 +20,7 @@
                             <button type="submit" class="btn btn-primary">Filter</button>
                         </div>
                     </div>
-                    <?= form_close() ?>
+                    <?= form_close() ?> -->
             </div>
             <div class="card-body">
                 <?= $this->include('akademik/list_kelas') ?>

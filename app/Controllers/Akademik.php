@@ -71,8 +71,11 @@ class Akademik extends BaseController
         $data = [
             'kelas' => $kelas,
             'tahun_ajar' => $tahun_ajar,
+            'tahun_ajar_active' => $this->tahun_ajar->find($this->tahun_ajar->getActiveId()),
             'tahun_ajar_selected' => $selected_tahun,
         ];
+
+        // dd($data);
 
         return view('akademik/index', $data);
     }
