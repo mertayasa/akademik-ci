@@ -30,7 +30,7 @@ class Auth extends BaseController
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
         $data_admin = $model_admin->where('email', $email)->first();
-        $data_siswa = $model_siswa->where('email', $email)->first();
+        $data_siswa = $model_siswa->where('nis', $email)->first();
         $data_guru = $model_guru->where('email', $email)->first();
         $data_ortu = $model_ortu->where('email', $email)->first();
         if ($data_admin) {
