@@ -130,3 +130,4 @@ nb-configuration.xml
 
 #bash file
 bash.exe.stackdump
+sh.exe.stackdump
