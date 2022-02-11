@@ -5,6 +5,7 @@ use App\Models\AnggotaKelasModel;
 use App\Models\NilaiModel;
 use App\Models\TahunAjarModel;
 use App\Models\WaliKelasModel;
+use App\Models\KelasPerTahunModel;
 
 if (!function_exists('isActive')) {
     function isActive($param)
@@ -227,6 +228,17 @@ if (!function_exists('isActive')) {
         ->findAll();
 
         return isset($wali_kelas[0]) ? $wali_kelas[0] : null;
+    }
+
+    function checkKelasByTahun($id_kelas, $id_tahun_ajar)
+    {
+        $kelas_per_tahun = new KelasPerTahunModel;
+        $check_kelas = $kelas_per_tahun->where([
+            'id_kelas' => $id_kelas,
+            'id_tahun_ajar' => $id_tahun_ajar
+        ])->findAll();
+
+        return isset($check_kelas[0]) ? true : false;
     }
 
     function getAbsensiByDate($tgl, $id_anggota_kelas, $id_kelas)

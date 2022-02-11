@@ -63,7 +63,8 @@ class HistoryNilai extends BaseController
             $nilai = $this->nilai->get_nilai_by_anggota($anggota['id']) ?? [];
 
             array_push($new_nilai, [
-                'kelas' => convertRoman($anggota['jenjang']) . $anggota['kode'],
+                // 'kelas' => convertRoman($anggota['jenjang']) . $anggota['kode'],
+                'kelas' => $anggota['jenjang'] . $anggota['kode'],
                 'tahun_ajar' => $anggota['tahun_mulai'] . '/' . $anggota['tahun_selesai'],
                 'wali_kelas' => $wali_kelas,
                 'nilai' => $nilai
@@ -93,7 +94,8 @@ class HistoryNilai extends BaseController
             $nilai = $this->nilai->get_nilai_by_anggota($anggota['id']) ?? [];
 
             array_push($new_nilai, [
-                'kelas' => convertRoman($anggota['jenjang']) . $anggota['kode'],
+                // 'kelas' => convertRoman($anggota['jenjang']) . $anggota['kode'],
+                'kelas' => $anggota['jenjang'] . $anggota['kode'],
                 'tahun_ajar' => $anggota['tahun_mulai'] . '/' . $anggota['tahun_selesai'],
                 'wali_kelas' => $wali_kelas,
                 'nilai' => $nilai

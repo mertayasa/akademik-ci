@@ -12,7 +12,8 @@
                 <tr>
                     <td>Kelas</td>
                     <td class="px-2">:</td>
-                    <td><?= isset($anggota_kelas) && count($anggota_kelas) != 0 ? convertRoman($anggota_kelas['jenjang']) . '' . $anggota_kelas['kode'] : '-' ?></td>
+                    <!-- <td><?= isset($anggota_kelas) && count($anggota_kelas) != 0 ? convertRoman($anggota_kelas['jenjang']) . '' . $anggota_kelas['kode'] : '-' ?></td> -->
+                    <td><?= isset($anggota_kelas) && count($anggota_kelas) != 0 ? $anggota_kelas['jenjang'] . '' . $anggota_kelas['kode'] : '-' ?></td>
                 </tr>
                 <tr>
                     <td>Wali Kelas</td>
