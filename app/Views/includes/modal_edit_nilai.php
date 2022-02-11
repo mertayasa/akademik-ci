@@ -4,7 +4,7 @@
         <div class="modal fade" id="modal_edit_nilai" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <?= form_open(route_to('update_nilai')); ?>
+                    <?= form_open(route_to('update_nilai'), ['id' => 'form_nilai']); ?>
                     <?= csrf_field(); ?>
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Edit Nilai</h5>
@@ -54,7 +54,7 @@
                                 'name'  => 'tugas',
                                 'id'    => 'tugas',
                                 'value' => '',
-                                'class' => 'form-control'
+                                'class' => 'form-control nilai'
                             ]); ?>
                         </div>
                         <div class="form-group">
@@ -64,7 +64,7 @@
                                 'name'  => 'uts',
                                 'id'    => 'uts',
                                 'value' => '',
-                                'class' => 'form-control'
+                                'class' => 'form-control nilai'
                             ]); ?>
                         </div>
                         <div class="form-group">
@@ -74,7 +74,7 @@
                                 'name'  => 'uas',
                                 'id'    => 'uas',
                                 'value' => '',
-                                'class' => 'form-control'
+                                'class' => 'form-control nilai'
                             ]); ?>
                         </div>
                         <div class="form-group">
@@ -84,7 +84,7 @@
                                 'name'  => 'harian',
                                 'id'    => 'harian',
                                 'value' => '',
-                                'class' => 'form-control'
+                                'class' => 'form-control nilai'
                             ]); ?>
                         </div>
                         <?= form_input([

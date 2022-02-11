@@ -94,6 +94,7 @@
 
 <?= $this->section('scripts') ?>
 <script>
+    cekNilai();
     $('.action-edit').on('click', function() {
         var mapel = $(this).closest('tr').find('td').eq(1).html();
         var tugas = $(this).closest('tr').find('td').eq(2).html();
@@ -115,5 +116,20 @@
         $('#uas').val(uas)
         $('#harian').val(harian)
     })
+
+    function cekNilai() {
+        $('.nilai').on('change keyup', function() {
+            const data = $(this).val();
+            console.log(data)
+            if (data < 0 || data > 100) {
+                Swal.fire({
+                    title: 'Warning',
+                    text: 'Nilai hanya boleh dari 1 sampai 100',
+                    icon: 'warning'
+                })
+                $(this).val(0)
+            }
+        })
+    }
 </script>
 <?= $this->endSection() ?>
