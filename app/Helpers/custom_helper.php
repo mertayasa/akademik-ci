@@ -6,6 +6,7 @@ use App\Models\NilaiModel;
 use App\Models\TahunAjarModel;
 use App\Models\WaliKelasModel;
 use App\Models\KelasPerTahunModel;
+use App\Models\PindahSekolahModel;
 
 if (!function_exists('isActive')) {
     function isActive($param)
@@ -69,6 +70,21 @@ if (!function_exists('isActive')) {
     function isOrtu()
     {
         if (session()->get('level') == 'ortu') {
+            return true;
+        }
+
+        return false;
+    }
+
+    function checkPindahKeluar($id)
+    {
+        $pindah_sekolah = new PindahSekolahModel();
+        $check_pindah = $pindah_sekolah->where([
+            'id_siswa' => $id,
+            'tipe' => 'keluar'
+        ])->findAll();
+
+        if(count($check_pindah) > 0) {
             return true;
         }
 

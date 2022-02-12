@@ -57,12 +57,17 @@
     </div>
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Status', 'statusUser') ?>
-        <?= form_dropdown(
-            'status',
-            ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
-            set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
-            ['class' => 'form-control', 'id' => 'statusUser']
-        );
-        ?>
+        <?php if(isset($user['is_pindah_keluar']) && $user['is_pindah_keluar']): ?>
+            <input type="text" name="status" class="form-control" disabled id="" value="Nonaktif">
+            <span class="text-danger">Siswa telah pindah sekolah, tidak bisa mengubah status</span>
+        <?php else: ?>
+            <?= form_dropdown(
+                'status',
+                ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
+                set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
+                ['class' => 'form-control', 'id' => 'statusUser']
+            );
+            ?>
+        <?php endif; ?>
     </div>
 </div>
