@@ -76,6 +76,11 @@ if (!function_exists('isActive')) {
         return false;
     }
 
+    function getNamaSekolah()
+    {
+        return 'SD MUHAMMADIYAH 2 DENPASAR';
+    }
+
     function getStatusGuru($status = null)
     {
         if ($status == null) {

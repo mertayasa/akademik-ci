@@ -81,6 +81,16 @@ $routes->group('kelasPerTahun', ['filter' => 'auth'], function ($routes) {
     $routes->post('update/(:num)', 'KelasPerTahun::update/$1', ['as' => 'kelas_per_tahun_update']);
 });
 
+$routes->group('pindah', ['filter' => 'auth'], function ($routes) {
+    $routes->get('(:segment)', 'PindahSekolah::index/$1', ['as' => 'pindah_sekolah_index']);
+    $routes->get('(:num)/edit', 'PindahSekolah::edit/$1', ['as' => 'pindah_sekolah_edit']);
+    $routes->post('update/(:num)', 'PindahSekolah::update/$1', ['as' => 'pindah_sekolah_update']);
+    $routes->get('(:segment)/create', 'PindahSekolah::create/$1', ['as' => 'pindah_sekolah_create']);
+    $routes->post('insert/(:segment)', 'PindahSekolah::insert/$1', ['as' => 'pindah_sekolah_insert']);
+    $routes->get('destroy/(:num)', 'PindahSekolah::destroy/$1', ['as' => 'pindah_sekolah_destroy']);
+    $routes->post('datatables/(:segment)', 'PindahSekolah::datatables/$1', ['as' => 'pindah_sekolah_datatables']);
+});
+
 $routes->group('mapel', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'Mapel::index', ['as' => 'mapel_index']);
     $routes->get('(:num)/edit', 'Mapel::edit/$1', ['as' => 'mapel_edit']);
