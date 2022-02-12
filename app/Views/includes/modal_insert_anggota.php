@@ -52,7 +52,8 @@
                                         'id' => 'id_siswa',
                                         'value' => ''
                                     ]); ?>
-                                    <?= form_label('Nama: ', 'nama'); ?>
+
+                                    <?= form_label('Nama Siswa: ', 'nama'); ?>
                                     <div id="nama"></div>
                                     <br>
                                     <?= form_label('NIS: ', 'nis_siswa'); ?>
@@ -60,6 +61,12 @@
                                     <br>
                                     <?= form_label('Status: ', 'status'); ?>
                                     <div id="status"></div>
+                                    <br>
+                                    <?= form_label('Ditambahakan di: ', 'kelas'); ?>
+                                    <div><?= 'Kelas ' . $kelas['jenjang'] . '' . $kelas['kode']; ?></div>
+                                    <br>
+                                    <?= form_label('Tahun Ajar: ', 'tahun_ajar'); ?>
+                                    <div><?= $tahun_ajar['tahun_mulai'] . '/' . $tahun_ajar['tahun_selesai']; ?></div>
                                     <br>
                                 </div>
                             </div>
