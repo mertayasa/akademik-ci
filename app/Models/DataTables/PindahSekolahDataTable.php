@@ -12,14 +12,16 @@ class PindahSekolahDataTable extends Model
     protected $column_search = ['id_siswa', 'id_tahun_ajar', 'asal', 'tujuan', 'tanggal', 'alasan'];
     protected $order = ['id' => 'DESC'];
     protected $request;
+    protected $tipe;
     protected $db;
     protected $dt;
 
-    public function __construct(RequestInterface $request)
+    public function __construct(RequestInterface $request, $tipe)
     {
         parent::__construct();
         $this->db = db_connect();
         $this->request = $request;
+        $this->tipe = $tipe;
         $this->dt = $this->db->table($this->table);
 
     }
@@ -43,10 +45,10 @@ class PindahSekolahDataTable extends Model
         }
 
         if ($this->request->getPost('order')) {
-            $this->dt->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
+            $this->dt->where('tipe', $this->tipe)->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
         } else if (isset($this->order)) {
             $order = $this->order;
-            $this->dt->orderBy(key($order), $order[key($order)]);
+            $this->dt->where('tipe', $this->tipe)->orderBy(key($order), $order[key($order)]);
         }
     }
 

@@ -28,8 +28,26 @@
           <div class="card-body">
             <?= $this->include('layouts/flash') ;?>
             <?= form_open(route_to('pindah_sekolah_insert', $tipe), ['id' => 'storeForm']); ?>
-            
-            <?= $this->include('pindah_sekolah/form'); ?>
+              
+              <?php if($tipe == 'keluar'): ?>
+                <div class="row">
+                    <div class="col-12 col-md-6 pb-3 pb-md-0">
+                        <?= form_label('Siswa', 'idSiswa') ?>
+                        <select name="id_siswa" id="idSiswa" class="form-control">
+                            <?php
+                            $selected = set_value('id_siswa') == false && isset($pindah_sekolah) ? $pindah_sekolah['id_siswa'] : set_value('id_siswa');
+                            ?>
+                            <?php foreach ($siswa as $sis) : ?>
+                                <option value="<?= $sis['id'] ?>" <?= $selected == $sis['id'] ? 'selected' : '' ?>><?= $sis['nama'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <?= $this->include('pindah_sekolah/form_general'); ?>
+              <?php else: ?>
+                <?= $this->include('pindah_sekolah/form'); ?>
+              <?php endif; ?>
+
                 <div class="row mt-3">
                     <div class="col-12">
                         <a href="<?= route_to('pindah_sekolah_index', $tipe) ?>" class="btn btn-secondary">Kembali</a>
