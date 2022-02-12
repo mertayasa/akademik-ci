@@ -43,6 +43,7 @@ class Mapel extends BaseController
                 $row[] = $no;
                 $row[] = $list->nama;
                 $row[] = $list->status;
+                $row[] = getKelasPerMapel($list->id);
                 if (session()->get('level') == 'admin') {
                     $row[] = "
                     <a href='" . route_to('mapel_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>";
@@ -120,7 +121,7 @@ class Mapel extends BaseController
         $nilai = $this->nilai->where('id_mapel', $id)->countAllResults();
         $jadwal = $this->jadwal->where('id_mapel', $id)->countAllResults();
 
-        if($nilai > 0 || $jadwal > 0) {
+        if ($nilai > 0 || $jadwal > 0) {
             return json_encode([
                 'code' => 0,
                 'swal' => 'Tidak bisa menghapus data mata pelajaran karena masih digunakan di tabel lain'

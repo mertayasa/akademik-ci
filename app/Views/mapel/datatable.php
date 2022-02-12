@@ -15,6 +15,7 @@
                             <td>No</td>
                             <td>Nama</td>
                             <td>Status</td>
+                            <td>Kelas Yang Menggunakan</td>
                             <?php if (session()->get('level') == 'admin') : ?>
                                 <td>Aksi</td>
                             <?php endif; ?>

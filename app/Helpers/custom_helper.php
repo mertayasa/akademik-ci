@@ -7,6 +7,7 @@ use App\Models\TahunAjarModel;
 use App\Models\WaliKelasModel;
 use App\Models\KelasPerTahunModel;
 use App\Models\PindahSekolahModel;
+use App\Models\JadwalModel;
 
 if (!function_exists('isActive')) {
     function isActive($param)
@@ -225,10 +226,10 @@ if (!function_exists('isActive')) {
         $check_anggota = $anggota_kelas->where([
             'anggota_kelas.id_siswa' => $id_siswa,
         ])
-        ->join('tahun_ajar', 'anggota_kelas.id_tahun_ajar = tahun_ajar.id')
-        ->join('kelas', 'anggota_kelas.id_kelas = kelas.id')
-        ->orderBy('kelas.jenjang', 'desc')
-        ->findAll();
+            ->join('tahun_ajar', 'anggota_kelas.id_tahun_ajar = tahun_ajar.id')
+            ->join('kelas', 'anggota_kelas.id_kelas = kelas.id')
+            ->orderBy('kelas.jenjang', 'desc')
+            ->findAll();
 
         return $check_anggota;
     }
@@ -243,10 +244,10 @@ if (!function_exists('isActive')) {
             'id_guru_wali' => $id_guru,
             'id_tahun_ajar' => $id_tahun_ajar
         ])
-        ->join('tahun_ajar', 'wali_kelas.id_tahun_ajar = tahun_ajar.id')
-        ->join('kelas', 'wali_kelas.id_kelas = kelas.id')
-        ->orderBy('tahun_ajar.tahun_mulai', 'desc')
-        ->findAll();
+            ->join('tahun_ajar', 'wali_kelas.id_tahun_ajar = tahun_ajar.id')
+            ->join('kelas', 'wali_kelas.id_kelas = kelas.id')
+            ->orderBy('tahun_ajar.tahun_mulai', 'desc')
+            ->findAll();
 
         return isset($wali_kelas[0]) ? $wali_kelas[0] : null;
     }
@@ -330,5 +331,22 @@ if (!function_exists('isActive')) {
             ->where('id_mapel', $id_mapel)
             ->orderBy('id', 'ASC')
             ->find();
+    }
+    function getKelasPerMapel($id_mapel)
+    {
+        $jadwal_model = new JadwalModel();
+
+        $data = $jadwal_model
+            ->select('id_mapel, id_kelas, jenjang, kode,id_tahun_ajar, tahun_ajar.status')
+            ->join('kelas', 'jadwal.id_kelas=kelas.id')
+            ->join('tahun_ajar', 'jadwal.id_tahun_ajar=tahun_ajar.id')
+            ->where('jadwal.id_mapel', $id_mapel)
+            ->where('tahun_ajar.status', 'aktif')
+            ->groupBy(['jenjang', 'kode'])
+            ->findAll();
+        $kelas_per_mapel = array_map(function ($data) {
+            return $data['jenjang'] . '' . $data['kode'];
+        }, $data);
+        return ($kelas_per_mapel != null or $kelas_per_mapel != "") ? implode(', ', $kelas_per_mapel) : '-';
     }
 }

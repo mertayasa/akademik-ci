@@ -105,7 +105,6 @@
                         $('#status').html(val.status)
                     })
                 } else {
-                    console.log('asd')
                     Swal.fire({
                         title: "Warning",
                         text: "Siswa tidak ditemukan",

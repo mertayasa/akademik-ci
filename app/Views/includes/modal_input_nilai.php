@@ -58,7 +58,7 @@
                                                 <td><?= $mp["nama"]; ?></td>
                                                 <td><?= form_input([
                                                         'type' => 'number',
-                                                        'class' => 'col-md-12',
+                                                        'class' => 'col-md-12 number-only',
                                                         'name' => 'tugas[]',
                                                         'id' => 'tugas',
                                                         'value' => ''
@@ -66,7 +66,7 @@
                                                 </td>
                                                 <td><?= form_input([
                                                         'type' => 'number',
-                                                        'class' => 'col-md-12',
+                                                        'class' => 'col-md-12 number-only',
                                                         'name' => 'uts[]',
                                                         'id' => 'uts',
                                                         'value' => ''
@@ -74,7 +74,7 @@
                                                 </td>
                                                 <td><?= form_input([
                                                         'type' => 'number',
-                                                        'class' => 'col-md-12',
+                                                        'class' => 'col-md-12 number-only',
                                                         'name' => 'uas[]',
                                                         'id' => 'uas',
                                                         'value' => ''
@@ -82,7 +82,7 @@
                                                 </td>
                                                 <td><?= form_input([
                                                         'type' => 'number',
-                                                        'class' => 'col-md-12',
+                                                        'class' => 'col-md-12 number-only',
                                                         'name' => 'harian[]',
                                                         'id' => 'harian',
                                                         'value' => ''

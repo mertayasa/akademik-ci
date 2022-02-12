@@ -54,7 +54,7 @@
                                 'name'  => 'tugas',
                                 'id'    => 'tugas',
                                 'value' => '',
-                                'class' => 'form-control nilai'
+                                'class' => 'form-control nilai number-only'
                             ]); ?>
                         </div>
                         <div class="form-group">
@@ -64,7 +64,7 @@
                                 'name'  => 'uts',
                                 'id'    => 'uts',
                                 'value' => '',
-                                'class' => 'form-control nilai'
+                                'class' => 'form-control nilai number-only'
                             ]); ?>
                         </div>
                         <div class="form-group">
@@ -74,7 +74,7 @@
                                 'name'  => 'uas',
                                 'id'    => 'uas',
                                 'value' => '',
-                                'class' => 'form-control nilai'
+                                'class' => 'form-control nilai number-only'
                             ]); ?>
                         </div>
                         <div class="form-group">
@@ -84,7 +84,7 @@
                                 'name'  => 'harian',
                                 'id'    => 'harian',
                                 'value' => '',
-                                'class' => 'form-control nilai'
+                                'class' => 'form-control nilai number-only'
                             ]); ?>
                         </div>
                         <?= form_input([

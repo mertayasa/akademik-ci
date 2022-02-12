@@ -176,6 +176,7 @@ class Jadwal extends BaseController
             ->where('id_kelas', $data['id_kelas'])
             ->where('id_tahun_ajar', $data['id_tahun_ajar'])
             ->where('id_mapel', $data['id_mapel'])
+            ->where('status', 'aktif')
             ->where('hari', $data['hari'])
             ->findAll();
         // dd($cek_jadwal);
