@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-
+                <button class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#modal_wali">Pilih Wali</button>
             </div>
             <div class="card-body">
                 <table class="table table-striped table-hover" id="table_wali">
@@ -11,9 +11,10 @@
                             <th>No</th>
                             <th>Nama Wali Kelas</th>
                             <th>NIP</th>
-                            <?php if (session()->get('level') == 'admin') : ?>
+                            <th>Status</th>
+                            <!-- <?php if (session()->get('level') == 'admin') : ?>
                                 <th>Action</th>
-                            <?php endif; ?>
+                            <?php endif; ?> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -23,11 +24,12 @@
                                     <td><?= $no++; ?></td>
                                     <td class="wali-nama"><?= $wali->nama_guru; ?></td>
                                     <td class="wali-nip"><?= $wali->nip; ?></td>
-                                    <?php if (session()->get('level') == 'admin') : ?>
+                                    <td class="wali-status"><?= $wali->status; ?></td>
+                                    <!-- <?php if (session()->get('level') == 'admin') : ?>
                                         <td><button data-toggle="modal" data-target="#modal_wali" class="btn btn-sm btn-warning action-edit" data-id="<?= $wali->id; ?>" data-id_guru="<?= $wali->id_guru_wali; ?>">Edit </button>
-                                            <a href="<?= route_to('akademik_destroy_wali', $wali->id, $wali->id_kelas, $wali->id_tahun_ajar); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus Data Ini?')">Hapus</a>
-                                        </td>
-                                    <?php endif; ?>
+                                             <a href="<?= route_to('akademik_destroy_wali', $wali->id, $wali->id_kelas, $wali->id_tahun_ajar); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus Data Ini?')">Hapus</a>
+                                    </td>
+                                <?php endif; ?> -->
                                 </tr>
                             <?php endforeach; ?>
                         <?php else : ?>
@@ -58,11 +60,10 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <input type="hidden" name="id" value="">
-                                <label for="nama_guru">Wali Kelas</label>
+                                <label for="nama_guru" id="nama_guru">Wali Kelas</label>
                                 <select class="form-control" id="nama_guru" name="nama_guru">
-                                    <option class="guru_awal" value="">Pilih Wali Kelas</option>
                                     <?php foreach ($guru as $gr) : ?>
-                                        <option value="<?= $gr->id; ?>"><?= $gr->nama; ?></option>
+                                        <option value="<?= $gr['id']; ?>"><?= $gr['nama'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -83,11 +84,20 @@
         var id = $(this).data('id');
         var id_wali = $(this).data('id_guru');
         var nama_wali = $(this).closest('tr').find('.wali-nama').html()
+        console.log(id_wali)
         $('[name="id"]').val(id);
-        $('.guru_awal').val(id_wali)
-        $('.guru_awal').html(nama_wali)
+        $('[name="nama_guru"]').val(id_wali)
+        $('[name="nama_guru"]').html(nama_wali)
         $('.modal-title').html('Edit Wali')
         $('form').attr('action', "<?= route_to('akademik_update_wali', $id_kelas, $id_tahun_ajar); ?>")
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('select:not(.custom-select)').select2({
+            theme: 'bootstrap4',
+            dropdownParent: $('#modal_wali')
+        });
     });
 </script>
 <?= $this->endSection() ?>

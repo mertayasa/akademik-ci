@@ -4,7 +4,7 @@
 
 <?= $this->include('user/form_siswa_general') ?>
 
-<!-- <?php if(!str_contains('pindah', uri_string())): ?> -->
+<!-- <?php if (!str_contains('pindah', uri_string())) : ?> -->
 <div class="row mt-3">
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Orang Tua', 'idOrtu') ?>

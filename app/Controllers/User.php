@@ -120,28 +120,30 @@ class User extends BaseController
                 }
 
                 $row[] = $list->nama;
-                $row[] = $list->email;
+                if ($level != 'siswa') {
+                    $row[] = $list->email;
+                }
 
-                if($level == 'siswa'){
+                if ($level == 'siswa') {
                     $kelas = getKelasBySiswa($list->id);
                     $row[] = $list->nis;
-                    $row[] = isset($kelas[0]) ? $kelas[0]['jenjang']. ' ' .$kelas[0]['kode'] : 'Tanpa Kelas';
-                    $row[] = isset($kelas[0]) ? $kelas[0]['tahun_mulai']. '-' .$kelas[0]['tahun_selesai'] : '-';
+                    $row[] = isset($kelas[0]) ? $kelas[0]['jenjang'] . ' ' . $kelas[0]['kode'] : 'Tanpa Kelas';
+                    $row[] = isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-';
                     $row[] = ucfirst($list->status);
                 }
 
-                if($level == 'ortu'){
+                if ($level == 'ortu') {
                     $row[] = $list->no_telp ?? '-';
                     $row[] = ucfirst($list->status);
                 }
 
-                if($level == 'guru'){
+                if ($level == 'guru') {
                     $row[] = $list->nip ?? '-';
                     $row[] = $list->no_telp ?? '-';
                     $row[] = ucfirst($list->status);
                 }
 
-                if($level == 'admin'){
+                if ($level == 'admin') {
                     $row[] = $list->nip ?? '-';
                     $row[] = $list->no_telp ?? '-';
                     $row[] = $list->alamat ?? '-';

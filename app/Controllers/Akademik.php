@@ -305,7 +305,7 @@ class Akademik extends BaseController
         $this->kelas = new KelasModel();
         $this->guru = new GuruKepsekModel;
         $this->wali_kelas = new WaliKelasModel;
-        $guru_list = $this->guru->where('level', 'guru')->get()->getResultObject();
+        $guru_list = $this->guru->where('level', 'guru')->orderBy('nama', 'asd')->findAll();
         $wali = $this->wali_kelas->get_wali_kelas_by_id($id_kelas, $id_tahun_ajar);
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
         $kelas = $this->kelas->getData($id_kelas);
@@ -329,14 +329,20 @@ class Akademik extends BaseController
     {
         $this->wali_kelas = new WaliKelasModel();
         $wali = $this->request->getPost('nama_guru');
+        $wali_sebelumnya = $this->wali_kelas->get_wali_kelas_by_status($id_kelas, $id_tahun_ajar);
         $data = [
             'id_guru_wali'  => $wali,
             'id_kelas'      => $id_kelas,
-            'id_tahun_ajar' => $id_tahun_ajar
+            'id_tahun_ajar' => $id_tahun_ajar,
+            'status'        => 'aktif'
         ];
 
         try {
-            $this->wali_kelas->save($data);
+            if ($wali_sebelumnya != null) {
+                if ($this->wali_kelas->updateData($wali_sebelumnya->id, ['status' => 'nonaktif'])) {
+                    $this->wali_kelas->save($data);
+                }
+            }
             $this->session->setFlashdata('success', 'Wali Kelas Berhasil Ditambahkan');
             return redirect()->to(route_to('show_wali', $id_kelas, $id_tahun_ajar));
         } catch (\Exception $e) {
