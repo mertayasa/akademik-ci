@@ -246,6 +246,7 @@ class User extends BaseController
             $ortu = $this->ortu->select('id, nama')->orderBy('nama', 'asd')->findAll();
             $user = $this->siswa->getData($id);
             $user['foto'] = $this->siswa->getFoto($id);
+            $user['is_pindah_keluar'] = checkPindahKeluar($id);
         } elseif ($level == "ortu") {
             $ortu = [];
             $user = $this->ortu->getData($id);
