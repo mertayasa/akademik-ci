@@ -164,7 +164,7 @@ class Akademik extends BaseController
             $data['nama_guru'] = $this->wali_kelas
                 ->select('guru_kepsek.nama as nama_guru, wali_kelas.id_kelas, wali_kelas.id_tahun_ajar')
                 ->join('guru_kepsek', 'wali_kelas.id_guru_wali = guru_kepsek.id')
-                ->where(['id_kelas' => $data['id'], 'id_tahun_ajar' => $id_tahun])
+                ->where(['id_kelas' => $data['id'], 'id_tahun_ajar' => $id_tahun, 'wali_kelas.status' => 'aktif'])
                 ->findAll()[0]['nama_guru'] ?? null;
 
             $data['jumlah_siswa'] = $this->anggota_kelas
@@ -342,6 +342,8 @@ class Akademik extends BaseController
                 if ($this->wali_kelas->updateData($wali_sebelumnya->id, ['status' => 'nonaktif'])) {
                     $this->wali_kelas->save($data);
                 }
+            } else {
+                $this->wali_kelas->save($data);
             }
             $this->session->setFlashdata('success', 'Wali Kelas Berhasil Ditambahkan');
             return redirect()->to(route_to('show_wali', $id_kelas, $id_tahun_ajar));
@@ -351,24 +353,41 @@ class Akademik extends BaseController
             return redirect()->back()->withInput();
         }
     }
-    public function updateWali($id_kelas, $id_tahun_ajar)
+    public function updateWali($id_wali)
     {
         $this->wali_kelas = new WaliKelasModel();
-        $id = $this->request->getPost('id');
-        $id_guru = $this->request->getPost('nama_guru');
-
+        // $id = $this->request->getPost('id');
+        // $id_guru = $this->request->getPost('nama_guru');
+        $id_kelas = $this->request->getPost('id_kelas');
+        $id_tahun_ajar = $this->request->getPost('id_tahun_ajar');
+        $wali_aktif = $this->wali_kelas->get_wali_kelas_by_status($id_kelas, $id_tahun_ajar);
+        $status = $this->request->getPost('status');
+        // $data = [
+        //     'id'           => $id,
+        //     'id_guru_wali' => $id_guru
+        // ];
         $data = [
-            'id'           => $id,
-            'id_guru_wali' => $id_guru
+            'status' => $status
         ];
         try {
-            $this->wali_kelas->updateData($id, $data);
-            $this->session->setFlashdata('success', 'Wali Kelas Berhasil Diedit');
-            return redirect()->to(route_to('show_wali', $id_kelas, $id_tahun_ajar));
+            // $this->wali_kelas->updateData($id, $data);
+            if ($status == 'aktif') {
+                if ($wali_aktif != null) {
+                    if ($this->wali_kelas->updateData($wali_aktif->id, ['status' => 'nonaktif'])) {
+                        $this->wali_kelas->updateData($id_wali, $data);
+                    }
+                } else {
+                    $this->wali_kelas->updateData($id_wali, $data);
+                }
+            }
+            // $this->session->setFlashdata('success', 'Wali Kelas Berhasil Diedit');
+            // return redirect()->to(route_to('show_wali', $id_kelas, $id_tahun_ajar));
+            return json_encode(['code' => 1, 'message' => 'Update status wali berhasil']);
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
-            $this->session->setFlashdata('error', 'Gagal Menedit Wali');
-            return redirect()->back();
+            // $this->session->setFlashdata('error', 'Gagal Menedit Wali');
+            // return redirect()->back();
+            return json_encode(['code' => 0, 'message' => 'Update status wali gagal']);
         }
     }
     public function destroyWali($id_wali, $id_kelas, $id_tahun_ajar)

@@ -12,9 +12,9 @@
                             <th>Nama Wali Kelas</th>
                             <th>NIP</th>
                             <th>Status</th>
-                            <!-- <?php if (session()->get('level') == 'admin') : ?>
+                            <?php if (session()->get('level') == 'admin') : ?>
                                 <th>Action</th>
-                            <?php endif; ?> -->
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,16 +25,20 @@
                                     <td class="wali-nama"><?= $wali->nama_guru; ?></td>
                                     <td class="wali-nip"><?= $wali->nip; ?></td>
                                     <td class="wali-status"><?= $wali->status; ?></td>
-                                    <!-- <?php if (session()->get('level') == 'admin') : ?>
-                                        <td><button data-toggle="modal" data-target="#modal_wali" class="btn btn-sm btn-warning action-edit" data-id="<?= $wali->id; ?>" data-id_guru="<?= $wali->id_guru_wali; ?>">Edit </button>
+                                    <?php if (session()->get('level') == 'admin' and $wali->status == 'nonaktif') : ?>
+                                        <!-- <td><button data-toggle="modal" data-target="#modal_wali" class="btn btn-sm btn-warning action-edit" data-id="<?= $wali->id; ?>" data-id_guru="<?= $wali->id_guru_wali; ?>">Edit </button>
                                              <a href="<?= route_to('akademik_destroy_wali', $wali->id, $wali->id_kelas, $wali->id_tahun_ajar); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus Data Ini?')">Hapus</a>
-                                    </td>
-                                <?php endif; ?> -->
+                                    </td> -->
+
+                                        <td><button class="btn btn-sm <?= ($wali->status == "aktif") ? 'btn-danger' : 'btn-warning'; ?>" onclick="updateStatus('<?= route_to('akademik_update_wali', $wali->id); ?>', 'Apakah anda yakin akan mengubah status Wali ini menjadi <?= $wali->status == 'aktif' ? 'Nonaktif' : 'AKTIF? Wali yang sebelumnya aktif akan menjadi nonaktif.'; ?>', `<?= $wali->status == 'aktif' ? 'nonaktif' : 'aktif'; ?>`)">Set <?= $wali->status == 'aktif' ? 'nonaktif' : 'aktif'; ?></button></td>
+                                    <?php else : ?>
+                                        <td></td>
+                                    <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else : ?>
                             <tr>
-                                <td colspan="4" class="text-center">Tidak Ada Data. <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_wali">Pilih Wali</button> untuk tambah wali kelas </td>
+                                <td colspan="5" class="text-center">Tidak Ada Data. <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_wali">Pilih Wali</button> untuk tambah wali kelas </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -99,5 +103,39 @@
             dropdownParent: $('#modal_wali')
         });
     });
+</script>
+<script>
+    function updateStatus(url, text, status) {
+        Swal.fire({
+            title: "Warning",
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#169b6b',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    "url": url,
+                    "dataType": "JSON",
+                    "method": "POST",
+                    "data": {
+                        "<?= csrf_token() ?>": "<?= csrf_hash() ?>",
+                        "status": status,
+                        "id_kelas": <?= $id_kelas; ?>,
+                        "id_tahun_ajar": <?= $id_tahun_ajar; ?>
+                    },
+                    success: function(data) {
+                        console.log(data)
+                        showToast(data.code, data.message)
+                        // // $('#' + tableId).DataTable().ajax.reload();
+                        setTimeout(window.location.reload(), 1500)
+                    }
+                })
+            }
+        })
+    }
 </script>
 <?= $this->endSection() ?>
