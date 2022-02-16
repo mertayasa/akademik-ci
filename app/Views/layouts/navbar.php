@@ -46,7 +46,7 @@
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item">
                             <div class="media">
-                                <img src="<?=base_url('adminlte/dist/img/user1-128x128.jpg')?>" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                <img src="<?= base_url('adminlte/dist/img/user1-128x128.jpg') ?>" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         Brad Diesel
@@ -60,7 +60,7 @@
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
                             <div class="media">
-                                <img src="<?=base_url('adminlte/dist/img/user8-128x128.jpg')?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                                <img src="<?= base_url('adminlte/dist/img/user8-128x128.jpg') ?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         John Pierce
@@ -74,7 +74,7 @@
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
                             <div class="media">
-                                <img src="<?=base_url('adminlte/dist/img/user3-128x128.jpg')?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                                <img src="<?= base_url('adminlte/dist/img/user3-128x128.jpg') ?>" alt="User Avatar" class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         Nora Silvester
@@ -97,11 +97,11 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= route_to('profile_edit') ?>" role="button">
+                    <a class="nav-link" href="<?= route_to('profile_show', session()->get('level'), session()->get('id')) ?>" role="button">
                         <i class="fas fa-user mr-1"></i> Profil
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link btn btn-sm bg-danger" href="<?= route_to('logout') ?>">
                         Logout

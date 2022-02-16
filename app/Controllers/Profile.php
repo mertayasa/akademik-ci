@@ -63,6 +63,7 @@ class Profile extends BaseController
                 'ortu' => $ortu,
                 'nama_siswa' => implode(', ', $nama_siswa),
                 'level' => $level,
+                'id' => $id
             ];
             return view('profile/show', $data);
         }
