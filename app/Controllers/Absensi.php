@@ -79,7 +79,7 @@ class Absensi extends BaseController
 
         if(isset($anggota_kelas) && count($anggota_kelas) != 0){
             $absen = $this->anggota_kelas
-                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, ')
+                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, siswa.nis as siswa_nis,')
                 ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
                 ->where([
                     'id_kelas' => $anggota_kelas['id_kelas'],
@@ -140,7 +140,7 @@ class Absensi extends BaseController
 
         if(isset($anggota_kelas) && count($anggota_kelas) != 0){
             $absen = $this->anggota_kelas
-                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, ')
+                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, siswa.nis as siswa_nis,')
                 ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
                 ->where([
                     'id_kelas' => $anggota_kelas['id_kelas'],
@@ -188,7 +188,7 @@ class Absensi extends BaseController
         $kelas = $this->kelas->find($id_kelas);
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
         $absen = $this->anggota_kelas
-                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, ')
+                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, siswa.nis as siswa_nis,')
                 ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
                 ->where([
                     'id_kelas' => $id_kelas,

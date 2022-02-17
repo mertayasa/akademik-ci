@@ -205,7 +205,8 @@ class Akademik extends BaseController
             anggota_kelas.id_tahun_ajar as tahun_ajar_id,
             anggota_kelas.id_siswa as siswa_id,
             anggota_kelas.status as status,
-            siswa.nama as siswa_nama,'
+            siswa.nama as siswa_nama,
+            siswa.nis as siswa_nis,'
             )
             ->join('siswa', 'anggota_kelas.id_siswa = siswa.id')
             ->where([
@@ -213,13 +214,30 @@ class Akademik extends BaseController
                 'id_tahun_ajar' => $id_tahun_ajar
             ])->findAll();
 
-        // dd($absen);
-
         $count_absen = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar)->countAllResults();
         $absen_ganjil = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar, 'ganjil')->orderBy('absensi.tanggal', 'ASC')->findAll();
         $absen_genap = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar, 'genap')->orderBy('absensi.tanggal', 'ASC')->findAll();
 
+        $group_bulan_ganjil = [];
+        $group_bulan_genap = [];
+
+        if(count($absen_ganjil) > 0){
+            $period_ganjil = \Carbon\CarbonPeriod::create($absen_ganjil[0]['tanggal'], '1 month', end($absen_ganjil)['tanggal']);
+            foreach ($period_ganjil as $dt) {
+                $group_bulan_ganjil[$dt->format("Y-m")] = $this->getIndonesianMonth($dt->format("Y-m"));
+            }
+        }
+
+        if(count($absen_ganjil) > 0){
+            $period_genap = \Carbon\CarbonPeriod::create($absen_genap[0]['tanggal'], '1 month', end($absen_genap)['tanggal']);
+            foreach ($period_genap as $dt) {
+                $group_bulan_genap[$dt->format("Y-m")] = $this->getIndonesianMonth($dt->format("Y-m"));
+            }
+        }
+
         $data = [
+            'group_bulan_ganjil' => $group_bulan_ganjil,
+            'group_bulan_genap' => $group_bulan_genap,
             'absen' => $absen,
             'count_absen' => $count_absen,
             'absen_ganjil' => $absen_ganjil,
@@ -231,6 +249,53 @@ class Akademik extends BaseController
         ];
 
         return view('akademik/absensi/index', $data);
+    }
+
+    public function getIndonesianMonth($date)
+    {
+        $explode = explode('-', $date);
+        $month = $explode[1];
+
+        switch($month){
+            case '1':
+                $month = 'Januari';
+            break;
+            case '2':
+                $month = 'Februari';
+            break;
+            case '3':
+                $month = 'Maret';
+            break;
+            case '4':
+                $month = 'April';
+            break;
+            case '5':
+                $month = 'Mei';
+            break;
+            case '6':
+                $month = 'Juni';
+            break;
+            case '7':
+                $month = 'Juli';
+            break;
+            case '8':
+                $month = 'Agustus';
+            break;
+            case '9':
+                $month = 'September';
+            break;
+            case '10':
+                $month = 'Oktober';
+            break;
+            case '11':
+                $month = 'November';
+            break;
+            case '12':
+                $month = 'Desember';
+            break;
+        }
+
+        return $month.' '.$explode[0];
     }
 
     public function showSchedule($id_kelas, $id_tahun_ajar)
