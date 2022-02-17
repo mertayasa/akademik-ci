@@ -36,7 +36,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Daftar Absensi</h4>
+                        <h4>Semester Ganjil</h4>
                     </div>
 
                     <div class="card-body">
@@ -44,13 +44,24 @@
                             <div class="col-12" id="tabelAbsensiGanjil">
                                 <?= $this->include('includes/table_absensi_ganjil'); ?>
                             </div>
-                            <div class="col-12 mt-3" id="tabelAbsensiGenap">
-                                <?= $this->include('includes/table_absensi_genap'); ?>
-                            </div>
-
                         </div>
                     </div>
+                </div>
+            </div>
 
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Semester Genap</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 mt-3" id="tabelAbsensiGenap">
+                                <!-- <?= $this->include('includes/table_absensi_genap'); ?> -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
