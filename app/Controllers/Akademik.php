@@ -197,7 +197,7 @@ class Akademik extends BaseController
     public function showAbsensi($id_kelas, $id_tahun_ajar)
     {
         $data = $this->absensi->getAbsensiByKelas($id_kelas, $id_tahun_ajar);
-
+        // dd($data);
         return view('akademik/absensi/index', $data);
     }
 

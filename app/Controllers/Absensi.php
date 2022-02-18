@@ -61,49 +61,12 @@ class Absensi extends BaseController
             $anggota_kelas = [];
         }
 
-        if (isset($anggota_kelas) && count($anggota_kelas) != 0) {
-            $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
-        } else {
-            $wali_kelas = '';
-        }
-
-        if(isset($anggota_kelas) && count($anggota_kelas) != 0){
-            $count_absen = $this->absensi->queryAbsensi($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])->where('absensi.id_anggota_kelas', $anggota_kelas['id'])->countAllResults();
-            $absen_ganjil = $this->absensi->queryAbsensi($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'], 'ganjil')->where('absensi.id_anggota_kelas', $anggota_kelas['id'])->orderBy('absensi.tanggal', 'ASC')->findAll();
-            $absen_genap = $this->absensi->queryAbsensi($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'], 'genap')->where('absensi.id_anggota_kelas', $anggota_kelas['id'])->orderBy('absensi.tanggal', 'ASC')->findAll();
-        }else{
-            $count_absen = [];
-            $absen_ganjil = [];
-            $absen_genap = [];
-        }
-
-        if(isset($anggota_kelas) && count($anggota_kelas) != 0){
-            $absen = $this->anggota_kelas
-                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, siswa.nis as siswa_nis,')
-                ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
-                ->where([
-                    'id_kelas' => $anggota_kelas['id_kelas'],
-                    'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'],
-                    'anggota_kelas.id' => $anggota_kelas['id'],
-                ])->findAll();
-        }else{
-            $absen = [];
-        }
-
-        $data = [
-            'id_siswa' => $id_siswa ?? ($anggota_kelas[0]['id'] ?? null),
-            'siswa' => $siswa,
-            'anggota_kelas' => $anggota_kelas,
-            'wali_kelas' => $wali_kelas,
-            'id_tahun_ajar' => $id_tahun_ajar,
-            'id_kelas' => $anggota_kelas['id_kelas'] ?? null,
-            'count_absen' => $count_absen,
-            'absen_ganjil' => $absen_ganjil,
-            'absen_genap' => $absen_genap,
-            'absen' => $absen,
-        ];
-
-        // dd($data);
+        $data = $this->absensi->getAbsensiByKelas($anggota_kelas['id_kelas'], $id_tahun_ajar, $anggota_kelas['id']);
+        $data['id_siswa'] = $id_siswa ?? ($anggota_kelas[0]['id'] ?? null);
+        $data['anggota_kelas'] = $anggota_kelas;
+        $data['siswa'] = $siswa;
+        $data['max_absen_ganjil'] = max(array_column($data['group_bulan_ganjil'], 'count_absen'));
+        $data['max_absen_genap'] = max(array_column($data['group_bulan_genap'], 'count_absen'));
 
         return view('absensi/siswa/index', $data);
     }
@@ -113,7 +76,6 @@ class Absensi extends BaseController
         $id_siswa = $_GET['id_siswa'] ?? null;
 
         $siswa = $this->siswa->where('id_ortu', session()->get('id'))->findAll();
-        // dd($siswa);
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'] ?? null;
 
         if (isset($siswa[0]['id'])) {
@@ -122,49 +84,12 @@ class Absensi extends BaseController
             $anggota_kelas = [];
         }
 
-        if (isset($anggota_kelas) && count($anggota_kelas) != 0) {
-            $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
-        } else {
-            $wali_kelas = '';
-        }
-
-        if(isset($anggota_kelas) && count($anggota_kelas) != 0){
-            $count_absen = $this->absensi->queryAbsensi($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])->where('absensi.id_anggota_kelas', $anggota_kelas['id'])->countAllResults();
-            $absen_ganjil = $this->absensi->queryAbsensi($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'], 'ganjil')->where('absensi.id_anggota_kelas', $anggota_kelas['id'])->orderBy('absensi.tanggal', 'ASC')->findAll();
-            $absen_genap = $this->absensi->queryAbsensi($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'], 'genap')->where('absensi.id_anggota_kelas', $anggota_kelas['id'])->orderBy('absensi.tanggal', 'ASC')->findAll();
-        }else{
-            $count_absen = [];
-            $absen_ganjil = [];
-            $absen_genap = [];
-        }
-
-        if(isset($anggota_kelas) && count($anggota_kelas) != 0){
-            $absen = $this->anggota_kelas
-                ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, siswa.nis as siswa_nis,')
-                ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
-                ->where([
-                    'id_kelas' => $anggota_kelas['id_kelas'],
-                    'id_tahun_ajar' => $anggota_kelas['id_tahun_ajar'],
-                    'anggota_kelas.id' => $anggota_kelas['id'],
-                ])->findAll();
-        }else{
-            $absen = [];
-        }
-
-        $data = [
-            'id_siswa' => $id_siswa ?? ($anggota_kelas[0]['id'] ?? null),
-            'siswa' => $siswa,
-            'anggota_kelas' => $anggota_kelas,
-            'wali_kelas' => $wali_kelas,
-            'id_tahun_ajar' => $id_tahun_ajar,
-            'id_kelas' => $anggota_kelas['id_kelas'] ?? null,
-            'count_absen' => $count_absen,
-            'absen_ganjil' => $absen_ganjil,
-            'absen_genap' => $absen_genap,
-            'absen' => $absen,
-        ];
-
-        // dd($data);
+        $data = $this->absensi->getAbsensiByKelas($anggota_kelas['id_kelas'], $id_tahun_ajar, $anggota_kelas['id']);
+        $data['id_siswa'] = $id_siswa ?? ($anggota_kelas[0]['id'] ?? null);
+        $data['anggota_kelas'] = $anggota_kelas;
+        $data['siswa'] = $siswa;
+        $data['max_absen_ganjil'] = max(array_column($data['group_bulan_ganjil'], 'count_absen'));
+        $data['max_absen_genap'] = max(array_column($data['group_bulan_genap'], 'count_absen'));
 
         return view('absensi/ortu/index', $data);
     }
