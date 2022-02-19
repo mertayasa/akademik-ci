@@ -51,7 +51,7 @@
     </div>
 
     <div class="row mt-3">
-        <?php if (!isAdmin()) : ?>
+        <?php if (isAdmin()) : ?>
             <div class="col-12 col-md-6 pb-3 pb-md-0">
                 <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
                 <?= form_upload([
@@ -95,18 +95,6 @@
     </div>
 
     <div class="row mt-3">
-        <?php if (!isAdmin()) : ?>
-            <div class="col-12 col-md-6 pb-3 pb-md-0">
-                <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
-                <?= form_upload([
-                    'type' => 'file',
-                    'name' => 'foto',
-                    'id' => 'filePondUpload',
-                    'data-foto' => isset($user) ? base_url($user['foto']) : ''
-                ]) ?>
-            </div>
-            <?= $this->include('layouts/filepond') ?>
-        <?php endif; ?>
 
         <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('Tempat Lahir', 'tempatLahir') ?>
@@ -120,6 +108,17 @@
         </div>
     </div>
 <?php endif; ?>
+<div class="col-12 col-md-6 pb-3 pb-md-0">
+    <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
+    <?= form_upload([
+        'type' => 'file',
+        'name' => 'foto',
+        'id' => 'filePondUpload',
+        'data-foto' => isset($user) ? base_url($user['foto']) : ''
+    ]) ?>
+</div>
+<?= $this->include('layouts/filepond') ?>
+<small><sup>*</sup> <i>Gambar yang diupload maksimal berukuran 5MB</i></small><br>
 
 <?php if (isOrtu()) : ?>
     <div class="row mt-3">

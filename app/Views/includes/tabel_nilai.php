@@ -95,6 +95,8 @@
 <?= $this->section('scripts') ?>
 <script>
     cekNilai();
+    var typingTimer
+    var doneTypeInterval = 3000; //3ms
     $('.action-edit').on('click', function() {
         var mapel = $(this).closest('tr').find('td').eq(1).html();
         var tugas = $(this).closest('tr').find('td').eq(2).html();
@@ -121,15 +123,97 @@
         $('.nilai').on('change keyup', function() {
             const data = $(this).val();
             console.log(data)
-            if (data < 0 || data > 100) {
+            if (data > 100) {
                 Swal.fire({
                     title: 'Warning',
-                    text: 'Nilai hanya boleh dari 1 sampai 100',
+                    text: 'Nilai hanya boleh sampai 100',
                     icon: 'warning'
                 })
                 $(this).val(0)
             }
         })
     }
+
+    $('#form_nilai').submit(function(e) {
+        e.preventDefault()
+        var form = $(this)
+        var url = form.attr('action')
+        var dataForm = form.serialize();
+        console.log(dataForm)
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: {
+                "<?= csrf_token(); ?>": "<?= csrf_hash(); ?>",
+                "id_nilai": $('[name="id_nilai"]').val(),
+                "id_kelas": $('[name="id_kelas"]').val(),
+                "id_mapel": $('[name="id_mapel"]').val(),
+                "id_anggota_kelas": $('[name="id_anggota_kelas"]').val(),
+                "tugas": $('[name="tugas"]').val(),
+                "uts": $('[name="uts"]').val(),
+                "uas": $('[name="uas"]').val(),
+                "harian": $('[name="harian"]').val()
+            },
+            success: function(data) {
+                console.log(data)
+                var json = JSON.parse(data)
+                if (json.message == false) {
+                    Swal.fire({
+                        title: 'Warning',
+                        text: json.text,
+                        icon: 'warning'
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'Success',
+                        text: json.text,
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload()
+                        }
+                    })
+                }
+            }
+        })
+    })
+
+    $('#form_nilai_create').submit(function(e) {
+        e.preventDefault()
+        var form = $(this)
+        var url = form.attr('action')
+        var dataForm = form.serialize();
+        console.log(dataForm)
+        $.ajax({
+            type: 'POST',
+            url: url,
+            headers: {
+                "<?= csrf_token(); ?>": "<?= csrf_hash(); ?>",
+            },
+            cache: false,
+            data: dataForm,
+            success: function(data) {
+                console.log(data)
+                var json = JSON.parse(data)
+                if (json.message == false) {
+                    Swal.fire({
+                        title: 'Warning',
+                        text: json.text,
+                        icon: 'warning'
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'Success',
+                        text: json.text,
+                        icon: 'success'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload()
+                        }
+                    })
+                }
+            }
+        })
+    })
 </script>
 <?= $this->endSection() ?>

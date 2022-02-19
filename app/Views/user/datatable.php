@@ -25,8 +25,8 @@
                                     <td>Status Aktif</td>
                                 <?php break;
                                 case 'siswa': ?>
-                                    <td>NIS</td>
                                     <td>Kelas</td>
+                                    <td>NIS</td>
                                     <td>Tahun ajar</td>
                                     <td>Status Aktif</td>
                                 <?php break;
@@ -57,21 +57,57 @@
 
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
-    const table = $('#userDataTable').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "order": [],
-        "ajax": {
-            "url": "<?= route_to('user_datatables', $level) ?>",
-            "type": "POST",
-            "data": {
-                "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+    <?php if ($level == 'admin') : ?>
+        const table = $('#userDataTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                "url": "<?= route_to('user_datatables', $level) ?>",
+                "type": "POST",
+                "data": {
+                    "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+                },
             },
-        },
-        "columnDefs": [{
-            "targets": [0, 4],
-            "orderable": false,
-        }],
-    })
+            "columnDefs": [{
+                "targets": [0, 1, 3, 5, 6, 7, -1],
+                "orderable": false,
+            }],
+        })
+    <?php elseif ($level == 'ortu') : ?>
+        const table = $('#userDataTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                "url": "<?= route_to('user_datatables', $level) ?>",
+                "type": "POST",
+                "data": {
+                    "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+                },
+            },
+            "columnDefs": [{
+                "targets": [0, 1, 3, 4, 5, -1],
+                "orderable": false,
+            }],
+        })
+    <?php else : ?>
+        const table = $('#userDataTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                "url": "<?= route_to('user_datatables', $level) ?>",
+                "type": "POST",
+                "data": {
+                    "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+                },
+            },
+            "columnDefs": [{
+                "targets": [0, 1, 3, 5, 6, -1],
+                "orderable": false,
+            }],
+        })
+    <?php endif; ?>
 </script>
 <?= $this->endSection() ?>

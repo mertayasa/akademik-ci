@@ -13,11 +13,21 @@
     </div>
     <?php $kelas = getKelasBySiswa($user['id']); ?>
     <div class="col-sm-9 text-secondary">
-        <?= isset($kelas[0]) ? $kelas[0]['jenjang']. '' .$kelas[0]['kode'] : 'Tanpa Kelas' ?> Tahun ajaran <?= isset($kelas[0]) ? $kelas[0]['tahun_mulai']. '-' .$kelas[0]['tahun_selesai'] : '-' ?>
+        <?= isset($kelas[0]) ? $kelas[0]['jenjang'] . '' . $kelas[0]['kode'] : 'Tanpa Kelas' ?>
     </div>
 </div>
 <hr>
-<?php if($level == session()->get('level') or isAdmin()): ?>
+<div class="row">
+    <div class="col-sm-3">
+        <h6 class="mb-0">Tahun Ajar</h6>
+    </div>
+    <?php $kelas = getKelasBySiswa($user['id']); ?>
+    <div class="col-sm-9 text-secondary">
+        <?= isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-' ?>
+    </div>
+</div>
+<hr>
+<?php if ($level == session()->get('level') or isAdmin()) : ?>
     <div class="row">
         <div class="col-sm-3">
             <h6 class="mb-0">Tanggal Lahir</h6>

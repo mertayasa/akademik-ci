@@ -59,5 +59,6 @@
             'data-foto' => isset($user) ? base_url($user['foto']) : ''
         ]) ?>
         <?= $this->include('layouts/filepond') ?>
+        <small><sup>*</sup> <i>Gambar yang diupload maksimal berukuran 5MB</i></small><br>
     </div>
 </div>

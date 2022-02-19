@@ -102,3 +102,4 @@
 </div>
 
 <?= $this->include('layouts/filepond') ?>
+<small><sup>*</sup> <i>Gambar yang diupload maksimal berukuran 5MB</i></small><br>

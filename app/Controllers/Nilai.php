@@ -157,6 +157,10 @@ class Nilai extends BaseController
         $id_anggota = $this->request->getPost('id_anggota_kelas');
         $id_mapel = $this->request->getPost('id_mapel');
 
+        if ($tugas < 10 or $uts < 10 or $uas < 10 or $harian < 10) {
+            return json_encode(['message' => false, 'text' => 'Ada nilai yang kurang dari 10']);
+        }
+
         $data = [
             'id_kelas' => $id_kelas,
             'id_mapel' => $id_mapel,
@@ -168,12 +172,14 @@ class Nilai extends BaseController
         ];
         try {
             $this->nilai->updateOrInsert(['id' => $id], $data);
-            session()->setFlashdata('success', 'Data nilai berhasil diupdate');
-            return redirect()->to(route_to("nilai_edit_$semester", $id_siswa, $semester));
+            return json_encode(['message' => true, 'text' => 'Data nilai berhasil diedit']);
+            // session()->setFlashdata('success', 'Data nilai berhasil diupdate');
+            // return redirect()->to(route_to("nilai_edit_$semester", $id_siswa, $semester));
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
-            session()->setFlashdata('error', 'Update gagal');
-            return redirect()->back()->withInput();
+            return json_encode(['message' => false, 'text' => 'Ada yang salah']);
+            // session()->setFlashdata('error', 'Update gagal');
+            // return redirect()->back()->withInput();
         }
     }
     public function create()
@@ -189,25 +195,31 @@ class Nilai extends BaseController
         $data = [];
 
         foreach ($tugas as $key => $val) {
-            array_push($data, [
-                'id_kelas' => $id_kelas[$key],
-                'id_mapel' => $id_mapel[$key],
-                'id_anggota_kelas' => $id_anggota_kelas[$key],
-                'tugas' => $val,
-                'uts' => $uts[$key],
-                'uas' => $uas[$key],
-                'semester' => $semester,
-                'harian' => $harian[$key]
-            ]);
+            if ($val < 10  or $uts[$key] < 10 or $uas[$key] < 10 or $harian[$key] < 10) {
+                return json_encode(['message' => false, 'text' => 'Ada nilai yang kurang dari 10']);
+            } else {
+                array_push($data, [
+                    'id_kelas' => $id_kelas[$key],
+                    'id_mapel' => $id_mapel[$key],
+                    'id_anggota_kelas' => $id_anggota_kelas[$key],
+                    'tugas' => $val,
+                    'uts' => $uts[$key],
+                    'uas' => $uas[$key],
+                    'semester' => $semester,
+                    'harian' => $harian[$key]
+                ]);
+            }
         }
-        // dd($data);
+
         try {
             $this->nilai->dt->insertBatch($data);
-            session()->setFlashdata('success', 'Berhasil melakuan input nilai');
+            return json_encode(['message' => true, 'text' => 'Berhasil melakuan input nilai']);
+            // session()->setFlashdata('success', 'Berhasil melakuan input nilai');
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
-            session()->setFlashdata('errot', 'Gagal melakuan input nilai');
+            return json_encode(['message' => false, 'text' => 'Gagal melakuan input nilai']);
+            // session()->setFlashdata('errot', 'Gagal melakuan input nilai');
         }
-        return redirect()->back()->withInput();
+        // return redirect()->back()->withInput();
     }
 }

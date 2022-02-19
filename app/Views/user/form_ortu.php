@@ -46,15 +46,15 @@
             'class' => 'form-control'
         ]) ?>
     </div>
-    <?php if(isAdmin()): ?>
+    <?php if (isAdmin()) : ?>
         <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('Status', 'statusUser') ?>
             <?= form_dropdown(
-                    'status',
-                    ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
-                    set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
-                    ['class' => 'form-control', 'id' => 'statusUser']
-                );
+                'status',
+                ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
+                set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
+                ['class' => 'form-control', 'id' => 'statusUser']
+            );
             ?>
         </div>
     <?php endif; ?>
@@ -75,3 +75,4 @@
 </div>
 
 <?= $this->include('layouts/filepond') ?>
+<small><sup>*</sup> <i>Gambar yang diupload maksimal berukuran 5MB</i></small><br>

@@ -126,8 +126,8 @@ class User extends BaseController
 
                 if ($level == 'siswa') {
                     $kelas = getKelasBySiswa($list->id);
-                    $row[] = $list->nis;
                     $row[] = isset($kelas[0]) ? $kelas[0]['jenjang'] . ' ' . $kelas[0]['kode'] : 'Tanpa Kelas';
+                    $row[] = $list->nis;
                     $row[] = isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-';
                     $row[] = ucfirst($list->status);
                 }

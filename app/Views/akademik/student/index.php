@@ -29,6 +29,16 @@
     <div class="container-fluid">
         <?= $this->include($include_view) ?>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex flex-column align-items-center">
+                <a href="<?= route_to('akademik_index'); ?>" class="btn btn-info col-1 fixed-bottom mb-3" style="margin:auto; border-radius:10px">
+                    <i class="fas fa-angle-double-left"></i>
+                    <span>Kembali</span>
+                </a>
+            </div>
+        </div>
+    </div>
 </section>
 <!-- /.content -->
 <?= $this->endSection() ?>

@@ -10,7 +10,7 @@ class OrtuDataTable extends Model
     protected $table = 'ortu';
     protected $column_order = ['id', 'nama', 'email'];
     protected $column_search = ['nama', 'email'];
-    protected $order = ['id' => 'DESC'];
+    protected $order = ['nama' => 'asd'];
     protected $request;
     protected $level;
     protected $db;

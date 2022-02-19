@@ -4,7 +4,7 @@
         <div class="modal fade bd-example-modal-lg" id="modal_input_nilai" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    <?= form_open(route_to('nilai_create')); ?>
+                    <?= form_open(route_to('nilai_create'), ['id' => 'form_nilai_create']); ?>
                     <?= csrf_field(); ?>
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Input Nilai</h5>
@@ -13,8 +13,7 @@
                         </button>
                     </div>
                     <div class="container mt-2">
-                        <?php form_open(route_to('create_nilai')); ?>
-                        <?= csrf_field(); ?>
+                        <?php form_open(route_to('create_nilai'), ['id' => 'form_nilai_create']); ?>
                         <div class="col-md-12">
                             <table class="table table-striped table-bordered table-responsive align-items-center">
                                 <thead>
@@ -38,6 +37,12 @@
                                             <tr>
                                                 <?= form_input([
                                                     'type' => 'hidden',
+                                                    'name' => '_token',
+                                                    'id' => 'tokens',
+                                                    'value' => csrf_hash()
+                                                ]); ?>
+                                                <?= form_input([
+                                                    'type' => 'hidden',
                                                     'name' => 'id_kelas[]',
                                                     'id' => 'id_kelas',
                                                     'value' => $anggota_kelas['id_kelas']
@@ -58,7 +63,7 @@
                                                 <td><?= $mp["nama"]; ?></td>
                                                 <td><?= form_input([
                                                         'type' => 'number',
-                                                        'class' => 'col-md-12 number-only',
+                                                        'class' => 'col-md-12 number-only nilai',
                                                         'name' => 'tugas[]',
                                                         'id' => 'tugas',
                                                         'value' => ''
@@ -66,7 +71,7 @@
                                                 </td>
                                                 <td><?= form_input([
                                                         'type' => 'number',
-                                                        'class' => 'col-md-12 number-only',
+                                                        'class' => 'col-md-12 number-only nilai',
                                                         'name' => 'uts[]',
                                                         'id' => 'uts',
                                                         'value' => ''
@@ -74,7 +79,7 @@
                                                 </td>
                                                 <td><?= form_input([
                                                         'type' => 'number',
-                                                        'class' => 'col-md-12 number-only',
+                                                        'class' => 'col-md-12 number-only nilai',
                                                         'name' => 'uas[]',
                                                         'id' => 'uas',
                                                         'value' => ''
@@ -82,7 +87,7 @@
                                                 </td>
                                                 <td><?= form_input([
                                                         'type' => 'number',
-                                                        'class' => 'col-md-12 number-only',
+                                                        'class' => 'col-md-12 number-only nilai',
                                                         'name' => 'harian[]',
                                                         'id' => 'harian',
                                                         'value' => ''

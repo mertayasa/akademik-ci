@@ -54,18 +54,19 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <?= $this->renderSection('content') ?>
+            <?php $href = (isset($_SERVER['HTTP_REFERER'])) ? htmlspecialchars($_SERVER['HTTP_REFERER']) : '' ?>
             <?php $uri = explode('/', uri_string()); ?>
             <?php if ($uri[0] != 'dashboard') : ?>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-12">
                         <div class="d-flex flex-column align-items-center">
-                            <a href="javascript:window.history.go(-1)" class="btn btn-info col-1 fixed-bottom mb-3" style="margin:auto; border-radius:10px">
+                            <a href="javascript:window.history.go(-2)" class="btn btn-info col-1 fixed-bottom mb-3" style="margin:auto; border-radius:10px">
                                 <i class="fas fa-angle-double-left"></i>
                                 <span>Kembali</span>
                             </a>
                         </div>
                     </div>
-                </div>
+                </div> -->
             <?php endif; ?>
         </div>
 

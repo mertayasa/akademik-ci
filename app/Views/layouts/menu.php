@@ -33,6 +33,41 @@
             </a>
             <ul class="nav nav-treeview">
 
+                <?php if (isAdmin()) : ?>
+                    <li class="nav-item">
+                        <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActive('admin') ?>">
+                            <i class="fas fa-user-cog nav-icon"></i>
+                            <p>Admin</p>
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'kepsek') ?>" class="nav-link <?= isActive('kepsek') ?>">
+                        <i class="fas fa-user-tie nav-icon"></i>
+                        <p>Kepala Sekolah</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'guru') ?>" class="nav-link <?= isActive('guru') ?>">
+                        <i class="fas fa-user-tie nav-icon"></i>
+                        <p>Guru</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActive('siswa') ?>">
+                        <i class="fas fa-user-graduate nav-icon"></i>
+                        <p>Siswa</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
+                        <i class="fas fa-user-friends nav-icon"></i>
+                        <p>Orang Tua</p>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a href="<?= route_to('tahun_ajar_index') ?>" class="nav-link <?= isActive('tahunAjar') ?>">
                         <i class="far fa-circle nav-icon"></i>
@@ -86,7 +121,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item <?= isActive(['user', 'profile']) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+                <!-- <li class="nav-item <?= isActive(['user', 'profile']) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= isActive(['user', 'profile']) ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>
@@ -132,7 +167,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
 
             </ul>
         </li>

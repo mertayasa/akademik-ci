@@ -14,7 +14,7 @@
                                             <div class="mt-3">
                                                 <h4><?= $user['nama'] ?></h4>
                                                 <p class="text-secondary mb-1"><?= ucfirst($level) ?></p>
-                                                <?php if (session()->get('id') == $id) : ?>
+                                                <?php if (session()->get('id') == $id and session()->get('level') == $level) : ?>
                                                     <a href="<?= route_to('profile_edit'); ?>" class="btn btn-warning mt-2">Edit Profil</a>
                                                 <?php endif; ?>
                                             </div>
@@ -40,15 +40,16 @@
                                             </div>
                                             <hr>
                                         <?php endif; ?>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0">Email</h6>
+                                        <?php if (!isSiswa()) : ?>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Email</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <?= $user['email'] ?? '-' ?>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <?= $user['email'] ?? '-' ?>
-                                            </div>
-                                        </div>
+                                        <?php endif; ?>
                                         <hr>
 
                                         <?php if ($level != 'admin' and $level != 'siswa') : ?>

@@ -8,9 +8,9 @@ use CodeIgniter\Model;
 class SiswaAllDataTable extends Model
 {
     protected $table = 'siswa';
-    protected $column_order = ['id', 'nama', 'email'];
+    protected $column_order = ['id', 'nama', 'nis'];
     protected $column_search = ['nama', 'email'];
-    protected $order = ['id' => 'DESC'];
+    protected $order = ['nama' => 'asd'];
     protected $request;
     protected $level;
     protected $db;
