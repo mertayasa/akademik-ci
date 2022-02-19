@@ -63,31 +63,20 @@ class PanelWali extends BaseController
             $kelas[$key]['hari'] = $this->jadwal->get_hari($each['id_kelas'], $each['id_tahun_ajar']);
             $kelas[$key]['jadwal'] = $this->jadwal->get_jadwal_by_id($each['id_kelas'], $each['id_tahun_ajar']);
             $kelas[$key]['kelas'] = $this->kelas->getData($each['id_kelas']);
-            $kelas[$key]['absen'] = $this->anggota_kelas
-                ->select(
-                    'anggota_kelas.id as anggota_kelas_id, 
-                    anggota_kelas.id_kelas as kelas_id,
-                    anggota_kelas.id_tahun_ajar as tahun_ajar_id,
-                    anggota_kelas.id_siswa as siswa_id,
-                    anggota_kelas.status as status,
-                    siswa.nama as siswa_nama,'
-                )
-                ->join('siswa', 'anggota_kelas.id_siswa = siswa.id')
-                ->where([
-                    'id_kelas' => $each['id_kelas'],
-                    'id_tahun_ajar' => $id_tahun_ajar
-                ])->findAll();
 
-            $kelas[$key]['count_absen'] = $this->absensi->queryAbsensi($each['id_kelas'], $id_tahun_ajar)->countAllResults();
-            $kelas[$key]['absen_ganjil'] = $this->absensi->queryAbsensi($each['id_kelas'], $id_tahun_ajar, 'ganjil')->orderBy('absensi.tanggal', 'ASC')->findAll();
-            $kelas[$key]['absen_genap'] = $this->absensi->queryAbsensi($each['id_kelas'], $id_tahun_ajar, 'genap')->orderBy('absensi.tanggal', 'ASC')->findAll();
+            $data_absen = $this->absensi->getAbsensiByKelas($each['id_kelas'], $id_tahun_ajar);
+            $kelas[$key]['absen'] = $data_absen['absen'];
+            $kelas[$key]['count_absen'] = $data_absen['count_absen'];
+            $kelas[$key]['absen_ganjil'] = $data_absen['absen_ganjil'];
+            $kelas[$key]['absen_genap'] = $data_absen['absen_genap'];
+            $kelas[$key]['group_bulan_ganjil'] = $data_absen['group_bulan_ganjil'];
+            $kelas[$key]['group_bulan_genap'] = $data_absen['group_bulan_genap'];
         }
 
         $data = [
             'tahun_ajar' => $tahun_ajar,
             'kelas' => $kelas,
             'tanggal_absensi' => $tanggal_absensi,
-            'data_absensi' => null,
         ];
 
         // dd($data);
