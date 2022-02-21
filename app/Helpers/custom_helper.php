@@ -16,12 +16,27 @@ if (!function_exists('isActive')) {
 
         if (is_array($param)) {
             foreach ($param as $par) {
-                if ($current_url[0] == $par || ($current_url[1] ?? '-') == $param) {
+                if ($current_url[0] == $par) {
                     return 'active';
                 }
             }
         } else {
-            return $current_url[0] === $param || ($current_url[1] ?? '-') === $param ? 'active' : '';
+            return $current_url[0] === $param ? 'active' : '';
+        }
+    }
+
+    function isActiveSub($param)
+    {
+        $current_url = explode('/', uri_string());
+
+        if (is_array($param)) {
+            foreach ($param as $par) {
+                if (($current_url[1] ?? '-') == $param) {
+                    return 'active';
+                }
+            }
+        } else {
+            return ($current_url[1] ?? '-') == $param ? 'active' : '';
         }
     }
 
@@ -85,7 +100,7 @@ if (!function_exists('isActive')) {
             'tipe' => 'keluar'
         ])->findAll();
 
-        if(count($check_pindah) > 0) {
+        if (count($check_pindah) > 0) {
             return true;
         }
 
@@ -97,46 +112,46 @@ if (!function_exists('isActive')) {
         $explode = explode('-', $date);
         $month = $explode[1];
 
-        switch($month){
+        switch ($month) {
             case '1':
                 $month = 'Januari';
-            break;
+                break;
             case '2':
                 $month = 'Februari';
-            break;
+                break;
             case '3':
                 $month = 'Maret';
-            break;
+                break;
             case '4':
                 $month = 'April';
-            break;
+                break;
             case '5':
                 $month = 'Mei';
-            break;
+                break;
             case '6':
                 $month = 'Juni';
-            break;
+                break;
             case '7':
                 $month = 'Juli';
-            break;
+                break;
             case '8':
                 $month = 'Agustus';
-            break;
+                break;
             case '9':
                 $month = 'September';
-            break;
+                break;
             case '10':
                 $month = 'Oktober';
-            break;
+                break;
             case '11':
                 $month = 'November';
-            break;
+                break;
             case '12':
                 $month = 'Desember';
-            break;
+                break;
         }
 
-        return $month.' '.$explode[0];
+        return $month . ' ' . $explode[0];
     }
 
     function getNamaSekolah()
@@ -395,5 +410,10 @@ if (!function_exists('isActive')) {
             return $data['jenjang'] . '' . $data['kode'];
         }, $data);
         return ($kelas_per_mapel != null or $kelas_per_mapel != "") ? implode(', ', $kelas_per_mapel) : '-';
+    }
+    function getUrlIndex()
+    {
+        $current_url = explode('/', uri_string());
+        return $current_url[0];
     }
 }

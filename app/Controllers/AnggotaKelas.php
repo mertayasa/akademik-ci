@@ -45,13 +45,19 @@ class AnggotaKelas extends BaseController
                 $row[] = $list->nama;
                 $row[] = $list->nis;
                 $row[] = ucfirst($status);
-                if(checkPindahKeluar($list->id) == true){
+                if (checkPindahKeluar($list->id) == true) {
                     $row[] = '<span class="text-danger">Siswa telah pindah sekolah</span>';
-                }else{
-                    $row[] = "
-                        <a href='" . route_to('nilai_edit_ganjil', $list->id, 'ganjil') . "' class='btn btn-sm btn-info ". ($status == 'nonaktif' ? 'd-none' : '') ."'>Nilai Smt Ganjil</a>
-                        <a href='" . route_to('nilai_edit_genap', $list->id, 'genap') . "' class='btn btn-sm btn-success ". ($status == 'nonaktif' ? 'd-none' : '') ."'>Nilai Smt Genap</a>
-                        <button class='btn btn-sm " . $btnClass . ' '. (isAdmin() ? '' : 'd-none') . "'onclick='updateStatus(`" . route_to('anggota_kelas_update_status', getAnggotaKelasId($kelas, $tahun_ajar, $list->id)) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi " . ($status == 'aktif' ? 'Non Aktif' : 'Aktif') . " ?`)'>" . ($status == 'aktif' ? 'Set Non Aktif' : 'Set Aktif') . "</button>";
+                } else {
+                    if (getUrlIndex() == 'history-data') {
+                        $row[] = "
+                        <a href='" . route_to('history_nilai_ganjil', $list->id, 'ganjil') . "' class='btn btn-sm btn-info " . ($status == 'nonaktif' ? 'd-none' : '') . "'>Nilai Smt Ganjil</a>
+                        <a href='" . route_to('history_nilai_genap', $list->id, 'genap') . "' class='btn btn-sm btn-success " . ($status == 'nonaktif' ? 'd-none' : '') . "'>Nilai Smt Genap</a>";
+                    } else {
+                        $row[] = "
+                        <a href='" . route_to('nilai_edit_ganjil', $list->id, 'ganjil') . "' class='btn btn-sm btn-info " . ($status == 'nonaktif' ? 'd-none' : '') . "'>Nilai Smt Ganjil</a>
+                        <a href='" . route_to('nilai_edit_genap', $list->id, 'genap') . "' class='btn btn-sm btn-success " . ($status == 'nonaktif' ? 'd-none' : '') . "'>Nilai Smt Genap</a>
+                        <button class='btn btn-sm " . $btnClass . ' ' . (isAdmin() ? '' : 'd-none') . "'onclick='updateStatus(`" . route_to('anggota_kelas_update_status', getAnggotaKelasId($kelas, $tahun_ajar, $list->id)) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi " . ($status == 'aktif' ? 'Non Aktif' : 'Aktif') . " ?`)'>" . ($status == 'aktif' ? 'Set Non Aktif' : 'Set Aktif') . "</button>";
+                    }
                 }
                 $data[] = $row;
             }

@@ -71,4 +71,13 @@ class OrtuDataTable extends Model
         $tbl_storage = $this->db->table($this->table);
         return $tbl_storage->countAllResults();
     }
+    public function getDatatablesHistory()
+    {
+        $this->getDatatablesQuery();
+        if ($this->request->getPost('length') != -1)
+            $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
+        $this->dt->where('status', 'nonaktif');
+        $query = $this->dt->get();
+        return $query->getResult();
+    }
 }

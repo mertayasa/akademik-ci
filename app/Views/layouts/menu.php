@@ -35,68 +35,68 @@
 
                 <?php if (isAdmin()) : ?>
                     <li class="nav-item">
-                        <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActive('admin') ?>">
+                        <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActiveSub('admin') ?>">
                             <i class="fas fa-user-cog nav-icon"></i>
                             <p>Admin</p>
                         </a>
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'kepsek') ?>" class="nav-link <?= isActive('kepsek') ?>">
+                    <a href="<?= route_to('user_index', 'kepsek') ?>" class="nav-link <?= isActiveSub('kepsek') ?>">
                         <i class="fas fa-user-tie nav-icon"></i>
                         <p>Kepala Sekolah</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'guru') ?>" class="nav-link <?= isActive('guru') ?>">
+                    <a href="<?= route_to('user_index', 'guru') ?>" class="nav-link <?= isActiveSub('guru') ?>">
                         <i class="fas fa-user-tie nav-icon"></i>
                         <p>Guru</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActive('siswa') ?>">
+                    <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActiveSub('siswa') ?>">
                         <i class="fas fa-user-graduate nav-icon"></i>
                         <p>Siswa</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
+                    <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActiveSub('ortu') ?>">
                         <i class="fas fa-user-friends nav-icon"></i>
                         <p>Orang Tua</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('tahun_ajar_index') ?>" class="nav-link <?= isActive('tahunAjar') ?>">
+                    <a href="<?= route_to('tahun_ajar_index') ?>" class="nav-link <?= isActiveSub('tahunAjar') ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Tahun Ajar</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
+                    <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActiveSub('kelas') ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Kelas</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('kelas_per_tahun_index') ?>" class="nav-link <?= isActive('kelasPerTahun') ?>">
+                    <a href="<?= route_to('kelas_per_tahun_index') ?>" class="nav-link <?= isActiveSub('kelasPerTahun') ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Kelas Per Tahun Ajar</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('mapel_index') ?>" class="nav-link <?= isActive('mapel') ?>">
+                    <a href="<?= route_to('mapel_index') ?>" class="nav-link <?= isActiveSub('mapel') ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Mata Pelajaran</p>
                     </a>
                 </li>
 
-                <li class="nav-item <?= isActive(['pindah']) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+                <li class="nav-item <?= isActiveSub(['pindah']) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= isActive(['pindah']) ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>
@@ -105,7 +105,7 @@
                         </p>
                     </a>
 
-                    <ul class="nav nav-treeview" style="display: <?= isActive(['pindah']) == 'active' ? 'block' : 'none' ?>;">
+                    <ul class="nav nav-treeview" style="display: <?= isActiveSub(['pindah']) == 'active' ? 'block' : 'none' ?>;">
                         <li class="nav-item">
                             <a href="<?= route_to('pindah_sekolah_index', 'masuk') ?>" class="nav-link <?= isActive('masuk') ?>">
                                 <i class="far fa-dot-circle nav-icon"></i>
@@ -113,7 +113,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= route_to('pindah_sekolah_index', 'keluar') ?>" class="nav-link <?= isActive('keluar') ?>">
+                            <a href="<?= route_to('pindah_sekolah_index', 'keluar') ?>" class="nav-link <?= isActiveSub('keluar') ?>">
                                 <i class="far fa-dot-circle nav-icon"></i>
                                 <p>Pindah Keluar</p>
                             </a>
@@ -242,6 +242,63 @@
             <i class="nav-icon far fa-calendar-minus"></i>
             <p>Agenda Kegiatan</p>
         </a>
+    </li>
+
+    <?php $hystory_sub = [
+        'history-data'
+    ]; ?>
+    <li class="nav-item <?= isActive($hystory_sub) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+        <a href="#" class="nav-link <?= isActive($hystory_sub) ?>">
+            <i class="nav-icon fas fa-history"></i>
+            <p>
+                History
+                <i class="fas fa-angle-left right"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="<?= route_to('history_data_index', 'akademik') ?>" class="nav-link <?= isActiveSub('akademik') ?>">
+                    <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                    <p>Akademik</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= route_to('history_user', 'admin') ?>" class="nav-link <?= isActiveSub('admin') ?>">
+                    <i class="fas fa-user-cog nav-icon"></i>
+                    <p>Admin</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= route_to('history_user', 'kepsek') ?>" class="nav-link <?= isActiveSub('kepsek') ?>">
+                    <i class="fas fa-user-tie nav-icon"></i>
+                    <p>Kepala Sekolah</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= route_to('history_user', 'guru') ?>" class="nav-link <?= isActiveSub('guru') ?>">
+                    <i class="fas fa-user-tie nav-icon"></i>
+                    <p>Guru</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= route_to('history_user', 'siswa') ?>" class="nav-link <?= isActiveSub('siswa') ?>">
+                    <i class="fas fa-user-graduate nav-icon"></i>
+                    <p>Siswa</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= route_to('history_user', 'ortu') ?>" class="nav-link <?= isActiveSub('ortu') ?>">
+                    <i class="fas fa-user-friends nav-icon"></i>
+                    <p>Orang Tua</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?= route_to('history_data_index', 'prestasi') ?>" class="nav-link <?= isActiveSub('prestasi') ?>">
+                    <i class="fas fa-award nav-icon"></i>
+                    <p>Prestasi Akademik</p>
+                </a>
+            </li>
+        </ul>
     </li>
 
 </ul>

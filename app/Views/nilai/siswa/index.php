@@ -30,7 +30,11 @@
     <?php if (isGuru()) {
         $href = route_to('panel_wali_index');
     } elseif (isAdmin() or isKepsek()) {
-        $href = route_to('akademik_show_student', $anggota_kelas['id_tahun_ajar'], $anggota_kelas['id_kelas']);
+        if (getUrlIndex() == 'history-data') {
+            $href = route_to('history_akademik_show_student', $anggota_kelas['id_tahun_ajar'], $anggota_kelas['id_kelas']);
+        } else {
+            $href = route_to('akademik_show_student', $anggota_kelas['id_tahun_ajar'], $anggota_kelas['id_kelas']);
+        }
     }
     ?>
     <?php if (!isSiswa()) : ?>

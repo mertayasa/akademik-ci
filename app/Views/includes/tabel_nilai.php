@@ -12,7 +12,9 @@
                         <td>ULANGAN HARIAN</td>
                         <td>Rata-Rata</td>
                         <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
-                            <td>Action</td>
+                            <?php if (getUrlIndex() != 'history-data') : ?>
+                                <td>Action</td>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </tr>
                 </thead>
@@ -46,7 +48,9 @@
                                 <td style="display: none;" class="id_mapel"><?= $mp['id_mapel'] ?></td>
                                 <td><?= round(($nilai_tugas + $nilai_uts + $nilai_uas + $nilai_harian) / 4) ?></td>
                                 <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
-                                    <td><button data-toggle="modal" data-target="#modal_edit_nilai" data-id_mapel="<?= $mp['id_mapel']; ?>" data-id="<?= (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], $semester, $mp['id_mapel'])[0]['id_nilai'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], $semester, $mp['id_mapel'])[0]['id_nilai'] : 0 ?>" class="btn btn-sm btn-warning action-edit">Edit </button></td>
+                                    <?php if (getUrlIndex() != 'history-data') : ?>
+                                        <td><button data-toggle="modal" data-target="#modal_edit_nilai" data-id_mapel="<?= $mp['id_mapel']; ?>" data-id="<?= (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], $semester, $mp['id_mapel'])[0]['id_nilai'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], $semester, $mp['id_mapel'])[0]['id_nilai'] : 0 ?>" class="btn btn-sm btn-warning action-edit">Edit </button></td>
+                                    <?php endif; ?>
                                 <?php endif; ?>
 
 
@@ -71,7 +75,9 @@
                         <?php if (session()->get('level') == 'admin') : ?>
                             <tr>
                                 <td colspan="7" class="text-center"> Tidak ada data / Nilai belum diinput </td>
-                                <td><button data-toggle="modal" data-target="#modal_input_nilai" class="btn btn-primary">Input Nilai</button></td>
+                                <?php if (getUrlIndex() != 'history-data') : ?>
+                                    <td><button data-toggle="modal" data-target="#modal_input_nilai" class="btn btn-primary">Input Nilai</button></td>
+                                <?php endif; ?>
                             </tr>
                         <?php else : ?>
                             <td colspan="8" class="text-center"> Tidak ada data / Nilai belum diinput </td>
