@@ -154,6 +154,18 @@ class Absensi extends BaseController
                 $absensi_update = [];
                 $absensi_insert = [];
                 foreach($raw_absensi as $key => $absen){
+                    // $this->absensi->updateOrInsert([
+                    //     'id_anggota_kelas' => $key,
+                    //     'id_kelas' => $id_kelas,
+                    //     'tanggal' => $tanggal_input,
+                    //     // 'semester' => $semester
+                    // ], [
+                    //     'id_anggota_kelas' => $key,
+                    //     'id_kelas' => $id_kelas,
+                    //     'tanggal' => $tanggal_input,
+                    //     'kehadiran' => $absen ,
+                    //     'semester' => $semester
+                    // ]);
                     $data_exists = $this->absensi->where([
                         'id_anggota_kelas' => $key,
                         'tanggal' => $tanggal_input,

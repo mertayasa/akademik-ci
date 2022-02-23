@@ -64,6 +64,7 @@ class AbsensiModel extends Generic
             ->join('anggota_kelas', 'absensi.id_anggota_kelas = anggota_kelas.id')
             ->where([
                 'absensi.id_kelas' => $id_kelas,
+                // 'absensi.semester' => $semester,
                 'id_tahun_ajar' => $id_tahun_ajar
             ]);
         if($semester != null){
@@ -107,6 +108,8 @@ class AbsensiModel extends Generic
             $absen_ganjil = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'ganjil')->orderBy('absensi.tanggal', 'ASC')->findAll();
             $absen_genap = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'genap')->orderBy('absensi.tanggal', 'ASC')->findAll();
         }
+
+        // dd($absen_genap);
 
         $group_bulan_ganjil = [];
         $group_bulan_genap = [];
@@ -179,6 +182,8 @@ class AbsensiModel extends Generic
             'tahun_ajar' => $tahun_ajar,
             'kelas' => $kelas['jenjang'] . '' . $kelas['kode']
         ];
+
+        // dd($data);
 
         return $data;
     }

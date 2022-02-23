@@ -44,7 +44,7 @@
                                                 <td class="text-center"></td>
                                             <?php else: ?>
                                                 <?php foreach ($absen_ganjil as $key_abs => $tgl_ganjil) : ?>
-                                                    <td class="text-center px-1"><?= getAbsensiByDate($tgl_ganjil, $value['anggota_kelas_id']) ?></td>
+                                                    <td class="text-center px-1"><?= getAbsensiByDate($tgl_ganjil, $value['anggota_kelas_id'], 'ganjil') ?></td>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
 
@@ -52,7 +52,7 @@
                                                 <td class="text-center"></td>
                                             <?php else: ?>
                                                 <?php foreach ($absen_genap as $key_abs => $tgl) : ?>
-                                                    <td class="text-center px-1"><?= getAbsensiByDate($tgl, $value['anggota_kelas_id']) ?></td>
+                                                    <td class="text-center px-1"><?= getAbsensiByDate($tgl, $value['anggota_kelas_id'], 'genap') ?></td>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                     </tr>

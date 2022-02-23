@@ -48,7 +48,7 @@
                                             <?php foreach ($absen_genap as $key_abs => $tgl_genap) : ?>
                                                 <?php if (str_contains($tgl_genap['tanggal'], $group_key)) : ?>
                                                     <?php
-                                                        $status_absensi = getAbsensiByDate($tgl_genap, $value['anggota_kelas_id'], $value['kelas_id']);
+                                                        $status_absensi = getAbsensiByDate($tgl_genap, $value['anggota_kelas_id'], $value['kelas_id'], 'genap');
                                                         if($status_absensi == 'S'){
                                                             $count_sakit++;
                                                         }

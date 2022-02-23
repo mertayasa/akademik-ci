@@ -98,7 +98,7 @@
                                                         <td><?= $value['siswa_nama']; ?></td>
                                                         <td>
                                                             <div class="form-group">
-                                                                <select class="form-control select-absensi" name="absensi[<?= $value['anggota_kelas_id'] ?>]" id="data_absensi_<?= $value['anggota_kelas_id']; ?>">
+                                                                <select class="form-control select-absensi" autocomplete="off" name="absensi[<?= $value['anggota_kelas_id'] ?>]" id="data_absensi_<?= $value['anggota_kelas_id']; ?>">
                                                                     <option value="">--pilih absensi--</option>
                                                                     <option value="hadir">Hadir</option>
                                                                     <option value="sakit">Sakit</option>
@@ -174,15 +174,17 @@
                     if (data.code == 1) {
                         const kelas = document.getElementById('kelas_jenjang').innerHTML
                         const dataAbsensi = data.data 
-                        console.log(dataAbsensi);
+                        // console.log(dataAbsensi);
+                        refreshForm()
+
+                        
                         if(dataAbsensi.absensi.length < 1){
-                            refreshForm()
                             toogleDeleteButton('hide')
                         }else{
                             $.each(dataAbsensi.absensi, function(i, val) {
-                                $('#data_absensi_' + val.id_anggota_kelas).val(val.kehadiran)
-                                $('#semester_' + kelas).val(val.semester)
-                                $('#id_absensi').val(val.id)
+                                $('#data_absensi_' + val.id_anggota_kelas).val(val.kehadiran).trigger('change')
+                                $('#semester_' + kelas).val(val.semester).trigger('change')
+                                $('#id_absensi').val(val.id).trigger('change')
                             })
                         
                             // console.log(dataAbsensi);
@@ -234,11 +236,11 @@
                     .then(data => {
                         if (data.code == 1) {
                             refreshTable(data)
-                            refreshForm()
                             toogleDeleteButton('hide')
+                            refreshForm()
                         }
 
-                        console.log(data);
+                        // console.log(data);
                         return showAlertSwal(data.code, data.message)
                     })
                     .catch((error) => {
@@ -262,9 +264,11 @@
 
         function refreshForm(data){
             const selectAbsensi = document.getElementsByClassName('select-absensi')
+            let changeEvent = new Event('change')
             for (let index = 0; index < selectAbsensi.length; index++) {
                 const element = selectAbsensi[index]
                 element.value = ''
+                element.dispatchEvent(changeEvent)
             }
         }
 
@@ -281,9 +285,9 @@
             const formData = new FormData(formUpdateAbsensi)
             const actionUrl = formUpdateAbsensi.getAttribute('action')
 
-            // for (var pair of formData.entries()) {
-            //     console.log(pair[0]+ ', ' + pair[1]); 
-            // }
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
 
             fetch(actionUrl, {
                 headers: {
