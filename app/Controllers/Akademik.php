@@ -80,67 +80,6 @@ class Akademik extends BaseController
         return view('akademik/index', $data);
     }
 
-    // public function generateWali()
-    // {
-    //     $asd = [];
-    //     $kelas = $this->kelas->getData();
-    //     foreach ($kelas as $kel) {
-    //         $tahun_ajar = $this->tahun_ajar->getData();
-    //         foreach ($tahun_ajar as $tahun) {
-    //             $wali_kelas = $this->wali_kelas
-    //             ->select('id_guru_wali')
-    //             ->where([
-    //                 'id_tahun_ajar' => $tahun['id'],
-    //             ])
-    //             ->findAll();
-
-    //             if(count($wali_kelas) < 1){
-    //                 $data = [
-    //                     'id_kelas' => $kel['id'],
-    //                     'id_guru_wali' => $this->guru->where('level', 'guru')->orderBy('id', 'RANDOM')->findAll()[0]['id'],
-    //                     'id_tahun_ajar' => $tahun['id'],
-    //                 ];
-    //                 $this->wali_kelas->updateOrInsert(['id_kelas' => $data['id_kelas'], 'id_guru_wali' => $data['id_guru_wali'], 'id_tahun_ajar' => $data['id_tahun_ajar']], $data);
-    //             }else{
-    //                 $id_wali = [];
-
-    //                 foreach($wali_kelas as $wali){
-    //                     array_push($id_wali, $wali['id_guru_wali']);
-    //                 }
-
-    //                 // dd($id_wali);
-
-    //                 $wali = $this->guru->whereNotIn('id', $id_wali)->where('level', 'guru')->orderBy('id', 'RANDOM')->findAll();
-    //                 if(count($wali) > 0){
-    //                     $data = [
-    //                         'id_kelas' => $kel['id'],
-    //                         'id_guru_wali' => $wali[0]['id'],
-    //                         'id_tahun_ajar' => $tahun['id'],
-    //                     ];
-    //                     $this->wali_kelas->updateOrInsert(['id_kelas' => $data['id_kelas'], 'id_guru_wali' => $data['id_guru_wali'], 'id_tahun_ajar' => $data['id_tahun_ajar']], $data);
-    //                 }
-    //             }
-
-
-    //         }
-    //     }
-
-    //     dd($asd);
-    // }
-
-    // function array_flatten($array) {
-    //     $return = array();
-    //     foreach ($array as $key => $value) {
-    //         if (is_array($value)){
-    //             $return = array_merge($return, $this->array_flatten($value));
-    //         } else {
-    //             $return[$key] = $value;
-    //         }
-    //     }
-
-    //     return $return;
-    // }    
-
     private function getJenjang($id_tahun)
     {
         $this->kelas = new KelasModel();
@@ -197,7 +136,6 @@ class Akademik extends BaseController
     public function showAbsensi($id_kelas, $id_tahun_ajar)
     {
         $data = $this->absensi->getAbsensiByKelas($id_kelas, $id_tahun_ajar);
-        // dd($data);
         return view('akademik/absensi/index', $data);
     }
 
