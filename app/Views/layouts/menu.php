@@ -244,61 +244,63 @@
         </a>
     </li>
 
-    <?php $hystory_sub = [
-        'history-data'
-    ]; ?>
-    <li class="nav-item <?= isActive($hystory_sub) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
-        <a href="#" class="nav-link <?= isActive($hystory_sub) ?>">
-            <i class="nav-icon fas fa-history"></i>
-            <p>
-                History
-                <i class="fas fa-angle-left right"></i>
-            </p>
-        </a>
-        <ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a href="<?= route_to('history_data_index', 'akademik') ?>" class="nav-link <?= isActiveSub('akademik') ?>">
-                    <i class="fas fa-chalkboard-teacher nav-icon"></i>
-                    <p>Akademik</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?= route_to('history_user', 'admin') ?>" class="nav-link <?= isActiveSub('admin') ?>">
-                    <i class="fas fa-user-cog nav-icon"></i>
-                    <p>Admin</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?= route_to('history_user', 'kepsek') ?>" class="nav-link <?= isActiveSub('kepsek') ?>">
-                    <i class="fas fa-user-tie nav-icon"></i>
-                    <p>Kepala Sekolah</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?= route_to('history_user', 'guru') ?>" class="nav-link <?= isActiveSub('guru') ?>">
-                    <i class="fas fa-user-tie nav-icon"></i>
-                    <p>Guru</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?= route_to('history_user', 'siswa') ?>" class="nav-link <?= isActiveSub('siswa') ?>">
-                    <i class="fas fa-user-graduate nav-icon"></i>
-                    <p>Siswa</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?= route_to('history_user', 'ortu') ?>" class="nav-link <?= isActiveSub('ortu') ?>">
-                    <i class="fas fa-user-friends nav-icon"></i>
-                    <p>Orang Tua</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?= route_to('history_data_index', 'prestasi') ?>" class="nav-link <?= isActiveSub('prestasi') ?>">
-                    <i class="fas fa-award nav-icon"></i>
-                    <p>Prestasi Akademik</p>
-                </a>
-            </li>
-        </ul>
-    </li>
+    <?php if (isAdmin() or isGuru() or isKepsek()) : ?>
+        <?php $hystory_sub = [
+            'history-data'
+        ]; ?>
+        <li class="nav-item <?= isActive($hystory_sub) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+            <a href="#" class="nav-link <?= isActive($hystory_sub) ?>">
+                <i class="nav-icon fas fa-history"></i>
+                <p>
+                    History
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="<?= route_to('history_data_index', 'akademik') ?>" class="nav-link <?= isActiveSub('akademik') ?>">
+                        <i class="fas fa-chalkboard-teacher nav-icon"></i>
+                        <p>Akademik</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= route_to('history_user', 'admin') ?>" class="nav-link <?= isActiveSub('admin') ?>">
+                        <i class="fas fa-user-cog nav-icon"></i>
+                        <p>Admin</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= route_to('history_user', 'kepsek') ?>" class="nav-link <?= isActiveSub('kepsek') ?>">
+                        <i class="fas fa-user-tie nav-icon"></i>
+                        <p>Kepala Sekolah</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= route_to('history_user', 'guru') ?>" class="nav-link <?= isActiveSub('guru') ?>">
+                        <i class="fas fa-user-tie nav-icon"></i>
+                        <p>Guru</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= route_to('history_user', 'siswa') ?>" class="nav-link <?= isActiveSub('siswa') ?>">
+                        <i class="fas fa-user-graduate nav-icon"></i>
+                        <p>Siswa</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= route_to('history_user', 'ortu') ?>" class="nav-link <?= isActiveSub('ortu') ?>">
+                        <i class="fas fa-user-friends nav-icon"></i>
+                        <p>Orang Tua</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= route_to('history_data_index', 'prestasi') ?>" class="nav-link <?= isActiveSub('prestasi') ?>">
+                        <i class="fas fa-award nav-icon"></i>
+                        <p>Prestasi Akademik</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    <?php endif; ?>
 
 </ul>
