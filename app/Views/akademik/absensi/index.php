@@ -58,7 +58,11 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 mt-3" id="tabelAbsensiGenap">
+<<<<<<< HEAD
                                 <!-- <?= $this->include('includes/table_absensi_genap'); ?>
+=======
+                                <?= $this->include('includes/table_absensi_genap'); ?>
+>>>>>>> bf62bd6289994e61bf7e0749f7d83a4a9c4dff85
                             </div>
                         </div>
                     </div>

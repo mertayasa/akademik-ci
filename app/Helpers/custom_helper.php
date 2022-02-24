@@ -325,13 +325,14 @@ if (!function_exists('isActive')) {
         return isset($check_kelas[0]) ? true : false;
     }
 
-    function getAbsensiByDate($tgl, $id_anggota_kelas, $id_kelas)
+    function getAbsensiByDate($tgl, $id_anggota_kelas, $id_kelas, $semester)
     {
         $absensi = new AbsensiModel;
         $check_absensi = $absensi->where([
             'tanggal' => $tgl,
             'id_anggota_kelas' => $id_anggota_kelas,
             'id_kelas' => $id_kelas,
+            'semester' => $semester,
         ])->findAll();
 
         return isset($check_absensi[0]) && ($check_absensi[0]['kehadiran'] != '' || $check_absensi[0]['kehadiran'] != null) ? getAbsenceCode($check_absensi[0]['kehadiran']) : '-';

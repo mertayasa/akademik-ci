@@ -64,6 +64,7 @@ class AbsensiModel extends Generic
             ->join('anggota_kelas', 'absensi.id_anggota_kelas = anggota_kelas.id')
             ->where([
                 'absensi.id_kelas' => $id_kelas,
+                // 'absensi.semester' => $semester,
                 'id_tahun_ajar' => $id_tahun_ajar
             ]);
         if($semester != null){
@@ -108,39 +109,67 @@ class AbsensiModel extends Generic
             $absen_genap = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'genap')->orderBy('absensi.tanggal', 'ASC')->findAll();
         }
 
+        // dd($absen_genap);
+
         $group_bulan_ganjil = [];
         $group_bulan_genap = [];
 
         if(count($absen_ganjil) > 0){
-            $period_ganjil = \Carbon\CarbonPeriod::create($absen_ganjil[0]['tanggal'], end($absen_ganjil)['tanggal']);
+            $period_ganjil = \Carbon\CarbonPeriod::create(\Carbon\Carbon::parse($absen_ganjil[0]['tanggal'])->firstOfMonth(), \Carbon\Carbon::parse(end($absen_ganjil)['tanggal'])->endOfMonth());
+            // $period_ganjil = \Carbon\CarbonPeriod::create($absen_ganjil[0]['tanggal'], end($absen_ganjil)['tanggal']);
+            $absen_ganjil = [];
+            $index_count = 1;
+            $last_month_name = '';
             foreach ($period_ganjil as $dt) {
-                $group_bulan_ganjil[$dt->format("Y-m")]['month_name'] = getIndonesianMonth($dt->format("Y-m"));
-                
-                if($id_anggota_kelas != null){
-                    $query_absensi = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'ganjil')->where('month(tanggal)', $dt->format("m"))->where('absensi.id_anggota_kelas', $id_anggota_kelas)->countAllResults();
-                }else{
-                    $query_absensi = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'ganjil')->where('month(tanggal)', $dt->format("m"))->countAllResults();
+                array_push($absen_ganjil, ['tanggal' => $dt->format('Y-m-d')]);
+                $indo_month_name = getIndonesianMonth($dt->format("Y-m"));
+                $group_bulan_ganjil[$dt->format("Y-m")]['month_name'] = $indo_month_name;
+                if($indo_month_name != $last_month_name){
+                    $index_count = 1;
                 }
 
-                $group_bulan_ganjil[$dt->format("Y-m")]['count_absen'] = $query_absensi;
+                $group_bulan_ganjil[$dt->format("Y-m")]['count_absen'] = $index_count++;
+                $last_month_name = $indo_month_name;
+                
+                // if($id_anggota_kelas != null){
+                //     $query_absensi = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'ganjil')->where('month(tanggal)', $dt->format("m"))->where('absensi.id_anggota_kelas', $id_anggota_kelas)->countAllResults();
+                // }else{
+                //     $query_absensi = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'ganjil')->where('month(tanggal)', $dt->format("m"))->countAllResults();
+                // }
+
+                // $group_bulan_ganjil[$dt->format("Y-m")]['count_absen'] = $query_absensi;
             }
+            
         }
 
         if(count($absen_genap) > 0){
-            $period_genap = \Carbon\CarbonPeriod::create($absen_genap[0]['tanggal'], end($absen_genap)['tanggal']);
+            $period_genap = \Carbon\CarbonPeriod::create(\Carbon\Carbon::parse($absen_genap[0]['tanggal'])->firstOfMonth(), \Carbon\Carbon::parse(end($absen_genap)['tanggal'])->endOfMonth());
+            // $period_genap = \Carbon\CarbonPeriod::create($absen_genap[0]['tanggal'], end($absen_genap)['tanggal']);
+            $absen_genap = [];
+            $index_count = 1;
+            $last_month_name = '';
             foreach ($period_genap as $dt) {
-                $group_bulan_genap[$dt->format("Y-m")]['month_name'] = getIndonesianMonth($dt->format("Y-m"));
-                
-                if($id_anggota_kelas != null){
-                    $query_absensi = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'genap')->where('month(tanggal)', $dt->format("m"))->where('absensi.id_anggota_kelas', $id_anggota_kelas)->countAllResults();
-                }else{
-                    $query_absensi = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'genap')->where('month(tanggal)', $dt->format("m"))->countAllResults();
+                array_push($absen_genap, ['tanggal' => $dt->format('Y-m-d')]);
+                $indo_month_name = getIndonesianMonth($dt->format("Y-m"));
+                $group_bulan_genap[$dt->format("Y-m")]['month_name'] = $indo_month_name;
+                if($indo_month_name != $last_month_name){
+                    $index_count = 1;
                 }
 
-                $group_bulan_genap[$dt->format("Y-m")]['count_absen'] = $query_absensi;
-            }
-        }
+                $group_bulan_genap[$dt->format("Y-m")]['count_absen'] = $index_count++;
+                $last_month_name = $indo_month_name;
+                
+                // if($id_anggota_kelas != null){
+                //     $query_absensi = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'genap')->where('month(tanggal)', $dt->format("m"))->where('absensi.id_anggota_kelas', $id_anggota_kelas)->countAllResults();
+                // }else{
+                //     $query_absensi = $this->queryAbsensi($id_kelas, $id_tahun_ajar, 'genap')->where('month(tanggal)', $dt->format("m"))->countAllResults();
+                // }
 
+                // $group_bulan_genap[$dt->format("Y-m")]['count_absen'] = $query_absensi;
+            }
+            
+        }
+        
         $data = [
             'group_bulan_ganjil' => $group_bulan_ganjil,
             'group_bulan_genap' => $group_bulan_genap,
@@ -153,6 +182,8 @@ class AbsensiModel extends Generic
             'tahun_ajar' => $tahun_ajar,
             'kelas' => $kelas['jenjang'] . '' . $kelas['kode']
         ];
+
+        // dd($data);
 
         return $data;
     }
