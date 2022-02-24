@@ -109,5 +109,37 @@
             }],
         })
     <?php endif; ?>
+
+    function setNonaktif(url, tableId, user) {
+        console.log(tableId)
+        Swal.fire({
+            title: "Warning",
+            text: `Yakin menonkatifkan  ${user} ini? Proses ini tidak dapat diulang kembali`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#169b6b',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Tidak'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    "url": url,
+                    "dataType": "JSON",
+                    "headers": {
+                        "_token": "2710f6ef480a1556820c350e89aa4fab"
+                    },
+                    "method": "get",
+                    success: function(data) {
+                        console.log(data)
+                        showToast(data.code, data.message)
+
+                        $('#' + tableId).DataTable().ajax.reload();
+                    }
+                })
+            }
+        })
+    }
 </script>
+
 <?= $this->endSection() ?>

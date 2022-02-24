@@ -1,23 +1,25 @@
 <?php
-    if(isset($kepsek)){
-        $user = $kepsek;
-    }
+if (isset($kepsek)) {
+    $user = $kepsek;
+}
 ?>
 
 <h6 class="text-primary text-bold">Authentikasi</h6>
 <small><sup>*</sup> <i>Mohon untuk mencatat Email dan Password yang akan digunakan pada saat login</i></small><br>
-<div class="row">
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('Email', 'emailUser') ?>
-        <?= form_input([
-            'type' => 'email',
-            'name' => 'email',
-            'id' => 'emailUser',
-            'value' => set_value('email') == false && isset($user) ? $user['email'] : set_value('email'),
-            'class' => 'form-control'
-        ]) ?>
+<?php if ($level != 'siswa') : ?>
+    <div class="row">
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('Email', 'emailUser') ?>
+            <?= form_input([
+                'type' => 'email',
+                'name' => 'email',
+                'id' => 'emailUser',
+                'value' => set_value('email') == false && isset($user) ? $user['email'] : set_value('email'),
+                'class' => 'form-control'
+            ]) ?>
+        </div>
     </div>
-</div>
+<?php endif; ?>
 
 <div class="row mt-3">
     <div class="col-12 col-md-6 pb-3 pb-md-0">

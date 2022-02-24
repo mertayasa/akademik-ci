@@ -7,6 +7,7 @@ use App\Models\KelasModel;
 use App\Models\TahunAjarModel;
 use App\Controllers\Akademik;
 use App\Models\AbsensiModel;
+use App\Models\AdminModel;
 use App\Models\AnggotaKelasModel;
 use App\Models\DataTables\AdminDataTable;
 use App\Models\DataTables\GuruKepsekDataTable;
@@ -16,7 +17,9 @@ use App\Models\GuruKepsekModel;
 use App\Models\JadwalModel;
 use App\Models\MapelModel;
 use App\Models\NilaiModel;
+use App\Models\OrtuModel;
 use App\Models\PrestasiModel;
+use App\Models\SiswaModel;
 use App\Models\WaliKelasModel;
 use CodeIgniter\Config\Services;
 
@@ -26,6 +29,8 @@ class History extends BaseController
     protected $absen_m;
     protected $anggota_kelas_m;
     protected $guru_m;
+    protected $ortu_m;
+    protected $admin_m;
     protected $jadwal_m;
     protected $kelas_m;
     protected $mapel_m;
@@ -73,11 +78,8 @@ class History extends BaseController
     {
         $this->kelas_m = new KelasModel();
         $tahun_ajar_aktif = $this->tahun_ajar_m->find($this->tahun_ajar_m->getActiveId());
-        $tahun_ajar_raw = $this->tahun_ajar_m->where('id <', $tahun_ajar_aktif['id'])->findAll();
+        $tahun_ajar_raw = $this->tahun_ajar_m->where('id <', $tahun_ajar_aktif['id'])->orderBy('tahun_mulai', 'ASC')->findAll();
 
-        if (!$tahun_ajar_raw) {
-            return route_to('dashboard_index');
-        }
         if ($this->request->getGet('id_tahun') != null) {
             $id_tahun = $this->request->getGet('id_tahun');
             $tahun_ajar = [];
@@ -263,6 +265,10 @@ class History extends BaseController
 
     public function datatables($level)
     {
+        $this->siswa_m = new SiswaModel;
+        $this->guru_m = new GuruKepsekModel;
+        $this->ortu_m = new OrtuModel;
+        $this->admin_m = new AdminModel;
 
         $request = Services::request();
         switch ($level) {
@@ -295,23 +301,23 @@ class History extends BaseController
                 $row[] = $no;
                 if ($level == 'siswa') {
                     $row[] = "
-                    <a target='_blank' href='" . base_url($this->siswa->getFoto($list->id)) . "'>
-                        <img src='" . base_url($this->siswa->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+                    <a target='_blank' href='" . base_url($this->siswa_m->getFoto($list->id)) . "'>
+                        <img src='" . base_url($this->siswa_m->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
                     </a>";
                 } elseif ($level == 'guru' || $level == 'kepsek') {
                     $row[] = "
-                    <a target='_blank' href='" . base_url($this->guru->getFoto($list->id)) . "'>
-                        <img src='" . base_url($this->guru->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+                    <a target='_blank' href='" . base_url($this->guru_m->getFoto($list->id)) . "'>
+                        <img src='" . base_url($this->guru_m->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
                     </a>";
                 } elseif ($level == 'ortu') {
                     $row[] = "
-                    <a target='_blank' href='" . base_url($this->ortu->getFoto($list->id)) . "'>
-                        <img src='" . base_url($this->ortu->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+                    <a target='_blank' href='" . base_url($this->ortu_m->getFoto($list->id)) . "'>
+                        <img src='" . base_url($this->ortu_m->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
                     </a>";
                 } else {
                     $row[] = "
-                    <a target='_blank' href='" . base_url($this->admin->getFoto($list->id)) . "'>
-                        <img src='" . base_url($this->admin->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+                    <a target='_blank' href='" . base_url($this->admin_m->getFoto($list->id)) . "'>
+                        <img src='" . base_url($this->admin_m->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
                     </a>";
                 }
 

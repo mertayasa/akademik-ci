@@ -4,21 +4,25 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\PrestasiModel;
+use App\Models\TahunAjarModel;
 
 class Prestasi extends BaseController
 {
     protected $prestasi;
+    protected $tahun_ajar;
 
     public function __construct()
     {
-        $this->prestasi = new PrestasiModel();    
+        $this->prestasi = new PrestasiModel();
+        $this->tahun_ajar = new TahunAjarModel();
     }
 
     public function index()
     {
-        $prestasi = $this->prestasi->orderBy('created_at desc');
+        $id_tahun_aktif = $this->tahun_ajar->getActiveId();
+        $prestasi = $this->prestasi->where('id_tahun_ajar', $id_tahun_aktif)->orderBy('created_at desc');
 
-		$data = [
+        $data = [
             'prestasi' => $prestasi->paginate(10),
             'pager' => $prestasi->pager
         ];
@@ -60,14 +64,14 @@ class Prestasi extends BaseController
             'kategori' => $kategori,
             'tingkat' => $tingkat,
             'prestasi' => $prestasi
-        ];  
+        ];
 
         return view('prestasi/edit', $data);
     }
 
     public function insert()
     {
-        try{
+        try {
             $base_64_foto = json_decode($this->request->getPost('thumbnail'), true);
             $upload_image = uploadFile($base_64_foto, 'prestasi');
 
@@ -97,7 +101,7 @@ class Prestasi extends BaseController
 
     public function update($id)
     {
-        try{
+        try {
             $base_64_foto = json_decode($this->request->getPost('thumbnail'), true);
             $upload_image = uploadFile($base_64_foto, 'prestasi');
 
@@ -127,9 +131,9 @@ class Prestasi extends BaseController
 
     public function destroy($id)
     {
-        try{
+        try {
             $this->prestasi->delete($id);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'Gagal menghapus data prestasi');
             return redirect()->back();

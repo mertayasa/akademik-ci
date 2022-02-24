@@ -153,8 +153,8 @@ class User extends BaseController
                 if (isAdmin()) {
                     $row[] = "
                     <a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>
-                    <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning mb-2'>Edit</a>";
-                    // <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('user_destroy', $list->id, $level) . "`, `userDataTable`, `Aseg`)'>Hapus</button>";
+                    <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning mb-2'>Edit</a>
+                    <button class='btn btn-sm btn-danger' onclick='setNonaktif(`" . route_to('user_set_nonaktif', $list->id, $level) . "`, `userDataTable`, `$level`)'>Nonaktif</button>";
                 } else {
                     $row[] = "<a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>";
                 }
@@ -475,6 +475,32 @@ class User extends BaseController
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'Gagal mengubah profil kepala sekolah');
             return redirect()->back()->withInput();
+        }
+    }
+    public function setNonaktif($id, $level)
+    {
+        $data = ['status' => 'nonaktif'];
+        try {
+            switch ($level) {
+                case 'admin':
+                    $this->admin->updateData($id, $data);
+                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan user']);
+                    break;
+                case 'siswa':
+                    $this->siswa->updateData($id, $data);
+                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan user']);
+                    break;
+                case 'guru':
+                    $this->guru->updateData($id, $data);
+                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan user']);
+                    break;
+                case 'ortu':
+                    $this->ortu->updateData($id, $data);
+                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan user']);
+                    break;
+            }
+        } catch (\Exception $e) {
+            return json_encode(['code' => 0, 'message' => 'Gagal menonaktifkan user']);
         }
     }
 }

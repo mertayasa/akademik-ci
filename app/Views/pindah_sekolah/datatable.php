@@ -14,10 +14,10 @@
                         <tr>
                             <td>No</td>
                             <td>Siswa</td>
-                            <?php if($tipe == 'masuk'): ?>
+                            <?php if ($tipe == 'masuk') : ?>
                                 <td>Asal Sekolah</td>
                             <?php endif; ?>
-                            <?php if($tipe == 'keluar'): ?>
+                            <?php if ($tipe == 'keluar') : ?>
                                 <td>Tujuan Sekolah</td>
                             <?php endif; ?>
                             <td>Tahun Ajar</td>
@@ -51,7 +51,7 @@
             },
         },
         "columnDefs": [{
-            "targets": [0, <?php (session()->get('level') == 'admin') ? 3 : 0 ?>],
+            "targets": [0, 2, 4, 5],
             "orderable": false,
         }],
     })

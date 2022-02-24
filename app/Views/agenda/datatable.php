@@ -40,9 +40,8 @@
                 "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
             },
         },
-        "columnDefs": [
-            {
-                "targets": [0, 3],
+        "columnDefs": [{
+                "targets": [0, 1, 3, 4],
                 "orderable": false,
             },
             {
@@ -52,7 +51,7 @@
         ],
     })
 
-    function setActive(url, tableId, prompt){
+    function setActive(url, tableId, prompt) {
         Swal.fire({
             title: "Warning",
             text: prompt,

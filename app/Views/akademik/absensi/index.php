@@ -58,23 +58,18 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 mt-3" id="tabelAbsensiGenap">
-                                <!-- <?= $this->include('includes/table_absensi_genap'); ?> -->
+                                <!-- <?= $this->include('includes/table_absensi_genap'); ?>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<div class="row">
-    <div class="col-md-12">
-        <div class="d-flex flex-column align-items-center">
-            <a href="<?= route_to('akademik_index'); ?>" class="btn btn-info col-1 fixed-bottom mb-3" style="margin:auto; border-radius:10px">
-                <i class="fas fa-angle-double-left"></i>
-                <span>Kembali</span>
-            </a>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="<?= route_to('akademik_index'); ?>" class="btn btn-secondary">Kembali</a>
+            </div>
         </div>
     </div>
-</div>
+</section>
 <?= $this->endSection() ?>

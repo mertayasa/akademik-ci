@@ -5,7 +5,7 @@
         </div>
         <div class="col-sm-9 text-secondary">
             <?php $wali = checkWali($user['id']) ?>
-            <?= $wali == null ? '-' : $wali['jenjang'].' '.$wali['kode'] ?>
+            <?= $wali == null || $wali['status'] == 'nonaktif' ? '-' : $wali['jenjang'] . ' ' . $wali['kode'] ?>
         </div>
     </div>
     <hr>

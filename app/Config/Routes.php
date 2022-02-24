@@ -56,6 +56,7 @@ $routes->group('user', ['filter' => 'auth'], function ($routes) {
     $routes->patch('kepsekUpdate/(:num)', 'User::kepsekUpdate/$1', ['as' => 'kepsek_update']);
     $routes->get('create/kepsek', 'User::kepsekCreate', ['as' => 'kepsek_create']);
     $routes->post('insert/new/kepsek', 'User::kepsekInsert', ['as' => 'kepsek_insert']);
+    $routes->get('nonaktif/(:num)/(:segment)', 'User::setNonaktif/$1/$2', ['as' => 'user_set_nonaktif']);
 });
 
 $routes->group('profile', ['filter' => 'auth'], function ($routes) {

@@ -44,7 +44,7 @@
             },
         },
         "columnDefs": [{
-            "targets": [0, <?php (session()->get('level') == 'admin') ? 3 : 0 ?>],
+            "targets": [0, 3],
             "orderable": false,
         }],
     })

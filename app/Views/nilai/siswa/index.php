@@ -26,29 +26,24 @@
 <section class="content">
     <div class="container-fluid">
         <?= $this->include('nilai/siswa/table') ?>
-    </div>
-    <?php if (isGuru()) {
-        $href = route_to('panel_wali_index');
-    } elseif (isAdmin() or isKepsek()) {
-        if (getUrlIndex() == 'history-data') {
-            $href = route_to('history_akademik_show_student', $anggota_kelas['id_tahun_ajar'], $anggota_kelas['id_kelas']);
-        } else {
-            $href = route_to('akademik_show_student', $anggota_kelas['id_tahun_ajar'], $anggota_kelas['id_kelas']);
+        <?php if (isGuru()) {
+            $href = route_to('panel_wali_index');
+        } elseif (isAdmin() or isKepsek()) {
+            if (getUrlIndex() == 'history-data') {
+                $href = route_to('history_akademik_show_student', $anggota_kelas['id_tahun_ajar'], $anggota_kelas['id_kelas']);
+            } else {
+                $href = route_to('akademik_show_student', $anggota_kelas['id_tahun_ajar'], $anggota_kelas['id_kelas']);
+            }
         }
-    }
-    ?>
-    <?php if (!isSiswa()) : ?>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="d-flex flex-column align-items-center">
-                    <a href="<?= $href; ?>" class="btn btn-info col-1 fixed-bottom mb-3" style="margin:auto; border-radius:10px">
-                        <i class="fas fa-angle-double-left"></i>
-                        <span>Kembali</span>
-                    </a>
+        ?>
+        <?php if (!isSiswa()) : ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="<?= $href; ?>" class="btn btn-secondary">Kembali</a>
                 </div>
             </div>
-        </div>
-    <?php endif; ?>
+        <?php endif; ?>
+    </div>
 </section>
 <!-- /.content -->
 <?= $this->endSection() ?>

@@ -194,15 +194,19 @@ class Jadwal extends BaseController
                 $data['kode_hari'] = $value;
             }
         }
+        foreach ($cek_jadwal as $value) {
+            $cek_waktu = date('h:i', strtotime($value['jam_mulai']));
+        }
         try {
-            if ($cek_jadwal == null) {
+            if ($cek_jadwal == null or $cek_waktu != $data['jam_mulai']) {
                 $this->jadwal->insertData($data);
                 session()->setFlashdata('success', 'Berhasil menginput jadwal');
             } else {
-                session()->setFlashdata('error', 'Jadwal sudah ada');
+                session()->setFlashdata('error', 'Jadwal sudah ada atau jam bertabrakan');
             }
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
+            session()->setFlashdata('error', 'Gagal menginput jadwal');
         }
         return redirect()->back()->withInput();
     }
