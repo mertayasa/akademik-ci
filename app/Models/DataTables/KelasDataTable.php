@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class KelasDataTable extends Model
 {
     protected $table = 'kelas';
-    protected $column_order = ['id', 'kode', 'jenjang'];
+    protected $column_order = ['id', 'jenjang', 'kode'];
     protected $column_search = ['kode', 'jenjang'];
     protected $order = ['id' => 'DESC'];
     protected $request;
@@ -21,7 +21,6 @@ class KelasDataTable extends Model
         $this->db = db_connect();
         $this->request = $request;
         $this->dt = $this->db->table($this->table);
-
     }
 
     // Datatables

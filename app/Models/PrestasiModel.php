@@ -24,6 +24,7 @@ class PrestasiModel extends Generic
         'konten',
         'created_at',
         'updated_at',
+        'id_tahun_ajar'
     ];
 
     // Dates

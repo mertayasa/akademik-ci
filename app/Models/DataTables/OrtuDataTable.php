@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class OrtuDataTable extends Model
 {
     protected $table = 'ortu';
-    protected $column_order = ['id', 'nama', 'email'];
+    protected $column_order = ['id', '', 'nama'];
     protected $column_search = ['nama', 'email'];
     protected $order = ['nama' => 'asd'];
     protected $request;

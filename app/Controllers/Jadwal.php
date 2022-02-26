@@ -172,6 +172,8 @@ class Jadwal extends BaseController
     public function create()
     {
         $data = $this->request->getPost();
+        $jam_mulai_post = strtotime($data['jam_mulai']);
+        $jam_selesai_post = strtotime(strtotime($data['jam_selesai']));
         $cek_jadwal = $this->jadwal->select('*')
             ->where('id_kelas', $data['id_kelas'])
             ->where('id_tahun_ajar', $data['id_tahun_ajar'])
@@ -179,7 +181,14 @@ class Jadwal extends BaseController
             ->where('status', 'aktif')
             ->where('hari', $data['hari'])
             ->findAll();
-        // dd($cek_jadwal);
+        // dd($jam_mulai_post);
+        $cek_waktu = $this->jadwal->select('jam_mulai, jam_selesai')
+            ->where('id_kelas', $data['id_kelas'])
+            ->where('id_tahun_ajar', $data['id_tahun_ajar'])
+            ->where('status', 'aktif')
+            ->where('hari', $data['hari'])
+            ->findAll();
+        // dd($cek_waktu);
         $kode = [
             'Senin' => '1',
             'Selasa' => '2',
@@ -194,11 +203,23 @@ class Jadwal extends BaseController
                 $data['kode_hari'] = $value;
             }
         }
-        foreach ($cek_jadwal as $value) {
-            $cek_waktu = date('h:i', strtotime($value['jam_mulai']));
+        foreach ($cek_waktu as $value) {
+            $jam_mulai_db = strtotime(date('h:i', strtotime($value['jam_mulai'])));
+            $jam_selesai_db = strtotime(date('h:1', strtotime($value['jam_selesai'])));
+            if ($jam_mulai_db == $jam_mulai_post || $jam_selesai_db == $jam_selesai_post) {
+                session()->setFlashdata('error', 'Jam bertabrakan 1');
+                return redirect()->back()->withInput();
+            } elseif ($jam_mulai_post > $jam_mulai_db && $jam_selesai_post < $jam_selesai_db) {
+                session()->setFlashdata('error', 'Jam bertabrakan 2');
+                return redirect()->back()->withInput();
+            } elseif (($jam_mulai_db < $jam_mulai_post) && ($jam_selesai_db > $jam_mulai_post)) {
+                session()->setFlashdata('error', 'Jam bertabrakan 3');
+                return redirect()->back()->withInput();
+            }
+            die; //masih di skip sementara
         }
         try {
-            if ($cek_jadwal == null or $cek_waktu != $data['jam_mulai']) {
+            if ($cek_jadwal == null) {
                 $this->jadwal->insertData($data);
                 session()->setFlashdata('success', 'Berhasil menginput jadwal');
             } else {

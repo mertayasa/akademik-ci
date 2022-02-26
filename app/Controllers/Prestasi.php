@@ -23,6 +23,7 @@ class Prestasi extends BaseController
         $prestasi = $this->prestasi->where('id_tahun_ajar', $id_tahun_aktif)->orderBy('created_at desc');
 
         $data = [
+            'id_tahun_aktif' => $id_tahun_aktif,
             'prestasi' => $prestasi->paginate(10),
             'pager' => $prestasi->pager
         ];
@@ -43,10 +44,12 @@ class Prestasi extends BaseController
 
     public function create()
     {
+        $id_tahun_aktif = $this->tahun_ajar->getActiveId();
         $kategori = $this->prestasi::$kategori;
         $tingkat = $this->prestasi::$tingkat;
 
         $data = [
+            'id_tahun_aktif' => $id_tahun_aktif,
             'kategori' => $kategori,
             'tingkat' => $tingkat,
         ];
@@ -87,6 +90,7 @@ class Prestasi extends BaseController
                 'kategori' => $this->request->getPost('kategori'),
                 'deskripsi' => $this->request->getPost('deskripsi'),
                 'thumbnail' => $upload_image,
+                'id_tahun_ajar' => $this->request->getPost('id_tahun_ajar')
             ];
 
             $this->prestasi->insertData($new_data);

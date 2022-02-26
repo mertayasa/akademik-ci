@@ -69,28 +69,28 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('tahun_ajar_index') ?>" class="nav-link <?= isActiveSub('tahunAjar') ?>">
+                    <a href="<?= route_to('tahun_ajar_index') ?>" class="nav-link <?= isActive('tahunAjar') ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Tahun Ajar</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActiveSub('kelas') ?>">
+                    <a href="<?= route_to('kelas_index') ?>" class="nav-link <?= isActive('kelas') ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Kelas</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('kelas_per_tahun_index') ?>" class="nav-link <?= isActiveSub('kelasPerTahun') ?>">
+                    <a href="<?= route_to('kelas_per_tahun_index') ?>" class="nav-link <?= isActive('kelasPerTahun') ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Kelas Per Tahun Ajar</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?= route_to('mapel_index') ?>" class="nav-link <?= isActiveSub('mapel') ?>">
+                    <a href="<?= route_to('mapel_index') ?>" class="nav-link <?= isActive('mapel') ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Mata Pelajaran</p>
                     </a>
@@ -107,7 +107,7 @@
 
                     <ul class="nav nav-treeview" style="display: <?= isActiveSub(['pindah']) == 'active' ? 'block' : 'none' ?>;">
                         <li class="nav-item">
-                            <a href="<?= route_to('pindah_sekolah_index', 'masuk') ?>" class="nav-link <?= isActive('masuk') ?>">
+                            <a href="<?= route_to('pindah_sekolah_index', 'masuk') ?>" class="nav-link <?= isActiveSub('masuk') ?>">
                                 <i class="far fa-dot-circle nav-icon"></i>
                                 <p>Pindah Masuk</p>
                             </a>

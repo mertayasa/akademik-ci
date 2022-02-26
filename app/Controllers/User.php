@@ -71,7 +71,8 @@ class User extends BaseController
         $request = Services::request();
         switch ($level) {
             case 'kepsek':
-                $datatable = new GuruKepsekModel($request, $level);
+                // $datatable = new GuruKepsekModel($request, $level);
+                $datatable = new GuruKepsekDataTable($request, $level);
                 break;
             case 'ortu':
                 $datatable = new OrtuDataTable($request, $level);
@@ -137,7 +138,7 @@ class User extends BaseController
                     $row[] = ucfirst($list->status);
                 }
 
-                if ($level == 'guru') {
+                if ($level == 'guru' or $level == 'kepsek') {
                     $row[] = $list->nip ?? '-';
                     $row[] = $list->no_telp ?? '-';
                     $row[] = ucfirst($list->status);
@@ -228,6 +229,7 @@ class User extends BaseController
                     $this->guru->insertData($new_data);
                     break;
                 case "kepsek":
+                    $new_data['level'] = 'kepsek';
                     $this->guru->insertData($new_data);
                     break;
             }

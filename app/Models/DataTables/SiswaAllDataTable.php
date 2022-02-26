@@ -8,8 +8,8 @@ use CodeIgniter\Model;
 class SiswaAllDataTable extends Model
 {
     protected $table = 'siswa';
-    protected $column_order = ['id', 'nama', 'nis'];
-    protected $column_search = ['nama', 'email'];
+    protected $column_order = ['id', '', 'nama', '', 'nis']; //string kosong biar sorting sesuai indeks data
+    protected $column_search = ['nama', 'nis'];
     protected $order = ['nama' => 'asd'];
     protected $request;
     protected $level;

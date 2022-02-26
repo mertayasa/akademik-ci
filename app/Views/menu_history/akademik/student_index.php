@@ -30,7 +30,7 @@
         <?= $this->include($include_view) ?>
         <div class="row">
             <div class="col-md-12">
-                <a href="javascript:window.history.go(-1)" class="btn btn-secondary">Kembali</a>
+                <a href="<?= route_to('history_data_index', 'akademik'); ?>" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
     </div>

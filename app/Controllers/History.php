@@ -360,7 +360,7 @@ class History extends BaseController
 
                 if (isAdmin()) {
                     $row[] = "
-                    <a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>";
+                    <a href='" . route_to('history_user_profil', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>";
                     // <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning mb-2'>Edit</a>";
                     // <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('user_destroy', $list->id, $level) . "`, `userDataTable`, `Aseg`)'>Hapus</button>";
                 } else {
@@ -379,6 +379,54 @@ class History extends BaseController
 
             return json_encode($output);
         }
+    }
+    public function userProfil($level, $id)
+    {
+        $this->admin_m = new AdminModel;
+        $this->guru_m = new GuruKepsekModel;
+        $this->siswa_m = new SiswaModel;
+        $this->ortu_m = new OrtuModel;
+        if ($level != null) {
+            if ($level == 'siswa') {
+                $user = $this->siswa_m->getData($id);
+                $user['foto'] = $this->siswa_m->getFoto($user['id']);
+                $ortu = $this->ortu_m->getData($user['id_ortu']);
+            } elseif ($level == 'admin') {
+                $user = $this->admin_m->getData($id);
+                $user['foto'] = $this->admin_m->getFoto($user['id']);
+                $ortu = [];
+            } elseif ($level == 'ortu') {
+                $user = $this->ortu_m->getData($id);
+                $user['foto'] = $this->ortu_m->getFoto($user['id']);
+                $ortu = [];
+            } else {
+                $user = $this->guru_m->getData($id);
+                $user['foto'] = $this->guru_m->getFoto($user['id']);
+                $ortu = [];
+            }
+
+            if (($level == 'ortu' or $level == 'admin')) {
+                $siswa = $this->siswa_m->where('id_ortu', $user['id'])->findAll();
+                $nama_siswa = array_map(function ($siswa) {
+                    return $siswa['nama'];
+                }, $siswa);
+            } else {
+                $nama_siswa = [];
+            }
+
+
+            $data = [
+                'user' => $user,
+                'ortu' => $ortu,
+                'nama_siswa' => implode(', ', $nama_siswa),
+                'level' => $level,
+                'id' => $id
+            ];
+            return view('menu_history/user/show', $data);
+        }
+
+        session()->setFlashdata('error', 'Akun pengguna tidak ditemukan');
+        return redirect()->back();
     }
     //-----PRESTASI-----
     public function prestasiIndex()

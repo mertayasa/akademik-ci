@@ -19,9 +19,9 @@ class Agenda extends BaseController
 
     public function index()
     {
-        if (session()->get('level') == 'admin'){
+        if (session()->get('level') == 'admin') {
             $agenda = [];
-        }else{
+        } else {
             $agenda = $this->agenda->where('status', $this->agenda::$aktif)->findAll()[0] ?? [];
         }
 
@@ -50,10 +50,16 @@ class Agenda extends BaseController
                 $row[] = $list->judul ?? '-';
                 // $row[] = '<object data="'. base_url($list->file) .'" width="350px" height="100px"></object>';
                 $row[] = $list->status;
-                $row[] = "
-                <a href='". base_url($list->file) ."' class='btn btn-sm btn-info' target='_blank'>Tampil</a>
-                <button class='btn btn-sm btn-primary' onclick='setActive(`". route_to('agenda_set_active', $list->id) ."`, `agendaDataTable`, `Apakah anda yakin mengaktifkan data agenda ?, data agenda lain akan otomatis non aktif`)'>Set Aktif</button>
-                <a href='". route_to('agenda_edit', $list->id) ."' class='btn btn-sm btn-warning'>Edit</a>";
+                if ($list->status == 'nonaktif') {
+                    $row[] = "
+                    <a href='" . base_url($list->file) . "' class='btn btn-sm btn-info' target='_blank'>Tampil</a>
+                    <button class='btn btn-sm btn-primary' onclick='setActive(`" . route_to('agenda_set_active', $list->id) . "`, `agendaDataTable`, `Apakah anda yakin mengaktifkan data agenda ?, data agenda lain akan otomatis non aktif`)'>Set Aktif</button>
+                    <a href='" . route_to('agenda_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>";
+                } else {
+                    $row[] = "
+                    <a href='" . base_url($list->file) . "' class='btn btn-sm btn-info' target='_blank'>Tampil</a>
+                    <a href='" . route_to('agenda_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>";
+                }
                 // <button class='btn btn-sm btn-danger' onclick='deleteModel(`". route_to('agenda_destroy', $list->id) ."`, `agendaDataTable`, `Apakah anda yang menghapus data agenda ?`)'>Hapus</button>";
                 $data[] = $row;
             }
@@ -76,7 +82,7 @@ class Agenda extends BaseController
 
     public function insert()
     {
-        try{
+        try {
             $base_64_foto = json_decode($this->request->getPost('file'), true);
             $upload_image = uploadFile($base_64_foto, 'agenda');
 
@@ -103,24 +109,24 @@ class Agenda extends BaseController
 
     public function setActive($id)
     {
-        try{
+        try {
             $this->agenda->transStart();
-                $setnonactive = $this->agenda->whereNotIn('id', [$id])->findAll();
-                foreach($setnonactive as $setnon){
-                    $updatenon = [
-                        'status' => $this->agenda::$nonaktif,
-                    ];
-
-                    $this->agenda->updateData($setnon['id'], $updatenon);
-                }
-
-                $update_data = [
-                    'status' => $this->agenda::$aktif,
+            $setnonactive = $this->agenda->whereNotIn('id', [$id])->findAll();
+            foreach ($setnonactive as $setnon) {
+                $updatenon = [
+                    'status' => $this->agenda::$nonaktif,
                 ];
-        
-                $this->agenda->updateData($id, $update_data);
+
+                $this->agenda->updateData($setnon['id'], $updatenon);
+            }
+
+            $update_data = [
+                'status' => $this->agenda::$aktif,
+            ];
+
+            $this->agenda->updateData($id, $update_data);
             $this->agenda->transComplete();
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             return json_encode([
                 'code' => 0,
@@ -139,14 +145,14 @@ class Agenda extends BaseController
         $agenda = $this->agenda->getData($id);
         $data = [
             'agenda' => $agenda
-        ];  
+        ];
 
         return view('agenda/edit', $data);
     }
 
     public function update($id)
     {
-        try{
+        try {
             $base_64_foto = json_decode($this->request->getPost('file'), true);
             $upload_image = uploadFile($base_64_foto, 'agenda');
 
@@ -172,9 +178,9 @@ class Agenda extends BaseController
 
     public function destroy($id)
     {
-        try{
+        try {
             $this->agenda->delete($id);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return json_encode([
                 'code' => 0,
                 'message' => 'Gagal menghapus data agenda'
@@ -186,5 +192,4 @@ class Agenda extends BaseController
             'message' => 'Berhasil menghapus data agenda'
         ]);
     }
-    
 }

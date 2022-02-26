@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class AdminDataTable extends Model
 {
     protected $table = 'admin';
-    protected $column_order = ['id', 'nama', 'email'];
+    protected $column_order = ['id', '', 'nama', '', 'nip'];
     protected $column_search = ['nama', 'email'];
     protected $order = ['nama' => 'asd'];
     protected $request;

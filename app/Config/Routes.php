@@ -215,6 +215,7 @@ $routes->group('history-data', ['filter' => 'auth'], function ($routes) {
     $routes->get('(:num)/(:num)/wali', 'History::wali/$1/$2', ['as' => 'history_akademik_wali']);
     $routes->get('(:num)/(:num)/absensi', 'History::absensi/$1/$2', ['as' => 'history_akademik_absensi']);
     $routes->get('(:segment)/user', 'History::user/$1', ['as' => 'history_user']);
+    $routes->get('(:segment)/(:num)/profil', 'History::userProfil/$1/$2', ['as' => 'history_user_profil']);
     $routes->post('datatables/(:segment)', 'History::datatables/$1', ['as' => 'history_user_datatables']);
     $routes->get('prestasi-detail/(:num)', 'History::prestasiDetail/$1', ['as' => 'history_prestasi_detail']);
     // $routes->get('/', 'History::prestasiIndex', ['as' => 'history_prestasi_index']);

@@ -211,7 +211,7 @@ class Akademik extends BaseController
         $this->kelas = new KelasModel();
         $this->guru = new GuruKepsekModel;
         $this->wali_kelas = new WaliKelasModel;
-        $guru_list = $this->guru->where('level', 'guru')->orderBy('nama', 'asd')->findAll();
+        $guru_list = $this->guru->where(['level' => 'guru', 'status' => 'aktif'])->orderBy('nama', 'asd')->findAll();
         $wali = $this->wali_kelas->get_wali_kelas_by_id($id_kelas, $id_tahun_ajar);
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
         $kelas = $this->kelas->getData($id_kelas);

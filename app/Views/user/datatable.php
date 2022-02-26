@@ -36,6 +36,12 @@
                                     <td>No Telp</td>
                                     <td>Status Aktif</td>
                                 <?php break;
+                                case 'kepsek': ?>
+                                    <td>Email</td>
+                                    <td>NIP</td>
+                                    <td>No Telp</td>
+                                    <td>Status Aktif</td>
+                                <?php break;
                                 case 'ortu': ?>
                                     <td>Email</td>
                                     <td>No Telp</td>

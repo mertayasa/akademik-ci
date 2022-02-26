@@ -8,8 +8,8 @@ use CodeIgniter\Model;
 class TahunAjarDataTable extends Model
 {
     protected $table = 'tahun_ajar';
-    protected $column_order = ['id', 'status', 'tahun_mulai', 'tahun_berakhir'];
-    protected $column_search = ['keterangan', 'tahun_mulai', 'tahun_berakhir'];
+    protected $column_order = ['id', 'tahun_mulai', 'tahun_selesai'];
+    protected $column_search = ['keterangan', 'tahun_mulai', 'tahun_selesai'];
     protected $order = ['id' => 'DESC'];
     protected $request;
     protected $db;
@@ -21,7 +21,6 @@ class TahunAjarDataTable extends Model
         $this->db = db_connect();
         $this->request = $request;
         $this->dt = $this->db->table($this->table);
-
     }
 
     // Datatables
@@ -70,5 +69,4 @@ class TahunAjarDataTable extends Model
         $tbl_storage = $this->db->table($this->table);
         return $tbl_storage->countAllResults();
     }
-
 }
