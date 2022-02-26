@@ -29,7 +29,7 @@
                         </thead>
                         <tbody>
                             <?php if (count($jadwal) > 0) : ?>
-                                <?php foreach ($jadwal as  $value) : ?>
+                                <?php foreach ($jadwal as $key =>  $value) : ?>
                                     <?php if ($hr->hari == $value->hari) : ?>
                                         <tr>
                                             <input type="hidden" name="id" value="<?= $value->id; ?>">
@@ -51,6 +51,7 @@
                                                         </div>
                                                     </div>
                                                 </td>
+                                                <td style="display: none;"><textarea name="jadwal_data" id="jadwal_data"><?= json_encode($jadwal[$key]); ?></textarea></td>
                                             <?php endif; ?>
                                         </tr>
                                     <?php endif; ?>
@@ -132,27 +133,31 @@
 
 <script>
     $('.action-edit').on('click', function(e) {
-        var nama_mapel = $(this).closest('tr').find('.nama-mapel').html()
-        var nama_guru = $(this).closest('tr').find('.nama-guru').html()
-        var id_mapel = $(this).closest('tr').find('.nama-mapel').data('mapel')
-        var id_guru = $(this).closest('tr').find('.nama-guru').data('guru')
-        var jam = $(this).closest('tr').find('.jam').html().split('-')
-        var id_jadwal = $(this).closest('tr').find('[name="id"]').val()
-        var id_kelas = $(this).closest('tr').find('[name="id_kelas"]').val()
-        var id_tahun_ajar = $(this).closest('tr').find('[name="id_tahun_ajar"]').val()
-        // console.log(id_guru)
-        var jam_mulai = jam[0];
-        var jam_selesai = jam[1];
+        // var nama_mapel = $(this).closest('tr').find('.nama-mapel').html()
+        // var nama_guru = $(this).closest('tr').find('.nama-guru').html()
+        // var id_mapel = $(this).closest('tr').find('.nama-mapel').data('mapel')
+        // var id_guru = $(this).closest('tr').find('.nama-guru').data('guru')
+        // var jam = $(this).closest('tr').find('.jam').html().split('-')
+        // var id_jadwal = $(this).closest('tr').find('[name="id"]').val()
+        // var id_kelas = $(this).closest('tr').find('[name="id_kelas"]').val()
+        // var id_tahun_ajar = $(this).closest('tr').find('[name="id_tahun_ajar"]').val()
+        // // console.log(id_guru)
+        // var jam_mulai = jam[0];
+        // var jam_selesai = jam[1];
 
-        $('.mapel_awal').val(id_mapel)
-        $('.mapel_awal').html(nama_mapel)
-        $('.guru_awal').val(id_guru)
-        $('.guru_awal').html(nama_guru)
-        $('[name="id_kelas_post"]').val(id_kelas)
-        $('[name="id_tahun_ajar_post"]').val(id_tahun_ajar)
-        $('[name="id_jadwal"]').val(id_jadwal)
-        $('#jam_mulai').val(jam_mulai)
-        $('#jam_selesai').val(jam_selesai)
+        var data = $('[name="jadwal_data"]').val();
+        var json = JSON.parse(data);
+        $('.mapel_awal').val(json.id_mapel)
+        $('.mapel_awal').html(json.nama_mapel)
+        $('.guru_awal').val(json.id_guru)
+        $('.guru_awal').html(json.nama_guru)
+        $('[name="id_kelas_post"]').val(json.id_kelas)
+        $('[name="id_tahun_ajar_post"]').val(json.id_tahun_ajar)
+        $('[name="id_jadwal"]').val(json.id)
+        $('#jam_mulai').val(json.jam_mulai)
+        $('#jam_selesai').val(json.jam_selesai)
+
+
         $('#modal_edit').show()
 
     })

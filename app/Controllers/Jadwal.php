@@ -172,8 +172,8 @@ class Jadwal extends BaseController
     public function create()
     {
         $data = $this->request->getPost();
-        $jam_mulai_post = strtotime($data['jam_mulai']);
-        $jam_selesai_post = strtotime(strtotime($data['jam_selesai']));
+        $jam_mulai_post = $data['jam_mulai'];
+        $jam_selesai_post = $data['jam_selesai'];
         $cek_jadwal = $this->jadwal->select('*')
             ->where('id_kelas', $data['id_kelas'])
             ->where('id_tahun_ajar', $data['id_tahun_ajar'])
@@ -203,27 +203,35 @@ class Jadwal extends BaseController
                 $data['kode_hari'] = $value;
             }
         }
-        foreach ($cek_waktu as $value) {
-            $jam_mulai_db = strtotime(date('h:i', strtotime($value['jam_mulai'])));
-            $jam_selesai_db = strtotime(date('h:1', strtotime($value['jam_selesai'])));
+        foreach ($cek_waktu as $key => $value) {
+            $jam_mulai_db = date('h:i', strtotime($value['jam_mulai']));
+            $jam_selesai_db = date('h:i', strtotime($value['jam_selesai']));
+            // dd($jam_selesai_db);
             if ($jam_mulai_db == $jam_mulai_post || $jam_selesai_db == $jam_selesai_post) {
-                session()->setFlashdata('error', 'Jam bertabrakan 1');
-                return redirect()->back()->withInput();
-            } elseif ($jam_mulai_post > $jam_mulai_db && $jam_selesai_post < $jam_selesai_db) {
-                session()->setFlashdata('error', 'Jam bertabrakan 2');
-                return redirect()->back()->withInput();
-            } elseif (($jam_mulai_db < $jam_mulai_post) && ($jam_selesai_db > $jam_mulai_post)) {
-                session()->setFlashdata('error', 'Jam bertabrakan 3');
+                session()->setFlashdata('error', 'Jam bertabrakan');
                 return redirect()->back()->withInput();
             }
-            die; //masih di skip sementara
+            if ($jam_mulai_post > $value['jam_mulai'] && $jam_selesai_post < $value['jam_selesai']) {
+                session()->setFlashdata('error', 'Jam bertabrakan');
+                return redirect()->back()->withInput();
+            }
+            if ($jam_mulai_post > $value['jam_mulai'] && $jam_mulai_post <= $value['jam_selesai']) {
+                session()->setFlashdata('error', 'Jam bertabrakan');
+                return redirect()->back()->withInput();
+            }
+            if ($jam_selesai_post > $value['jam_mulai'] && $jam_selesai_post <= $value['jam_selesai']) {
+                session()->setFlashdata('error', 'Jam bertabrakan');
+                return redirect()->back()->withInput();
+            }
         }
+        // dd($jam_selesai_post);
+        // die; //masih di skip sementara
         try {
             if ($cek_jadwal == null) {
                 $this->jadwal->insertData($data);
                 session()->setFlashdata('success', 'Berhasil menginput jadwal');
             } else {
-                session()->setFlashdata('error', 'Jadwal sudah ada atau jam bertabrakan');
+                session()->setFlashdata('error', 'Mata Pelajaran Sudah ada');
             }
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
