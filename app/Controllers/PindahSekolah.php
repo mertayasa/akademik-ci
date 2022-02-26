@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\AnggotaKelasModel;
 use App\Models\DataTables\PindahSekolahDataTable;
+use App\Models\OrtuModel;
 use App\Models\PindahSekolahModel;
 use App\Models\SiswaModel;
 use App\Models\TahunAjarModel;
@@ -22,6 +23,7 @@ class PindahSekolah extends BaseController
     {
         $this->tahun_ajar = new TahunAjarModel;   
         $this->siswa = new SiswaModel;   
+        $this->ortu = new OrtuModel;   
         $this->pindah_sekolah = new PindahSekolahModel(); 
         $this->anggota_kelas = new AnggotaKelasModel(); 
         $this->db = db_connect();
@@ -62,6 +64,7 @@ class PindahSekolah extends BaseController
                 $row[] = $list->alasan;
                 if (session()->get('level') == 'admin') {
                     $row[] = "
+                    <a href='" . route_to('pindah_sekolah_show', $tipe, $list->id) . "' class='btn btn-sm btn-info'>Lihat</a>
                     <a href='" . route_to('pindah_sekolah_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>";
                     // <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('kelas_destroy', $list->id) . "`, `kelasDataTable`, `Apakah anda yang menghapus data jenjang kelas ?`)'>Hapus</button>";
                 } else {
@@ -93,6 +96,26 @@ class PindahSekolah extends BaseController
         ];
 
         return view('pindah_sekolah/create', $data);
+    }
+
+    public function show($tipe, $id)
+    {
+        $pindah_sekolah = $this->pindah_sekolah->getData($id);
+        $tahun_ajar = $this->tahun_ajar->getData($pindah_sekolah['id_tahun_ajar']);
+        $user = $this->siswa->getData($pindah_sekolah['id_siswa']);
+        $user['foto'] = $this->siswa->getFoto($user['id']);
+        $pindah_sekolah['tahun_ajar'] = count($tahun_ajar) > 0 ? $tahun_ajar['tahun_mulai'].'/'.$tahun_ajar['tahun_selesai'] : '-';
+        
+        $data = [
+            'pindah_sekolah' => $pindah_sekolah,
+            'tipe' => $tipe,
+            'user' => $user,
+            'ortu' => $this->ortu->getData($user['id_ortu'])
+        ];
+
+        // dd($data);
+
+        return view('pindah_sekolah/show', $data);
     }
 
     public function insert($tipe)

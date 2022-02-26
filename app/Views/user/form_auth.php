@@ -6,7 +6,11 @@ if (isset($kepsek)) {
 
 <h6 class="text-primary text-bold">Authentikasi</h6>
 <small><sup>*</sup> <i>Mohon untuk mencatat Email dan Password yang akan digunakan pada saat login</i></small><br>
+<<<<<<< HEAD
 <?php if (isset($level) and $level != 'siswa') : ?>
+=======
+<?php if (isset($level) && $level != 'siswa') : ?>
+>>>>>>> 70dd3b3370518f2c251ba10b5faa23a2206c1221
     <div class="row">
         <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('Email', 'emailUser') ?>

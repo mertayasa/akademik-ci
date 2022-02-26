@@ -96,8 +96,8 @@
                     </a>
                 </li>
 
-                <li class="nav-item <?= isActiveSub(['pindah']) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= isActive(['pindah']) ?>">
+                <li class="nav-item <?= isActive('pindah') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= isActive('pindah') ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p>
                             Pindah Sekolah
@@ -105,7 +105,7 @@
                         </p>
                     </a>
 
-                    <ul class="nav nav-treeview" style="display: <?= isActiveSub(['pindah']) == 'active' ? 'block' : 'none' ?>;">
+                    <ul class="nav nav-treeview" style="display: <?= isActive('pindah') == 'active' ? 'block' : 'none' ?>;">
                         <li class="nav-item">
                             <a href="<?= route_to('pindah_sekolah_index', 'masuk') ?>" class="nav-link <?= isActiveSub('masuk') ?>">
                                 <i class="far fa-dot-circle nav-icon"></i>
@@ -120,54 +120,6 @@
                         </li>
                     </ul>
                 </li>
-
-                <!-- <li class="nav-item <?= isActive(['user', 'profile']) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
-                    <a href="#" class="nav-link <?= isActive(['user', 'profile']) ?>">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>
-                            Penguna
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview" style="display: <?= isActive(['user', 'profile']) == 'active' ? 'block' : 'none' ?>;">
-                        <?php if (isAdmin()) : ?>
-                            <li class="nav-item">
-                                <a href="<?= route_to('user_index', 'admin') ?>" class="nav-link <?= isActive('admin') ?>">
-                                    <i class="far fa-dot-circle nav-icon"></i>
-                                    <p>Admin</p>
-                                </a>
-                            </li>
-                        <?php endif; ?>
-
-                        <li class="nav-item">
-                            <a href="<?= route_to('user_index', 'kepsek') ?>" class="nav-link <?= isActive('kepsek') ?>">
-                                <i class="far fa-dot-circle nav-icon"></i>
-                                <p>Kepala Sekolah</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="<?= route_to('user_index', 'guru') ?>" class="nav-link <?= isActive('guru') ?>">
-                                <i class="far fa-dot-circle nav-icon"></i>
-                                <p>Guru</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActive('siswa') ?>">
-                                <i class="far fa-dot-circle nav-icon"></i>
-                                <p>Siswa</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActive('ortu') ?>">
-                                <i class="far fa-dot-circle nav-icon"></i>
-                                <p>Orang Tua</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li> -->
 
             </ul>
         </li>
