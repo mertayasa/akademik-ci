@@ -12,6 +12,7 @@ use App\Models\AnggotaKelasModel;
 use App\Models\DataTables\AdminDataTable;
 use App\Models\DataTables\GuruKepsekDataTable;
 use App\Models\DataTables\OrtuDataTable;
+use App\Models\DataTables\PindahSekolahDataTable;
 use App\Models\DataTables\SiswaAllDataTable;
 use App\Models\GuruKepsekModel;
 use App\Models\JadwalModel;
@@ -473,5 +474,67 @@ class History extends BaseController
         ];
 
         return view('menu_history/prestasi/detail', $data);
+    }
+    //-----PINDAHAN-----
+    public function pindahMasuk()
+    {
+        $data = [
+            'tipe' => 'masuk',
+        ];
+
+        return view('menu_history/pindah_sekolah/index', $data);
+    }
+    public function pindahKeluar()
+    {
+        $data = [
+            'tipe' => 'keluar',
+        ];
+
+        return view('menu_history/pindah_sekolah/index', $data);
+    }
+    public function pindahDatatables($tipe)
+    {
+        $request = Services::request();
+        $datatable = new PindahSekolahDataTable($request, $tipe);
+
+        if ($request->getMethod(true) === 'POST') {
+            $lists = $datatable->getDatatables();
+            $data = [];
+            $no = $request->getPost('start');
+
+            foreach ($lists as $list) {
+                $tahun_ajar = $this->tahun_ajar->getData($list->id_tahun_ajar);
+                $no++;
+                $row = [];
+                $row[] = $no;
+                $row[] = $this->siswa->getData($list->id_siswa)['nama'] ?? '-';
+                if ($tipe == 'masuk') {
+                    $row[] = $list->asal;
+                }
+                if ($tipe == 'keluar') {
+                    $row[] = $list->tujuan;
+                }
+                $row[] = isset($tahun_ajar) ? $tahun_ajar['tahun_mulai'] . '/' . $tahun_ajar['tahun_selesai'] : '-';
+                $row[] = $list->alasan;
+                if (session()->get('level') == 'admin') {
+                    $row[] = "
+                    <a href='" . route_to('pindah_sekolah_show', $tipe, $list->id) . "' class='btn btn-sm btn-info'>Lihat</a>
+                    <a href='" . route_to('pindah_sekolah_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>";
+                    // <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('kelas_destroy', $list->id) . "`, `kelasDataTable`, `Apakah anda yang menghapus data jenjang kelas ?`)'>Hapus</button>";
+                } else {
+                    $row[] = "";
+                }
+                $data[] = $row;
+            }
+
+            $output = [
+                'draw' => $request->getPost('draw'),
+                'recordsTotal' => $datatable->countAll(),
+                'recordsFiltered' => $datatable->countFiltered(),
+                'data' => $data,
+            ];
+
+            return json_encode($output);
+        }
     }
 }

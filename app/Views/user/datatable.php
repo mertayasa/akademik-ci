@@ -40,6 +40,7 @@
                                     <td>Email</td>
                                     <td>NIP</td>
                                     <td>No Telp</td>
+                                    <td>Masa Jabatan</td>
                                     <td>Status Aktif</td>
                                 <?php break;
                                 case 'ortu': ?>
@@ -94,6 +95,23 @@
             },
             "columnDefs": [{
                 "targets": [0, 1, 3, 4, 5, -1],
+                "orderable": false,
+            }],
+        })
+    <?php elseif ($level == 'kepsek') : ?>
+        const table = $('#userDataTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                "url": "<?= route_to('user_datatables', $level) ?>",
+                "type": "POST",
+                "data": {
+                    "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+                },
+            },
+            "columnDefs": [{
+                "targets": [0, 1, 3, 5, 6, 7, -1],
                 "orderable": false,
             }],
         })

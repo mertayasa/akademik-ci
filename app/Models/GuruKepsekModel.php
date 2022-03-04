@@ -28,7 +28,8 @@ class GuruKepsekModel extends Generic
         'tanggal_lahir',
         'status',
         'bio',
-        'foto'
+        'foto',
+        'masa_jabatan_kepsek'
     ];
 
     // Dates

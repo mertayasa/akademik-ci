@@ -219,6 +219,8 @@ $routes->group('history-data', ['filter' => 'auth'], function ($routes) {
     $routes->get('(:segment)/(:num)/profil', 'History::userProfil/$1/$2', ['as' => 'history_user_profil']);
     $routes->post('datatables/(:segment)', 'History::datatables/$1', ['as' => 'history_user_datatables']);
     $routes->get('prestasi-detail/(:num)', 'History::prestasiDetail/$1', ['as' => 'history_prestasi_detail']);
+    $routes->get('pindah-masuk', 'History::pindahMasuk', ['as' => 'history_pindah_masuk']);
+    $routes->get('pindah-keluar', 'History::pindahKeluar', ['as' => 'history_pindah_keluar']);
     // $routes->get('/', 'History::prestasiIndex', ['as' => 'history_prestasi_index']);
 });
 

@@ -75,6 +75,18 @@
             ?>
         </div>
     </div>
+    <div class="row mt-3">
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('Masa Jabatan', 'masa_jabatan_kepsek') ?>
+            <?= form_input([
+                'type' => 'text',
+                'name' => 'masa_jabatan_kepsek',
+                'id' => 'masa_jabatan_kepsek',
+                'value' => set_value('masa_jabatan_kepsek') == false && isset($user) ? $user['masa_jabatan_kepsek'] : set_value('masa_jabatan_kepsek'),
+                'class' => 'form-control'
+            ]) ?>
+        </div>
+    </div>
 <?php endif; ?>
 
 <div class="row mt-3">

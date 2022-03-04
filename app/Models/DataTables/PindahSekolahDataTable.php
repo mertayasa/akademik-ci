@@ -23,7 +23,6 @@ class PindahSekolahDataTable extends Model
         $this->request = $request;
         $this->tipe = $tipe;
         $this->dt = $this->db->table($this->table);
-
     }
 
     // Datatables

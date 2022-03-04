@@ -138,9 +138,15 @@ class User extends BaseController
                     $row[] = ucfirst($list->status);
                 }
 
-                if ($level == 'guru' or $level == 'kepsek') {
+                if ($level == 'guru') {
                     $row[] = $list->nip ?? '-';
                     $row[] = $list->no_telp ?? '-';
+                    $row[] = ucfirst($list->status);
+                }
+                if ($level == 'kepsek') {
+                    $row[] = $list->nip ?? '-';
+                    $row[] = $list->no_telp ?? '-';
+                    $row[] = $list->masa_jabatan_kepsek ?? '-';
                     $row[] = ucfirst($list->status);
                 }
 
