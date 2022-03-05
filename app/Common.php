@@ -1,5 +1,7 @@
 <?php
 
+use CodeIgniter\Config\Services;
+
 /**
  * The goal of this file is to allow developers a location
  * where they can overwrite core procedural functions and
@@ -13,3 +15,8 @@
  *
  * @see: https://codeigniter4.github.io/CodeIgniter4/
  */
+
+function route_to(string $method, ...$params)
+{
+    return base_url(Services::routes()->reverseRoute($method, ...$params));
+}
