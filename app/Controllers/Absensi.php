@@ -62,11 +62,12 @@ class Absensi extends BaseController
         }
 
         $data = $this->absensi->getAbsensiByKelas($anggota_kelas['id_kelas'], $id_tahun_ajar, $anggota_kelas['id']);
+        // dd($data);
         $data['id_siswa'] = $id_siswa ?? ($anggota_kelas[0]['id'] ?? null);
         $data['anggota_kelas'] = $anggota_kelas;
         $data['siswa'] = $siswa;
-        $data['max_absen_ganjil'] = max(array_column($data['group_bulan_ganjil'], 'count_absen'));
-        $data['max_absen_genap'] = max(array_column($data['group_bulan_genap'], 'count_absen'));
+        $data['max_absen_ganjil'] = $data['group_bulan_ganjil'] != null ? max(array_column($data['group_bulan_ganjil'], 'count_absen')) : null;
+        $data['max_absen_genap'] = $data['group_bulan_genap'] != null ? max(array_column($data['group_bulan_genap'], 'count_absen')) : null;
 
         return view('absensi/siswa/index', $data);
     }
@@ -88,8 +89,10 @@ class Absensi extends BaseController
         $data['id_siswa'] = $id_siswa ?? ($anggota_kelas[0]['id'] ?? null);
         $data['anggota_kelas'] = $anggota_kelas;
         $data['siswa'] = $siswa;
-        $data['max_absen_ganjil'] = max(array_column($data['group_bulan_ganjil'], 'count_absen'));
-        $data['max_absen_genap'] = max(array_column($data['group_bulan_genap'], 'count_absen'));
+        // $data['max_absen_ganjil'] = max(array_column($data['group_bulan_ganjil'], 'count_absen'));
+        // $data['max_absen_genap'] = max(array_column($data['group_bulan_genap'], 'count_absen'));
+        $data['max_absen_ganjil'] = $data['group_bulan_ganjil'] != null ? max(array_column($data['group_bulan_ganjil'], 'count_absen')) : null;
+        $data['max_absen_genap'] = $data['group_bulan_genap'] != null ? max(array_column($data['group_bulan_genap'], 'count_absen')) : null;
 
         return view('absensi/ortu/index', $data);
     }
@@ -101,10 +104,10 @@ class Absensi extends BaseController
 
         $data['tanggal'] = date('Y-m-d', strtotime($tanggal_input));
         $data['absensi'] = $this->absensi
-                            ->where([
-                                'tanggal' => $data['tanggal'],
-                                'id_kelas' => $id_kelas,
-                            ])->findAll();
+            ->where([
+                'tanggal' => $data['tanggal'],
+                'id_kelas' => $id_kelas,
+            ])->findAll();
         return json_encode(['code' => 1, 'data' => $data]);
     }
 
@@ -139,7 +142,7 @@ class Absensi extends BaseController
 
         return $data;
     }
-    
+
     public function insertAbsensi()
     {
         $id_kelas = $_POST['id_kelas'];
@@ -153,7 +156,7 @@ class Absensi extends BaseController
                 $raw_absensi = $this->request->getPost('absensi');
                 $absensi_update = [];
                 $absensi_insert = [];
-                foreach($raw_absensi as $key => $absen){
+                foreach ($raw_absensi as $key => $absen) {
                     // $this->absensi->updateOrInsert([
                     //     'id_anggota_kelas' => $key,
                     //     'id_kelas' => $id_kelas,
@@ -176,24 +179,24 @@ class Absensi extends BaseController
                             'id' => $data_exists[0]['id'],
                             'id_anggota_kelas' => $key,
                             'tanggal' => $tanggal_input,
-                            'kehadiran' => $absen ,
+                            'kehadiran' => $absen,
                             'semester' => $semester
                         ]);
-                    }else{
+                    } else {
                         array_push($absensi_insert, [
                             'id_anggota_kelas' => $key,
                             'id_kelas' => $id_kelas,
                             'tanggal' => $tanggal_input,
-                            'kehadiran' => $absen ,
+                            'kehadiran' => $absen,
                             'semester' => $semester
                         ]);
                     }
                 }
-                if(count($absensi_update) > 0){
+                if (count($absensi_update) > 0) {
                     $this->absensi->dt->updateBatch($absensi_update, 'id');
                 }
 
-                if(count($absensi_insert) > 0){
+                if (count($absensi_insert) > 0) {
                     $this->absensi->dt->insertBatch($absensi_insert);
                 }
             } else {
@@ -214,30 +217,28 @@ class Absensi extends BaseController
     public function destroy($tanggal, $id_kelas)
     {
         $absensi = $this->absensi
-        ->select('anggota_kelas.id_tahun_ajar as id_tahun_ajar, absensi.id as id, anggota_kelas.id_kelas as id_kelas')
-        ->join('anggota_kelas', 'absensi.id_anggota_kelas = anggota_kelas.id')
-        ->where([
-            'absensi.tanggal' => $tanggal,
-            'absensi.id_kelas' => $id_kelas,
-        ])->findAll();
+            ->select('anggota_kelas.id_tahun_ajar as id_tahun_ajar, absensi.id as id, anggota_kelas.id_kelas as id_kelas')
+            ->join('anggota_kelas', 'absensi.id_anggota_kelas = anggota_kelas.id')
+            ->where([
+                'absensi.tanggal' => $tanggal,
+                'absensi.id_kelas' => $id_kelas,
+            ])->findAll();
 
-        if(count($absensi) > 0){
+        if (count($absensi) > 0) {
             $id_kelas = $absensi[0]['id_kelas'];
             $id_tahun_ajar = $absensi[0]['id_tahun_ajar'];
-            
-            foreach($absensi as $absen){
+
+            foreach ($absensi as $absen) {
                 $this->absensi->delete($absen['id']);
             }
 
             $data = $this->getAbsensiByKelas($id_kelas, $id_tahun_ajar);
             $view_absensi_ganjil = view('includes/table_absensi_ganjil', $data);
             $view_absensi_genap = view('includes/table_absensi_genap', $data);
-    
+
             return json_encode(['code' => 1, 'message' => 'Berhasil menghapus absensi', 'view_absensi_ganjil' => $view_absensi_ganjil, 'view_absensi_genap' => $view_absensi_genap]);
-        }else{
+        } else {
             return json_encode(['code' => 0, 'message' => 'Absensi tidak ditemukan']);
         }
-
-
     }
 }
