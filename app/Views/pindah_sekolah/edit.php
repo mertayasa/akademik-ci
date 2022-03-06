@@ -28,11 +28,10 @@
           <div class="card-body">
             <?= $this->include('layouts/flash') ;?>
             <?= form_open(route_to('pindah_sekolah_update', $tipe, $pindah_sekolah['id']), ['id' => 'updateForm']); ?>
-
-            <?= $this->include('pindah_sekolah/form_edit'); ?>
+              <?= $this->include('pindah_sekolah/form_edit'); ?>
                 <div class="row mt-3">
                     <div class="col-12">
-                        <a href="<?= route_to('kelas_index') ?>" class="btn btn-secondary">Kembali</a>
+                        <a href="<?= route_to('pindah_sekolah_index', $tipe); ?>" class="btn btn-secondary">Kembali</a>
                         <button class="btn btn-primary ml-3" type="submit">Simpan</button>
                     </div>
                 </div>

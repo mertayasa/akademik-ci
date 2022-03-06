@@ -11,6 +11,10 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
     require SYSTEMPATH . 'Config/Routes.php';
 }
 
+if (file_exists(APPPATH . 'Helpers/custom_helper.php')) {
+    require APPPATH . 'Helpers/custom_helper.php';
+}
+
 /*
  * --------------------------------------------------------------------
  * Router Setup
@@ -32,7 +36,8 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', function () {
-    return redirect()->to(route_to('login_form'));
+    // return redirect()->to(fullRoute('login_form'));
+    return redirect()->to(base_url(route_to('login_form')));
 });
 
 $routes->get('login', 'Auth::index', ['as' => 'login_form']);

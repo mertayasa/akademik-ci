@@ -30,7 +30,7 @@
                     <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
                 <?php endif; ?>
 
-                <form action="<?= base_url(route_to('login')) ?>" method="post">
+                <form action="<?= route_to('login') ?>" method="post">
                     <?= csrf_field() ?>
                     <div class="input-group mb-3">
                         <input type="text" name="email" class="form-control" placeholder="NIS/Email">
