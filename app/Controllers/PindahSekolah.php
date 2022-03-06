@@ -21,25 +21,43 @@ class PindahSekolah extends BaseController
 
     public function __construct()
     {
-        $this->tahun_ajar = new TahunAjarModel;   
-        $this->siswa = new SiswaModel;   
-        $this->ortu = new OrtuModel;   
-        $this->pindah_sekolah = new PindahSekolahModel(); 
-        $this->anggota_kelas = new AnggotaKelasModel(); 
+        $this->tahun_ajar = new TahunAjarModel;
+        $this->siswa = new SiswaModel;
+        $this->ortu = new OrtuModel;
+        $this->pindah_sekolah = new PindahSekolahModel();
+        $this->anggota_kelas = new AnggotaKelasModel();
         $this->db = db_connect();
     }
 
     public function index($tipe)
     {
+
+        if ($this->request->getPost('id_tahun') != null) {
+            dd($this->request->getPost('id_tahun'));
+        }
+        $data = [];
+        $tahun_ajar = [];
+        $tahun_ajar_aktif = $this->tahun_ajar->find($this->tahun_ajar->getActiveId());
+        $tahun_ajar_raw = $this->tahun_ajar->where('id <', $tahun_ajar_aktif['id'])->orderBy('tahun_mulai', 'ASC')->findAll();
+        foreach ($tahun_ajar_raw as $raw) {
+            $tahun_ajar[$raw['id']] = $raw['tahun_mulai'] . '/' . $raw['tahun_selesai'];
+        }
+        if ($this->request->getGet('id_tahun') != null) {
+            $id_tahun = $this->request->getGet('id_tahun');
+            $selected_tahun = $this->tahun_ajar->find($id_tahun);
+        }
         $data = [
             'tipe' => $tipe,
+            'tahun_ajar' => $tahun_ajar,
+            'tahun_ajar_selected' => (isset($id_tahun) and $id_tahun != null) ? $id_tahun : null
         ];
-
+        // dd($data);
         return view('pindah_sekolah/index', $data);
     }
 
     public function datatables($tipe)
     {
+        // ($this->request->getPost('id_tahun') != null) ? $id_tahun = $this->request->getPost('id_tahun') : $id_tahun = null;
         $request = Services::request();
         $datatable = new PindahSekolahDataTable($request, $tipe);
 
@@ -54,13 +72,13 @@ class PindahSekolah extends BaseController
                 $row = [];
                 $row[] = $no;
                 $row[] = $this->siswa->getData($list->id_siswa)['nama'] ?? '-';
-                if($tipe == 'masuk'){
+                if ($tipe == 'masuk') {
                     $row[] = $list->asal;
                 }
-                if($tipe == 'keluar'){
+                if ($tipe == 'keluar') {
                     $row[] = $list->tujuan;
                 }
-                $row[] = isset($tahun_ajar) ? $tahun_ajar['tahun_mulai'].'/'.$tahun_ajar['tahun_selesai'] : '-';
+                $row[] = isset($tahun_ajar) ? $tahun_ajar['tahun_mulai'] . '/' . $tahun_ajar['tahun_selesai'] : '-';
                 $row[] = $list->alasan;
                 if (session()->get('level') == 'admin') {
                     $row[] = "
@@ -104,8 +122,8 @@ class PindahSekolah extends BaseController
         $tahun_ajar = $this->tahun_ajar->getData($pindah_sekolah['id_tahun_ajar']);
         $user = $this->siswa->getData($pindah_sekolah['id_siswa']);
         $user['foto'] = $this->siswa->getFoto($user['id']);
-        $pindah_sekolah['tahun_ajar'] = count($tahun_ajar) > 0 ? $tahun_ajar['tahun_mulai'].'/'.$tahun_ajar['tahun_selesai'] : '-';
-        
+        $pindah_sekolah['tahun_ajar'] = count($tahun_ajar) > 0 ? $tahun_ajar['tahun_mulai'] . '/' . $tahun_ajar['tahun_selesai'] : '-';
+
         $data = [
             'pindah_sekolah' => $pindah_sekolah,
             'tipe' => $tipe,
@@ -121,24 +139,24 @@ class PindahSekolah extends BaseController
     public function insert($tipe)
     {
         $this->db->transBegin();
-        try{
+        try {
             $data = $this->request->getPost();
             $data['tipe'] = $tipe;
-            
-            if($tipe == 'masuk'){
+
+            if ($tipe == 'masuk') {
                 $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
                 $siswa = $this->siswa->insertData($data);
                 $data['id_siswa'] = $siswa;
                 $data['tujuan'] = getNamaSekolah();
-            }else{
+            } else {
                 $siswa = $this->siswa->getData($data['id_siswa']);
-                
+
                 $this->siswa->updateData($siswa['id'], [
                     'status' => 'nonaktif',
                 ]);
 
                 $anggota_kelas = $this->anggota_kelas->where('id_siswa', $data['id_siswa'])->getData();
-                foreach($anggota_kelas as $ak){
+                foreach ($anggota_kelas as $ak) {
                     $this->anggota_kelas->updateData($ak['id'], [
                         'status' => 'nonaktif',
                     ]);
@@ -146,11 +164,11 @@ class PindahSekolah extends BaseController
 
                 $data['asal'] = getNamaSekolah();
             }
-            
+
             $this->pindah_sekolah->insertData($data);
             $this->db->transCommit();
             session()->setFlashdata('success', 'Berhasil menambahkan data pindah sekolah');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->db->transRollback();
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'Gagal menambahkan data pindah sekolah');
@@ -178,21 +196,22 @@ class PindahSekolah extends BaseController
     public function update($tipe, $id_pindah)
     {
         $pindah_sekolah = $this->pindah_sekolah->getData($id_pindah);
-        if(count($pindah_sekolah) == 0){
+        if (count($pindah_sekolah) == 0) {
             session()->setFlashdata('error', 'Data pindah sekolah tidak ditemukan');
             return redirect()->back()->withInput();
         }
 
-        try{
+        try {
             $data = $this->request->getPost();
-            
-            if($tipe == 'keluar'){
+
+            if ($tipe == 'keluar') {
                 $data['asal'] = getNamaSekolah();
             }
 
             $this->pindah_sekolah->updateData($id_pindah, $data);
+            $this->siswa->updateData($pindah_sekolah['id_siswa'], $data); //ini bakal update juga ke tabel siswa
             session()->setFlashdata('success', 'Berhasil mengubah data pindah sekolah');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->db->transRollback();
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'Gagal mengubah data pindah sekolah');

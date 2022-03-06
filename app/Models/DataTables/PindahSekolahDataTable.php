@@ -43,11 +43,22 @@ class PindahSekolahDataTable extends Model
             $i++;
         }
 
-        if ($this->request->getPost('order')) {
-            $this->dt->where('tipe', $this->tipe)->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
-        } else if (isset($this->order)) {
-            $order = $this->order;
-            $this->dt->where('tipe', $this->tipe)->orderBy(key($order), $order[key($order)]);
+        if ($this->request->getPost('id_tahun') != null) {
+            if ($this->request->getPost('order')) {
+                $this->dt->where('tipe', $this->tipe)->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
+                $this->dt->where('id_tahun_ajar', $this->request->getPost('id_tahun'));
+            } else if (isset($this->order)) {
+                $order = $this->order;
+                $this->dt->where('tipe', $this->tipe)->orderBy(key($order), $order[key($order)]);
+                $this->dt->where('id_tahun_ajar', $this->request->getPost('id_tahun'));
+            }
+        } else {
+            if ($this->request->getPost('order')) {
+                $this->dt->where('tipe', $this->tipe)->orderBy($this->column_order[$this->request->getPost('order')['0']['column']], $this->request->getPost('order')['0']['dir']);
+            } else if (isset($this->order)) {
+                $order = $this->order;
+                $this->dt->where('tipe', $this->tipe)->orderBy(key($order), $order[key($order)]);
+            }
         }
     }
 

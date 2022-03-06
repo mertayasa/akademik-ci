@@ -21,6 +21,21 @@ if (isset($kepsek)) {
         </div>
     </div>
 <?php endif; ?>
+<?php if (!isset($level) and !isSiswa()) : ?>
+    <div class="row">
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('Email', 'emailUser') ?>
+            <?= form_input([
+                'type' => 'email',
+                'name' => 'email',
+                'id' => 'emailUser',
+                'value' => set_value('email') == false && isset($user) ? $user['email'] : set_value('email'),
+                'class' => 'form-control'
+            ]) ?>
+        </div>
+    </div>
+<?php endif; ?>
+
 
 <div class="row mt-3">
     <div class="col-12 col-md-6 pb-3 pb-md-0">

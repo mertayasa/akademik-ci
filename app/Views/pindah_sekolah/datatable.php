@@ -47,7 +47,8 @@
             "url": "<?= route_to('pindah_sekolah_datatables', $tipe) ?>",
             "type": "POST",
             "data": {
-                "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+                "<?= csrf_token() ?>": "<?= csrf_hash() ?>",
+                "id_tahun": "<?= ($tahun_ajar_selected != null) ? $tahun_ajar_selected : null; ?>"
             },
         },
         "columnDefs": [{

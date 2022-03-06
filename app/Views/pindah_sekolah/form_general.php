@@ -6,11 +6,11 @@
             $selected = set_value('id_tahun_ajar') == false && isset($pindah_sekolah) ? $pindah_sekolah['id_tahun_ajar'] : set_value('id_tahun_ajar');
             ?>
             <?php foreach ($tahun_ajar as $or) : ?>
-                <option value="<?= $or['id'] ?>" <?= $selected == $or['id'] ? 'selected' : '' ?>><?= $or['tahun_mulai'].'/'.$or['tahun_selesai'] ?></option>
+                <option value="<?= $or['id'] ?>" <?= $selected == $or['id'] ? 'selected' : '' ?>><?= $or['tahun_mulai'] . '/' . $or['tahun_selesai'] ?></option>
             <?php endforeach; ?>
         </select>
     </div>
-    <?php if($tipe == 'keluar'): ?>
+    <?php if ($tipe == 'keluar') : ?>
         <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('Tujaun Sekolah', 'tujuanSekolah') ?>
             <?= form_input([
@@ -22,7 +22,7 @@
                 'class' => 'form-control'
             ]) ?>
         </div>
-    <?php else: ?>
+    <?php else : ?>
         <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('Asal Sekolah', 'asalSekolah') ?>
             <?= form_input([
