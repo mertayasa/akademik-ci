@@ -492,22 +492,27 @@ class User extends BaseController
             switch ($level) {
                 case 'admin':
                     $this->admin->updateData($id, $data);
-                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan user']);
-                    break;
+                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan admin']);
+                break;
                 case 'siswa':
                     $this->siswa->updateData($id, $data);
-                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan user']);
-                    break;
+                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan siswa']);
+                break;
                 case 'guru':
                     $this->guru->updateData($id, $data);
-                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan user']);
-                    break;
+                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan guru']);
+                break;
+                case 'kepsek':
+                    $this->guru->updateData($id, $data);
+                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan kepala sekolah']);
+                break;
                 case 'ortu':
                     $this->ortu->updateData($id, $data);
-                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan user']);
-                    break;
+                    return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan orang tua']);
+                break;
             }
         } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
             return json_encode(['code' => 0, 'message' => 'Gagal menonaktifkan user']);
         }
     }

@@ -38,7 +38,7 @@ class Siswa extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
                 'unsigned' => TRUE,
-                'null' => FALSE,
+                'null' => TRUE,
             ],
             'tanggal_lahir' => [
                 'type' => 'DATE',

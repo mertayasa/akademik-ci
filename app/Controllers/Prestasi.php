@@ -59,6 +59,7 @@ class Prestasi extends BaseController
 
     public function edit($id)
     {
+        $id_tahun_aktif = $this->tahun_ajar->getActiveId();
         $prestasi = $this->prestasi->getData($id);
         $kategori = $this->prestasi::$kategori;
         $tingkat = $this->prestasi::$tingkat;
@@ -66,7 +67,8 @@ class Prestasi extends BaseController
         $data = [
             'kategori' => $kategori,
             'tingkat' => $tingkat,
-            'prestasi' => $prestasi
+            'prestasi' => $prestasi,
+            'id_tahun_aktif' => $id_tahun_aktif
         ];
 
         return view('prestasi/edit', $data);
