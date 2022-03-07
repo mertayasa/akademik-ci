@@ -26,13 +26,13 @@
 <section class="content">
     <div class="container-fluid">
         <?= form_open(route_to('pindah_sekolah_index', 'masuk'), ['method' => 'get', 'id' => 'storeForm']); ?>
-        <div class="row align-items-end">
+        <div class="row align-items-end mb-3">
             <div class="col-12 col-md-3 pb-3 pb-md-0">
                 <?= form_label('Filter Tahun Ajar', 'tahunAjar') ?>
                 <?= form_dropdown(
                     'id_tahun',
                     $tahun_ajar,
-                    set_value('tahun_ajar_selected') == false && isset($id_tahun_selected) ? $id_tahun_selected : set_value('tahun_ajar_selected'),
+                    set_value('tahun_ajar_selected') == false && isset($tahun_ajar_selected) ? $tahun_ajar_selected : set_value('tahun_ajar_selected'),
                     ['class' => 'form-control', 'id' => 'tahunAjar']
                 );
                 ?>

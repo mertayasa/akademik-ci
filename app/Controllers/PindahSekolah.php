@@ -31,11 +31,13 @@ class PindahSekolah extends BaseController
 
     public function index($tipe)
     {
-<<<<<<< HEAD
 
-        if ($this->request->getPost('id_tahun') != null) {
-            dd($this->request->getPost('id_tahun'));
-        }
+        // if ($this->request->getPost('id_tahun') != null) {
+        //     dd($this->request->getPost('id_tahun'));
+        // }
+
+        // dd('asdsad');
+
         $data = [];
         $tahun_ajar = [];
         $tahun_ajar_aktif = $this->tahun_ajar->find($this->tahun_ajar->getActiveId());
@@ -43,18 +45,18 @@ class PindahSekolah extends BaseController
         foreach ($tahun_ajar_raw as $raw) {
             $tahun_ajar[$raw['id']] = $raw['tahun_mulai'] . '/' . $raw['tahun_selesai'];
         }
+        
         if ($this->request->getGet('id_tahun') != null) {
             $id_tahun = $this->request->getGet('id_tahun');
             $selected_tahun = $this->tahun_ajar->find($id_tahun);
         }
-=======
-        // dd(getenv('app.baseURL'));
->>>>>>> cebce2132a4b24d22e7cb22283ca6b200e7536a0
+
         $data = [
             'tipe' => $tipe,
             'tahun_ajar' => $tahun_ajar,
             'tahun_ajar_selected' => (isset($id_tahun) and $id_tahun != null) ? $id_tahun : null
         ];
+
         // dd($data);
         return view('pindah_sekolah/index', $data);
     }
@@ -205,10 +207,7 @@ class PindahSekolah extends BaseController
             return redirect()->back()->withInput();
         }
 
-<<<<<<< HEAD
-=======
         $this->db->transBegin();
->>>>>>> cebce2132a4b24d22e7cb22283ca6b200e7536a0
         try {
             $data = $this->request->getPost();
 
@@ -229,11 +228,7 @@ class PindahSekolah extends BaseController
             }
 
             $this->pindah_sekolah->updateData($id_pindah, $data);
-<<<<<<< HEAD
-            $this->siswa->updateData($pindah_sekolah['id_siswa'], $data); //ini bakal update juga ke tabel siswa
-=======
             $this->db->transCommit();
->>>>>>> cebce2132a4b24d22e7cb22283ca6b200e7536a0
             session()->setFlashdata('success', 'Berhasil mengubah data pindah sekolah');
         } catch (\Exception $e) {
             $this->db->transRollback();
