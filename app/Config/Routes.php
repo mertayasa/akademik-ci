@@ -37,7 +37,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', function () {
     // return redirect()->to(fullRoute('login_form'));
-    return redirect()->to(base_url(route_to('login_form')));
+    return redirect()->to(route_to('login_form'));
 });
 
 $routes->get('login', 'Auth::index', ['as' => 'login_form']);
