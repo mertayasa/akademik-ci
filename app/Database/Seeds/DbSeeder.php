@@ -21,5 +21,6 @@ class DbSeeder extends Seeder
         $this->call('JadwalSeeder');
         $this->call('NilaiSeeder');
         $this->call('PrestasiSeeder');
+        $this->call('InsertTahnAjartoPestasi');
     }
 }
