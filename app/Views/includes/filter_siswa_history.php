@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-header">
             <div class="col-12 px-0">
-                <form action="<?= route_to('history') ?>">
+                <form action="<?= route_to('nilai_history') ?>">
                     <div class="row align-items-end">
                         <div class="col-12 col-md-3 pb-3 pb-md-0">
                             <?= form_label('Pilih Anak', 'idSiswa') ?>

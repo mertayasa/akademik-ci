@@ -40,6 +40,26 @@
                                             </div>
                                             <hr>
                                         <?php endif; ?>
+                                        <?php if ($level == 'kepsek') : ?>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">NIP</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <?= $user['nip'] ?? '-' ?>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Masa Jabatan</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <?= $user['masa_jabatan_kepsek'] ?? '-' ?>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        <?php endif; ?>
                                         <?php if (isset($level) and $level != 'siswa') : ?>
                                             <div class="row">
                                                 <div class="col-sm-3">
@@ -86,6 +106,18 @@
                                                 <?= ucfirst($user['status']) ?>
                                             </div>
                                         </div>
+                                        <?php if ($level == 'kepsek') : ?>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0">Bio</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <?= $user['bio'] ?? '-' ?>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>

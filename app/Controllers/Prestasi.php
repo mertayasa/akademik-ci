@@ -20,10 +20,13 @@ class Prestasi extends BaseController
     public function index()
     {
         $id_tahun_aktif = $this->tahun_ajar->getActiveId();
+        $data_tahun = $this->tahun_ajar->getData($id_tahun_aktif);
+        $tahun_aktif = $data_tahun['tahun_mulai'] . ' / ' . $data_tahun['tahun_selesai'];
         $prestasi = $this->prestasi->where('id_tahun_ajar', $id_tahun_aktif)->orderBy('created_at desc');
 
         $data = [
             'id_tahun_aktif' => $id_tahun_aktif,
+            'tahun_aktif' => $tahun_aktif,
             'prestasi' => $prestasi->paginate(10),
             'pager' => $prestasi->pager
         ];

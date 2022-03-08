@@ -66,7 +66,7 @@ class WaliKelasModel extends Generic
     }
     public function get_wali_kelas_by_status($id_kelas, $id_tahun_ajar)
     {
-        $this->dt->select($this->table . '.*, guru_kepsek.nama as nama_guru, guru_kepsek.nip');
+        $this->dt->select($this->table . '.*, guru_kepsek.nama as nama_guru, guru_kepsek.nip, guru_kepsek.status as status_wali_aktif');
         $this->dt->join('guru_kepsek', $this->table . '.id_guru_wali=guru_kepsek.id');
         $this->dt->where('id_kelas', $id_kelas);
         $this->dt->where('id_tahun_ajar', $id_tahun_ajar);

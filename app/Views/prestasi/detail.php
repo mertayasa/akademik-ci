@@ -51,7 +51,7 @@
                             <div class="px-2">
                                 <a href="<?= route_to('prestasi_index') ?>" class="btn btn-sm btn-secondary">Kembali</a>
                                 <a href="<?= route_to('prestasi_edit', $prestasi['id']) ?>" class="btn btn-sm btn-warning">Edit</a>
-                                <a onclick="deletePrestasi(this)" data-url="<?= route_to('prestasi_destroy', $prestasi['id']) ?>" class="btn btn-sm btn-danger">Hapus</a>
+                                <!-- <a onclick="deletePrestasi(this)" data-url="<?= route_to('prestasi_destroy', $prestasi['id']) ?>" class="btn btn-sm btn-danger">Hapus</a> -->
                             </div>
                         <?php endif; ?>
 
