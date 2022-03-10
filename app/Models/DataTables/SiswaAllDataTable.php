@@ -37,6 +37,7 @@ class SiswaAllDataTable extends Model
                 } else {
                     $this->dt->orLike($item, $this->request->getPost('search')['value']);
                 }
+
                 if (count($this->column_search) - 1 == $i)
                     $this->dt->groupEnd();
             }
@@ -49,6 +50,10 @@ class SiswaAllDataTable extends Model
             $order = $this->order;
             $this->dt->orderBy(key($order), $order[key($order)]);
         }
+
+        if(isOrtu()){
+            $this->dt->where('id_ortu', session()->get('id'));
+        }
     }
 
     public function getDatatables()
@@ -57,6 +62,7 @@ class SiswaAllDataTable extends Model
         if ($this->request->getPost('length') != -1)
             $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
         $this->dt->where('status', 'aktif');
+
         $query = $this->dt->get();
         return $query->getResult();
     }

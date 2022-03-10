@@ -10,12 +10,12 @@ class TahunAjarSeeder extends Seeder
     {
         $tahun_start = 2019;
         $tahun_end = 2020;
-        for($i=1; $i<=6; $i++){
+        for($i=1; $i<=2; $i++){
 
             $data = [
                 'tahun_mulai' => $tahun_start+1,
                 'tahun_selesai' => $tahun_end+1,
-                'status' => $i == 6 ? 'aktif' : 'nonaktif'
+                'status' => $i == 2 ? 'aktif' : 'nonaktif'
                 // 'keterangan' => 'Tahun Ajaran '.($tahun_start+1).' - '.($tahun_end+1),
             ];
 

@@ -17,7 +17,7 @@ class OrtuSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create('id_ID');
-        for ($i = 0; $i <= 20; $i++) {
+        for ($i = 0; $i <= 10; $i++) {
             $data = [
                 'nama' => $faker->name(),
                 'email' => $faker->email(),
