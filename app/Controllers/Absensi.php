@@ -54,6 +54,7 @@ class Absensi extends BaseController
     {
         $siswa = $this->siswa->where('id', session()->get('id'))->findAll();
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'] ?? null;
+        $anggota_kelas = $this->anggota_kelas->get_anggota_by_id((session()->get('id')), $id_tahun_ajar)[0] ?? [];
 
         if (isset($siswa[0]['id'])) {
             $anggota_kelas = $this->anggota_kelas->get_anggota_by_id(($id_siswa ?? $siswa[0]['id']), $id_tahun_ajar)[0] ?? [];
@@ -68,6 +69,7 @@ class Absensi extends BaseController
         $data['siswa'] = $siswa;
         $data['max_absen_ganjil'] = $data['group_bulan_ganjil'] != null ? max(array_column($data['group_bulan_ganjil'], 'count_absen')) : null;
         $data['max_absen_genap'] = $data['group_bulan_genap'] != null ? max(array_column($data['group_bulan_genap'], 'count_absen')) : null;
+        $data['wali_kelas'] =  $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
 
         return view('absensi/siswa/index', $data);
     }
@@ -78,6 +80,7 @@ class Absensi extends BaseController
 
         $siswa = $this->siswa->where('id_ortu', session()->get('id'))->findAll();
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'] ?? null;
+        $anggota_kelas = $this->anggota_kelas->get_anggota_by_id((session()->get('id')), $id_tahun_ajar)[0] ?? [];
 
         if (isset($siswa[0]['id'])) {
             $anggota_kelas = $this->anggota_kelas->get_anggota_by_id(($id_siswa ?? $siswa[0]['id']), $id_tahun_ajar)[0] ?? [];
@@ -93,6 +96,7 @@ class Absensi extends BaseController
         // $data['max_absen_genap'] = max(array_column($data['group_bulan_genap'], 'count_absen'));
         $data['max_absen_ganjil'] = $data['group_bulan_ganjil'] != null ? max(array_column($data['group_bulan_ganjil'], 'count_absen')) : null;
         $data['max_absen_genap'] = $data['group_bulan_genap'] != null ? max(array_column($data['group_bulan_genap'], 'count_absen')) : null;
+        $data['wali_kelas'] =  $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
 
         return view('absensi/ortu/index', $data);
     }

@@ -268,6 +268,8 @@ class Akademik extends BaseController
         $id_tahun_ajar = $this->request->getPost('id_tahun_ajar');
         $wali_aktif = $this->wali_kelas->get_wali_kelas_by_status($id_kelas, $id_tahun_ajar);
         $status = $this->request->getPost('status');
+        $wali_nonaktif = $this->wali_kelas->getData($id_wali);
+        $untuk_cek_status = $this->guru->getData($wali_nonaktif['id_guru_wali']);
         // $data = [
         //     'id'           => $id,
         //     'id_guru_wali' => $id_guru
@@ -278,10 +280,12 @@ class Akademik extends BaseController
         try {
             // $this->wali_kelas->updateData($id, $data);
             if ($status == 'aktif') {
-                if ($wali_aktif != null) {
+                if ($wali_aktif != null and $untuk_cek_status['status'] != 'nonaktif') {
                     if ($this->wali_kelas->updateData($wali_aktif->id, ['status' => 'nonaktif'])) {
                         $this->wali_kelas->updateData($id_wali, $data);
                     }
+                } elseif ($wali_aktif != null and $untuk_cek_status['status'] != 'aktif') {
+                    return json_encode(['code' => 0, 'message' => 'Guru tersebut sudah berstatus nonaktif']);
                 } else {
                     $this->wali_kelas->updateData($id_wali, $data);
                 }

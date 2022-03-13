@@ -84,14 +84,13 @@ class Nilai extends BaseController
         $id_siswa = $_GET['id_siswa'] ?? null;
         $siswa = $this->siswa->where('id_ortu', session()->get('id'))->findAll();
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
+        $anggota_kelas = [];
 
         if (isset($siswa[0]['id'])) {
             $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($siswa[0]['id'], $id_tahun_ajar)[0] ?? [];
-        } elseif ($id_siswa != null) {
-            echo $id_siswa;
+        }
+        if ($id_siswa != null) {
             $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($id_siswa, $id_tahun_ajar)[0] ?? [];
-        } else {
-            $anggota_kelas = [];
         }
 
         if (isset($anggota_kelas) and $anggota_kelas != null) {

@@ -11,6 +11,53 @@
     <?php //if (session()->get('level') == 'admin') : 
     ?>
 
+    <?php if(!isAdmin()): ?>
+        <li class="nav-item <?= isActive('user') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+            <a href="#" class="nav-link <?= isActive('user') ?>">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                    Pengguna
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'kepsek') ?>" class="nav-link <?= isActiveSub('kepsek') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Kepala Sekolah</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="<?= route_to('user_index', 'guru') ?>" class="nav-link <?= isActiveSub('guru') ?>">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Guru</p>
+                    </a>
+                </li>
+
+                <?php if(!isSiswa()): ?>
+                    <li class="nav-item">
+                        <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActiveSub('siswa') ?>">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Siswa</p>
+                        </a>
+                    </li>
+
+                    <?php if(!isOrtu()): ?>
+                        <li class="nav-item">
+                            <a href="<?= route_to('user_index', 'ortu') ?>" class="nav-link <?= isActiveSub('ortu') ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ortu</p>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+            </ul>
+        </li>
+    <?php endif; ?>
+
     <?php if (session()->get('level') == 'admin' or session()->get('level') == 'kepsek') : ?>
         <?php
         $data_master_sub = [
@@ -23,6 +70,7 @@
             'pindah',
         ];
         ?>
+            <?php if(!isKepsek()): ?>
         <li class="nav-item <?= isActive($data_master_sub) == 'active' ? 'menu-is-opening menu-open' : '' ?>">
             <a href="#" class="nav-link <?= isActive($data_master_sub) ?>">
                 <i class="nav-icon fas fa-database"></i>
@@ -95,7 +143,7 @@
                         <p>Mata Pelajaran</p>
                     </a>
                 </li>
-
+                
                 <li class="nav-item <?= isActive('pindah') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
                     <a href="#" class="nav-link <?= isActive('pindah') ?>">
                         <i class="far fa-circle nav-icon"></i>
@@ -120,10 +168,38 @@
                         </li>
                     </ul>
                 </li>
-
+                
             </ul>
         </li>
-        
+        <?php endif; ?>
+
+        <?php if(isKepsek()):?>
+            <li class="nav-item <?= isActive('pindah') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+                <a href="#" class="nav-link <?= isActive('pindah') ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>
+                        Pindah Sekolah
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+
+                <ul class="nav nav-treeview" style="display: <?= isActive('pindah') == 'active' ? 'block' : 'none' ?>;">
+                    <li class="nav-item">
+                        <a href="<?= route_to('pindah_sekolah_index', 'masuk') ?>" class="nav-link <?= isActiveSub('masuk') ?>">
+                            <i class="far fa-dot-circle nav-icon"></i>
+                            <p>Pindah Masuk</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?= route_to('pindah_sekolah_index', 'keluar') ?>" class="nav-link <?= isActiveSub('keluar') ?>">
+                            <i class="far fa-dot-circle nav-icon"></i>
+                            <p>Pindah Keluar</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        <?php endif; ?>
+
         <li class="nav-item">
             <a href="<?= route_to('akademik_index') ?>" class="nav-link <?= isActive('akademik') ?>">
                 <i class="nav-icon fas fa-chalkboard-teacher"></i>

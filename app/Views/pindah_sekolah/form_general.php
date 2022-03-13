@@ -12,7 +12,7 @@
     </div>
     <?php if ($tipe == 'keluar') : ?>
         <div class="col-12 col-md-6 pb-3 pb-md-0">
-            <?= form_label('Tujaun Sekolah', 'tujuanSekolah') ?>
+            <?= form_label('Tujuan Sekolah', 'tujuanSekolah') ?>
             <?= form_input([
                 'type' => 'text',
                 'name' => 'tujuan',

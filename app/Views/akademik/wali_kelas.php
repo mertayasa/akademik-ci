@@ -130,8 +130,10 @@
                     success: function(data) {
                         console.log(data)
                         showToast(data.code, data.message)
-                        // // $('#' + tableId).DataTable().ajax.reload();
-                        setTimeout(window.location.reload(), 1500)
+                        // // $('#' + tableId).DataTable().ajax.reload();\
+                        if (data.code == 1) {
+                            setTimeout(window.location.reload(), 1500)
+                        }
                     }
                 })
             }

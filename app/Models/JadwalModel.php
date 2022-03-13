@@ -70,7 +70,8 @@ class JadwalModel extends Generic
         $this->dt->where('id_kelas', $id_kelas);
         $this->dt->where('id_tahun_ajar', $id_tahun_ajar);
         $this->dt->where($this->table . '.status', 'aktif');
-        $this->dt->orderBy('hari', 'desc');
+        // $this->dt->orderBy('hari', 'desc');
+        $this->dt->orderBy('jam_mulai', 'asc');
         $query = $this->dt->get()->getResultObject();
         return $query;
     }

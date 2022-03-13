@@ -42,12 +42,13 @@ class Siswa extends Migration
             ],
             'tanggal_lahir' => [
                 'type' => 'DATE',
-                'null' => TRUE
+                'null' => TRUE,
+                'unique' => FALSE,
             ],
             'tempat_lahir' => [
                 'type' => 'VARCHAR',
                 'constraint' => 50,
-                'unique' => true,
+                'unique' => FALSE,
                 'null' => TRUE
             ],
             'angkatan' => [
