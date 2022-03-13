@@ -22,9 +22,7 @@
                             <?php endif; ?>
                             <td>Tahun Ajar</td>
                             <td>Alasan</td>
-                            <?php if (session()->get('level') == 'admin') : ?>
-                                <td>Aksi</td>
-                            <?php endif; ?>
+                            <td>Aksi</td>
                         </tr>
                     </thead>
                     <tbody>

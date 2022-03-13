@@ -123,7 +123,7 @@
 
             </ul>
         </li>
-
+        
         <li class="nav-item">
             <a href="<?= route_to('akademik_index') ?>" class="nav-link <?= isActive('akademik') ?>">
                 <i class="nav-icon fas fa-chalkboard-teacher"></i>
@@ -195,6 +195,33 @@
             <p>Agenda Kegiatan</p>
         </a>
     </li>
+
+    <?php if(isGuru()): ?>
+        <li class="nav-item <?= isActive('pindah') == 'active' ? 'menu-is-opening menu-open' : '' ?>">
+            <a href="#" class="nav-link <?= isActive('pindah') ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>
+                    Pindah Sekolah
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+
+            <ul class="nav nav-treeview" style="display: <?= isActive('pindah') == 'active' ? 'block' : 'none' ?>;">
+                <li class="nav-item">
+                    <a href="<?= route_to('pindah_sekolah_index', 'masuk') ?>" class="nav-link <?= isActiveSub('masuk') ?>">
+                        <i class="far fa-dot-circle nav-icon"></i>
+                        <p>Pindah Masuk</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= route_to('pindah_sekolah_index', 'keluar') ?>" class="nav-link <?= isActiveSub('keluar') ?>">
+                        <i class="far fa-dot-circle nav-icon"></i>
+                        <p>Pindah Keluar</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    <?php endif; ?>
 
     <?php if (isAdmin() or isGuru() or isKepsek()) : ?>
         <?php $hystory_sub = [

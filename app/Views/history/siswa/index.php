@@ -27,6 +27,9 @@
             <div class="container-fluid">
                 <?= $this->include('history/siswa/table') ?>
             </div>
+            <div class="container-fluid pb-3">
+                <a href="<?= route_to('history_user', 'siswa'); ?>" class="btn btn-secondary">Kembali</a>
+            </div>
         </section>
         <!-- /.content -->
 <?= $this->endSection() ?>

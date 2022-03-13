@@ -5,8 +5,10 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\AdminModel;
 use App\Models\GuruKepsekModel;
+use App\Models\KelasPerTahunModel;
 use App\Models\OrtuModel;
 use App\Models\SiswaModel;
+use App\Models\WaliKelasModel;
 
 use function PHPUnit\Framework\returnSelf;
 
@@ -25,6 +27,8 @@ class Profile extends BaseController
         $this->guru = new GuruKepsekModel();
         $this->admin = new AdminModel();
         $this->ortu = new OrtuModel();
+        $this->wali_kelas = new WaliKelasModel();
+        $this->kelas_per_tahun = new KelasPerTahunModel();
     }
 
     public function show($level, $id)
@@ -34,6 +38,26 @@ class Profile extends BaseController
                 $user = $this->siswa->getData($id);
                 $user['foto'] = $this->siswa->getFoto($user['id']);
                 $ortu = $this->ortu->getData($user['id_ortu']);
+                $kelas = getKelasBySiswa($user['id']);
+                if(isset($kelas[0])){
+                    $kelas_per_tahun = $this->kelas_per_tahun->where([
+                        'id_kelas' => $kelas[0]['id'],
+                        'id_tahun_ajar' => $kelas[0]['id_tahun_ajar']
+                    ])
+                    ->findAll();
+
+                    if(isset($kelas_per_tahun[0])){
+                        $wali_kelas = $this->wali_kelas->where([
+                            'id_kelas' => $kelas[0]['id'],
+                            'id_tahun_ajar' => $kelas[0]['id_tahun_ajar']
+                        ])
+                        ->join('guru_kepsek', 'wali_kelas.id_guru_wali = guru_kepsek.id')
+                        ->findAll();
+                    }
+                }else{
+                    $wali_kelas = [];
+                }
+
             } elseif ($level == 'admin') {
                 $user = $this->admin->getData($id);
                 $user['foto'] = $this->admin->getFoto($user['id']);
@@ -63,7 +87,9 @@ class Profile extends BaseController
                 'ortu' => $ortu,
                 'nama_siswa' => implode(', ', $nama_siswa),
                 'level' => $level,
-                'id' => $id
+                'id' => $id,
+                'kelas' => $kelas ?? [],
+                'wali_kelas' => $wali_kelas ?? [],
             ];
             return view('profile/show', $data);
         }

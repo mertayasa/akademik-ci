@@ -11,7 +11,6 @@
     <div class="col-sm-3">
         <h6 class="mb-0">Kelas</h6>
     </div>
-    <?php $kelas = getKelasBySiswa($user['id']); ?>
     <div class="col-sm-9 text-secondary">
         <?= isset($kelas[0]) ? $kelas[0]['jenjang'] . '' . $kelas[0]['kode'] : 'Tanpa Kelas' ?>
     </div>
@@ -21,9 +20,17 @@
     <div class="col-sm-3">
         <h6 class="mb-0">Tahun Ajar</h6>
     </div>
-    <?php $kelas = getKelasBySiswa($user['id']); ?>
     <div class="col-sm-9 text-secondary">
         <?= isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-' ?>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-sm-3">
+        <h6 class="mb-0">Wali Kelas</h6>
+    </div>
+    <div class="col-sm-9 text-secondary">
+        <?= isset($wali_kelas[0]) && $wali_kelas[0]['status'] == 'aktif' ? $wali_kelas[0]['nama'] : '-' ?>
     </div>
 </div>
 <hr>

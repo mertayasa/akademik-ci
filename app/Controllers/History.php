@@ -46,6 +46,7 @@ class History extends BaseController
         $this->mapel_m = new MapelModel;
         $this->request = service('request');
     }
+    
     public function index($menu)
     {
         switch ($menu) {
@@ -75,6 +76,7 @@ class History extends BaseController
                 //     break;
         }
     }
+
     public function akademikIndex()
     {
         $this->kelas_m = new KelasModel();
@@ -138,6 +140,7 @@ class History extends BaseController
         // dd($jenjang);
         return $jenjang;
     }
+
     public function showStudent($id_tahun, $id_kelas)
     {
         $this->kelas_m = new KelasModel();
@@ -154,6 +157,7 @@ class History extends BaseController
 
         return view('menu_history/akademik/student_index', $data);
     }
+
     public function nilai($id, $semester)
     {
         $jadwalModel = new JadwalModel;
@@ -179,6 +183,7 @@ class History extends BaseController
         // dd($mapel);
         return view('nilai/siswa/index', $data);
     }
+
     public function jadwal($id_kelas, $id_tahun_ajar)
     {
         $this->jadwal_m = new JadwalModel;
@@ -209,6 +214,7 @@ class History extends BaseController
 
         return view('menu_history/akademik/student_index', $data);
     }
+
     public function wali($id_kelas, $id_tahun_ajar)
     {
         $this->kelas_m = new KelasModel();
@@ -234,6 +240,7 @@ class History extends BaseController
 
         return view('menu_history/akademik/student_index', $data);
     }
+
     public function absensi($id_kelas, $id_tahun_ajar)
     {
         $this->absen_m = new AbsensiModel;
@@ -241,12 +248,11 @@ class History extends BaseController
 
         return view('menu_history/akademik/absensi', $data);
     }
+
     //-----USER-----
     public function user($level)
     {
         $this->guru_m = new GuruKepsekModel;
-        // $asd = getKelasBySiswa(2);
-        // dd($asd);
         if ($level == 'kepsek') {
             $kepsek = $this->guru_m->where('level', 'kepsek')->findAll()[0] ?? [];
             if ($kepsek) {
@@ -277,16 +283,16 @@ class History extends BaseController
                 $datatable = new GuruKepsekDataTable($request, $level);
                 break;
             case 'ortu':
-                $datatable = new OrtuDataTable($request, $level);
+                $datatable = new OrtuDataTable($request, $level, 'nonaktif');
                 break;
             case 'guru':
-                $datatable = new GuruKepsekDataTable($request, $level);
+                $datatable = new GuruKepsekDataTable($request, $level, 'nonaktif');
                 break;
             case 'siswa':
-                $datatable = new SiswaAllDataTable($request, $level);
+                $datatable = new SiswaAllDataTable($request, $level, 'nonaktif');
                 break;
             default:
-                $datatable = new AdminDataTable($request, $level);
+                $datatable = new AdminDataTable($request, $level, 'nonaktif');
                 break;
         }
         // $datatable = new OrtuDataTable($request, $level);
@@ -360,8 +366,13 @@ class History extends BaseController
                 }
 
                 if (isAdmin()) {
-                    $row[] = "
-                    <a href='" . route_to('history_user_profil', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>";
+                    $action = "<a href='" . route_to('history_user_profil', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>";
+                    
+                    if($level == 'siswa'){
+                        $action .= "<a href='" . route_to('nilai_history_by_id', $list->id) . "' class='btn btn-sm btn-success ml-2 mb-2'>Riwayat Nilai</a>";
+                    }
+
+                    $row[] = $action;
                     // <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning mb-2'>Edit</a>";
                     // <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('user_destroy', $list->id, $level) . "`, `userDataTable`, `Aseg`)'>Hapus</button>";
                 } else {
@@ -381,6 +392,7 @@ class History extends BaseController
             return json_encode($output);
         }
     }
+
     public function userProfil($level, $id)
     {
         $this->admin_m = new AdminModel;
@@ -429,6 +441,7 @@ class History extends BaseController
         session()->setFlashdata('error', 'Akun pengguna tidak ditemukan');
         return redirect()->back();
     }
+
     //-----PRESTASI-----
     public function prestasiIndex()
     {
@@ -464,6 +477,7 @@ class History extends BaseController
             return view('menu_history/prestasi/index', $data);
         }
     }
+
     public function prestasiDetail($id)
     {
         $this->prestasi_m = new PrestasiModel;
@@ -475,6 +489,7 @@ class History extends BaseController
 
         return view('menu_history/prestasi/detail', $data);
     }
+
     //-----PINDAHAN-----
     public function pindahMasuk()
     {
@@ -484,6 +499,7 @@ class History extends BaseController
 
         return view('menu_history/pindah_sekolah/index', $data);
     }
+
     public function pindahKeluar()
     {
         $data = [
@@ -492,6 +508,7 @@ class History extends BaseController
 
         return view('menu_history/pindah_sekolah/index', $data);
     }
+
     public function pindahDatatables($tipe)
     {
         $request = Services::request();

@@ -48,9 +48,12 @@ class TahunAjar extends BaseController
                 $row[] = $list->tahun_mulai . '/' . $list->tahun_selesai;
                 $row[] = ucfirst(str_replace('_', ' ', $list->status));
                 if (session()->get('level') == 'admin') {
-                    $row[] = " <button class='btn btn-sm ".($list->status == 'nonaktif' ? 'btn-info' : 'btn-danger')."' onclick='setActive(`" . route_to('tahun_ajar_set_active', $list->id) . "`, `tahunAjarDataTable`, `Apakah anda yakin ". ($list->status == 'nonaktif' ? 'mengaktifkan' : 'menonaktifkan') ." tahun ajaran ?, tahun ajaran lain akan otomatis non aktif`)'>". ($list->status == 'nonaktif' ? 'Set Aktif' : 'Set Nonaktif') ."</button>
+                    $row[] = " <button class='btn btn-sm ".($list->status == 'nonaktif' ? 'btn-info' : 'd-none')."' onclick='setActive(`" . route_to('tahun_ajar_set_active', $list->id) . "`, `tahunAjarDataTable`, `Apakah anda yakin ". ($list->status == 'nonaktif' ? 'mengaktifkan' : 'menonaktifkan') ." tahun ajaran ?, tahun ajaran lain akan otomatis non aktif`)'>". ($list->status == 'nonaktif' ? 'Set Aktif' : 'Set Nonaktif') ."</button>
                     <a href='" . route_to('tahun_ajar_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>";
-                    // <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('tahun_ajar_destroy', $list->id) . "`, `tahunAjarDataTable`, `Apakah anda yakin menghapus data tahun ajaran ?`)'>Hapus</button>";
+                    
+                    // $row[] = " <button class='btn btn-sm ".($list->status == 'nonaktif' ? 'btn-info' : 'btn-danger')."' onclick='setActive(`" . route_to('tahun_ajar_set_active', $list->id) . "`, `tahunAjarDataTable`, `Apakah anda yakin ". ($list->status == 'nonaktif' ? 'mengaktifkan' : 'menonaktifkan') ." tahun ajaran ?, tahun ajaran lain akan otomatis non aktif`)'>". ($list->status == 'nonaktif' ? 'Set Aktif' : 'Set Nonaktif') ."</button>
+                    // <a href='" . route_to('tahun_ajar_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>";
+                    // // <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('tahun_ajar_destroy', $list->id) . "`, `tahunAjarDataTable`, `Apakah anda yakin menghapus data tahun ajaran ?`)'>Hapus</button>";
                 } else {
                     $row[] = "";
                 }

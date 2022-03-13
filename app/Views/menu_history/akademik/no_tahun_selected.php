@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <?= form_open(route_to('history_akademik_index'), ['method' => 'get', 'id' => 'storeForm']); ?>
+                <?= form_open(route_to('history_data_index', 'akademik'), ['method' => 'get', 'id' => 'storeForm']); ?>
                 <div class="row align-items-end">
                     <div class="col-12 col-md-3 pb-3 pb-md-0">
                         <?= form_label('Filter Tahun Ajar', 'tahunAjar') ?>

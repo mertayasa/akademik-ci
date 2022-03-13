@@ -67,6 +67,7 @@ class AnggotaKelasModel extends Generic
             ->orderBy('anggota_kelas.id', 'DESC')
             ->findAll();
     }
+    
     public function search_anggota($id_siswa)
     {
         return $this->select($this->table . '.*,siswa.id, siswa.nama, siswa.nis')
@@ -74,5 +75,28 @@ class AnggotaKelasModel extends Generic
             ->where($this->table . '.id_siswa', $id_siswa)
             ->orderBy('id_tahun_ajar', 'ASC')
             ->findAll();
+    }
+
+    public function getHistoryNilai($id)
+    {
+        $wali_kelas_model = new WaliKelasModel;
+        $nilai_model = new NilaiModel;
+
+        $anggota_kelas = $this->get_anggota_by_id($id);
+        // dd($anggota_kelas);
+        $new_nilai = [];
+        foreach ($anggota_kelas as $anggota) {
+            $wali_kelas = $wali_kelas_model->get_wali_kelas_by_id($anggota['id_kelas'], $anggota['id_tahun_ajar'])[0]->nama_guru ?? '-';
+            $nilai = $nilai_model->get_nilai_by_anggota($anggota['id']) ?? [];
+
+            array_push($new_nilai, [
+                'kelas' => $anggota['jenjang'] . $anggota['kode'],
+                'tahun_ajar' => $anggota['tahun_mulai'] . '/' . $anggota['tahun_selesai'],
+                'wali_kelas' => $wali_kelas,
+                'nilai' => $nilai
+            ]);
+        }
+
+        return $new_nilai;
     }
 }

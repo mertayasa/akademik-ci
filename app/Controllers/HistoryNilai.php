@@ -87,23 +87,33 @@ class HistoryNilai extends BaseController
 
     public function indexSiswa()
     {
-        $anggota_kelas = $this->anggota_kelas->get_anggota_by_id((session()->get('id')));
-        $new_nilai = [];
-        foreach ($anggota_kelas as $anggota) {
-            $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota['id_kelas'], $anggota['id_tahun_ajar'])[0]->nama_guru ?? '-';
-            $nilai = $this->nilai->get_nilai_by_anggota($anggota['id']) ?? [];
+        // $anggota_kelas = $this->anggota_kelas->get_anggota_by_id((session()->get('id')));
+        // $new_nilai = [];
+        // foreach ($anggota_kelas as $anggota) {
+        //     $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota['id_kelas'], $anggota['id_tahun_ajar'])[0]->nama_guru ?? '-';
+        //     $nilai = $this->nilai->get_nilai_by_anggota($anggota['id']) ?? [];
 
-            array_push($new_nilai, [
-                // 'kelas' => convertRoman($anggota['jenjang']) . $anggota['kode'],
-                'kelas' => $anggota['jenjang'] . $anggota['kode'],
-                'tahun_ajar' => $anggota['tahun_mulai'] . '/' . $anggota['tahun_selesai'],
-                'wali_kelas' => $wali_kelas,
-                'nilai' => $nilai
-            ]);
-        }
+        //     array_push($new_nilai, [
+        //         'kelas' => $anggota['jenjang'] . $anggota['kode'],
+        //         'tahun_ajar' => $anggota['tahun_mulai'] . '/' . $anggota['tahun_selesai'],
+        //         'wali_kelas' => $wali_kelas,
+        //         'nilai' => $nilai
+        //     ]);
+        // }
 
         $data = [
-            'history_nilai' => $new_nilai,
+            // 'history_nilai' => $new_nilai,
+            'history_nilai' => $this->anggota_kelas->getHistoryNilai(session()->get('id')),
+        ];
+
+        return view('history/siswa/index', $data);
+    }
+
+    public function indexHistory($id)
+    {
+        // dd($id);
+        $data = [
+            'history_nilai' => $this->anggota_kelas->getHistoryNilai($id),
         ];
 
         return view('history/siswa/index', $data);

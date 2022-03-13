@@ -161,7 +161,7 @@ class User extends BaseController
                     $row[] = "
                     <a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>
                     <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning mb-2'>Edit</a>
-                    <button class='btn btn-sm btn-danger' onclick='setNonaktif(`" . route_to('user_set_nonaktif', $list->id, $level) . "`, `userDataTable`, `$level`)'>Nonaktif</button>";
+                    <button class='btn btn-sm btn-danger mb-2' onclick='setNonaktif(`" . route_to('user_set_nonaktif', $list->id, $level) . "`, `userDataTable`, `$level`)'>Nonaktif</button>";
                 } else {
                     $row[] = "<a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>";
                 }

@@ -92,7 +92,8 @@ class PindahSekolah extends BaseController
                     <a href='" . route_to('pindah_sekolah_edit', $list->id) . "' class='btn btn-sm btn-warning'>Edit</a>";
                     // <button class='btn btn-sm btn-danger' onclick='deleteModel(`" . route_to('kelas_destroy', $list->id) . "`, `kelasDataTable`, `Apakah anda yang menghapus data jenjang kelas ?`)'>Hapus</button>";
                 } else {
-                    $row[] = "";
+                    $row[] = "
+                    <a href='" . route_to('pindah_sekolah_show', $tipe, $list->id) . "' class='btn btn-sm btn-info'>Lihat</a>";
                 }
                 $data[] = $row;
             }

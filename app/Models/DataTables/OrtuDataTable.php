@@ -15,12 +15,14 @@ class OrtuDataTable extends Model
     protected $level;
     protected $db;
     protected $dt;
+    protected $status;
 
-    public function __construct(RequestInterface $request, $level)
+    public function __construct(RequestInterface $request, $level, $status = null)
     {
         parent::__construct();
         $this->db = db_connect();
         $this->request = $request;
+        $this->status = $status;
         $this->level = $level ?? ['admin', 'siswa', 'ortu', 'guru', 'kepsek'];
         $this->dt = $this->db->table($this->table);
     }
@@ -41,6 +43,10 @@ class OrtuDataTable extends Model
                     $this->dt->groupEnd();
             }
             $i++;
+        }
+
+        if($this->status != null){
+            $this->dt->where('status', $this->status);
         }
 
         if ($this->request->getPost('order')) {
