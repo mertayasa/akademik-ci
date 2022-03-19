@@ -84,7 +84,7 @@ class Auth extends BaseController
                         'id'       => $data_siswa['id'],
                         'nama'     => $data_siswa['nama'],
                         'level'     => 'siswa',
-                        'email'    => $data_siswa['email'],
+                        // 'email'    => $data_siswa['email'],
                         'table'     => 'siswa',
                         'logged_in'     => TRUE
                     ];
