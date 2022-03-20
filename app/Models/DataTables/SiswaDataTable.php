@@ -8,7 +8,7 @@ use CodeIgniter\Model;
 class SiswaDataTable extends Model
 {
     protected $table = 'anggota_kelas';
-    protected $column_order = ['id', 'id_kelas', 'id_siswa', 'id_tahun_ajar', 'status'];
+    protected $column_order = ['id', 'nama', 'nis'];
     protected $column_search = ['kode', 'jenjang'];
     // protected $order = ['nama' => 'ASC'];
     protected $request;
