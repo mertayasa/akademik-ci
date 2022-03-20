@@ -188,6 +188,11 @@ class User extends BaseController
             $ortu = [];
         }
 
+        if($level == 'kepsek' && kepsekNotNull()){
+            session()->setFlashdata('error', 'Sekolah masih memiliki kepala sekolah aktif, mohon nonaktifkan kepala sekolah yang lama terlebih dahulu');
+            return redirect()->back();
+        }
+
         $data = [
             'level' => $level,
             'ortu' => $ortu

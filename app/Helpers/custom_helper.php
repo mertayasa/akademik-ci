@@ -2,6 +2,7 @@
 
 use App\Models\AbsensiModel;
 use App\Models\AnggotaKelasModel;
+use App\Models\GuruKepsekModel;
 use App\Models\NilaiModel;
 use App\Models\TahunAjarModel;
 use App\Models\WaliKelasModel;
@@ -90,6 +91,14 @@ if (! function_exists('isActive')) {
         }
 
         return false;
+    }
+
+    function kepsekNotNull()
+    {
+        $guru_kepsek_model = new GuruKepsekModel;
+        $active_kepsek = $guru_kepsek_model->where(['level' => 'kepsek', 'status' => 'aktif'])->countAllResults();
+        
+        return $active_kepsek > 0 ? true : false;
     }
 
     function checkPindahKeluar($id)

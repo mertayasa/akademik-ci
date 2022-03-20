@@ -60,21 +60,19 @@
             'class' => 'form-control'
         ]) ?>
     </div>
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Status', 'statusUser') ?>
+        <?= form_dropdown(
+            'status',
+            ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
+            set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
+            ['class' => 'form-control', 'id' => 'statusUser']
+        );
+        ?>
+    </div>
 </div>
 
 <?php if (isAdmin()) : ?>
-    <div class="row mt-3">
-        <div class="col-12 col-md-6 pb-3 pb-md-0">
-            <?= form_label('Status', 'statusUser') ?>
-            <?= form_dropdown(
-                'status',
-                ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],
-                set_value('status') == false && isset($user) ? $user['status'] : set_value('status'),
-                ['class' => 'form-control', 'id' => 'statusUser']
-            );
-            ?>
-        </div>
-    </div>
     <div class="row mt-3">
         <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('Masa Jabatan', 'masa_jabatan_kepsek') ?>
@@ -91,6 +89,16 @@
 
 <div class="row mt-3">
     <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Bio', 'bio') ?>
+        <?= form_textarea([
+            'type' => 'text',
+            'name' => 'bio',
+            'id' => 'bio',
+            'value' => set_value('bio') == false && isset($user) ? $user['bio'] : set_value('bio'),
+            'class' => 'form-control'
+        ]) ?>
+    </div>
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
         <div class="mt-3">
             <?= form_label('Foto Profil', 'filePondUpload') ?> <br>
             <?= form_upload([
@@ -100,8 +108,7 @@
                 'data-foto' => isset($user) ? base_url($user['foto']) : ''
             ]) ?>
         </div>
+        <?= $this->include('layouts/filepond') ?>
+        <small><sup>*</sup> <i>Gambar yang diupload maksimal berukuran 5MB</i></small><br>
     </div>
 </div>
-
-<?= $this->include('layouts/filepond') ?>
-<small><sup>*</sup> <i>Gambar yang diupload maksimal berukuran 5MB</i></small><br>
