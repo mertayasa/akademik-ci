@@ -9,35 +9,40 @@
                     <thead>
                         <tr>
                             <td>No</td>
-                            <td>Avatar</td>
-                            <td>Nama</td>
+                            <!-- <td>Avatar</td> -->
                             <?php switch ($level):
                                 case 'admin': ?>
-                                    <td>Email</td>
                                     <td>NIP</td>
+                                    <td>Nama</td>
+                                    <td>Email</td>
                                     <td>No Telp</td>
                                     <td>Alamat</td>
                                     <td>Status Aktif</td>
                                 <?php break;
                                 case 'siswa': ?>
-                                    <td>Kelas</td>
                                     <td>NIS</td>
+                                    <td>Nama</td>
+                                    <td>Kelas</td>
                                     <td>Tahun ajar</td>
                                     <td>Status Aktif</td>
                                 <?php break;
                                 case 'guru': ?>
-                                    <td>Email</td>
                                     <td>NIP</td>
+                                    <td>Nama</td>
+                                    <td>Email</td>
                                     <td>No Telp</td>
                                     <td>Status Aktif</td>
                                 <?php break;
                                 case 'kepsek': ?>
-                                    <td>Email</td>
                                     <td>NIP</td>
+                                    <td>Nama</td>
+                                    <td>Email</td>
                                     <td>No Telp</td>
+                                    <td>Masa Jabatan</td>
                                     <td>Status Aktif</td>
                                 <?php break;
                                 case 'ortu': ?>
+                                    <td>Nama</td>
                                     <td>Email</td>
                                     <td>No Telp</td>
                                     <td>Status Aktif</td>

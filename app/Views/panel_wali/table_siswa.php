@@ -5,8 +5,8 @@
         <thead>
             <tr>
                 <td>No</td>
-                <td>Nama</td>
                 <td>NIS</td>
+                <td>Nama</td>
                 <td>Status</td>
                 <td>Aksi</td>
             </tr>
@@ -18,23 +18,6 @@
 
 <?= $this->section('scripts') ?>
 <script type="text/javascript">
-    // const table = $('#daftarSiswaDatatable<?= rand(1231, 234234) ?>').DataTable({
-    //     "processing": true,
-    //     "serverSide": true,
-    //     "order": [1, 'DESC'],
-    //     "ajax": {
-    //         "url": "<?= 'asd' //route_to('siswa_datatables', $id_tahun_ajar, $kel['id_kelas']) 
-                        ?>",
-    //         "type": "POST",
-    //         "data": {
-    //             "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
-    //         },
-    //     },
-    //     "columnDefs": [{
-    //         "targets": [0, 2],
-    //         "orderable": false,
-    //     }],
-    // })
     $('#daftarSiswaDatatable<?= $key ?>').DataTable({
         "processing": true,
         "serverSide": true,

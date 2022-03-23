@@ -42,8 +42,8 @@ class AnggotaKelas extends BaseController
                 $no++;
                 $row = [];
                 $row[] = $no;
-                $row[] = $list->nama;
                 $row[] = $list->nis;
+                $row[] = $list->nama;
                 $row[] = ucfirst($status);
                 if (checkPindahKeluar($list->id) == true) {
                     $row[] = '<span class="text-danger">Siswa telah pindah sekolah</span>';

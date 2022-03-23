@@ -17,8 +17,8 @@
                     <thead>
                         <tr>
                             <td>No</td>
-                            <td>Nama</td>
                             <td>NIS</td>
+                            <td>Nama</td>
                             <td>Status</td>
                             <td>Aksi</td>
                         </tr>
