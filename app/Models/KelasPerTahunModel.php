@@ -43,4 +43,9 @@ class KelasPerTahunModel extends Generic
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getActiveIdKelas($id_tahun_ajar)
+    {
+        return $this->where('id_tahun_ajar', $id_tahun_ajar)->select('id_kelas')->findAll();
+    }
 }

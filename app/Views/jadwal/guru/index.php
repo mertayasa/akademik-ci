@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Jadwal</h1>
+                <h1 class="m-0">Jadwal Mengajar Tahun Ajar <?= $tahun_ajar[0]['tahun_mulai'] . '/' . $tahun_ajar[0]['tahun_selesai'] ?> </h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">

@@ -117,31 +117,6 @@ class Absensi extends BaseController
 
     public function getAbsensiByKelas($id_kelas, $id_tahun_ajar)
     {
-        // $kelas = $this->kelas->find($id_kelas);
-        // $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
-        // $absen = $this->anggota_kelas
-        //         ->select('anggota_kelas.id as anggota_kelas_id,anggota_kelas.id_kelas as kelas_id,anggota_kelas.id_tahun_ajar as tahun_ajar_id,anggota_kelas.id_siswa as siswa_id, siswa.nama as siswa_nama, siswa.nis as siswa_nis,')
-        //         ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
-        //         ->where([
-        //             'id_kelas' => $id_kelas,
-        //             'id_tahun_ajar' => $id_tahun_ajar
-        //         ])->findAll();
-
-        // $count_absen = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar)->countAllResults();
-        // $absen_ganjil = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar, 'ganjil')->orderBy('absensi.tanggal', 'ASC')->findAll();
-        // $absen_genap = $this->absensi->queryAbsensi($id_kelas, $id_tahun_ajar, 'genap')->orderBy('absensi.tanggal', 'ASC')->findAll();
-
-        // $data = [
-        //     'absen' => $absen,
-        //     'count_absen' => $count_absen,
-        //     'absen_ganjil' => $absen_ganjil,
-        //     'absen_genap' => $absen_genap,
-        //     'breadcrumb'   => 'Absensi',
-        //     'kelas_raw' => $kelas,
-        //     'tahun_ajar' => $tahun_ajar,
-        //     'kelas' => $kelas['jenjang'] . '' . $kelas['kode']
-        // ];
-
         $data = $this->absensi->getAbsensiByKelas($id_kelas, $id_tahun_ajar);
 
         return $data;
@@ -161,18 +136,6 @@ class Absensi extends BaseController
                 $absensi_update = [];
                 $absensi_insert = [];
                 foreach ($raw_absensi as $key => $absen) {
-                    // $this->absensi->updateOrInsert([
-                    //     'id_anggota_kelas' => $key,
-                    //     'id_kelas' => $id_kelas,
-                    //     'tanggal' => $tanggal_input,
-                    //     // 'semester' => $semester
-                    // ], [
-                    //     'id_anggota_kelas' => $key,
-                    //     'id_kelas' => $id_kelas,
-                    //     'tanggal' => $tanggal_input,
-                    //     'kehadiran' => $absen ,
-                    //     'semester' => $semester
-                    // ]);
                     $data_exists = $this->absensi->where([
                         'id_anggota_kelas' => $key,
                         'tanggal' => $tanggal_input,
@@ -216,6 +179,15 @@ class Absensi extends BaseController
         $view_absensi_genap = view('includes/table_absensi_genap', $data);
 
         return json_encode(['code' => 1, 'id_kelas' => $id_kelas, 'tanggal' => $tanggal_input, 'message' => 'Berhasil melakukan absensi', 'view_absensi_ganjil' => $view_absensi_ganjil, 'view_absensi_genap' => $view_absensi_genap]);
+    }
+
+    public function detail($id_kelas, $id_tahun_ajar, $semester)
+    {
+        $data = $this->getAbsensiByKelas($id_kelas, $id_tahun_ajar);
+        $data['breadcrumb'] = 'Detail Semester '.$semester;
+        $data['semester'] = $semester;
+
+        return view('akademik/absensi/detail', $data);
     }
 
     public function destroy($tanggal, $id_kelas)

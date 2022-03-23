@@ -1,49 +1,42 @@
 <div class="row">
-    <?php foreach ($hari as $hr) : ?>
-
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header text-center">
-                    <strong>
-                        <h4><?= $hr->hari; ?></h4>
-                    </strong>
-                </div>
-                <div class="card-body">
-                    <table id="kelasTable" class="table table-striped table-hover">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Jadwal</h4>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-striped">
                         <thead>
                             <tr>
-                                <td>Pelajaran</td>
-                                <td>Jam</td>
-                                <td>Kelas</td>
-                                <!-- <td>Action</td> -->
+                                <th>No</th>
+                                <th>Hari</th>
+                                <th>Kelas</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Jam</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php $no = 1; ?>
                             <?php if (count($jadwal) > 0) : ?>
-                                <?php foreach ($jadwal as  $value) : ?>
-                                    <?php if ($hr->hari == $value->hari) : ?>
-                                        <tr>
-                                            <input type="hidden" name="id" value="<?= $value->id; ?>">
-                                            <input type="hidden" name="id_kelas" value="<?= $value->id_kelas; ?>">
-                                            <input type="hidden" name="id_tahun_ajar" value="<?= $value->id_tahun_ajar; ?>">
-                                            <td data-mapel="<?= $value->id_mapel; ?>" class="nama-mapel"><?= $value->nama_mapel ?></td>
-                                            <td class="jam"><?= \Carbon\Carbon::parse($value->jam_mulai)->format('H:i') . ' - ' . \Carbon\Carbon::parse($value->jam_selesai)->format('H:i') ?></td>
-                                            <td data-guru="<?= $value->id_guru; ?>" class="nama-guru"><?= "$value->jenjang_kelas" .
-                                                                                                            "$value->kode_kelas"; ?></td>
-                                        </tr>
-                                    <?php endif; ?>
+                                <?php foreach ($jadwal as $jad) : ?>
+                                    <tr>
+                                        <td><?= $no++; ?></td>
+                                        <td><?= $jad['hari'] ?></td>
+                                        <td><?= $jad['jenjang_kelas'].$jad['kode_kelas'] ?></td>
+                                        <td><?= $jad['nama_mapel'] ?></td>
+                                        <td><?= \Carbon\Carbon::parse($jad['jam_mulai'])->format('H:i') . ' - ' . \Carbon\Carbon::parse($jad['jam_selesai'])->format('H:i') ?></td>
+                                    </tr>
                                 <?php endforeach; ?>
                             <?php else : ?>
                                 <tr>
-                                    <td colspan="5" class="text-center"> Tidak Ada Data </td>
+                                    <td colspan="5" class="text-center">Anda tidak memiliki jadwal mengajar</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
-
                 </div>
-
             </div>
         </div>
-    <?php endforeach; ?>
+    </div>
 </div>
