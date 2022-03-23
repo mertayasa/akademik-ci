@@ -16,7 +16,7 @@
             <a href="#" class="nav-link <?= isActive('user') ?>">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
-                    Pengguna
+                    Civitas
                     <i class="fas fa-angle-left right"></i>
                 </p>
             </a>
@@ -242,7 +242,7 @@
 
     <?php if (isGuru()) : ?>
         <li class="nav-item">
-            <a href="<?= route_to('jadwal_guru') ?>" class="nav-link <?= isActive('jadwal') ?>">
+            <a href="<?= route_to('jadwal_index') ?>" class="nav-link <?= isActive('jadwal') ?>">
                 <i class="nav-icon fas fa-award"></i>
                 <p>Jadwal</p>
             </a>

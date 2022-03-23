@@ -59,7 +59,7 @@ class AnggotaKelasModel extends Generic
             ];
         }
 
-        return $this->select($this->table . '.*, tahun_ajar.tahun_mulai as tahun_mulai, tahun_ajar.tahun_selesai as tahun_selesai, kelas.kode as kode, kelas.jenjang as jenjang, siswa.nama as nama_anggota_kelas')
+        return $this->select($this->table . '.*, tahun_ajar.tahun_mulai as tahun_mulai, tahun_ajar.tahun_selesai as tahun_selesai, kelas.kode as kode, kelas.jenjang as jenjang, siswa.nama as nama_anggota_kelas, siswa.nis as nis_anggota_kelas')
             ->join('kelas', 'anggota_kelas.id_kelas = kelas.id')
             ->join('tahun_ajar', 'anggota_kelas.id_tahun_ajar = tahun_ajar.id')
             ->join('siswa', 'anggota_kelas.id_siswa = siswa.id')

@@ -8,6 +8,16 @@
                     <div class="card-header">
                         <table>
                             <tr>
+                                <td>NIS</td>
+                                <td class="px-2">:</td>
+                                <td><?= $anggota_kelas['nis_anggota_kelas'] ?? '-' ?></td>
+                            </tr>
+                            <tr>
+                                <td>Nama Siswa</td>
+                                <td class="px-2">:</td>
+                                <td><?= $anggota_kelas['nama_anggota_kelas'] ?? '-' ?></td>
+                            </tr>
+                            <tr>
                                 <td>Kelas</td>
                                 <td class="px-2">:</td>
                                 <td><?= $history['kelas'] ?></td>

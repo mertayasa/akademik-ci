@@ -7,6 +7,7 @@ use App\Models\AnggotaKelasModel;
 use App\Models\GuruKepsekModel;
 use App\Models\JadwalModel;
 use App\Models\KelasModel;
+use App\Models\KelasPerTahunModel;
 use App\Models\MapelModel;
 use App\Models\SiswaModel;
 use App\Models\TahunAjarModel;
@@ -22,6 +23,7 @@ class Jadwal extends BaseController
     protected $anggota_kelas;
     protected $mapel;
     protected $wali_kelas;
+    protected $kelas_per_tahun;
 
     public function __construct()
     {
@@ -29,6 +31,7 @@ class Jadwal extends BaseController
         $this->tahun_ajar = new TahunAjarModel();
         $this->jadwal = new JadwalModel();
         $this->guru = new GuruKepsekModel();
+        $this->kelas_per_tahun = new KelasPerTahunModel();
         $this->siswa = new SiswaModel();
         $this->anggota_kelas = new AnggotaKelasModel();
         $this->mapel = new MapelModel();
@@ -53,21 +56,33 @@ class Jadwal extends BaseController
 
     private function indexGuru()
     {
-        $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
+        $tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll();
+        $kelas_per_tahun = $this->kelas_per_tahun->getActiveIdKelas($tahun_ajar[0]['id']);
         $guru = $this->guru->getData(session()->get('id'));
-        $jadwal = $this->jadwal->where([
-            'id_guru', session()->get('id'),
-            'id_tahun_ajar', $id_tahun_ajar,
-        ])->findAll();
+
+        if(count($kelas_per_tahun) > 0){
+            $jadwal = $this->jadwal
+            ->select('jadwal.*, kelas.jenjang as jenjang_kelas, kelas.kode as kode_kelas, mapel.nama as nama_mapel')
+            ->whereIn('id_kelas', array_column($kelas_per_tahun, 'id_kelas'))
+            ->where([
+                'id_guru' => session()->get('id'),
+                'id_tahun_ajar' => $tahun_ajar[0]['id'],
+            ])
+            ->join('tahun_ajar', 'jadwal.id_tahun_ajar = tahun_ajar.id')
+            ->join('mapel', 'jadwal.id_mapel = mapel.id')
+            ->join('kelas', 'jadwal.id_kelas = kelas.id')
+            ->orderBy('kode_hari', 'asc')->orderBy('jam_mulai', 'asc')->findAll();
+        }else{
+            $jadwal = [];
+        }
 
         $data = [
             'jadwal' => $jadwal,
             'guru' => $guru,
+            'tahun_ajar' => $tahun_ajar,
         ];
 
-        // dd($data);
-
-        return view('jadwal/siswa/index', $data);
+        return view('jadwal/guru/index', $data);
     }
 
     private function indexSiswa()
@@ -89,11 +104,7 @@ class Jadwal extends BaseController
 
         return view('jadwal/siswa/index', $data);
     }
-
-    private function indexAdmin()
-    {
-    }
-
+    
     private function indexOrtu()
     {
         $id_siswa = $_GET['id_siswa'] ?? null;

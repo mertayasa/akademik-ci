@@ -100,11 +100,15 @@ class HistoryNilai extends BaseController
         //         'nilai' => $nilai
         //     ]);
         // }
+        $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
 
         $data = [
             // 'history_nilai' => $new_nilai,
+            'anggota_kelas' => $this->anggota_kelas->get_anggota_by_id((session()->get('id')), $id_tahun_ajar)[0],
             'history_nilai' => $this->anggota_kelas->getHistoryNilai(session()->get('id')),
         ];
+
+        // dd($data);
 
         return view('history/siswa/index', $data);
     }
@@ -112,7 +116,10 @@ class HistoryNilai extends BaseController
     public function indexHistory($id)
     {
         // dd($id);
+        $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
+        
         $data = [
+            'anggota_kelas' => $this->anggota_kelas->get_anggota_by_id($id, $id_tahun_ajar)[0],
             'history_nilai' => $this->anggota_kelas->getHistoryNilai($id),
         ];
 

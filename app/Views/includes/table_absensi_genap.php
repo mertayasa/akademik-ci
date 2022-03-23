@@ -8,6 +8,7 @@
                     <table class="table table-bordered mb-5">
                         <thead>
                             <tr>
+                                <th rowspan="2" class="text-center align-middle">No</th>
                                 <th rowspan="2" width="5%" class="text-center align-middle">Induk</th>
                                 <th rowspan="2" style="min-width:300px" class="text-center align-middle">Nama</th>
                                 <th colspan="<?= $group_genap['count_absen'] ?>" class="text-center"><?= $group_genap['month_name'] ?></th>
@@ -33,8 +34,10 @@
                             <?php if ($count_absen == 0) : ?>
                             <?php else : ?>
                                 <?php $no = 0 ?>
+                                <?php $no_from_1 = 1 ?>
                                 <?php foreach ($absen as $key => $value) : ?>
                                     <tr>
+                                        <td><?= $no_from_1++ ?></td>
                                         <td class="text-center"><?= $value['siswa_nis'] ?></td>
                                         <th class="text-left"><?= $value['siswa_nama'] ?></th>
                                         <?php if (count($absen_genap) == 0) : ?>

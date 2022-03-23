@@ -248,7 +248,6 @@
         function deleteAbsensi(){
             const btnDeleteAbsensi = document.getElementById('btnDeleteAbsensi')
             const deleteUrl = `${baseUrl}/absensi/destroy/${btnDeleteAbsensi.getAttribute('data-tanggal')}/${btnDeleteAbsensi.getAttribute('data-id-kelas')}`
-            // console.log(deleteUrl)
             Swal.fire({
                 title: "Warning",
                 text: `Yakin menghapus data absensi tanggal ${btnDeleteAbsensi.getAttribute('data-tanggal')} Proses ini tidak dapat diulang`,
@@ -270,7 +269,7 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.code == 1) {
-                            refreshTable(data)
+                            // refreshTable(data)
                             toogleDeleteButton('hide')
                             refreshForm()
                         }
@@ -335,7 +334,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.code == 1) {
-                    refreshTable(data)
+                    // refreshTable(data)
                     toogleDeleteButton('show')
                     const btnDeleteAbsensi = document.getElementById('btnDeleteAbsensi')
                     btnDeleteAbsensi.setAttribute('data-tanggal', data.tanggal)
