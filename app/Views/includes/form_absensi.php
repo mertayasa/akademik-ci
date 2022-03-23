@@ -35,7 +35,10 @@
                                         <thead>
                                             <th>Nama</th>
                                             <th>Tanggal</th>
-                                            <th>Absensi</th>
+                                            <th>
+                                                Absensi
+                                                <!-- <input type="checkbox" name="mark_all" id="markAllAttend" onclick="markEverybodyAttend(this)"> -->
+                                            </th>
                                         </thead>
                                         <tbody>
                                             <td colspan="3" class="text-center"><strong>Pilih tanggal terlebih dahulu</strong></td>
@@ -68,9 +71,15 @@
                                     </div>
                                     <table class="table table-striped">
                                         <thead class="text-center">
-                                            <th>NO</th>
-                                            <th>Nama Siswa</th>
-                                            <th>Absensi</th>
+                                            <th class="align-middle">NO</th>
+                                            <th class="align-middle">Nama Siswa</th>
+                                            <th class="text-center">
+                                                Absensi <br>
+                                                <label for="markAllAttend" style="display: flex; align-items: center;" class="justify-content-center">
+                                                    <input type="checkbox" style="flex:none; " name="mark_all" id="markAllAttend" class="check-attend" onclick="markEverybodyAttend(this)">
+                                                    <small>Tandai Semua</small>
+                                                </label>
+                                            </th>
                                         </thead>
                                         <tbody>
                                             <?php $no = 1; ?>
@@ -94,7 +103,7 @@
                                                             'id' => 'id_absensi',
                                                             'value' => ''
                                                         ]); ?>
-                                                        <td><?= $no; ?></td>
+                                                        <td class="text-center"><?= $no; ?></td>
                                                         <td><?= $value['siswa_nama']; ?></td>
                                                         <td>
                                                             <div class="form-group">
@@ -125,7 +134,10 @@
                                     <thead>
                                         <th>No</th>
                                         <th>Nama</th>
-                                        <th>Absensi</th>
+                                        <th>
+                                            Absensi
+                                            <input type="checkbox" name="mark_all" id="markAllAttend" class="check-attend" onclick="markEverybodyAttend(this)">
+                                        </th>
                                     </thead>
                                     <tbody>
                                         <tr>
@@ -145,6 +157,7 @@
 
 <?= $this->section('scripts'); ?>
     <script>
+
         function getAbsensi() {
             const formSelectTgl = document.getElementById('formSelectTgl')
             const inputTanggalAbsen = document.getElementById('inputTanggalAbsen')
@@ -177,6 +190,13 @@
                         // console.log(dataAbsensi);
                         refreshForm()
 
+                        const checkBox = document.getElementsByClassName('check-attend')
+
+                        for (let absence = 0; absence < checkBox.length; absence++) {
+                            const check = checkBox[absence];
+                            check.checked = false
+                        }
+
                         
                         if(dataAbsensi.absensi.length < 1){
                             toogleDeleteButton('hide')
@@ -208,6 +228,21 @@
                 })
             }
 
+        }
+
+        function markEverybodyAttend(element){
+            const studentList = document.getElementsByClassName('select-absensi')
+            for (let absence = 0; absence < studentList.length; absence++) {
+                const select = studentList[absence];
+                if(element.checked){
+                    select.value = 'hadir'
+                }else{
+                    select.value = 'tanpa_keterangan'
+                }
+
+                let event = new Event('change');
+                select.dispatchEvent(event);
+            }
         }
         
         function deleteAbsensi(){
