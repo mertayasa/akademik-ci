@@ -2,13 +2,16 @@
     <div class="card">
         <div class="card-header">
             <table>
-                <?php if (session()->get('level') == 'admin') : ?>
-                    <tr>
-                        <td>Nama Siswa</td>
-                        <td class="px-2">:</td>
-                        <td><?= $anggota_kelas['nama_anggota_kelas'] ?? '-' ?></td>
-                    </tr>
-                <?php endif; ?>
+                <tr>
+                    <td>NIS</td>
+                    <td class="px-2">:</td>
+                    <td><?= $anggota_kelas['nis_anggota_kelas'] ?? '-' ?></td>
+                </tr>
+                <tr>
+                    <td>Nama Siswa</td>
+                    <td class="px-2">:</td>
+                    <td><?= $anggota_kelas['nama_anggota_kelas'] ?? '-' ?></td>
+                </tr>
                 <tr>
                     <td>Kelas</td>
                     <td class="px-2">:</td>

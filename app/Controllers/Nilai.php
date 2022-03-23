@@ -140,6 +140,7 @@ class Nilai extends BaseController
             'id_siswa' => $id_siswa,
             'mapel'    => $mapel
         ];
+        // dd($data);
         // dd($mapel);
         return view('nilai/siswa/index', $data);
     }
