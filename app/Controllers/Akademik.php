@@ -209,7 +209,7 @@ class Akademik extends BaseController
     public function waliPerkelas($id_kelas, $id_tahun_ajar)
     {
         $this->kelas = new KelasModel();
-        $this->guru = new GuruKepsekModel;
+        // $this->guru = new GuruKepsekModel;
         $this->wali_kelas = new WaliKelasModel;
         $guru_list = $this->guru->where(['level' => 'guru', 'status' => 'aktif'])->orderBy('nama', 'asd')->findAll();
         $wali = $this->wali_kelas->get_wali_kelas_by_id($id_kelas, $id_tahun_ajar);
@@ -235,6 +235,7 @@ class Akademik extends BaseController
     {
         $this->wali_kelas = new WaliKelasModel();
         $wali = $this->request->getPost('nama_guru');
+        $all_wali_pertahun = $this->wali_kelas->where(['id_guru_wali' => $wali, 'id_tahun_ajar' => $id_tahun_ajar])->findall();
         $wali_sebelumnya = $this->wali_kelas->get_wali_kelas_by_status($id_kelas, $id_tahun_ajar);
         $data = [
             'id_guru_wali'  => $wali,
@@ -242,7 +243,11 @@ class Akademik extends BaseController
             'id_tahun_ajar' => $id_tahun_ajar,
             'status'        => 'aktif'
         ];
-
+        // dd($all_wali_pertahun);
+        if ($all_wali_pertahun != null) {
+            $this->session->setFlashdata('error', 'Guru tersebut sudah menjadi wali');
+            return redirect()->to(route_to('show_wali', $id_kelas, $id_tahun_ajar));
+        }
         try {
             if ($wali_sebelumnya != null) {
                 if ($this->wali_kelas->updateData($wali_sebelumnya->id, ['status' => 'nonaktif'])) {
