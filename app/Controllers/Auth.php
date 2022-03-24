@@ -61,6 +61,7 @@ class Auth extends BaseController
                 if ($verify_pass) {
                     $ses_data = [
                         'id'       => $data_guru['id'],
+                        'nip'      => $data_guru['nip'],
                         'nama'     => $data_guru['nama'],
                         'level'     => $data_guru['level'],
                         'email'    => $data_guru['email'],

@@ -32,7 +32,11 @@
                                     <td>Status Aktif</td>
                                 <?php break;
                                 case 'guru': ?>
-                                    <td>NIP</td>
+                                    <?php if (!isSiswa() and isOrtu()) : ?>
+                                        <td>NIP</td>
+                                    <?php else : ?>
+                                        <td></td>
+                                    <?php endif; ?>
                                     <td>Nama</td>
                                     <td>Email</td>
                                     <td>No Telp</td>

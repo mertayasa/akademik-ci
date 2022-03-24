@@ -142,7 +142,11 @@ class User extends BaseController
                 }
 
                 if ($level == 'guru') {
-                    $row[] = $list->nip ?? '-';
+                    if (!isSiswa() and isOrtu()) {
+                        $row[] = $list->nip ?? '-';
+                    } else {
+                        $row[] = '';
+                    }
                     $row[] = $list->nama;
                     $row[] = $list->email;
                     $row[] = $list->no_telp ?? '-';
@@ -197,7 +201,7 @@ class User extends BaseController
             $ortu = [];
         }
 
-        if($level == 'kepsek' && kepsekNotNull()){
+        if ($level == 'kepsek' && kepsekNotNull()) {
             session()->setFlashdata('error', 'Sekolah masih memiliki kepala sekolah aktif, mohon nonaktifkan kepala sekolah yang lama terlebih dahulu');
             return redirect()->back();
         }
@@ -507,23 +511,23 @@ class User extends BaseController
                 case 'admin':
                     $this->admin->updateData($id, $data);
                     return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan admin']);
-                break;
+                    break;
                 case 'siswa':
                     $this->siswa->updateData($id, $data);
                     return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan siswa']);
-                break;
+                    break;
                 case 'guru':
                     $this->guru->updateData($id, $data);
                     return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan guru']);
-                break;
+                    break;
                 case 'kepsek':
                     $this->guru->updateData($id, $data);
                     return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan kepala sekolah']);
-                break;
+                    break;
                 case 'ortu':
                     $this->ortu->updateData($id, $data);
                     return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan orang tua']);
-                break;
+                    break;
             }
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
