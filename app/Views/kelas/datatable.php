@@ -3,9 +3,17 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <?php if (session()->get('level') == 'admin') : ?>
-                    <a href="<?= route_to('kelas_create') ?>" class="btn btn-primary btn-sm float-right">Tambah Kelas</a>
-                <?php endif; ?>
+                <div class="row">
+                    <div class="col-md-6">
+                        Tahun Ajar <?= $tahun_ajar['tahun_mulai'] . '/' . $tahun_ajar['tahun_selesai'] ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?php if (session()->get('level') == 'admin') : ?>
+                            <a href="<?= route_to('kelas_create') ?>" class="btn btn-primary btn-sm float-right">Tambah Kelas</a>
+                        <?php endif; ?>
+
+                    </div>
+                </div>
             </div>
             <div class="card-body">
 

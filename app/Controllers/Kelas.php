@@ -18,6 +18,7 @@ class Kelas extends BaseController
     protected $anggota_kelas;
     protected $nilai;
     protected $jadwal;
+    protected $tahun_ajar;
 
     public function __construct()
     {
@@ -25,11 +26,15 @@ class Kelas extends BaseController
         $this->nilai = new NilaiModel();
         $this->jadwal = new JadwalModel();
         $this->anggota_kelas = new AnggotaKelasModel();
+        $this->tahun_ajar = new TahunAjarModel();
     }
 
     public function index()
     {
-        return view('kelas/index');
+        $tahun_ajar_id = $this->tahun_ajar->getActiveId();
+        $tahun_ajar = $this->tahun_ajar->find($tahun_ajar_id);
+        $data = ['tahun_ajar' => $tahun_ajar];
+        return view('kelas/index', $data);
     }
 
     public function datatables()
@@ -151,7 +156,7 @@ class Kelas extends BaseController
         $nilai = $this->nilai->where('id_kelas', $id)->countAllResults();
         $jadwal = $this->jadwal->where('id_kelas', $id)->countAllResults();
 
-        if($anggota_kelas > 0 || $nilai > 0 || $jadwal > 0) {
+        if ($anggota_kelas > 0 || $nilai > 0 || $jadwal > 0) {
             return json_encode([
                 'code' => 0,
                 'swal' => 'Tidak bisa menghapus data kelas karena masih digunakan di tabel lain'
