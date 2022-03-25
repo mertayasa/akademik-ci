@@ -17,13 +17,6 @@
                                             <img src="<?= base_url($kepsek['foto']) ?>" style="object-fit:cover" alt="Admin" class="rounded-circle border border-secondary" width="150" height="150">
                                             <div class="mt-3">
                                                 <h4><?= $kepsek['nama'] ?></h4>
-                                                <?php if (isAdmin() or isKepsek()) : ?>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <a class="btn btn-info " target="__blank" href="<?= route_to('kepsek_edit', $kepsek['id']) ?>">Edit</a>
-                                                        </div>
-                                                    </div>
-                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -107,6 +100,10 @@
                 <div class="row">
                     <div class="col-md-12">
                         <a href="<?= route_to('dashboard_index'); ?>" class="btn btn-secondary">Kembali</a href="">
+                        <?php if (isAdmin() or isKepsek()) : ?>
+                            <a class="btn btn-info " target="__blank" href="<?= route_to('kepsek_edit', $kepsek['id']) ?>">Edit</a>
+                            <a class="btn btn-warning " href="<?= route_to('kepsek_create', $kepsek['id']) ?>">Update Kepsek Baru</a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

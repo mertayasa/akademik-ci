@@ -49,7 +49,7 @@ class User extends BaseController
         // $asd = getKelasBySiswa(2);
         // dd($asd);
         if ($level == 'kepsek') {
-            $kepsek = $this->guru->where('level', 'kepsek')->findAll()[0] ?? [];
+            $kepsek = $this->guru->where(['level' => 'kepsek', 'status' => 'aktif'])->findAll()[0] ?? [];
             if ($kepsek) {
                 $kepsek['foto'] = $this->guru->getFoto($kepsek['id']);
             }
@@ -131,14 +131,14 @@ class User extends BaseController
                     $kelas = getKelasBySiswa($list->id);
                     $row[] = isset($kelas[0]) ? $kelas[0]['jenjang'] . ' ' . $kelas[0]['kode'] : 'Tanpa Kelas';
                     $row[] = isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-';
-                    $row[] = ucfirst($list->status);
+                    // $row[] = ucfirst($list->status);
                 }
 
                 if ($level == 'ortu') {
                     $row[] = $list->nama;
                     $row[] = $list->email;
                     $row[] = $list->no_telp ?? '-';
-                    $row[] = ucfirst($list->status);
+                    // $row[] = ucfirst($list->status);
                 }
 
                 if ($level == 'guru') {
@@ -150,14 +150,14 @@ class User extends BaseController
                     $row[] = $list->nama;
                     $row[] = $list->email;
                     $row[] = $list->no_telp ?? '-';
-                    $row[] = ucfirst($list->status);
+                    // $row[] = ucfirst($list->status);
                 }
                 if ($level == 'kepsek') {
                     $row[] = $list->nip ?? '-';
                     $row[] = $list->nama;
                     $row[] = $list->email;
                     $row[] = $list->no_telp ?? '-';
-                    $row[] = ucfirst($list->status);
+                    // $row[] = ucfirst($list->status);
                     $row[] = $list->masa_jabatan_kepsek ?? '-';
                 }
 
@@ -167,7 +167,7 @@ class User extends BaseController
                     $row[] = $list->email;
                     $row[] = $list->no_telp ?? '-';
                     $row[] = $list->alamat ?? '-';
-                    $row[] = ucfirst($list->status);
+                    // $row[] = ucfirst($list->status);
                 }
 
                 if (isAdmin()) {
@@ -417,11 +417,12 @@ class User extends BaseController
     public function kepsekInsert()
     {
         try {
-            $check_kepsek = $this->guru->where('level', 'kepsek')->findAll();
-            if (count($check_kepsek) > 0) {
-                session()->setFlashdata('error', 'Akun Kepala Sekolah Sudah Ada');
-                return redirect()->back()->withInput();
-            }
+            // $check_kepsek = $this->guru->where('level', 'kepsek')->findAll();
+            $kepsek_aktif = $this->guru->where(['level' =>  'kepsek', 'status' => 'aktif'])->find();
+            // if (count($check_kepsek) > 0) {
+            //     session()->setFlashdata('error', 'Akun Kepala Sekolah Sudah Ada');
+            //     return redirect()->back()->withInput();
+            // }
 
             $new_data = $this->request->getPost();
 
@@ -441,16 +442,21 @@ class User extends BaseController
                 session()->setFlashdata('error', 'Password belum diisi');
                 return redirect()->back()->withInput();
             }
-
+            //set kepsek lama jadi nonaktif
+            $update_kepsek_lama = $this->guru->updateData($kepsek_aktif[0]['id'], ['status' => 'nonaktif']);
             $new_data['level'] = 'kepsek';
             $new_data['password'] = password_hash($new_data['password'], PASSWORD_BCRYPT);
-
-            $this->guru->insertData($new_data);
-            session()->setFlashdata('success', 'Berhasil menambahkan profil kepala sekolah');
-            return redirect()->to(route_to('user_index', 'kepsek'));
+            if ($update_kepsek_lama) {
+                $this->guru->insertData($new_data);
+                session()->setFlashdata('success', 'Berhasil mengupdate kepala sekolah baru');
+                return redirect()->to(route_to('user_index', 'kepsek'));
+            } else {
+                session()->setFlashdata('error', 'Gagal menambahkan  kepala sekolah baru');
+                return redirect()->back()->withInput();
+            }
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
-            session()->setFlashdata('error', 'Gagal menambahkan profil kepala sekolah');
+            session()->setFlashdata('error', 'Gagal menambahkan  kepala sekolah');
             return redirect()->back()->withInput();
         }
     }

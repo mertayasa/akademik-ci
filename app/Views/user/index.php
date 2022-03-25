@@ -6,7 +6,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0"> <?= isActive('kepsek') == 'active' ? 'Kepala Sekolah' : ($level == 'ortu' ? 'Orang Tua' : ucfirst($level)) ?></h1>
+                <?php if ($level != 'kepsek') : ?>
+                    <h1 class="m-0"> <?= isActive('kepsek') == 'active' ? 'Kepala Sekolah' : ($level == 'ortu' ? 'Orang Tua' : ucfirst($level)) ?></h1>
+                <?php else : ?>
+                    <h1 class="m-0"> <?= isActive('kepsek') == 'active' ? 'Kepala Sekolah' : ($level == 'kepsek' ? 'Kepala Sekolah' : ucfirst($level)) ?></h1>
+                <?php endif; ?>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">

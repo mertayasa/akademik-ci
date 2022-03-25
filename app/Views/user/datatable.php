@@ -22,14 +22,14 @@
                                     <td>Email</td>
                                     <td>No Telp</td>
                                     <td>Alamat</td>
-                                    <td>Status Aktif</td>
+                                    <!-- <td>Status Aktif</td> -->
                                 <?php break;
                                 case 'siswa': ?>
                                     <td>NIS</td>
                                     <td>Nama</td>
                                     <td>Kelas</td>
                                     <td>Tahun ajar</td>
-                                    <td>Status Aktif</td>
+                                    <!-- <td>Status Aktif</td> -->
                                 <?php break;
                                 case 'guru': ?>
                                     <?php if (!isSiswa() and isOrtu()) : ?>
@@ -40,7 +40,7 @@
                                     <td>Nama</td>
                                     <td>Email</td>
                                     <td>No Telp</td>
-                                    <td>Status Aktif</td>
+                                    <!-- <td>Status Aktif</td> -->
                                 <?php break;
                                 case 'kepsek': ?>
                                     <td>NIP</td>
@@ -48,13 +48,13 @@
                                     <td>Email</td>
                                     <td>No Telp</td>
                                     <td>Masa Jabatan</td>
-                                    <td>Status Aktif</td>
+                                    <!-- <td>Status Aktif</td> -->
                                 <?php break;
                                 case 'ortu': ?>
                                     <td>Nama</td>
                                     <td>Email</td>
                                     <td>No Telp</td>
-                                    <td>Status Aktif</td>
+                                    <!-- <td>Status Aktif</td> -->
                                     <?php break; ?>
                             <?php endswitch; ?>
                             <td>Aksi</td>
@@ -85,7 +85,7 @@
                 },
             },
             "columnDefs": [{
-                "targets": [0, 1, 3, 5, 6, 7, -1],
+                "targets": [0, 1, 3, 5, 6, -1],
                 "orderable": false,
             }],
         })
@@ -102,7 +102,7 @@
                 },
             },
             "columnDefs": [{
-                "targets": [0, 1, 3, 4, 5, -1],
+                "targets": [0, 2, 3, 4, -1],
                 "orderable": false,
             }],
         })
@@ -136,7 +136,7 @@
                 },
             },
             "columnDefs": [{
-                "targets": [0, 1, 3, 5, 6, -1],
+                "targets": [0, 1, 3, 5, -1],
                 "orderable": false,
             }],
         })
