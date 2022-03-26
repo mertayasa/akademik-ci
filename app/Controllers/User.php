@@ -566,6 +566,12 @@ class User extends BaseController
                     break;
                 case 'siswa':
                     $this->siswa->updateData($id, $data);
+                    $anggota_kelas = $this->anggota_kelas->where('id_siswa', $id)->findAll();
+                    foreach($anggota_kelas as $anggota){
+                        $this->anggota_kelas->updateData($anggota['id'], [
+                            'status' => 'nonaktif'
+                        ]);
+                    }
                     return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan siswa']);
                     break;
                 case 'guru':
@@ -585,5 +591,37 @@ class User extends BaseController
             log_message('error', $e->getMessage());
             return json_encode(['code' => 0, 'message' => 'Gagal menonaktifkan user']);
         }
+    }
+
+    public function setLulus($id_siswa, $nis)
+    {
+        $siswa = $this->siswa->getData($id_siswa);
+        
+        if(count($siswa) < 1){
+            return json_encode(['code' => 0, 'message' => 'Data siswa tidak ditemukan']);
+        }
+
+        if($siswa['nis'] != $nis){
+            return json_encode(['code' => 0, 'message' => 'Data siswa tidak ditemukan']);
+        }
+
+        $anggota_kelas = $this->anggota_kelas->where([
+            'id_siswa' => $siswa['id'],
+            'kelas.jenjang' => '6'  
+        ])->join('kelas', 'anggota_kelas.id_kelas = kelas.id')->countAllResults();
+
+        if($anggota_kelas < 1){
+            return json_encode(['code' => 0, 'message' => 'Siswa belum pada jenjang kelas 6']);
+        }
+
+        try{
+            $this->siswa->updateData($siswa['id'], ['status' => 'lulus']);
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            return json_encode(['code' => 0, 'message' => 'Gagal meluluskan siswa']);
+        }
+
+        return json_encode(['code' => 1, 'message' => 'Siswa atas nama '. $siswa['nama']. ' telah dinyatakan lulus']);
+
     }
 }

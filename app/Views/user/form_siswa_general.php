@@ -61,6 +61,10 @@
             <input type="text" name="status" class="form-control" disabled id="" value="Nonaktif">
             <span class="text-danger">Siswa telah pindah sekolah, tidak bisa mengubah status</span>
         <?php else: ?>
+            <?php if($user['status'] == 'lulus'): ?>
+                <input type="text" name="status" class="form-control" disabled id="" value="Lulus">
+                <span class="text-danger">Siswa telah lulus, tidak bisa mengubah status</span>
+            <?php endif; ?>
             <?= form_dropdown(
                 'status',
                 ['nonaktif' => 'nonaktif', 'aktif' => 'aktif'],

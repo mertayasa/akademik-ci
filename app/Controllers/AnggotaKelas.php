@@ -32,31 +32,38 @@ class AnggotaKelas extends BaseController
 
         if ($request->getMethod(true) === 'POST') {
             $lists = $datatable->getDatatables($tahun_ajar, $kelas);
-            // log_message('error', json_encode($lists));
             $data = [];
             $no = $request->getPost('start');
+            
+            $jenjang_kelas = $this->kelas->getData($kelas)['jenjang'];
 
             foreach ($lists as $list) {
-                $status = getStatusAnggota($kelas, $tahun_ajar, $list->id);
+                $status = $list->status == 'aktif' ? getStatusAnggota($kelas, $tahun_ajar, $list->id) : 'nonaktif';
                 $btnClass = ($status == 'aktif' ? 'btn-danger' : 'btn-warning');
                 $no++;
                 $row = [];
                 $row[] = $no;
                 $row[] = $list->nis;
                 $row[] = $list->nama;
-                $row[] = ucfirst($status);
+                $row[] = $list->status == 'lulus' ? 'Lulus' : ucfirst($status);
+                $btn_nilai = "
+                <a href='" . route_to('nilai_edit_ganjil', $list->id, 'ganjil') . "' class='btn btn-sm btn-info " . ($status == 'nonaktif' ? '' : '') . "'>Nilai Smt Ganjil</a>
+                <a href='" . route_to('nilai_edit_genap', $list->id, 'genap') . "' class='btn btn-sm btn-success " . ($status == 'nonaktif' ? '' : '') . "'>Nilai Smt Genap</a>";
+
                 if (checkPindahKeluar($list->id) == true) {
-                    $row[] = '<span class="text-danger">Siswa telah pindah sekolah</span>';
+                    $row[] = $btn_nilai.'<span class="text-danger"> Siswa telah pindah sekolah</span>';
                 } else {
-                    if (getUrlIndex() == 'history-data') {
-                        $row[] = "
-                        <a href='" . route_to('history_nilai_ganjil', $list->id, 'ganjil') . "' class='btn btn-sm btn-info " . ($status == 'nonaktif' ? 'd-none' : '') . "'>Nilai Smt Ganjil</a>
-                        <a href='" . route_to('history_nilai_genap', $list->id, 'genap') . "' class='btn btn-sm btn-success " . ($status == 'nonaktif' ? 'd-none' : '') . "'>Nilai Smt Genap</a>";
+                    $btn_lulus = "<button class='btn btn-sm btn-warning'". (isAdmin() ? '' : 'd-none') . "onclick='updateStatus(`" . route_to('user_set_siswa_status', $list->id, $list->nis) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi lulus ?`)'>Set Lulus</button>";
+                    if (getUrlIndex() == 'history-data' or $list->status == 'lulus') {
+                        $row[] = $btn_nilai;
                     } else {
-                        $row[] = "
-                        <a href='" . route_to('nilai_edit_ganjil', $list->id, 'ganjil') . "' class='btn btn-sm btn-info " . ($status == 'nonaktif' ? 'd-none' : '') . "'>Nilai Smt Ganjil</a>
-                        <a href='" . route_to('nilai_edit_genap', $list->id, 'genap') . "' class='btn btn-sm btn-success " . ($status == 'nonaktif' ? 'd-none' : '') . "'>Nilai Smt Genap</a>
-                        <button class='btn btn-sm " . $btnClass . ' ' . (isAdmin() ? '' : 'd-none') . "'onclick='updateStatus(`" . route_to('anggota_kelas_update_status', getAnggotaKelasId($kelas, $tahun_ajar, $list->id)) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi " . ($status == 'aktif' ? 'Non Aktif' : 'Aktif') . " ?`)'>" . ($status == 'aktif' ? 'Set Non Aktif' : 'Set Aktif') . "</button>";
+                        if($list->status == 'nonaktif'){
+                            $row[] = $btn_nilai.'<span class="text-danger"> Akun siswa telah dinonaktifkan admin</span>';
+                        }else{
+                            $row[] = $btn_nilai.
+                                        "<button class='mx-1 btn btn-sm " . $btnClass . ' ' . (isAdmin() ? '' : 'd-none') . "'onclick='updateStatus(`" . route_to('anggota_kelas_update_status', getAnggotaKelasId($kelas, $tahun_ajar, $list->id)) . "`, `daftarSiswaDatatable`, `Apakah anda yang mengubah status siswa menjadi " . ($status == 'aktif' ? 'Non Aktif' : 'Aktif') . " ?`)'>" . ($status == 'aktif' ? 'Set Non Aktif' : 'Set Aktif') . "</button>"
+                                    .(($status == 'nonaktif' or $jenjang_kelas < 6) ? '' : $btn_lulus);
+                        }
                     }
                 }
                 $data[] = $row;

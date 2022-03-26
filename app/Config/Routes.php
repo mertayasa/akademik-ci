@@ -62,6 +62,7 @@ $routes->group('user', ['filter' => 'auth'], function ($routes) {
     $routes->get('create/kepsek', 'User::kepsekCreate', ['as' => 'kepsek_create']);
     $routes->post('insert/new/kepsek', 'User::kepsekInsert', ['as' => 'kepsek_insert']);
     $routes->get('nonaktif/(:num)/(:segment)', 'User::setNonaktif/$1/$2', ['as' => 'user_set_nonaktif']);
+    $routes->get('set-lulus/(:num)/(:num)', 'User::setLulus/$1/$2', ['as' => 'user_set_siswa_status']);
 });
 
 $routes->group('profile', ['filter' => 'auth'], function ($routes) {

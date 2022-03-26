@@ -80,7 +80,8 @@ class AbsensiModel extends Generic
         $tahun_ajar = $this->tahun_ajar->getData($id_tahun_ajar);
         $where_absen = [
             'id_kelas' => $id_kelas,
-            'id_tahun_ajar' => $id_tahun_ajar
+            'id_tahun_ajar' => $id_tahun_ajar,
+            'siswa.status' => 'aktif'
         ];
 
         if($id_anggota_kelas != null){
@@ -95,7 +96,7 @@ class AbsensiModel extends Generic
                     anggota_kelas.id_siswa as siswa_id, 
                     anggota_kelas.status as status,
                     siswa.nama as siswa_nama, 
-                    siswa.nis as siswa_nis,')
+                    siswa.nis as siswa_nis')
                 ->join('siswa', 'anggota_kelas.id_siswa=siswa.id')
                 ->where($where_absen)->findAll();
 
