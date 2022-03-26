@@ -42,12 +42,12 @@
 
                                 ?>
                                 <tr>
-                                    <td><?= $key + 1 ?></td>
+                                    <td class="text-center"><?= $key + 1 ?></td>
                                     <td><?= $mp['nama'] ?></td>
-                                    <td><?= $nilai_tugas ?></td>
-                                    <td><?= $nilai_uts ?></td>
-                                    <td><?= $nilai_uas ?></td>
-                                    <td><?= $nilai_harian ?></td>
+                                    <td class="text-right"><?= $nilai_tugas ?></td>
+                                    <td class="text-right"><?= $nilai_uts ?></td>
+                                    <td class="text-right"><?= $nilai_uas ?></td>
+                                    <td class="text-right"><?= $nilai_harian ?></td>
                                     <td style="display: none;" class="id_mapel"><?= $mp['id_mapel'] ?></td>
                                     <td><?= round(($nilai_tugas + $nilai_uts + $nilai_uas + $nilai_harian) / 4) ?></td>
                                     <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
@@ -66,11 +66,11 @@
                             <?php endforeach; ?>
                             <tr>
                                 <td colspan="2" class="text-center"> <b>Total</b> </td>
-                                <td><?= $sum_tugas ?></td>
-                                <td><?= $sum_uts ?></td>
-                                <td><?= $sum_uas ?></td>
-                                <td><?= $sum_harian ?></td>
-                                <td><?= $sum_akumulatif ?></td>
+                                <td class="text-right"><?= $sum_tugas ?></td>
+                                <td class="text-right"><?= $sum_uts ?></td>
+                                <td class="text-right"><?= $sum_uas ?></td>
+                                <td class="text-right"><?= $sum_harian ?></td>
+                                <td class="text-right"><?= $sum_akumulatif ?></td>
                             </tr>
                         <?php else : ?>
                             <?php if (session()->get('level') == 'admin') : ?>

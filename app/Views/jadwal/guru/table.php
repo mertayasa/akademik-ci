@@ -9,7 +9,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th class="text-center">No</th>
                                 <th>Hari</th>
                                 <th>Kelas</th>
                                 <th>Mata Pelajaran</th>
@@ -21,7 +21,7 @@
                             <?php if (count($jadwal) > 0) : ?>
                                 <?php foreach ($jadwal as $jad) : ?>
                                     <tr>
-                                        <td><?= $no++; ?></td>
+                                        <td class="text-center"><?= $no++; ?></td>
                                         <td><?= $jad['hari'] ?></td>
                                         <td><?= $jad['jenjang_kelas'].$jad['kode_kelas'] ?></td>
                                         <td><?= $jad['nama_mapel'] ?></td>

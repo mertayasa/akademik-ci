@@ -127,6 +127,7 @@ class Nilai extends BaseController
 
         $id_tahun_ajar = $this->tahun_ajar->where('status', 'aktif')->findAll()[0]['id'];
         $anggota_kelas = $this->anggota_kelas->get_anggota_by_id($id, $id_tahun_ajar)[0] ?? [];
+        $siswa = $this->siswa->getData($id);
         $wali_kelas = $this->wali_kelas->get_wali_kelas_by_id($anggota_kelas['id_kelas'], $anggota_kelas['id_tahun_ajar'])[0]->nama_guru ?? '-';
         $nilai = $this->nilai->get_nilai_by_semester($anggota_kelas['id'], $semester) ?? [];
         $id_siswa = $this->request->uri->getSegment(2);
@@ -138,10 +139,10 @@ class Nilai extends BaseController
             'nilai' => $nilai,
             'semester' => $semester,
             'id_siswa' => $id_siswa,
-            'mapel'    => $mapel
+            'mapel'    => $mapel,
+            'siswa' => $siswa
         ];
-        // dd($data);
-        // dd($mapel);
+        
         return view('nilai/siswa/index', $data);
     }
     public function update()

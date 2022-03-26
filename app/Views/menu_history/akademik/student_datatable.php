@@ -49,10 +49,16 @@
                 "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
             },
         },
-        "columnDefs": [{
-            "targets": [0, 2],
-            "orderable": false,
-        }],
+        "columnDefs": [
+            {
+                "targets": [0, 2],
+                "orderable": false,
+            },
+            {
+                "targets": [0, 1],
+                "className": 'text-center',
+            }
+        ],
     })
 
     function updateStatus(url, tableId, text) {

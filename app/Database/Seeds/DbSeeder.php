@@ -9,10 +9,10 @@ class DbSeeder extends Seeder
     public function run()
     {
         // $this->call('UserSeeder');
-        $this->call('AdminSeeder');
-        $this->call('OrtuSeeder');
-        $this->call('SiswaSeeder');
-        $this->call('GuruKepsekSeeder');
+        // $this->call('AdminSeeder');
+        // $this->call('OrtuSeeder');
+        // $this->call('SiswaSeeder');
+        // $this->call('GuruKepsekSeeder');
         $this->call('TahunAjarSeeder');
         $this->call('KelasSeeder');
         $this->call('WaliKelasSeeder');

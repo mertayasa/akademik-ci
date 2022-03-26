@@ -34,7 +34,7 @@
     </div>
 </div>
 <hr>
-<?php if ($level == session()->get('level') or isAdmin()) : ?>
+<?php if ($level == session()->get('level') or isAdmin() or isOrtu()) : ?>
     <div class="row">
         <div class="col-sm-3">
             <h6 class="mb-0">Tanggal Lahir</h6>

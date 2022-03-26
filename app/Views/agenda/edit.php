@@ -23,7 +23,7 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header d-flex justify-content-between">
-              <h3 class="card-title">Edit Agenda Kegiatan</h3>
+              <h3 class="card-title">Edit Kalender Akademik</h3>
           </div>
           <div class="card-body">
             <?= $this->include('layouts/flash') ;?>

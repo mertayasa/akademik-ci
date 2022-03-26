@@ -77,6 +77,8 @@ class HistoryNilai extends BaseController
             'history_nilai' => $new_nilai,
         ];
 
+        // dd($data);
+
         return view('history/ortu/index', $data);
     }
 

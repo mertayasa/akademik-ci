@@ -13,6 +13,7 @@ use App\Models\DataTables\SiswaAllDataTable;
 // use App\Models\DataTables\UserDataTable;
 use App\Models\GuruKepsekModel;
 use App\Models\JadwalModel;
+use App\Models\KelasPerTahunModel;
 use App\Models\OrtuModel;
 use App\Models\SiswaModel;
 use App\Models\WaliKelasModel;
@@ -28,6 +29,7 @@ class User extends BaseController
     protected $admin;
     protected $anggota_kelas;
     protected $jadwal;
+    protected $kelas_per_tahun;
     protected $wali_kelas;
 
     public function __construct()
@@ -40,14 +42,16 @@ class User extends BaseController
         $this->anggota_kelas = new AnggotaKelasModel();
         $this->jadwal = new JadwalModel();
         $this->wali_kelas = new WaliKelasModel();
+        $this->kelas_per_tahun = new KelasPerTahunModel();
         $this->level = session()->get('level');
     }
 
     public function index($level)
     {
+        if(isOrtu() and $level == 'siswa'){
+            return $this->studentByOrtu();
+        }
 
-        // $asd = getKelasBySiswa(2);
-        // dd($asd);
         if ($level == 'kepsek') {
             $kepsek = $this->guru->where(['level' => 'kepsek', 'status' => 'aktif'])->findAll()[0] ?? [];
             if ($kepsek) {
@@ -63,6 +67,48 @@ class User extends BaseController
         ];
 
         return view('user/index', $data);
+    }
+
+    public function studentByOrtu()
+    {
+        $id_ortu = session()->get('id');
+        $ortu = $this->ortu->getData($id_ortu);
+        $siswa = $this->siswa->where('id_ortu', $id_ortu)->findAll();
+        foreach($siswa as $key => $sis){
+            $siswa[$key]['foto'] = $this->siswa->getFoto($sis['id']);
+
+            $kelas = getKelasBySiswa($sis['id']);
+            if(isset($kelas[0])){
+                $kelas_per_tahun = $this->kelas_per_tahun->where([
+                    'id_kelas' => $kelas[0]['id'],
+                    'id_tahun_ajar' => $kelas[0]['id_tahun_ajar']
+                ])
+                ->findAll();
+    
+                if(isset($kelas_per_tahun[0])){
+                    $siswa[$key]['wali_kelas'] = $this->wali_kelas->where([
+                        'id_kelas' => $kelas[0]['id'],
+                        'id_tahun_ajar' => $kelas[0]['id_tahun_ajar']
+                    ])
+                    ->join('guru_kepsek', 'wali_kelas.id_guru_wali = guru_kepsek.id')
+                    ->findAll();
+                }
+            }else{
+                $siswa[$key]['wali_kelas'] = [];
+            }
+
+            $siswa[$key]['kelas'] = $kelas ?? [];
+        }
+
+        $data = [
+            'level' => 'siswa',
+            'siswa' => $siswa,
+            'ortu' => $ortu,
+        ];
+
+        // dd($data);
+        
+        return view('profile/list-siswa', $data);
     }
 
     public function datatables($level)
@@ -142,7 +188,7 @@ class User extends BaseController
                 }
 
                 if ($level == 'guru') {
-                    if (!isSiswa() and isOrtu()) {
+                    if (isAdmin() or isGuru()) {
                         $row[] = $list->nip ?? '-';
                     } else {
                         $row[] = '';
@@ -520,6 +566,12 @@ class User extends BaseController
                     break;
                 case 'siswa':
                     $this->siswa->updateData($id, $data);
+                    $anggota_kelas = $this->anggota_kelas->where('id_siswa', $id)->findAll();
+                    foreach($anggota_kelas as $anggota){
+                        $this->anggota_kelas->updateData($anggota['id'], [
+                            'status' => 'nonaktif'
+                        ]);
+                    }
                     return json_encode(['code' => 1, 'message' => 'Berhasil menonaktifkan siswa']);
                     break;
                 case 'guru':
@@ -539,5 +591,37 @@ class User extends BaseController
             log_message('error', $e->getMessage());
             return json_encode(['code' => 0, 'message' => 'Gagal menonaktifkan user']);
         }
+    }
+
+    public function setLulus($id_siswa, $nis)
+    {
+        $siswa = $this->siswa->getData($id_siswa);
+        
+        if(count($siswa) < 1){
+            return json_encode(['code' => 0, 'message' => 'Data siswa tidak ditemukan']);
+        }
+
+        if($siswa['nis'] != $nis){
+            return json_encode(['code' => 0, 'message' => 'Data siswa tidak ditemukan']);
+        }
+
+        $anggota_kelas = $this->anggota_kelas->where([
+            'id_siswa' => $siswa['id'],
+            'kelas.jenjang' => '6'  
+        ])->join('kelas', 'anggota_kelas.id_kelas = kelas.id')->countAllResults();
+
+        if($anggota_kelas < 1){
+            return json_encode(['code' => 0, 'message' => 'Siswa belum pada jenjang kelas 6']);
+        }
+
+        try{
+            $this->siswa->updateData($siswa['id'], ['status' => 'lulus']);
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            return json_encode(['code' => 0, 'message' => 'Gagal meluluskan siswa']);
+        }
+
+        return json_encode(['code' => 1, 'message' => 'Siswa atas nama '. $siswa['nama']. ' telah dinyatakan lulus']);
+
     }
 }

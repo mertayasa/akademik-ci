@@ -90,6 +90,7 @@ class Profile extends BaseController
                 'id' => $id,
                 'kelas' => $kelas ?? [],
                 'wali_kelas' => $wali_kelas ?? [],
+                'hide' => false,
             ];
             return view('profile/show', $data);
         }

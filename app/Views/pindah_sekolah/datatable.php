@@ -13,6 +13,7 @@
                     <thead>
                         <tr>
                             <td>No</td>
+                            <td>NIS</td>
                             <td>Siswa</td>
                             <?php if ($tipe == 'masuk') : ?>
                                 <td>Asal Sekolah</td>
@@ -49,10 +50,16 @@
                 "id_tahun": "<?= ($tahun_ajar_selected != null) ? $tahun_ajar_selected : null; ?>"
             },
         },
-        "columnDefs": [{
-            "targets": [0, 2, 4, 5],
-            "orderable": false,
-        }],
+        "columnDefs": [
+            {
+                "targets": [0, 1, 3, 5, 6],
+                "orderable": false,
+            },
+            {
+                "targets": [0, 1, 4],
+                "className": 'text-center',
+            }
+        ],
     })
 </script>
 <?= $this->endSection() ?>
