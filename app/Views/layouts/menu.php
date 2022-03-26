@@ -40,7 +40,7 @@
                     <li class="nav-item">
                         <a href="<?= route_to('user_index', 'siswa') ?>" class="nav-link <?= isActiveSub('siswa') ?>">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Siswa</p>
+                            <p>Siswa (Profil Anak)</p>
                         </a>
                     </li>
 

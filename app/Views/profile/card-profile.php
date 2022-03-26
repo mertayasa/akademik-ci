@@ -126,10 +126,12 @@
                     </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <!-- <a href="<?= route_to('user_index', $level); ?>" class="btn btn-secondary">Kembali</a> -->
-                <a href="javascript:window.history.go(-1)" class="btn btn-secondary">Kembali</a>
-            </div>
+            <?php if(isset($hide) and $hide != true): ?>
+                <div class="card-footer">
+                    <!-- <a href="<?= route_to('user_index', $level); ?>" class="btn btn-secondary">Kembali</a> -->
+                    <a href="javascript:window.history.go(-1)" class="btn btn-secondary">Kembali</a>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

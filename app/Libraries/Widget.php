@@ -16,4 +16,8 @@ class Widget
     {
         return view('panel_wali/absen', $param);
     }
+    public function listSiswa(array $param)
+    {
+        return view('profile/card-profile', $param);
+    }
 }
