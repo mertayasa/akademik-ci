@@ -35,6 +35,7 @@
                                 <?php endif; ?>
 
                             </div>
+                            <small class="mt-2">Tanggal input : <?= $pres['created_at']; ?></small>
                         </div>
                     </div>
                 </div>

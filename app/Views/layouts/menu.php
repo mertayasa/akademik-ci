@@ -272,7 +272,7 @@
     <li class="nav-item">
         <a href="<?= route_to('agenda_index') ?>" class="nav-link <?= isActive('agenda') ?>">
             <i class="nav-icon far fa-calendar-minus"></i>
-            <p>Agenda Kegiatan</p>
+            <p>kalender Akademik</p>
         </a>
     </li>
 

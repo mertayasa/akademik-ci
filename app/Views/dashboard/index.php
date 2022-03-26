@@ -95,10 +95,11 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="text-center">
-                                <h4>
+                                <img src="<?= base_url('default/logo.jpg'); ?>" alt="logo" style="width: 200px;">
+                                <h4 class="mt-3">
                                     Hi!, <strong><?= session()->get('nama'); ?></strong>
                                 </h4>
-                                <h5>Selamat datang di SIAMON</h5>
+                                <h2>Selamat datang di SIAMON SD MUHAMMADIYAH 2 DENPASAR</h2>
                             </div>
                         </div>
                     </div>
