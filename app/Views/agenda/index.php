@@ -6,12 +6,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Agenda Kegiatan</h1>
+                    <h1 class="m-0">Kalender Akademik</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= site_url('dashboard') ?>">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Agenda Kegiatan</li>
+                        <li class="breadcrumb-item active">Kalender Akademik</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -33,7 +33,7 @@
                         <?php if($agenda): ?>
                             <object data="<?= base_url($agenda['file']) ?>" width="100%" height=" <?= str_contains($agenda['file'], '.pdf') ? '600px' : 'auto' ?> "></object>
                         <?php else: ?>
-                            <p class="text-center">Belum Ada Agenda Kegiatan</p>
+                            <p class="text-center">Belum Ada Kalender Akademik</p>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
