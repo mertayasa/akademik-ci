@@ -62,13 +62,13 @@
                                     ?>
                                     <?php foreach ($history['nilai'] as $key => $value) : ?>
                                         <tr>
-                                            <td><?= $index++ ?></td>
+                                            <td class="text-center"><?= $index++ ?></td>
                                             <td><?= $value['nama_mapel'] ?></td>
-                                            <td><?= $value['tugas'] ?></td>
-                                            <td><?= $value['uts'] ?></td>
-                                            <td><?= $value['uas'] ?></td>
-                                            <td><?= $value['harian'] ?></td>
-                                            <td><?= round(($value['tugas'] + $value['uts'] + $value['uas']) / 3) ?></td>
+                                            <td class="text-right"><?= $value['tugas'] ?></td>
+                                            <td class="text-right"><?= $value['uts'] ?></td>
+                                            <td class="text-right"><?= $value['uas'] ?></td>
+                                            <td class="text-right"><?= $value['harian'] ?></td>
+                                            <td class="text-right"><?= round(($value['tugas'] + $value['uts'] + $value['uas']) / 3) ?></td>
 
                                             <?php
                                             $sum_tugas = $sum_tugas + $value['tugas'];
@@ -81,11 +81,11 @@
                                     <?php endforeach; ?>
                                     <tr>
                                         <td colspan="2" class="text-center"> <b>Total</b> </td>
-                                        <td><?= $sum_tugas ?></td>
-                                        <td><?= $sum_uts ?></td>
-                                        <td><?= $sum_uas ?></td>
-                                        <td><?= $sum_ulangan_harian ?></td>
-                                        <td><?= $sum_akumulatif ?></td>
+                                        <td class="text-right"><?= $sum_tugas ?></td>
+                                        <td class="text-right"><?= $sum_uts ?></td>
+                                        <td class="text-right"><?= $sum_uas ?></td>
+                                        <td class="text-right"><?= $sum_ulangan_harian ?></td>
+                                        <td class="text-right"><?= $sum_akumulatif ?></td>
                                     </tr>
                                 <?php else : ?>
                                     <tr>

@@ -51,10 +51,16 @@
                 "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
             },
         },
-        "columnDefs": [{
-            "targets": [0, 2, 3],
-            "orderable": false,
-        }],
+        "columnDefs": [
+            {
+                "targets": [0, 1, 2, 3],
+                "orderable": false,
+            },
+            {
+                "targets": [0, 2],
+                "className": 'text-center',
+            }
+        ],
     })
 </script>
 <?= $this->endSection() ?>

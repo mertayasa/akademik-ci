@@ -10,7 +10,7 @@
                 <table id="mapelDataTable" class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <td>No</td>
+                            <td>Kelas</td>
                             <td class="text-center">Status Aktif</td>
                         </tr>
                     </thead>

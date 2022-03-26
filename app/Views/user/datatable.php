@@ -32,7 +32,7 @@
                                     <!-- <td>Status Aktif</td> -->
                                 <?php break;
                                 case 'guru': ?>
-                                    <?php if (!isSiswa() and isOrtu()) : ?>
+                                    <?php if (isAdmin() or isGuru()) : ?>
                                         <td>NIP</td>
                                     <?php else : ?>
                                         <td></td>
@@ -84,10 +84,16 @@
                     "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                 },
             },
-            "columnDefs": [{
-                "targets": [0, 1, 3, 5, 6, -1],
-                "orderable": false,
-            }],
+            "columnDefs": [
+                {
+                    "targets": [0, 1, 3, 5, 6, -1],
+                    "orderable": false,
+                },
+                {
+                    "targets": [0, 1, 4],
+                    "className": 'text-center',
+                }
+            ],
         })
     <?php elseif ($level == 'ortu') : ?>
         const table = $('#userDataTable').DataTable({
@@ -101,10 +107,16 @@
                     "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                 },
             },
-            "columnDefs": [{
-                "targets": [0, 2, 3, 4, -1],
-                "orderable": false,
-            }],
+            "columnDefs": [
+                {
+                    "targets": [0, 2, 3, 4, -1],
+                    "orderable": false,
+                },
+                {
+                    "targets": [0],
+                    "className": 'text-center',
+                }
+            ],
         })
     <?php elseif ($level == 'kepsek') : ?>
         const table = $('#userDataTable').DataTable({
@@ -118,10 +130,35 @@
                     "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                 },
             },
-            "columnDefs": [{
-                "targets": [0, 1, 3, 5, 6, 7, -1],
-                "orderable": false,
-            }],
+            "columnDefs": [
+                {
+                    "targets": [0, 1, 3, 5, 6, 7, -1],
+                    "orderable": false,
+                }
+            ],
+        })
+    <?php elseif ($level == 'guru') : ?>
+        const table = $('#userDataTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                "url": "<?= route_to('user_datatables', $level) ?>",
+                "type": "POST",
+                "data": {
+                    "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
+                },
+            },
+            "columnDefs": [
+                {
+                    "targets": [0, 1, 3, 5, -1],
+                    "orderable": false,
+                },
+                {
+                    "targets": [0, 1],
+                    "className": 'text-center',
+                }
+            ],
         })
     <?php else : ?>
         const table = $('#userDataTable').DataTable({
@@ -135,10 +172,16 @@
                     "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                 },
             },
-            "columnDefs": [{
-                "targets": [0, 1, 3, 5, -1],
-                "orderable": false,
-            }],
+            "columnDefs": [
+                {
+                    "targets": [0, 1, 3, 5, -1],
+                    "orderable": false,
+                },
+                {
+                    "targets": [0, 1, 3, 4],
+                    "className": 'text-center',
+                }
+            ],
         })
     <?php endif; ?>
 

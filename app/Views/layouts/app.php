@@ -35,6 +35,10 @@
         td {
             vertical-align: middle !important;
         }
+
+        thead > tr > td {
+            text-align: center;
+        }
     </style>
 
     <?= $this->renderSection('styles') ?>

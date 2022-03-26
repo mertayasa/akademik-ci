@@ -9,7 +9,7 @@
                         <thead>
                             <tr>
                                 <th rowspan="2" class="text-center align-middle">No</th>
-                                <th rowspan="2" width="5%" class="text-center align-middle">Induk</th>
+                                <th rowspan="2" width="5%" class="text-center align-middle">NIS</th>
                                 <th rowspan="2" style="min-width:300px" class="text-center align-middle">Nama</th>
                                 <th colspan="<?= $group_genap['count_absen'] ?>" class="text-center"><?= $group_genap['month_name'] ?></th>
                                 <th colspan="3" class="text-center align-middle">Keterangan</th>

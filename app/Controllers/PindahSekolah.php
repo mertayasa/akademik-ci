@@ -74,10 +74,12 @@ class PindahSekolah extends BaseController
 
             foreach ($lists as $list) {
                 $tahun_ajar = $this->tahun_ajar->getData($list->id_tahun_ajar);
+                $siswa = $this->siswa->getData($list->id_siswa);
                 $no++;
                 $row = [];
                 $row[] = $no;
-                $row[] = $this->siswa->getData($list->id_siswa)['nama'] ?? '-';
+                $row[] = $siswa['nis'] ?? '-';
+                $row[] = $siswa['nama'] ?? '-';
                 if ($tipe == 'masuk') {
                     $row[] = $list->asal;
                 }

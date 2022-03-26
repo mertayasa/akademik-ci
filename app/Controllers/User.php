@@ -142,7 +142,7 @@ class User extends BaseController
                 }
 
                 if ($level == 'guru') {
-                    if (!isSiswa() and isOrtu()) {
+                    if (isAdmin() or isGuru()) {
                         $row[] = $list->nip ?? '-';
                     } else {
                         $row[] = '';
