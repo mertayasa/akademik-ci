@@ -271,19 +271,21 @@
         const form = $(this)
         const data = form.serialize()
         const url = "<?= route_to('user_datatables_get', $level) ?>"
-        console.log(url + `?${data}`);
-
-        let filterTahunAjar = $('#filterTahunAjar')
-        let filterKelas = $('#filterKelas')
-        let filterStatus = $('#filterStatus')
-
-        if(filterTahunAjar.val() == '' && filterKelas.val() == '' && filterStatus.val() == ''){
-            $('#userDataTable').DataTable().ajax.reload()
-        }else{
-            $('#userDataTable').DataTable().ajax.url(url + `?${data}`).load();
-        }
+        $('#userDataTable').DataTable().ajax.url(url + `?${data}`).load();
 
     })
+
+    // console.log(url + `?${data}`);
+    // let filterTahunAjar = $('#filterTahunAjar')
+    // let filterKelas = $('#filterKelas')
+    // let filterStatus = $('#filterStatus')
+
+    // console.log(filterKelas.val());
+    // if(filterTahunAjar.val() == '' && filterKelas.val() == '' && filterStatus.val() == ''){
+    //     console.log('asdsad');
+    //     $('#userDataTable').DataTable().ajax.reload()
+    // }else{
+    // }
 </script>
 
 <?= $this->endSection() ?>
