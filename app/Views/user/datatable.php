@@ -15,7 +15,7 @@
                                         <!-- <input type="hidden" name="_token" id="tokens" value="<?= csrf_hash(); ?>"> -->
                                         <div class="form-group">
                                             <select class="form-control" name="id_tahun_ajar" id="filterTahunAjar">
-                                                <!-- <option value="">Pilih Tahun Ajar</option> -->
+                                                <option value="">Pilih Tahun Ajar</option>
                                                 <?php foreach ($tahun_ajar as $data) : ?>
                                                     <option value="<?= $data['id']; ?>"><?= $data['tahun_mulai'] . ' - ' . $data['tahun_selesai']; ?></option>
                                                 <?php endforeach; ?>
@@ -26,7 +26,7 @@
                                     <?= form_label('Kelas', 'kelas') ?>
                                     <div class="form-group">
                                         <select class="form-control" name="kelas" id="filterKelas">
-                                            <!-- <option value="">Pilih Kelas</option> -->
+                                            <option value="">Pilih Kelas</option>
                                             <?php foreach ($kelas as $data) : ?>
                                                 <option value="<?= $data['id']; ?>"><?= $data['jenjang'] . ' ' . $data['kode']; ?></option>
                                             <?php endforeach; ?>
@@ -37,7 +37,7 @@
                                     <?= form_label('Status', 'status') ?>
                                     <div class="form-group">
                                         <select class="form-control" name="status" id="filterStatus">
-                                            <!-- <option value="">Pilih Status</option> -->
+                                            <option value="">Pilih Status</option>
                                             <option value="aktif">Aktif</option>
                                             <option value="nonaktif">Nonaktif</option>
                                             <option value="lulus">Lulus</option>
