@@ -12,11 +12,10 @@
                                 <?php if ($level == 'siswa') : ?>
                                     <div class="col-3">
                                         <form id="filter" method="get">
-                                            <?= form_label('Tahun Ajar', 'tahunAjar') ?>
-                                            <!-- <input type="hidden" name="_token" id="tokens" value="<?= csrf_hash(); ?>"> -->
+                                            <?= form_label('Tahun Ajar', 'tahun_ajar') ?>
                                             <div class="form-group">
                                                 <select class="form-control" name="id_tahun_ajar" id="filterTahunAjar">
-                                                    <!-- <option value="">Pilih Tahun Ajar</option> -->
+                                                    <option value="">Pilih Tahun Ajar</option>
                                                     <?php foreach ($tahun_ajar as $data) : ?>
                                                         <option value="<?= $data['id']; ?>"><?= $data['tahun_mulai'] . ' - ' . $data['tahun_selesai']; ?></option>
                                                     <?php endforeach; ?>
@@ -27,25 +26,24 @@
                                         <?= form_label('Kelas', 'kelas') ?>
                                         <div class="form-group">
                                             <select class="form-control" name="kelas" id="filterKelas">
-                                                <!-- <option value="">Pilih Kelas</option> -->
+                                                <option value="">Pilih Kelas</option>
                                                 <?php foreach ($kelas as $data) : ?>
                                                     <option value="<?= $data['id']; ?>"><?= $data['jenjang'] . ' ' . $data['kode']; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                     </div>
-                                <?php endif; ?>
-                                <?php if ($level == 'siswa') : ?>
                                     <div class="col-3">
-                                        <form id="filter" method="get"> <?= form_label('Status', 'status') ?>
-                                            <div class="form-group">
-                                                <select class="form-control" name="status" id="filterStatus">
-                                                    <!-- <option value="">Pilih Status</option> -->
-                                                    <option value="aktif">Aktif</option>
-                                                    <option value="nonaktif">Nonaktif</option>
-                                                    <option value="lulus">Lulus</option>
-                                                </select>
-                                            </div>
+                                        <?= form_label('Status', 'status') ?>
+                                        <div class="form-group">
+                                            <select class="form-control" name="status" id="filterStatus">
+                                                <option value="">Pilih Status</option>
+                                                <option value="aktif">Aktif</option>
+                                                <option value="nonaktif">Nonaktif</option>
+                                                <option value="lulus">Lulus</option>
+                                            </select>
+
+                                        </div>
                                     </div>
                                 <?php endif; ?>
                                 <?php if ($level == 'ortu') : ?>
@@ -54,10 +52,9 @@
                                             <?= form_label('Status', 'status') ?>
                                             <div class="form-group">
                                                 <select class="form-control" name="status" id="filterStatus">
-                                                    <!-- <option value="">Pilih Status</option> -->
+                                                    <option value="">Pilih Status</option>
                                                     <option value="aktif">Aktif</option>
                                                     <option value="nonaktif">Nonaktif</option>
-                                                    <option value="lulus">Lulus</option>
                                                 </select>
                                             </div>
                                     </div>
@@ -289,18 +286,20 @@
         const form = $(this)
         const data = form.serialize()
         const url = "<?= route_to('user_datatables_get', $level) ?>"
-
-        let filterTahunAjar = $('#filterTahunAjar')
-        let filterKelas = $('#filterKelas')
-        let filterStatus = $('#filterStatus')
-
-        if (filterTahunAjar.val() == '' && filterKelas.val() == '' && filterStatus.val() == '') {
-            $('#userDataTable').DataTable().ajax.reload()
-        } else {
-            $('#userDataTable').DataTable().ajax.url(url + `?${data}`).load();
-        }
-
+        $('#userDataTable').DataTable().ajax.url(url + `?${data}`).load();
     })
+
+    // console.log(url + `?${data}`);
+    // let filterTahunAjar = $('#filterTahunAjar')
+    // let filterKelas = $('#filterKelas')
+    // let filterStatus = $('#filterStatus')
+
+    // console.log(filterKelas.val());
+    // if(filterTahunAjar.val() == '' && filterKelas.val() == '' && filterStatus.val() == ''){
+    //     console.log('asdsad');
+    //     $('#userDataTable').DataTable().ajax.reload()
+    // }else{
+    // }
 </script>
 
 <?= $this->endSection() ?>
