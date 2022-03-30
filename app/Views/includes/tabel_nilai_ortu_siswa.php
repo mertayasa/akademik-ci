@@ -8,15 +8,15 @@
                 <table id="kelasTable" class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <td>No</td>
-                            <td>Pelajaran</td>
-                            <td>TUGAS</td>
-                            <td>PAS</td>
-                            <td>PAT</td>
-                            <td>ULANGAN HARIAN</td>
-                            <td>Rata-Rata</td>
+                            <td style="width:100px">No</td>
+                            <td style="width:100px">Pelajaran</td>
+                            <td style="width:100px">TUGAS</td>
+                            <td style="width:100px">PAS</td>
+                            <td style="width:100px">PAT</td>
+                            <td style="width:100px">ULANGAN HARIAN</td>
+                            <td style="width:100px">Rata-Rata</td>
                             <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
-                                <td>Action</td>
+                                <td style="width:100px">Action</td>
                             <?php endif; ?>
                         </tr>
                     </thead>
