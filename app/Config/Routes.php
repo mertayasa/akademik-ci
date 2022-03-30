@@ -57,6 +57,7 @@ $routes->group('user', ['filter' => 'auth'], function ($routes) {
     $routes->post('insert/(:segment)', 'User::insert/$1', ['as' => 'user_insert']);
     $routes->get('destroy/(:num)/(:segment)', 'User::destroy/$1/$2', ['as' => 'user_destroy']);
     $routes->post('datatables/(:segment)', 'User::datatables/$1', ['as' => 'user_datatables']);
+    $routes->get('datatables/(:segment)', 'User::datatables/$1', ['as' => 'user_datatables_get']);
     $routes->get('kepsek-edit/(:num)', 'User::kepsekEdit/$1', ['as' => 'kepsek_edit']);
     $routes->patch('kepsekUpdate/(:num)', 'User::kepsekUpdate/$1', ['as' => 'kepsek_update']);
     $routes->get('create/kepsek', 'User::kepsekCreate', ['as' => 'kepsek_create']);

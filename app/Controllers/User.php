@@ -119,29 +119,28 @@ class User extends BaseController
             'ortu' => $ortu,
         ];
 
-        // dd($data);
-
         return view('profile/list-siswa', $data);
     }
 
     public function datatables($level)
     {
-        // return json_encode('berhasil ke controller user');
         $request = Services::request();
-        $data_filter = null;
-        if ($request->getPost()) {
-            // $data_filter = [
-            //     'id_tahun_ajar' => $request->getPost('id_tahun_ajar'),
-            //     'id_kelas' => $request->getPost('kelas'),
-            //     'kelas' => $request->getPost('status')
-            // ];
-            $data_filter = $request->getPost();
+        $data_filter = [
+            'id_tahun_ajar' => '',
+            'id_kelas' => '',
+            'status' => ''
+        ];
+        
+        if($request->getGet()){
+            $data_filter = [
+                'id_tahun_ajar' => $request->getGet('id_tahun_ajar'),
+                'id_kelas' => $request->getGet('kelas'),
+                'status' => $request->getGet('status')
+            ];
         }
-        // print_r($data_filter);
-        // die;
+
         switch ($level) {
             case 'kepsek':
-                // $datatable = new GuruKepsekModel($request, $level);
                 $datatable = new GuruKepsekDataTable($request, $level);
                 break;
             case 'ortu':
@@ -151,20 +150,18 @@ class User extends BaseController
                 $datatable = new GuruKepsekDataTable($request, $level);
                 break;
             case 'siswa':
-                $datatable = new SiswaAllDataTable($request, $level, $data_filter);
+                $datatable = new SiswaAllDataTable($request, $level, $status = null, $data_filter);
                 break;
             default:
                 $datatable = new AdminDataTable($request, $level);
                 break;
         }
-        // $datatable = new OrtuDataTable($request, $level);
 
-        if ($request->getMethod(true) === 'POST') {
+        
+        // if ($request->getMethod(true) === 'POST') {
             $lists = $datatable->getDatatables();
-            // print_r($lists);
-            // die;
             $data = [];
-            $no = $request->getPost('start');
+            $no = $request->getPost('start') ?? $request->getGet('start');
 
             foreach ($lists as $list) {
                 $no++;
@@ -201,18 +198,14 @@ class User extends BaseController
                     $row[] = $list->nis;
                     $row[] = $list->nama;
                     $kelas = getKelasBySiswa($list->id);
-                    // $row[] = isset($kelas[0]) ? $kelas[0]['jenjang'] . ' ' . $kelas[0]['kode'] : 'Tanpa Kelas';
-                    $row[] = $list->kelas;
-                    // $row[] = isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-';
-                    $row[] = $list->tahun_ajar;
-                    // $row[] = ucfirst($list->status);
+                    $row[] = $list->kelas ?? (isset($kelas[0]) ? $kelas[0]['jenjang'] . ' ' . $kelas[0]['kode'] : 'Tanpa Kelas');
+                    $row[] = $list->tahun_ajar ?? (isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-');
                 }
 
                 if ($level == 'ortu') {
                     $row[] = $list->nama;
                     $row[] = $list->email;
                     $row[] = $list->no_telp ?? '-';
-                    // $row[] = ucfirst($list->status);
                 }
 
                 if ($level == 'guru') {
@@ -224,14 +217,12 @@ class User extends BaseController
                     $row[] = $list->nama;
                     $row[] = $list->email;
                     $row[] = $list->no_telp ?? '-';
-                    // $row[] = ucfirst($list->status);
                 }
                 if ($level == 'kepsek') {
                     $row[] = $list->nip ?? '-';
                     $row[] = $list->nama;
                     $row[] = $list->email;
                     $row[] = $list->no_telp ?? '-';
-                    // $row[] = ucfirst($list->status);
                     $row[] = $list->masa_jabatan_kepsek ?? '-';
                 }
 
@@ -241,14 +232,18 @@ class User extends BaseController
                     $row[] = $list->email;
                     $row[] = $list->no_telp ?? '-';
                     $row[] = $list->alamat ?? '-';
-                    // $row[] = ucfirst($list->status);
                 }
 
                 if (isAdmin()) {
-                    $row[] = "
-                    <a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>
-                    <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning mb-2'>Edit</a>
-                    <button class='btn btn-sm btn-danger mb-2' onclick='setNonaktif(`" . route_to('user_set_nonaktif', $list->id, $level) . "`, `userDataTable`, `$level`)'>Nonaktif</button>";
+                    $button_action = "
+                        <a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>
+                        <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning mb-2'>Edit</a>";
+
+                    if($list->status == 'aktif' && $list->status != 'lulus'){
+                        $button_action.="<button class='btn btn-sm btn-danger mb-2 ml-2' onclick='setNonaktif(`" . route_to('user_set_nonaktif', $list->id, $level) . "`, `userDataTable`, `$level`)'>Nonaktif</button>";
+                    }
+
+                    $row[] = $button_action;
                 } else {
                     $row[] = "<a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>";
                 }
@@ -257,14 +252,14 @@ class User extends BaseController
             }
 
             $output = [
-                'draw' => $request->getPost('draw'),
+                'draw' => $request->getPost('draw') ?? $request->getGet('draw'),
                 'recordsTotal' => $datatable->countAll(),
                 'recordsFiltered' => $datatable->countFiltered(),
                 'data' => $data,
             ];
 
             return json_encode($output);
-        }
+        // }
     }
 
     public function create($level)

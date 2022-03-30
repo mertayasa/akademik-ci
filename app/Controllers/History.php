@@ -289,7 +289,7 @@ class History extends BaseController
                 $datatable = new GuruKepsekDataTable($request, $level, 'nonaktif');
                 break;
             case 'siswa':
-                $datatable = new SiswaAllDataTable($request, $level, 'nonaktif');
+                $datatable = new SiswaAllDataTable($request, $level, ['lulus', 'nonaktif']);
                 break;
             default:
                 $datatable = new AdminDataTable($request, $level, 'nonaktif');
