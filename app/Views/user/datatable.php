@@ -5,7 +5,58 @@
         <div class="card">
             <?php if (isAdmin()) : ?>
                 <div class="card-header">
-                    <a href="<?= route_to('user_create', $level) ?>" class="btn btn-primary btn-sm float-right">Tambah <?= $level == 'ortu' ? 'Orang Tua' : ucfirst($level) ?></a>
+                    <!-- <div class="float-left"> -->
+                    <div class="row">
+                        <?php if ($level == 'siswa') : ?>
+                            <div class="col-8 d-flex">
+                                <div class="col-3">
+                                    <form id="filter" method="post">
+                                        <?= form_label('Tahun Ajar', 'tahunAjar') ?>
+                                        <input type="hidden" name="_token" id="tokens" value="<?= csrf_hash(); ?>">
+                                        <div class="form-group">
+                                            <select class="form-control" name="id_tahun_ajar" id="tahun_ajar">
+                                                <?php foreach ($tahun_ajar as $data) : ?>
+                                                    <option value="<?= $data['id']; ?>"><?= $data['tahun_mulai'] . ' - ' . $data['tahun_selesai']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="col-3">
+                                    <?= form_label('Kelas', 'kelas') ?>
+                                    <div class="form-group">
+                                        <select class="form-control" name="kelas" id="kelas">
+                                            <?php foreach ($kelas as $data) : ?>
+                                                <option value="<?= $data['id']; ?>"><?= $data['jenjang'] . ' ' . $data['kode']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <?= form_label('Status', 'status') ?>
+                                    <div class="form-group">
+                                        <select class="form-control" name="status" id="status">
+                                            <option value="aktif">Aktif</option>
+                                            <option value="nonaktif">Nonaktif</option>
+                                            <option value="lulus">Lulus</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-3" style="padding-top: 31px;">
+                                    <button class="btn btn-success" type="submit">Filter</button>
+                                </div>
+                                </form>
+                            </div>
+                            <div class="col-4 style=" style="padding-top: 31px;">
+                                <a href="<?= route_to('user_create', $level) ?>" class="btn btn-primary float-right">Tambah <?= $level == 'ortu' ? 'Orang Tua' : ucfirst($level) ?></a>
+                            </div>
+                        <?php else : ?>
+                            <div class="col-12">
+                                <a href="<?= route_to('user_create', $level) ?>" class="btn btn-primary float-right btn-sm">Tambah <?= $level == 'ortu' ? 'Orang Tua' : ucfirst($level) ?></a>
+                            </div>
+                        <?php endif; ?>
+
+                    </div>
+                    <!-- </div> -->
                 </div>
             <?php endif; ?>
             <div class="card-body">
@@ -84,8 +135,7 @@
                     "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                 },
             },
-            "columnDefs": [
-                {
+            "columnDefs": [{
                     "targets": [0, 1, 3, 5, 6, -1],
                     "orderable": false,
                 },
@@ -107,8 +157,7 @@
                     "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                 },
             },
-            "columnDefs": [
-                {
+            "columnDefs": [{
                     "targets": [0, 2, 3, 4, -1],
                     "orderable": false,
                 },
@@ -130,12 +179,10 @@
                     "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                 },
             },
-            "columnDefs": [
-                {
-                    "targets": [0, 1, 3, 5, 6, 7, -1],
-                    "orderable": false,
-                }
-            ],
+            "columnDefs": [{
+                "targets": [0, 1, 3, 5, 6, 7, -1],
+                "orderable": false,
+            }],
         })
     <?php elseif ($level == 'guru') : ?>
         const table = $('#userDataTable').DataTable({
@@ -149,8 +196,7 @@
                     "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                 },
             },
-            "columnDefs": [
-                {
+            "columnDefs": [{
                     "targets": [0, 1, 3, 5, -1],
                     "orderable": false,
                 },
@@ -172,8 +218,7 @@
                     "<?= csrf_token() ?>": "<?= csrf_hash() ?>"
                 },
             },
-            "columnDefs": [
-                {
+            "columnDefs": [{
                     "targets": [0, 1, 3, 5, -1],
                     "orderable": false,
                 },
@@ -215,6 +260,24 @@
             }
         })
     }
+</script>
+
+<script>
+    $('#filter').submit(function(e) {
+        e.preventDefault()
+        const form = $(this)
+        const data = form.serialize()
+        console.log(data);
+        $.ajax({
+            method: 'post',
+            url: "<?= route_to('user_datatables', $level) ?>",
+            data: data,
+            success: function(data) {
+                console.log('akwoka')
+                $('#userDataTable').DataTable().ajax.reload()
+            }
+        })
+    })
 </script>
 
 <?= $this->endSection() ?>

@@ -13,11 +13,16 @@ use App\Models\DataTables\SiswaAllDataTable;
 // use App\Models\DataTables\UserDataTable;
 use App\Models\GuruKepsekModel;
 use App\Models\JadwalModel;
+use App\Models\KelasModel;
 use App\Models\KelasPerTahunModel;
 use App\Models\OrtuModel;
 use App\Models\SiswaModel;
+use App\Models\TahunAjarModel;
 use App\Models\WaliKelasModel;
 use Config\Services;
+use phpDocumentor\Reflection\Types\This;
+use PhpParser\Node\Expr\Isset_;
+use PHPUnit\Framework\Constraint\IsEmpty;
 
 class User extends BaseController
 {
@@ -31,6 +36,8 @@ class User extends BaseController
     protected $jadwal;
     protected $kelas_per_tahun;
     protected $wali_kelas;
+    protected $tahun_ajar;
+    protected $kelas;
 
     public function __construct()
     {
@@ -43,12 +50,16 @@ class User extends BaseController
         $this->jadwal = new JadwalModel();
         $this->wali_kelas = new WaliKelasModel();
         $this->kelas_per_tahun = new KelasPerTahunModel();
+        $this->tahun_ajar = new TahunAjarModel();
+        $this->kelas = new KelasModel();
         $this->level = session()->get('level');
     }
 
     public function index($level)
     {
-        if(isOrtu() and $level == 'siswa'){
+        $tahun_ajar = $this->tahun_ajar->findAll();
+        $kelas = $this->kelas->findAll();
+        if (isOrtu() and $level == 'siswa') {
             return $this->studentByOrtu();
         }
 
@@ -63,7 +74,9 @@ class User extends BaseController
 
         $data = [
             'kepsek' => $kepsek,
-            'level' => $level
+            'level' => $level,
+            'tahun_ajar' => $tahun_ajar,
+            'kelas' => $kelas
         ];
 
         return view('user/index', $data);
@@ -74,26 +87,26 @@ class User extends BaseController
         $id_ortu = session()->get('id');
         $ortu = $this->ortu->getData($id_ortu);
         $siswa = $this->siswa->where('id_ortu', $id_ortu)->findAll();
-        foreach($siswa as $key => $sis){
+        foreach ($siswa as $key => $sis) {
             $siswa[$key]['foto'] = $this->siswa->getFoto($sis['id']);
 
             $kelas = getKelasBySiswa($sis['id']);
-            if(isset($kelas[0])){
+            if (isset($kelas[0])) {
                 $kelas_per_tahun = $this->kelas_per_tahun->where([
                     'id_kelas' => $kelas[0]['id'],
                     'id_tahun_ajar' => $kelas[0]['id_tahun_ajar']
                 ])
-                ->findAll();
-    
-                if(isset($kelas_per_tahun[0])){
+                    ->findAll();
+
+                if (isset($kelas_per_tahun[0])) {
                     $siswa[$key]['wali_kelas'] = $this->wali_kelas->where([
                         'id_kelas' => $kelas[0]['id'],
                         'id_tahun_ajar' => $kelas[0]['id_tahun_ajar']
                     ])
-                    ->join('guru_kepsek', 'wali_kelas.id_guru_wali = guru_kepsek.id')
-                    ->findAll();
+                        ->join('guru_kepsek', 'wali_kelas.id_guru_wali = guru_kepsek.id')
+                        ->findAll();
                 }
-            }else{
+            } else {
                 $siswa[$key]['wali_kelas'] = [];
             }
 
@@ -107,14 +120,25 @@ class User extends BaseController
         ];
 
         // dd($data);
-        
+
         return view('profile/list-siswa', $data);
     }
 
     public function datatables($level)
     {
-
+        // return json_encode('berhasil ke controller user');
         $request = Services::request();
+        $data_filter = null;
+        if ($request->getPost()) {
+            // $data_filter = [
+            //     'id_tahun_ajar' => $request->getPost('id_tahun_ajar'),
+            //     'id_kelas' => $request->getPost('kelas'),
+            //     'kelas' => $request->getPost('status')
+            // ];
+            $data_filter = $request->getPost();
+        }
+        // print_r($data_filter);
+        // die;
         switch ($level) {
             case 'kepsek':
                 // $datatable = new GuruKepsekModel($request, $level);
@@ -127,7 +151,7 @@ class User extends BaseController
                 $datatable = new GuruKepsekDataTable($request, $level);
                 break;
             case 'siswa':
-                $datatable = new SiswaAllDataTable($request, $level);
+                $datatable = new SiswaAllDataTable($request, $level, $data_filter);
                 break;
             default:
                 $datatable = new AdminDataTable($request, $level);
@@ -137,6 +161,8 @@ class User extends BaseController
 
         if ($request->getMethod(true) === 'POST') {
             $lists = $datatable->getDatatables();
+            // print_r($lists);
+            // die;
             $data = [];
             $no = $request->getPost('start');
 
@@ -175,8 +201,10 @@ class User extends BaseController
                     $row[] = $list->nis;
                     $row[] = $list->nama;
                     $kelas = getKelasBySiswa($list->id);
-                    $row[] = isset($kelas[0]) ? $kelas[0]['jenjang'] . ' ' . $kelas[0]['kode'] : 'Tanpa Kelas';
-                    $row[] = isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-';
+                    // $row[] = isset($kelas[0]) ? $kelas[0]['jenjang'] . ' ' . $kelas[0]['kode'] : 'Tanpa Kelas';
+                    $row[] = $list->kelas;
+                    // $row[] = isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-';
+                    $row[] = $list->tahun_ajar;
                     // $row[] = ucfirst($list->status);
                 }
 
@@ -567,7 +595,7 @@ class User extends BaseController
                 case 'siswa':
                     $this->siswa->updateData($id, $data);
                     $anggota_kelas = $this->anggota_kelas->where('id_siswa', $id)->findAll();
-                    foreach($anggota_kelas as $anggota){
+                    foreach ($anggota_kelas as $anggota) {
                         $this->anggota_kelas->updateData($anggota['id'], [
                             'status' => 'nonaktif'
                         ]);
@@ -596,32 +624,31 @@ class User extends BaseController
     public function setLulus($id_siswa, $nis)
     {
         $siswa = $this->siswa->getData($id_siswa);
-        
-        if(count($siswa) < 1){
+
+        if (count($siswa) < 1) {
             return json_encode(['code' => 0, 'message' => 'Data siswa tidak ditemukan']);
         }
 
-        if($siswa['nis'] != $nis){
+        if ($siswa['nis'] != $nis) {
             return json_encode(['code' => 0, 'message' => 'Data siswa tidak ditemukan']);
         }
 
         $anggota_kelas = $this->anggota_kelas->where([
             'id_siswa' => $siswa['id'],
-            'kelas.jenjang' => '6'  
+            'kelas.jenjang' => '6'
         ])->join('kelas', 'anggota_kelas.id_kelas = kelas.id')->countAllResults();
 
-        if($anggota_kelas < 1){
+        if ($anggota_kelas < 1) {
             return json_encode(['code' => 0, 'message' => 'Siswa belum pada jenjang kelas 6']);
         }
 
-        try{
+        try {
             $this->siswa->updateData($siswa['id'], ['status' => 'lulus']);
         } catch (\Exception $e) {
             log_message('error', $e->getMessage());
             return json_encode(['code' => 0, 'message' => 'Gagal meluluskan siswa']);
         }
 
-        return json_encode(['code' => 1, 'message' => 'Siswa atas nama '. $siswa['nama']. ' telah dinyatakan lulus']);
-
+        return json_encode(['code' => 1, 'message' => 'Siswa atas nama ' . $siswa['nama'] . ' telah dinyatakan lulus']);
     }
 }
