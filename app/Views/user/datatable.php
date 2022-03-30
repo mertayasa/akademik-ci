@@ -7,45 +7,63 @@
                 <div class="card-header">
                     <!-- <div class="float-left"> -->
                     <div class="row">
-                        <?php if ($level == 'siswa') : ?>
+                        <?php if ($level == 'siswa' or $level == 'ortu') : ?>
                             <div class="col-8 d-flex">
-                                <div class="col-3">
-                                    <form id="filter" method="get">
-                                        <?= form_label('Tahun Ajar', 'tahunAjar') ?>
-                                        <!-- <input type="hidden" name="_token" id="tokens" value="<?= csrf_hash(); ?>"> -->
+                                <?php if ($level == 'siswa') : ?>
+                                    <div class="col-3">
+                                        <form id="filter" method="get">
+                                            <?= form_label('Tahun Ajar', 'tahunAjar') ?>
+                                            <!-- <input type="hidden" name="_token" id="tokens" value="<?= csrf_hash(); ?>"> -->
+                                            <div class="form-group">
+                                                <select class="form-control" name="id_tahun_ajar" id="filterTahunAjar">
+                                                    <!-- <option value="">Pilih Tahun Ajar</option> -->
+                                                    <?php foreach ($tahun_ajar as $data) : ?>
+                                                        <option value="<?= $data['id']; ?>"><?= $data['tahun_mulai'] . ' - ' . $data['tahun_selesai']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <?= form_label('Kelas', 'kelas') ?>
                                         <div class="form-group">
-                                            <select class="form-control" name="id_tahun_ajar" id="filterTahunAjar">
-                                                <!-- <option value="">Pilih Tahun Ajar</option> -->
-                                                <?php foreach ($tahun_ajar as $data) : ?>
-                                                    <option value="<?= $data['id']; ?>"><?= $data['tahun_mulai'] . ' - ' . $data['tahun_selesai']; ?></option>
+                                            <select class="form-control" name="kelas" id="filterKelas">
+                                                <!-- <option value="">Pilih Kelas</option> -->
+                                                <?php foreach ($kelas as $data) : ?>
+                                                    <option value="<?= $data['id']; ?>"><?= $data['jenjang'] . ' ' . $data['kode']; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
-                                </div>
-                                <div class="col-3">
-                                    <?= form_label('Kelas', 'kelas') ?>
-                                    <div class="form-group">
-                                        <select class="form-control" name="kelas" id="filterKelas">
-                                            <!-- <option value="">Pilih Kelas</option> -->
-                                            <?php foreach ($kelas as $data) : ?>
-                                                <option value="<?= $data['id']; ?>"><?= $data['jenjang'] . ' ' . $data['kode']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
                                     </div>
-                                </div>
-                                <div class="col-3">
-                                    <?= form_label('Status', 'status') ?>
-                                    <div class="form-group">
-                                        <select class="form-control" name="status" id="filterStatus">
-                                            <!-- <option value="">Pilih Status</option> -->
-                                            <option value="aktif">Aktif</option>
-                                            <option value="nonaktif">Nonaktif</option>
-                                            <option value="lulus">Lulus</option>
-                                        </select>
+                                <?php endif; ?>
+                                <?php if ($level == 'siswa') : ?>
+                                    <div class="col-3">
+                                        <form id="filter" method="get"> <?= form_label('Status', 'status') ?>
+                                            <div class="form-group">
+                                                <select class="form-control" name="status" id="filterStatus">
+                                                    <!-- <option value="">Pilih Status</option> -->
+                                                    <option value="aktif">Aktif</option>
+                                                    <option value="nonaktif">Nonaktif</option>
+                                                    <option value="lulus">Lulus</option>
+                                                </select>
+                                            </div>
                                     </div>
-                                </div>
+                                <?php endif; ?>
+                                <?php if ($level == 'ortu') : ?>
+                                    <div class="col-3">
+                                        <form id="filter" method="get">
+                                            <?= form_label('Status', 'status') ?>
+                                            <div class="form-group">
+                                                <select class="form-control" name="status" id="filterStatus">
+                                                    <!-- <option value="">Pilih Status</option> -->
+                                                    <option value="aktif">Aktif</option>
+                                                    <option value="nonaktif">Nonaktif</option>
+                                                    <option value="lulus">Lulus</option>
+                                                </select>
+                                            </div>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="col-3" style="padding-top: 31px;">
-                                    <button class="btn btn-success" type="submit">Filter</button>
+                                    <button class="btn btn-success" type="submit" id="btn_filter_submit">Filter</button>
                                 </div>
                                 </form>
                             </div>
@@ -271,15 +289,14 @@
         const form = $(this)
         const data = form.serialize()
         const url = "<?= route_to('user_datatables_get', $level) ?>"
-        console.log(url + `?${data}`);
 
         let filterTahunAjar = $('#filterTahunAjar')
         let filterKelas = $('#filterKelas')
         let filterStatus = $('#filterStatus')
 
-        if(filterTahunAjar.val() == '' && filterKelas.val() == '' && filterStatus.val() == ''){
+        if (filterTahunAjar.val() == '' && filterKelas.val() == '' && filterStatus.val() == '') {
             $('#userDataTable').DataTable().ajax.reload()
-        }else{
+        } else {
             $('#userDataTable').DataTable().ajax.url(url + `?${data}`).load();
         }
 

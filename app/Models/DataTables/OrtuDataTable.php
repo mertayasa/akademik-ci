@@ -9,21 +9,23 @@ class OrtuDataTable extends Model
 {
     protected $table = 'ortu';
     protected $column_order = ['id', 'nama'];
-    protected $column_search = ['nama', 'email'];
+    protected $column_search = ['nama', 'email', 'status'];
     protected $order = ['nama' => 'asd'];
     protected $request;
     protected $level;
     protected $db;
     protected $dt;
     protected $status;
+    protected $data_filter;
 
-    public function __construct(RequestInterface $request, $level, $status = null)
+    public function __construct(RequestInterface $request, $level, $status = null, $data_filter = null)
     {
         parent::__construct();
         $this->db = db_connect();
         $this->request = $request;
         $this->status = $status;
         $this->level = $level ?? ['admin', 'siswa', 'ortu', 'guru', 'kepsek'];
+        $this->data_filter = $data_filter ?? null;
         $this->dt = $this->db->table($this->table);
     }
 
@@ -45,6 +47,9 @@ class OrtuDataTable extends Model
             $i++;
         }
 
+        if (isset($this->data_filter['status']) && $this->data_filter['status'] != '') {
+            $this->dt->where('status', $this->data_filter['status']);
+        }
         if ($this->status != null) {
             $this->dt->where('status', $this->status);
         }
@@ -62,7 +67,7 @@ class OrtuDataTable extends Model
         $this->getDatatablesQuery();
         if ($this->request->getPost('length') != -1)
             $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
-        $this->dt->where('status', 'aktif');
+        // $this->dt->where('status', 'aktif');
         $query = $this->dt->get();
         return $query->getResult();
     }

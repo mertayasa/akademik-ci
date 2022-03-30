@@ -130,8 +130,8 @@ class User extends BaseController
             'id_kelas' => '',
             'status' => ''
         ];
-        
-        if($request->getGet()){
+
+        if ($request->getGet()) {
             $data_filter = [
                 'id_tahun_ajar' => $request->getGet('id_tahun_ajar'),
                 'id_kelas' => $request->getGet('kelas'),
@@ -144,7 +144,7 @@ class User extends BaseController
                 $datatable = new GuruKepsekDataTable($request, $level);
                 break;
             case 'ortu':
-                $datatable = new OrtuDataTable($request, $level);
+                $datatable = new OrtuDataTable($request, $level, $status = null, $data_filter);
                 break;
             case 'guru':
                 $datatable = new GuruKepsekDataTable($request, $level);
@@ -157,108 +157,108 @@ class User extends BaseController
                 break;
         }
 
-        
+
         // if ($request->getMethod(true) === 'POST') {
-            $lists = $datatable->getDatatables();
-            $data = [];
-            $no = $request->getPost('start') ?? $request->getGet('start');
+        $lists = $datatable->getDatatables();
+        $data = [];
+        $no = $request->getPost('start') ?? $request->getGet('start');
 
-            foreach ($lists as $list) {
-                $no++;
-                $row = [];
-                $row[] = $no;
-                // if ($level == 'siswa') {
-                //     $row[] = "
-                //     <a target='_blank' href='" . base_url($this->siswa->getFoto($list->id)) . "'>
-                //         <img src='" . base_url($this->siswa->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
-                //     </a>";
-                // } elseif ($level == 'guru' || $level == 'kepsek') {
-                //     $row[] = "
-                //     <a target='_blank' href='" . base_url($this->guru->getFoto($list->id)) . "'>
-                //         <img src='" . base_url($this->guru->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
-                //     </a>";
-                // } elseif ($level == 'ortu') {
-                //     $row[] = "
-                //     <a target='_blank' href='" . base_url($this->ortu->getFoto($list->id)) . "'>
-                //         <img src='" . base_url($this->ortu->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
-                //     </a>";
-                // } else {
-                //     $row[] = "
-                //     <a target='_blank' href='" . base_url($this->admin->getFoto($list->id)) . "'>
-                //         <img src='" . base_url($this->admin->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
-                //     </a>";
-                // }
+        foreach ($lists as $list) {
+            $no++;
+            $row = [];
+            $row[] = $no;
+            // if ($level == 'siswa') {
+            //     $row[] = "
+            //     <a target='_blank' href='" . base_url($this->siswa->getFoto($list->id)) . "'>
+            //         <img src='" . base_url($this->siswa->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+            //     </a>";
+            // } elseif ($level == 'guru' || $level == 'kepsek') {
+            //     $row[] = "
+            //     <a target='_blank' href='" . base_url($this->guru->getFoto($list->id)) . "'>
+            //         <img src='" . base_url($this->guru->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+            //     </a>";
+            // } elseif ($level == 'ortu') {
+            //     $row[] = "
+            //     <a target='_blank' href='" . base_url($this->ortu->getFoto($list->id)) . "'>
+            //         <img src='" . base_url($this->ortu->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+            //     </a>";
+            // } else {
+            //     $row[] = "
+            //     <a target='_blank' href='" . base_url($this->admin->getFoto($list->id)) . "'>
+            //         <img src='" . base_url($this->admin->getFoto($list->id)) . "' width='100px' height='100px' style='object-fit:contain'>
+            //     </a>";
+            // }
 
-                // $row[] = $list->nama;
-                // if ($level != 'siswa') {
-                //     $row[] = $list->email;
-                // }
+            // $row[] = $list->nama;
+            // if ($level != 'siswa') {
+            //     $row[] = $list->email;
+            // }
 
-                if ($level == 'siswa') {
-                    $row[] = $list->nis;
-                    $row[] = $list->nama;
-                    $kelas = getKelasBySiswa($list->id);
-                    $row[] = $list->kelas ?? (isset($kelas[0]) ? $kelas[0]['jenjang'] . ' ' . $kelas[0]['kode'] : 'Tanpa Kelas');
-                    $row[] = $list->tahun_ajar ?? (isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-');
-                }
+            if ($level == 'siswa') {
+                $row[] = $list->nis;
+                $row[] = $list->nama;
+                $kelas = getKelasBySiswa($list->id);
+                $row[] = $list->kelas ?? (isset($kelas[0]) ? $kelas[0]['jenjang'] . ' ' . $kelas[0]['kode'] : 'Tanpa Kelas');
+                $row[] = $list->tahun_ajar ?? (isset($kelas[0]) ? $kelas[0]['tahun_mulai'] . '-' . $kelas[0]['tahun_selesai'] : '-');
+            }
 
-                if ($level == 'ortu') {
-                    $row[] = $list->nama;
-                    $row[] = $list->email;
-                    $row[] = $list->no_telp ?? '-';
-                }
+            if ($level == 'ortu') {
+                $row[] = $list->nama;
+                $row[] = $list->email;
+                $row[] = $list->no_telp ?? '-';
+            }
 
-                if ($level == 'guru') {
-                    if (isAdmin() or isGuru()) {
-                        $row[] = $list->nip ?? '-';
-                    } else {
-                        $row[] = '';
-                    }
-                    $row[] = $list->nama;
-                    $row[] = $list->email;
-                    $row[] = $list->no_telp ?? '-';
-                }
-                if ($level == 'kepsek') {
+            if ($level == 'guru') {
+                if (isAdmin() or isGuru()) {
                     $row[] = $list->nip ?? '-';
-                    $row[] = $list->nama;
-                    $row[] = $list->email;
-                    $row[] = $list->no_telp ?? '-';
-                    $row[] = $list->masa_jabatan_kepsek ?? '-';
+                } else {
+                    $row[] = '';
                 }
+                $row[] = $list->nama;
+                $row[] = $list->email;
+                $row[] = $list->no_telp ?? '-';
+            }
+            if ($level == 'kepsek') {
+                $row[] = $list->nip ?? '-';
+                $row[] = $list->nama;
+                $row[] = $list->email;
+                $row[] = $list->no_telp ?? '-';
+                $row[] = $list->masa_jabatan_kepsek ?? '-';
+            }
 
-                if ($level == 'admin') {
-                    $row[] = $list->nip ?? '-';
-                    $row[] = $list->nama;
-                    $row[] = $list->email;
-                    $row[] = $list->no_telp ?? '-';
-                    $row[] = $list->alamat ?? '-';
-                }
+            if ($level == 'admin') {
+                $row[] = $list->nip ?? '-';
+                $row[] = $list->nama;
+                $row[] = $list->email;
+                $row[] = $list->no_telp ?? '-';
+                $row[] = $list->alamat ?? '-';
+            }
 
-                if (isAdmin()) {
-                    $button_action = "
+            if (isAdmin()) {
+                $button_action = "
                         <a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>
                         <a href='" . route_to('user_edit', $level, $list->id) . "' class='btn btn-sm btn-warning mb-2'>Edit</a>";
 
-                    if($list->status == 'aktif' && $list->status != 'lulus'){
-                        $button_action.="<button class='btn btn-sm btn-danger mb-2 ml-2' onclick='setNonaktif(`" . route_to('user_set_nonaktif', $list->id, $level) . "`, `userDataTable`, `$level`)'>Nonaktif</button>";
-                    }
-
-                    $row[] = $button_action;
-                } else {
-                    $row[] = "<a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>";
+                if ($list->status == 'aktif' && $list->status != 'lulus') {
+                    $button_action .= "<button class='btn btn-sm btn-danger mb-2 ml-2' onclick='setNonaktif(`" . route_to('user_set_nonaktif', $list->id, $level) . "`, `userDataTable`, `$level`)'>Nonaktif</button>";
                 }
 
-                $data[] = $row;
+                $row[] = $button_action;
+            } else {
+                $row[] = "<a href='" . route_to('profile_show', $level, $list->id) . "' class='btn btn-sm btn-primary mb-2'>Profil</a>";
             }
 
-            $output = [
-                'draw' => $request->getPost('draw') ?? $request->getGet('draw'),
-                'recordsTotal' => $datatable->countAll(),
-                'recordsFiltered' => $datatable->countFiltered(),
-                'data' => $data,
-            ];
+            $data[] = $row;
+        }
 
-            return json_encode($output);
+        $output = [
+            'draw' => $request->getPost('draw') ?? $request->getGet('draw'),
+            'recordsTotal' => $datatable->countAll(),
+            'recordsFiltered' => $datatable->countFiltered(),
+            'data' => $data,
+        ];
+
+        return json_encode($output);
         // }
     }
 
