@@ -4,17 +4,17 @@
             <table id="kelasTable" class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <td>No</td>
-                        <td>Pelajaran</td>
-                        <td>TUGAS</td>
-                        <td>PAS</td>
-                        <td>PAT</td>
-                        <td>ULANGAN HARIAN</td>
-                        <td>Rata-Rata</td>
-                        <?php if($siswa['status'] == 'aktif'): ?>
+                        <td style="width:100px">No</td>
+                        <td style="width:100px">Pelajaran</td>
+                        <td style="width:100px">TUGAS</td>
+                        <td style="width:100px">PAS</td>
+                        <td style="width:100px">PAT</td>
+                        <td style="width:100px">ULANGAN <br> HARIAN</td>
+                        <td style="width:100px">Rata-Rata</td>
+                        <?php if ($siswa['status'] == 'aktif') : ?>
                             <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
                                 <?php if (getUrlIndex() != 'history-data') : ?>
-                                    <td>Action</td>
+                                    <td style="width:100px">Action</td>
                                 <?php endif; ?>
                             <?php endif; ?>
                         <?php endif; ?>
@@ -49,7 +49,7 @@
                                 <td class="text-right"><?= $nilai_harian ?></td>
                                 <td style="display: none;" class="id_mapel"><?= $mp['id_mapel'] ?></td>
                                 <td class="text-right"><?= round(($nilai_tugas + $nilai_uts + $nilai_uas + $nilai_harian) / 4) ?></td>
-                                <?php if($siswa['status'] == 'aktif'): ?>
+                                <?php if ($siswa['status'] == 'aktif') : ?>
                                     <?php if (session()->get('level') == "admin" || session()->get('is_wali')) : ?>
                                         <?php if (getUrlIndex() != 'history-data') : ?>
                                             <td><button data-toggle="modal" data-target="#modal_edit_nilai" data-id_mapel="<?= $mp['id_mapel']; ?>" data-id="<?= (isset(getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], $semester, $mp['id_mapel'])[0]['id_nilai'])) ? getNilaiByJadwal($anggota_kelas['id_kelas'], $anggota_kelas['id'], $semester, $mp['id_mapel'])[0]['id_nilai'] : 0 ?>" class="btn btn-sm btn-warning action-edit">Edit </button></td>
@@ -79,7 +79,7 @@
                         <?php if (session()->get('level') == 'admin') : ?>
                             <tr>
                                 <td colspan="7" class="text-center"> Tidak ada data / Nilai belum diinput </td>
-                                <?php if($siswa['status'] == 'aktif'): ?>
+                                <?php if ($siswa['status'] == 'aktif') : ?>
                                     <?php if (getUrlIndex() != 'history-data') : ?>
                                         <td><button data-toggle="modal" data-target="#modal_input_nilai" class="btn btn-primary">Input Nilai</button></td>
                                     <?php endif; ?>

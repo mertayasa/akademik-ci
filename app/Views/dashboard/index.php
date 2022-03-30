@@ -100,6 +100,7 @@
                                     Hi!, <strong><?= session()->get('nama'); ?></strong>
                                 </h4>
                                 <h2>Selamat datang di SIAMON SD MUHAMMADIYAH 2 DENPASAR</h2>
+                                <h5>Alamat : Jl. Halmahera No. 24 Denpasar - Bali, Telp: 0361 - 225753</h5>
                             </div>
                         </div>
                     </div>
