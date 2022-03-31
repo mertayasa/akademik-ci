@@ -57,11 +57,11 @@
     </div>
     <div class="col-12 col-md-6 pb-3 pb-md-0">
         <?= form_label('Status', 'statusUser') ?>
-        <?php if(isset($user['is_pindah_keluar']) && $user['is_pindah_keluar']): ?>
+        <?php if (isset($user['is_pindah_keluar']) && $user['is_pindah_keluar']) : ?>
             <input type="text" name="status" class="form-control" disabled id="" value="Nonaktif">
             <span class="text-danger">Siswa telah pindah sekolah, tidak bisa mengubah status</span>
-        <?php else: ?>
-            <?php if($user['status'] == 'lulus'): ?>
+        <?php else : ?>
+            <?php if (isset($user['status']) && $user['status'] == 'lulus') : ?>
                 <input type="text" name="status" class="form-control" disabled id="" value="Lulus">
                 <span class="text-danger">Siswa telah lulus, tidak bisa mengubah status</span>
             <?php endif; ?>
