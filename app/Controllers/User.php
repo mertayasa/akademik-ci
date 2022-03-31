@@ -147,7 +147,7 @@ class User extends BaseController
                 $datatable = new OrtuDataTable($request, $level, $status = null, $data_filter);
                 break;
             case 'guru':
-                $datatable = new GuruKepsekDataTable($request, $level);
+                $datatable = new GuruKepsekDataTable($request, $level, $status = null, $data_filter);
                 break;
             case 'siswa':
                 $datatable = new SiswaAllDataTable($request, $level, $status = null, $data_filter);

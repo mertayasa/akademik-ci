@@ -4,8 +4,8 @@
             <table id="kelasTable" class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        <td style="width:100px">No</td>
-                        <td style="width:100px">Pelajaran</td>
+                        <td style="width:50px">No</td>
+                        <td style="width:200px">Pelajaran</td>
                         <td style="width:100px">TUGAS</td>
                         <td style="width:100px">PAS</td>
                         <td style="width:100px">PAT</td>

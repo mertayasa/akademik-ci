@@ -7,7 +7,7 @@
                 <div class="card-header">
                     <!-- <div class="float-left"> -->
                     <div class="row">
-                        <?php if ($level == 'siswa' or $level == 'ortu') : ?>
+                        <?php if ($level == 'siswa' or $level == 'guru') : ?>
                             <div class="col-8 d-flex">
                                 <?php if ($level == 'siswa') : ?>
                                     <div class="col-3">
@@ -46,7 +46,7 @@
                                         </div>
                                     </div>
                                 <?php endif; ?>
-                                <?php if ($level == 'ortu') : ?>
+                                <?php if ($level == 'guru') : ?>
                                     <div class="col-3">
                                         <form id="filter" method="get">
                                             <?= form_label('Status', 'status') ?>
