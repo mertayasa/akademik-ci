@@ -53,3 +53,48 @@
         <input type="date" name="tanggal" required value="<?= set_value('tanggal') == false && isset($pindah_sekolah) ? $pindah_sekolah['tanggal'] : set_value('tanggal') ?>" class="form-control" id="tanggalPindah">
     </div>
 </div>
+<hr>
+<div class="row mt-3">
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Nama Orang Tua', 'nama_ortu') ?>
+        <?= form_input([
+            'type' => 'text',
+            'name' => 'nama_ortu',
+            'id' => 'nama_ortu',
+            'placeholder' => 'Nama Orang Tua',
+            'class' => 'form-control'
+        ]) ?>
+    </div>
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Nomer telepon Orang Tua', 'nomer_ortu') ?>
+        <?= form_input([
+            'type' => 'text',
+            'name' => 'nomer_ortu',
+            'id' => 'nomer_ortu',
+            'placeholder' => 'Nomer Telepon Orang Tua',
+            'class' => 'form-control'
+        ]) ?>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Email', 'email_ortu') ?>
+        <?= form_input([
+            'type' => 'email',
+            'name' => 'email_ortu',
+            'id' => 'email_ortu',
+            'placeholder' => 'Email',
+            'class' => 'form-control'
+        ]) ?>
+    </div>
+    <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <?= form_label('Password', 'password_ortu') ?>
+        <?= form_input([
+            'type' => 'text',
+            'name' => 'password_ortu',
+            'id' => 'password_ortu',
+            'placeholder' => 'Password',
+            'class' => 'form-control'
+        ]) ?>
+    </div>
+</div>

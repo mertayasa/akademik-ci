@@ -7,7 +7,7 @@
                 <div class="card-header">
                     <!-- <div class="float-left"> -->
                     <div class="row">
-                        <?php if ($level == 'siswa' or $level == 'guru') : ?>
+                        <?php if ($level == 'siswa' or $level == 'guru' or $level == 'ortu') : ?>
                             <div class="col-8 d-flex">
                                 <?php if ($level == 'siswa') : ?>
                                     <div class="col-3">
@@ -57,6 +57,18 @@
                                                     <option value="nonaktif">Nonaktif</option>
                                                 </select>
                                             </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($level == 'ortu') : ?>
+                                    <div class="col-3">
+                                        <form id="filter" method="get">
+                                            <?= form_label('NIS Anak', 'nis') ?>
+                                            <?= form_input([
+                                                'type' => 'text',
+                                                'name' => 'nis',
+                                                'id' => 'nis',
+                                                'class' => 'form-control'
+                                            ]) ?>
                                     </div>
                                 <?php endif; ?>
                                 <div class="col-3" style="padding-top: 31px;">

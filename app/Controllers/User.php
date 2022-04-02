@@ -128,14 +128,16 @@ class User extends BaseController
         $data_filter = [
             'id_tahun_ajar' => '',
             'id_kelas' => '',
-            'status' => ''
+            'status' => '',
+            'nis' => ''
         ];
 
         if ($request->getGet()) {
             $data_filter = [
                 'id_tahun_ajar' => $request->getGet('id_tahun_ajar'),
                 'id_kelas' => $request->getGet('kelas'),
-                'status' => $request->getGet('status')
+                'status' => $request->getGet('status'),
+                'nis' => $request->getGet('nis')
             ];
         }
 

@@ -47,8 +47,10 @@ class OrtuDataTable extends Model
             $i++;
         }
 
-        if (isset($this->data_filter['status']) && $this->data_filter['status'] != '') {
-            $this->dt->where('status', $this->data_filter['status']);
+        if (isset($this->data_filter['nis']) && $this->data_filter['nis'] != '') {
+            $this->dt->select('ortu.*, siswa.id_ortu, siswa.nis');
+            $this->dt->join('siswa', 'siswa.id_ortu = ortu.id');
+            $this->dt->where('nis', $this->data_filter['nis']);
         }
         if ($this->status != null) {
             $this->dt->where('status', $this->status);

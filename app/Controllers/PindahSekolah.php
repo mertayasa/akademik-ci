@@ -17,6 +17,7 @@ class PindahSekolah extends BaseController
     protected $siswa;
     protected $pindah_sekolah;
     protected $anggota_kelas;
+    protected $ortu;
     protected $db;
 
     public function __construct()
@@ -45,7 +46,7 @@ class PindahSekolah extends BaseController
         foreach ($tahun_ajar_raw as $raw) {
             $tahun_ajar[$raw['id']] = $raw['tahun_mulai'] . '/' . $raw['tahun_selesai'];
         }
-        
+
         if ($this->request->getGet('id_tahun') != null) {
             $id_tahun = $this->request->getGet('id_tahun');
             $selected_tahun = $this->tahun_ajar->find($id_tahun);
@@ -151,27 +152,40 @@ class PindahSekolah extends BaseController
         try {
             $data = $this->request->getPost();
             $data['tipe'] = $tipe;
+            $data_ortu = [
+                'nama' => $this->request->getPost('nama_ortu'),
+                'nomer' => $this->request->getPost('nomer_ortu'),
+                'email' => $this->request->getPost('email_ortu'),
+                'password' => password_hash($this->request->getPost('password_ortu'), PASSWORD_BCRYPT)
+            ];
+            $insert_ortu = $this->ortu->insertdata($data_ortu);
+            if ($insert_ortu) {
+                $insert_id = $this->ortu->getInsertID();
+                $data['id_ortu'] = $insert_id;
+                if ($tipe == 'masuk') {
+                    $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+                    $siswa = $this->siswa->insertData($data);
+                    $data['id_siswa'] = $siswa;
+                    $data['tujuan'] = getNamaSekolah();
+                } else {
+                    $siswa = $this->siswa->getData($data['id_siswa']);
 
-            if ($tipe == 'masuk') {
-                $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-                $siswa = $this->siswa->insertData($data);
-                $data['id_siswa'] = $siswa;
-                $data['tujuan'] = getNamaSekolah();
-            } else {
-                $siswa = $this->siswa->getData($data['id_siswa']);
-
-                $this->siswa->updateData($siswa['id'], [
-                    'status' => 'nonaktif',
-                ]);
-
-                $anggota_kelas = $this->anggota_kelas->where('id_siswa', $data['id_siswa'])->getData();
-                foreach ($anggota_kelas as $ak) {
-                    $this->anggota_kelas->updateData($ak['id'], [
+                    $this->siswa->updateData($siswa['id'], [
                         'status' => 'nonaktif',
                     ]);
-                }
 
-                $data['asal'] = getNamaSekolah();
+                    $anggota_kelas = $this->anggota_kelas->where('id_siswa', $data['id_siswa'])->getData();
+                    foreach ($anggota_kelas as $ak) {
+                        $this->anggota_kelas->updateData($ak['id'], [
+                            'status' => 'nonaktif',
+                        ]);
+                    }
+
+                    $data['asal'] = getNamaSekolah();
+                }
+            } else {
+                session()->setFlashdata('error', 'Gagal menambahkan data pindah sekolah');
+                return redirect()->back()->withInput();
             }
 
             $this->pindah_sekolah->insertData($data);
@@ -181,7 +195,6 @@ class PindahSekolah extends BaseController
             $this->db->transRollback();
             log_message('error', $e->getMessage());
             session()->setFlashdata('error', 'Gagal menambahkan data pindah sekolah');
-            return redirect()->back()->withInput();
         }
 
         return redirect()->to(route_to('pindah_sekolah_index', $tipe));
