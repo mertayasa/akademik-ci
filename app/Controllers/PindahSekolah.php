@@ -154,38 +154,37 @@ class PindahSekolah extends BaseController
             $data['tipe'] = $tipe;
             $data_ortu = [
                 'nama' => $this->request->getPost('nama_ortu'),
-                'nomer' => $this->request->getPost('nomer_ortu'),
+                'no_telp' => $this->request->getPost('nomer_ortu'),
+                'nik' => $this->request->getPost('nik_ortu'),
+                'alamat' => $this->request->getPost('alamat_ortu'),
                 'email' => $this->request->getPost('email_ortu'),
                 'password' => password_hash($this->request->getPost('password_ortu'), PASSWORD_BCRYPT)
             ];
-            $insert_ortu = $this->ortu->insertdata($data_ortu);
-            if ($insert_ortu) {
+            if ($tipe == 'masuk') {
+                $insert_ortu = $this->ortu->insertdata($data_ortu);
                 $insert_id = $this->ortu->getInsertID();
                 $data['id_ortu'] = $insert_id;
-                if ($tipe == 'masuk') {
-                    $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
-                    $siswa = $this->siswa->insertData($data);
-                    $data['id_siswa'] = $siswa;
-                    $data['tujuan'] = getNamaSekolah();
-                } else {
-                    $siswa = $this->siswa->getData($data['id_siswa']);
+            }
+            if ($tipe == 'masuk') {
+                $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+                $siswa = $this->siswa->insertData($data);
+                $data['id_siswa'] = $siswa;
+                $data['tujuan'] = getNamaSekolah();
+            } else {
+                $siswa = $this->siswa->getData($data['id_siswa']);
 
-                    $this->siswa->updateData($siswa['id'], [
+                $this->siswa->updateData($siswa['id'], [
+                    'status' => 'nonaktif',
+                ]);
+
+                $anggota_kelas = $this->anggota_kelas->where('id_siswa', $data['id_siswa'])->getData();
+                foreach ($anggota_kelas as $ak) {
+                    $this->anggota_kelas->updateData($ak['id'], [
                         'status' => 'nonaktif',
                     ]);
-
-                    $anggota_kelas = $this->anggota_kelas->where('id_siswa', $data['id_siswa'])->getData();
-                    foreach ($anggota_kelas as $ak) {
-                        $this->anggota_kelas->updateData($ak['id'], [
-                            'status' => 'nonaktif',
-                        ]);
-                    }
-
-                    $data['asal'] = getNamaSekolah();
                 }
-            } else {
-                session()->setFlashdata('error', 'Gagal menambahkan data pindah sekolah');
-                return redirect()->back()->withInput();
+
+                $data['asal'] = getNamaSekolah();
             }
 
             $this->pindah_sekolah->insertData($data);

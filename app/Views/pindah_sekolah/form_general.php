@@ -54,47 +54,71 @@
     </div>
 </div>
 <hr>
-<div class="row mt-3">
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('Nama Orang Tua', 'nama_ortu') ?>
-        <?= form_input([
-            'type' => 'text',
-            'name' => 'nama_ortu',
-            'id' => 'nama_ortu',
-            'placeholder' => 'Nama Orang Tua',
-            'class' => 'form-control'
-        ]) ?>
+<?php if ($tipe == 'masuk') : ?>
+    <div class="row mt-3">
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('Nama Orang Tua', 'nama_ortu') ?>
+            <?= form_input([
+                'type' => 'text',
+                'name' => 'nama_ortu',
+                'id' => 'nama_ortu',
+                'placeholder' => 'Nama Orang Tua',
+                'class' => 'form-control'
+            ]) ?>
+        </div>
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('Nomor telepon Orang Tua', 'nomer_ortu') ?>
+            <?= form_input([
+                'type' => 'text',
+                'name' => 'nomer_ortu',
+                'id' => 'nomer_ortu',
+                'placeholder' => 'Nomor Telepon Orang Tua',
+                'class' => 'form-control'
+            ]) ?>
+        </div>
     </div>
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('Nomer telepon Orang Tua', 'nomer_ortu') ?>
-        <?= form_input([
-            'type' => 'text',
-            'name' => 'nomer_ortu',
-            'id' => 'nomer_ortu',
-            'placeholder' => 'Nomer Telepon Orang Tua',
-            'class' => 'form-control'
-        ]) ?>
+    <div class="row mt-3">
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('NIK Orang tua', 'nik_ortu') ?>
+            <?= form_input([
+                'type' => 'text',
+                'name' => 'nik_ortu',
+                'id' => 'nik_ortu',
+                'placeholder' => 'NIK Orang tua',
+                'class' => 'form-control'
+            ]) ?>
+        </div>
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('Alamat Orang Tua', 'alamat_ortu') ?>
+            <?= form_input([
+                'type' => 'text',
+                'name' => 'alamat_ortu',
+                'id' => 'alamat_ortu',
+                'placeholder' => 'Alamat Orang Tua',
+                'class' => 'form-control'
+            ]) ?>
+        </div>
     </div>
-</div>
-<div class="row mt-3">
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('Email', 'email_ortu') ?>
-        <?= form_input([
-            'type' => 'email',
-            'name' => 'email_ortu',
-            'id' => 'email_ortu',
-            'placeholder' => 'Email',
-            'class' => 'form-control'
-        ]) ?>
+    <div class="row mt-3">
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('Email', 'email_ortu') ?>
+            <?= form_input([
+                'type' => 'email',
+                'name' => 'email_ortu',
+                'id' => 'email_ortu',
+                'placeholder' => 'Email',
+                'class' => 'form-control'
+            ]) ?>
+        </div>
+        <div class="col-12 col-md-6 pb-3 pb-md-0">
+            <?= form_label('Password', 'password_ortu') ?>
+            <?= form_input([
+                'type' => 'password',
+                'name' => 'password_ortu',
+                'id' => 'password_ortu',
+                'placeholder' => 'Password',
+                'class' => 'form-control'
+            ]) ?>
+        </div>
     </div>
-    <div class="col-12 col-md-6 pb-3 pb-md-0">
-        <?= form_label('Password', 'password_ortu') ?>
-        <?= form_input([
-            'type' => 'text',
-            'name' => 'password_ortu',
-            'id' => 'password_ortu',
-            'placeholder' => 'Password',
-            'class' => 'form-control'
-        ]) ?>
-    </div>
-</div>
+<?php endif; ?>

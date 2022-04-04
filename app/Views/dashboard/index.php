@@ -89,15 +89,14 @@
                 <!-- ./col -->
             </div>
         <?php else : ?>
-            <div class="row">
+            <div class="row justify-content-center mt-5">
                 <div class="col-md-12">
-
-                    <div class="card">
-                        <div class="card-body">
+                    <div class="">
+                        <div class="m-auto">
                             <div class="text-center">
                                 <img src="<?= base_url('default/logo.jpg'); ?>" alt="logo" style="width: 200px;">
                                 <h4 class="mt-3">
-                                    Hi!, <strong><?= session()->get('nama'); ?></strong>
+                                    Hi!,<?= isOrtu() ? 'Bapak/Ibu ' : ''; ?> <strong><?= session()->get('nama'); ?></strong>
                                 </h4>
                                 <h2>Selamat datang di SIAMON SD MUHAMMADIYAH 2 DENPASAR</h2>
                                 <h5>Alamat : Jl. Halmahera No. 24 Denpasar - Bali, Telp: 0361 - 225753</h5>
