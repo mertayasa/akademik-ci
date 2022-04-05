@@ -75,7 +75,7 @@ class SiswaAllDataTable extends Model
             }
         }
 
-        if((isset($this->data_filter['status']) && $this->data_filter['status'] != '')){
+        if((isset($this->data_filter['status']) && $this->data_filter['status'] != '') && ((!isset($this->data_filter['id_tahun_ajar']) || $this->data_filter['id_tahun_ajar'] == '') && (!isset($this->data_filter['id_kelas']) || $this->data_filter['id_kelas'] == ''))){
             $this->dt->where('status', $this->data_filter['status']);
         }
         
