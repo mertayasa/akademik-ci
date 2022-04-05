@@ -78,7 +78,7 @@
         </div>
     </div>
     <div class="row mt-3">
-        <div class="col-12 col-md-6 pb-3 pb-md-0">
+        <!-- <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('NIK Orang tua', 'nik_ortu') ?>
             <?= form_input([
                 'type' => 'text',
@@ -87,7 +87,7 @@
                 'placeholder' => 'NIK Orang tua',
                 'class' => 'form-control'
             ]) ?>
-        </div>
+        </div> -->
         <div class="col-12 col-md-6 pb-3 pb-md-0">
             <?= form_label('Alamat Orang Tua', 'alamat_ortu') ?>
             <?= form_input([
