@@ -227,7 +227,7 @@
                 },
             },
             "columnDefs": [{
-                    "targets": [0, 3, 5, -1],
+                    "targets": [0, 3, 4, 5, -1],
                     "orderable": false,
                 },
                 {
