@@ -166,7 +166,7 @@
                 },
             },
             "columnDefs": [{
-                    "targets": [0, 1, 3, 5, 6, -1],
+                    "targets": [0, 3, 5, 6, -1],
                     "orderable": false,
                 },
                 {
@@ -227,7 +227,7 @@
                 },
             },
             "columnDefs": [{
-                    "targets": [0, 1, 3, 5, -1],
+                    "targets": [0, 3, 5, -1],
                     "orderable": false,
                 },
                 {
@@ -249,7 +249,7 @@
                 },
             },
             "columnDefs": [{
-                    "targets": [0, 1, 3, 5, -1],
+                    "targets": [0, 3, 5, -1],
                     "orderable": false,
                 },
                 {
