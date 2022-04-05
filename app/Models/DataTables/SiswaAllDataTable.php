@@ -67,12 +67,16 @@ class SiswaAllDataTable extends Model
             }
         }
 
-        if ($this->status != null) {
+        if ($this->status != null ) {
             if(is_array($this->status)){
                 $this->dt->whereIn('status', $this->status);
             }else{
                 $this->dt->where('status', $this->status);
             }
+        }
+
+        if((isset($this->data_filter['status']) && $this->data_filter['status'] != '')){
+            $this->dt->where('status', $this->data_filter['status']);
         }
         
         if ($this->request->getPost('order')) {
