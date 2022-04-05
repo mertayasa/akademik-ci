@@ -68,7 +68,7 @@ class GuruKepsekDataTable extends Model
         $this->getDatatablesQuery();
         if ($this->request->getPost('length') != -1)
             $this->dt->limit($this->request->getPost('length'), $this->request->getPost('start'));
-        $this->dt->where('status', 'aktif');
+        // $this->dt->where('status', 'aktif');
         $query = $this->dt->get();
         return $query->getResult();
     }
