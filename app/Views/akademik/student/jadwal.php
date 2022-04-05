@@ -73,7 +73,7 @@
 <div class="row">
     <div class="col-md-12">
         <!-- Modal -->
-        <div class="modal fade" id="modal_edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modal_edit" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="POST" action="<?= route_to('akademik_update_schedule'); ?>">
