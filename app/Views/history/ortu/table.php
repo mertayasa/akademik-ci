@@ -44,8 +44,8 @@
                                     <td>No</td>
                                     <td>Pelajaran</td>
                                     <td>Tugas</td>
-                                    <td>UTS</td>
-                                    <td>UAS</td>
+                                    <td>PAS</td>
+                                    <td>PAT</td>
                                     <td>Rata-Rata</td>
                                 </tr>
                             </thead>
