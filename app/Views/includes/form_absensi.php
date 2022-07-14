@@ -319,6 +319,10 @@
             const formData = new FormData(formUpdateAbsensi)
             const actionUrl = formUpdateAbsensi.getAttribute('action')
 
+            const btnUpdateAbsensi = document.getElementById('btnUpdateAbsensi')
+            btnUpdateAbsensi.classList.add('disabled')
+            btnUpdateAbsensi.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses'
+
             for (var pair of formData.entries()) {
                 console.log(pair[0]+ ', ' + pair[1]); 
             }
@@ -340,6 +344,9 @@
                     btnDeleteAbsensi.setAttribute('data-tanggal', data.tanggal)
                     btnDeleteAbsensi.setAttribute('data-id-kelas', data.id_kelas)
                 }
+
+                btnUpdateAbsensi.classList.remove('disabled')
+                btnUpdateAbsensi.innerHTML = 'Submit'
 
                 return showAlertSwal(data.code, data.message)
             })
